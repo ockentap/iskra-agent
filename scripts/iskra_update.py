@@ -105,7 +105,9 @@ def main(argv: list[str] | None = None) -> int:
         print("\nRebrand reported drift; merge left staged for review.", file=sys.stderr)
         return verdict
 
-    git("add", "-A")
+    # `-u` only: a merge stages new upstream files itself, and an untracked
+    # stray directory (test HERMES_HOME leftovers) must never ride along.
+    git("add", "-u")
     if git("diff", "--cached", "--quiet", check=False).returncode == 0:
         print("nothing to commit (already up to date after rebrand).")
         return 0
