@@ -719,7 +719,7 @@ def relaunch_command(
 
 
 def main(argv: list | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="hermes_cli.venv_sync")
+    parser = argparse.ArgumentParser(prog="iskra_cli.venv_sync")
     parser.add_argument("--project-root", default=None)
     parser.add_argument(
         "--check", action="store_true", help="report; change nothing"

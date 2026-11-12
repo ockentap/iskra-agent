@@ -346,7 +346,7 @@ def main(argv: list | None = None) -> int:
     """Run the selected maintenance registry and report its failures."""
     import argparse
 
-    parser = argparse.ArgumentParser(prog="hermes_cli.post_update")
+    parser = argparse.ArgumentParser(prog="iskra_cli.post_update")
     parser.add_argument("--scope", choices=("home", "machine", "all"), default="all")
     args = parser.parse_args(argv)
 
