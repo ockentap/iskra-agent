@@ -1,4 +1,4 @@
-"""`hermes config set/unset` name where the write actually landed.
+"""`iskra config set/unset` name where the write actually landed.
 
 Remote mode writes the profile level of Remote Config and never a local config.yaml, so the
 success line must not point at ``<home>/config.yaml``; the file backend keeps printing the path.

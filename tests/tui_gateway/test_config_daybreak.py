@@ -1,6 +1,6 @@
 """The standalone backend serves the Desktop Daybreak switch (`agent.daybreak`) like the native owner.
 
-Desktop shows the switch on catalog-eligible models from any backend, including `hermes serve` over
+Desktop shows the switch on catalog-eligible models from any backend, including `iskra serve` over
 SSH, so `config.get` / `config.set` must know the key here too, and a flip must reach this profile's
 live agents (requests check eligibility themselves: agent/codex_service_tiers.py).
 """

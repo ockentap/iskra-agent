@@ -256,7 +256,7 @@ _DESKTOP_PORT = 52817  # an ephemeral port, as a packaged Desktop backend binds
     (None, _DESKTOP_PORT, "http://localhost:3000", False),   # the usual local web app port
     (None, _DESKTOP_PORT, "http://localhost:3999", False),   # a page previewed from any other port
     (None, _DESKTOP_PORT, "http://127.0.0.1:5500", False),   # e.g. VS Code Live Server
-    # `hermes dashboard` on its default port.
+    # `iskra dashboard` on its default port.
     (None, 9119, "http://localhost:9119", True),
     (None, 9119, "http://127.0.0.1:5173", False),
     # Backend spawned by a desktop dev build (hgui slot 1): that renderer, and only that one.
@@ -522,7 +522,7 @@ def test_all_interfaces_binds_keep_the_loopback_port_check(bound_host, host, ori
     ("https://localhost:8443", None, "http://localhost:8443", False),      # another scheme
     ("https://localhost:8443", None, "https://127.0.0.1:8443", False),     # another loopback host
     ("https://localhost:8443", None, "http://localhost:3000", False),
-    # dashboard.public_url does the same for `hermes dashboard` / `hermes serve`.
+    # dashboard.public_url does the same for `iskra dashboard` / `iskra serve`.
     (None, "https://localhost:8443", "https://localhost:8443", True),
     (None, "https://localhost:8443", "http://localhost:3000", False),
     (None, None, "https://localhost:8443", False),                         # nothing configured

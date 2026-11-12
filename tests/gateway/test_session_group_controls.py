@@ -146,7 +146,7 @@ def test_profiles_list_names_every_profile_on_disk_and_its_install(tmp_path, mon
     """RT-38 (#140417): with one gateway per profile (no multiplexing, no hosted_rooms entries) the
     authority's roster must still name every profile under this root, and carry ``install_id`` as
     the pre-authority ``profiles.list`` did. Desktop's roster merge drops every union agent the
-    active source did not return, so a default-only answer showed one bot after ``hermes update``."""
+    active source did not return, so a default-only answer showed one bot after ``iskra update``."""
     home = tmp_path / 'state'
     for name in ('helper', 'writer'):
         (home / 'profiles' / name).mkdir(parents=True)

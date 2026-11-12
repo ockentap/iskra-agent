@@ -290,7 +290,7 @@ def _setup_tts_provider(config: dict):
 
 
 def setup_tts(config: dict):
-    """Standalone TTS setup (for 'hermes setup tts')."""
+    """Standalone TTS setup (for 'iskra setup tts')."""
     _setup_tts_provider(config)
 
 

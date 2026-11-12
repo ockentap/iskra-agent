@@ -24,7 +24,7 @@ import time
 from pathlib import Path
 from urllib.parse import urlsplit
 
-RESTART_COMMAND = "hermes gateway restart"
+RESTART_COMMAND = "iskra gateway restart"
 # The gateway reads the Webapp's settings and sign-in providers only when it starts.
 RETRY_AFTER_FIX = f"The gateway reads these settings when it starts: after fixing them, run {RESTART_COMMAND}."
 STARTED_BEFORE_ON = f"The gateway started before the Webapp was turned on. Restart it to serve the Webapp: {RESTART_COMMAND}"

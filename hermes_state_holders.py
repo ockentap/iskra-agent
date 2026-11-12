@@ -586,7 +586,7 @@ def held_store_refusal(db_path: Path, *, command: str, force_hint: Optional[str]
     """Operator-facing refusal for structural maintenance (VACUUM, index rebuild, bulk delete) while another
     process holds ``db_path`` or a WAL sidecar; ``None`` when the store is provably quiet.
 
-    Running ``hermes sessions optimize-storage`` underneath a fleet of live gateways put every agent into
+    Running ``iskra sessions optimize-storage`` underneath a fleet of live gateways put every agent into
     the retired-WAL refusal until all writers were stopped (#110054). Same fail-closed scan doctor and
     repair use: an incomplete scan refuses too, it never reads as an all-clear.
     """
@@ -603,7 +603,7 @@ def held_store_refusal(db_path: Path, *, command: str, force_hint: Optional[str]
             unknown.append(target)
         else:
             by_pid.setdefault(pid, set()).add(Path(target.removesuffix(" (deleted)")).name)
-    lines = [f"Refusing `hermes sessions {command}`: another process is using {db_path}."]
+    lines = [f"Refusing `iskra sessions {command}`: another process is using {db_path}."]
     lines += [f"  {describe_holder_pid(pid)}: {', '.join(sorted(by_pid[pid]))}" for pid in sorted(by_pid)]
     if unknown:
         lines.append(f"  cannot prove the database is quiet (holder scan incomplete: {unknown[0][:120]})")
@@ -611,7 +611,7 @@ def held_store_refusal(db_path: Path, *, command: str, force_hint: Optional[str]
     lines += [
         "Rewriting the database under a live writer is how every agent ends up refusing turns with the "
         "retired state.db-wal error. Nothing is lost.",
-        f"Stop them first (`hermes {profile_arg}gateway stop`, quit the Desktop app, pause cron), then re-run.",
+        f"Stop them first (`iskra {profile_arg}gateway stop`, quit the Desktop app, pause cron), then re-run.",
     ]
     if force_hint:
         lines.append(f"Override with {force_hint} if you accept the risk.")

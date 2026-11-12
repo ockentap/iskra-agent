@@ -148,7 +148,7 @@ class TestGatewayLifecyclePattern:
         'launchctl bootout gui/501/ai.hermes."gateway"',
         # Same class on the systemctl and hermes-CLI branches.
         'systemctl re"start" hermes-gateway',
-        'hermes gateway re"start"',
+        'iskra gateway re"start"',
     ])
     def test_shell_token_spliced_lifecycle_verbs(self, text):
         assert _contains_gateway_lifecycle_command(text), f"Should match: {text!r}"
@@ -183,18 +183,18 @@ class TestGatewayLifecyclePattern:
 
     @pytest.mark.parametrize("text", [
         "restart the server application",
-        "hermes cron list",
-        "hermes update",
-        "hermes config set model claude",
+        "iskra cron list",
+        "iskra update",
+        "iskra config set model claude",
         "echo 'just a normal cron job'",
         "run the backup script",
         "gateway is running fine",
-        # `hermes gateway start` is benign — starting a gateway from inside a
+        # `iskra gateway start` is benign — starting a gateway from inside a
         # gateway is a no-op / "already running", and a legit cron job may
         # start a sibling profile's gateway. Only restart/stop/kill are the
         # foot-gun (#30719 lists only those).
-        "hermes gateway start",
-        "hermes gateway start --all",
+        "iskra gateway start",
+        "iskra gateway start --all",
         # Tightened launchctl/systemctl branches: ops on NON-gateway hermes
         # services must not be falsely blocked (the old `.*hermes` matched any
         # hermes token).
@@ -223,9 +223,9 @@ class TestGatewayLifecyclePattern:
         "the hermes gateway stopped responding, please investigate",
         # #92372 Branch D: `p?kill` without a leading \b matched the "kill"
         # tail of "skill".
-        "hermes skill view gateway-notes && echo hermes gateway docs",
+        "iskra skill view gateway-notes && echo hermes gateway docs",
         # #77173/#77536: a file path with embedded spaces containing the
-        # lifecycle words must not match — `hermes` is a path component
+        # lifecycle words must not match — `iskra` is a path component
         # there, not a command.
         "cat '/docs/hermes gateway restart-notes.md'",
         "less /home/user/notes/hermes gateway restart runbook.txt",
@@ -235,15 +235,15 @@ class TestGatewayLifecyclePattern:
 
     @pytest.mark.parametrize("text", [
         # Trailing-boundary fix must not weaken real commands.
-        "hermes gateway restart",
-        "hermes gateway restart; echo done",
-        "hermes gateway stop && echo stopped",
+        "iskra gateway restart",
+        "iskra gateway restart; echo done",
+        "iskra gateway stop && echo stopped",
         # #77173 command-position anchor must not weaken separator/subshell
         # forms either.
         "true;hermes gateway restart",
         "true && hermes gateway stop",
         "echo $(hermes gateway restart)",
-        "echo `hermes gateway restart`",
+        "echo `iskra gateway restart`",
     ])
     def test_boundary_fix_still_blocks_real_commands(self, text):
         assert _contains_gateway_lifecycle_command(text), f"Should match: {text!r}"
@@ -307,7 +307,7 @@ class TestGatewayLifecyclePattern:
 
 
 class TestProfileFlagGatewayLifecycle:
-    """#78028: `hermes -p <profile> gateway restart|stop` bypasses Branch A's
+    """#78028: `iskra -p <profile> gateway restart|stop` bypasses Branch A's
     literal adjacency, so it needs its own pattern. It is only the same
     self-termination foot-gun when the named profile IS the profile running
     the guard; sibling-profile restarts are legitimate fleet operations and
@@ -321,35 +321,35 @@ class TestProfileFlagGatewayLifecycle:
         monkeypatch.delenv("HERMES_PROFILE_NAME", raising=False)
 
     @pytest.mark.parametrize("text", [
-        "hermes -p zeus gateway stop",
-        "hermes -p zeus gateway restart",
-        "hermes --profile zeus gateway restart",
-        "hermes --profile zeus gateway stop",
-        "hermes --profile=zeus gateway restart",
+        "iskra -p zeus gateway stop",
+        "iskra -p zeus gateway restart",
+        "iskra --profile zeus gateway restart",
+        "iskra --profile zeus gateway stop",
+        "iskra --profile=zeus gateway restart",
         # Global flags before/after the selector must not hide the shape.
-        "hermes -v -p zeus gateway restart",
-        "hermes -p zeus -v gateway restart",
-        "hermes --debug --profile zeus gateway stop",
+        "iskra -v -p zeus gateway restart",
+        "iskra -p zeus -v gateway restart",
+        "iskra --debug --profile zeus gateway stop",
         # Shell quoting of the profile id is equivalent to the bare name.
-        "hermes -p 'zeus' gateway restart",
-        "hermes --profile \"zeus\" gateway stop",
+        "iskra -p 'zeus' gateway restart",
+        "iskra --profile \"zeus\" gateway stop",
     ])
     def test_self_target_blocked(self, text):
         assert _contains_gateway_lifecycle_command(text), f"Should block: {text!r}"
 
     @pytest.mark.parametrize("text", [
-        "hermes -p venus gateway stop",
-        "hermes -p venus gateway restart",
-        "hermes --profile venus gateway restart",
-        "hermes --profile=venus gateway stop",
-        "hermes -p venus -v gateway restart",
+        "iskra -p venus gateway stop",
+        "iskra -p venus gateway restart",
+        "iskra --profile venus gateway restart",
+        "iskra --profile=venus gateway stop",
+        "iskra -p venus -v gateway restart",
     ])
     def test_sibling_allowed(self, text):
         assert not _contains_gateway_lifecycle_command(text), f"Should allow: {text!r}"
 
     @pytest.mark.parametrize("text", [
-        "hermes -p zeus gateway start",
-        "hermes -p zeus gateway start --all",
+        "iskra -p zeus gateway start",
+        "iskra -p zeus gateway start --all",
     ])
     def test_start_still_allowed(self, text):
         # `start` is intentionally excluded from the guard, with or without
@@ -366,8 +366,8 @@ class TestProfileFlagGatewayLifecycle:
         import hermes_cli.profiles as profiles_mod
 
         monkeypatch.setattr(profiles_mod, "get_active_profile_name", lambda: "zeus")
-        assert _contains_gateway_lifecycle_command("hermes -p zeus gateway restart")
-        assert not _contains_gateway_lifecycle_command("hermes -p venus gateway restart")
+        assert _contains_gateway_lifecycle_command("iskra -p zeus gateway restart")
+        assert not _contains_gateway_lifecycle_command("iskra -p venus gateway restart")
 
     def test_no_profile_context_conservative_allow(self, monkeypatch):
         # With no profile identity the guard cannot prove self-targeting, so
@@ -376,8 +376,8 @@ class TestProfileFlagGatewayLifecycle:
         from cron import lifecycle_guard
 
         monkeypatch.setattr(lifecycle_guard, "_current_profile_name", lambda: None)
-        assert not _contains_gateway_lifecycle_command("hermes -p zeus gateway restart")
-        assert _contains_gateway_lifecycle_command("hermes gateway restart")
+        assert not _contains_gateway_lifecycle_command("iskra -p zeus gateway restart")
+        assert _contains_gateway_lifecycle_command("iskra gateway restart")
 
 
 class TestCronCreateLifecycleBlock:
@@ -532,8 +532,8 @@ class TestTerminalToolGatewayLifecycleGuard:
         "systemctl restart hermes-gateway",
         "systemctl --user restart hermes-gateway",
         "systemctl stop hermes-gateway.service",
-        "hermes gateway restart",
-        "hermes gateway uninstall",
+        "iskra gateway restart",
+        "iskra gateway uninstall",
         "launchctl kickstart gui/501/ai.hermes.gateway",
         "launchctl bootout gui/501/ai.hermes.gateway",
         # #62891 exact reported shape and its bootstrap sibling.
@@ -677,10 +677,10 @@ class TestTerminalToolGatewayLifecycleGuard:
             tt, "_check_all_guards", lambda cmd, env, **kwargs: {"approved": True}
         )
 
-        result = json.loads(tt.terminal_tool(command="hermes gateway restart"))
+        result = json.loads(tt.terminal_tool(command="iskra gateway restart"))
 
         assert result["exit_code"] == 0
-        assert calls == ["hermes gateway restart"]
+        assert calls == ["iskra gateway restart"]
 
     def test_blocks_launchctl_submit_hidden_in_referenced_script(
         self, monkeypatch, tmp_path
@@ -1034,7 +1034,7 @@ class TestLifecycleGuardModule:
         by the direct regex scan."""
         from cron.lifecycle_guard import GatewayLifecycleBlocked, check_gateway_lifecycle
         script = tmp_path / "evil.py"
-        script.write_text('import os\nos.system("hermes gateway restart")\n', encoding="utf-8")
+        script.write_text('import os\nos.system("iskra gateway restart")\n', encoding="utf-8")
         with pytest.raises(GatewayLifecycleBlocked):
             check_gateway_lifecycle("clean prompt", str(script))
 
@@ -1281,7 +1281,7 @@ class TestLifecycleGuardModule:
         monkeypatch.setattr(lg, "_contains_unsafe_gateway_action", _boom)
         # Direct scan still blocks a literal lifecycle command...
         assert lg.contains_gateway_lifecycle_command_or_referenced_script(
-            "hermes gateway restart"
+            "iskra gateway restart"
         ) is True
         # ...and a benign command fails open instead of crashing.
         assert lg.contains_gateway_lifecycle_command_or_referenced_script(
@@ -1515,8 +1515,8 @@ class TestRelativePathDoesNotDisableDataExemption:
 
     @pytest.mark.parametrize("command", [
         "grep -r 'systemctl restart hermes-gateway' .",
-        "grep -rn 'hermes gateway restart' ./logs",
-        "rg 'hermes gateway restart' ../archive",
+        "grep -rn 'iskra gateway restart' ./logs",
+        "rg 'iskra gateway restart' ../archive",
         "grep -c 'systemctl stop hermes-gateway' ./var/log/syslog",
         "sqlite3 ./stats.db \"SELECT restart_reason FROM hermes_gateway_restarts\"",
     ])
@@ -1529,9 +1529,9 @@ class TestRelativePathDoesNotDisableDataExemption:
         'sqlite3 ./db ".shell hermes gateway restart"',
         'sqlite3 ./db ".system systemctl restart hermes-gateway"',
         'psql ./x -c "\\! systemctl restart hermes-gateway"',
-        "grep -r 'hermes gateway restart' . | sh",
-        "grep -r 'hermes gateway restart' ./logs | bash",
-        "grep -r 'hermes gateway restart' . | sudo sh",
+        "grep -r 'iskra gateway restart' . | sh",
+        "grep -r 'iskra gateway restart' ./logs | bash",
+        "grep -r 'iskra gateway restart' . | sudo sh",
         "grep -r 'x' . ; hermes gateway restart",
         "grep -r 'x' . && systemctl restart hermes-gateway",
         'grep -r "$(hermes gateway restart)" .',
@@ -1751,7 +1751,7 @@ class TestLifecycleGuardDataArgumentExemption:
         "'systemctl stop hermes-gateway'\"",
         # grep/rg pattern arguments hunting for the lifecycle string.
         "grep -c 'systemctl restart hermes-gateway' /var/log/syslog",
-        "rg 'hermes gateway restart' /home/user/.hermes/logs/",
+        "rg 'iskra gateway restart' /home/user/.hermes/logs/",
         "journalctl -u hermes-gateway --grep 'systemctl restart hermes-gateway'",
         # SQL with stop/restart column/value words but no command shape.
         'sqlite3 stats.db "SELECT stop_time, restart_reason FROM '
@@ -1772,7 +1772,7 @@ class TestLifecycleGuardDataArgumentExemption:
         "grep 'restart' log; systemctl restart hermes-gateway",
         'sqlite3 db "SELECT 1"; hermes gateway stop',
         # Plain lifecycle commands are unaffected by the exemption.
-        "hermes gateway restart",
+        "iskra gateway restart",
         "sudo systemctl stop hermes-gateway",
     ])
     def test_command_position_lifecycle_still_blocked(self, command):

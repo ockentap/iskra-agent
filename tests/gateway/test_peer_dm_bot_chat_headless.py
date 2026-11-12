@@ -1,6 +1,6 @@
 """A headless gateway's first peer DM lands in a Bot Chat its own authority FIFO owns.
 
-``hermes peer dm`` creates the remote canonical chat through ``POST /api/sessions`` when it is
+``iskra peer dm`` creates the remote canonical chat through ``POST /api/sessions`` when it is
 missing. With no Desktop/CLI in the loop that create used to mint an API row nothing can ever bind
 (the peer is a remote sender, never a native ticket), so every DM answered 502 "admission refused:
 not_found" (#139370). The titled create now goes through the owner's own Bot Chat creation step;
@@ -165,7 +165,7 @@ async def test_peer_dm_into_an_api_created_bot_chat_lands_in_a_local_bot_chat(he
     new = db.get_session_by_title('Bot Chat')['id']
     assert new != old and db.get_session(new)['user_id'] == 'api-peer'
     _assert_displaced(db, old, new)
-    # ``hermes peer dm`` resolves the Bot Chat by title on every call: the next DM names the new id.
+    # ``iskra peer dm`` resolves the Bot Chat by title on every call: the next DM names the new id.
     resp = await headless.cli.post(f"/api/sessions/{new}/chat", json={"message": 'two', "author": AUTHOR})
     assert resp.status == 200 and (await resp.json())['message']['content'] == 'pong'
     assert [(sid, text) for sid, _, text in headless.executed] == [(new, 'one'), (new, 'two')]
@@ -180,7 +180,7 @@ async def test_peer_create_if_missing_after_the_api_row_moved_finds_the_local_ch
     old = _api_bot_chat(db)
     resp = await headless.cli.post(f"/api/sessions/{old}/chat", json={"message": "one", "author": AUTHOR})
     assert resp.status == 200, await resp.text()
-    # ``hermes peer dm``'s next create-if-missing collides on the local chat's title, as for any
+    # ``iskra peer dm``'s next create-if-missing collides on the local chat's title, as for any
     # existing Bot Chat; it never mints another row.
     again = await headless.cli.post("/api/sessions", json={"title": "Bot Chat", "source": "bot_peer_dm"})
     assert again.status == 400 and (await again.json())['error']['code'] == 'invalid_title'
@@ -250,7 +250,7 @@ async def _peer_minted(headless):
 
 def _local_owner(authority, user_id='uid:1000'):
     """The Desktop/CLI's own connection: an interactive ticket redeemed on the loopback socket
-    (``gateway/run_api.py``), the identity ``hermes chat``, the Desktop and ``bot_relay.deliver`` use.
+    (``gateway/run_api.py``), the identity ``iskra chat``, the Desktop and ``bot_relay.deliver`` use.
     *user_id*: the login a same-user peer forwards on that ticket (control socket, #138915)."""
     from gateway.runtime_bootstrap import _PURPOSE_CAPABILITIES
     from gateway.session_controls import AuthorityConnection
@@ -281,7 +281,7 @@ async def test_peer_minted_bot_chat_is_listed_for_the_local_owner(headless):
 async def test_peer_minted_bot_chat_resumes_by_title_and_admits_a_local_turn(headless, monkeypatch):
     session_id = await _peer_minted(headless)
     local = _local_owner(headless.authority)
-    # ``hermes chat -c "Bot Chat"``: the owner resolves the title.
+    # ``iskra chat -c "Bot Chat"``: the owner resolves the title.
     resumed = await _rpc(local, 'session.resume', title='Bot Chat')
     assert resumed['session_id'] == session_id
     monkeypatch.setattr(headless.authority, '_schedule', lambda ref: None)  # admission only, no agent

@@ -709,7 +709,7 @@ def _profile_account_row(d) -> Optional[dict[str, Any]]:
     return {
         "id": d.slug, "name": card.get("name") or d.label,
         "flow": "device_code" if device else card.get("flow") or "external",
-        "cli_command": card.get("cli_command") or f"hermes auth add {d.slug}",
+        "cli_command": card.get("cli_command") or f"iskra auth add {d.slug}",
         "docs_url": card.get("docs_url") or d.signup_url or "",
         "status_fn": getattr(prof, "account_status", None),
     }

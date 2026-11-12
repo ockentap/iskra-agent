@@ -85,7 +85,7 @@ def slack_manifest_command(args) -> int:
     slashes_only = getattr(args, "slashes_only", False)
 
     def fail(msg: str) -> int:
-        print(f"hermes slack manifest: {msg}", file=sys.stderr)
+        print(f"iskra slack manifest: {msg}", file=sys.stderr)
         return 2
 
     if slashes_only and (long_description is not None or long_description_file is not None):

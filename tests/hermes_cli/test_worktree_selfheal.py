@@ -1,6 +1,6 @@
 """Tests for git self-heal: atomic worktree-add failure cleanup + pack maintenance.
 
-Regression for the Aug 2026 `hermes -w` timeout incident: 39 accumulated packs
+Regression for the Aug 2026 `iskra -w` timeout incident: 39 accumulated packs
 slowed object lookups until `git worktree add` blew its 30s timeout, and the
 timed-out add left a partially-materialized worktree plus a LOCKED admin entry
 (lock pid = the live hermes process), poisoning every retry.
@@ -44,8 +44,8 @@ class TestCleanupFailedWorktreeAdd:
         which yields the same on-disk shape as a killed `worktree add`."""
         wt = repo / ".worktrees" / "hermes-dead00"
         _git(repo, "worktree", "add", str(wt), "-b", "hermes/hermes-dead00")
-        # Live-pid lock, exactly what `hermes -w` writes before the checkout.
-        _git(repo, "worktree", "lock", str(wt), "--reason", "hermes pid=999999")
+        # Live-pid lock, exactly what `iskra -w` writes before the checkout.
+        _git(repo, "worktree", "lock", str(wt), "--reason", "iskra pid=999999")
         # Partial materialization: gut the checkout but keep the dir + .git file.
         for child in wt.iterdir():
             if child.name != ".git":
@@ -191,7 +191,7 @@ class TestMaintainPackHealth:
 
 
 class TestRepackStampede:
-    """Regression for the Sep 2026 shared-clone incident: every ``hermes -w`` launch started its
+    """Regression for the Sep 2026 shared-clone incident: every ``iskra -w`` launch started its
     own full repack, and a timed-out repack left ``pack-objects`` running for days."""
 
     def test_one_repack_per_clone_per_interval(self, repo, monkeypatch):

@@ -162,7 +162,7 @@ def _ask_configure_new_options(*, assume_yes: bool, gateway_mode: bool) -> str:
         # Non-UTF-8 locales / embedded terminals can make input() raise this.
         print(
             "  ⚠ Could not read input (encoding issue). Skipping. "
-            "Run 'hermes config migrate' manually to configure.")
+            "Run 'iskra config migrate' manually to configure.")
         return "n"
 
 
@@ -190,7 +190,7 @@ def _check_and_apply_config_migration(
     except Exception as exc:
         logger.debug("Config check during update failed: %s", exc)
         print("  ⚠️  Could not check config version.")
-        print("     Run 'hermes config migrate' to check manually.")
+        print("     Run 'iskra config migrate' to check manually.")
         return
 
     # Why this update still owes migration steps (the active profile's stop or failed write, each
@@ -223,7 +223,7 @@ def _check_and_apply_config_migration(
                 print(f"  ⚠️  {_warn}")
         except Exception as _mig_err:
             print(f"  ⚠️  Config format update failed: {_mig_err}")
-            print("     Run 'hermes config migrate' to retry.")
+            print("     Run 'iskra config migrate' to retry.")
             # Not a silent success: owed, so the caller's guard records ``config_migration``.
             owed.append(f"format v{current_ver} → v{latest_ver} was not written: {_mig_err}")
             owed_cause = _mig_err
@@ -254,7 +254,7 @@ def _check_and_apply_config_migration(
                 print("  ℹ API keys require manual entry: hermes config migrate")
         else:
             print()
-            print("Skipped. Run 'hermes config migrate' later to configure.")
+            print("Skipped. Run 'iskra config migrate' later to configure.")
     else:
         print("  ✓ Configuration is up to date")
 

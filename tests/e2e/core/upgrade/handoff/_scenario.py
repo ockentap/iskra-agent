@@ -1,4 +1,4 @@
-"""One user's machine across one real ``hermes update``, observed once per column.
+"""One user's machine across one real ``iskra update``, observed once per column.
 
 A manual gateway (with its cron ticker and embedded kanban dispatcher) and a manual dashboard run
 in one shared-PID-namespace sandbox. A kanban worker is in flight and a one-shot cron job comes due
@@ -53,7 +53,7 @@ CRON_GATES = {
            "gated on #113293: a cron job due during an update fires into the swap window, fails, and loses its slot"),
 }
 
-# ``hermes update``'s own line for each systemd unit it restarted (or tried to) after stopping a dashboard.
+# ``iskra update``'s own line for each systemd unit it restarted (or tried to) after stopping a dashboard.
 _UNIT_RESTART = re.compile(r"✓ restarted systemd service (\S+\.service)|⚠ (\S+\.service): systemctl restart returned")
 
 
@@ -141,7 +141,7 @@ def listener_pid(inst: X.Install, port: int) -> int | None:
 
 
 def dashboards(inst: X.Install) -> list[dict]:
-    """Top-level ``hermes dashboard`` processes (a dashboard's own helpers are not a second one)."""
+    """Top-level ``iskra dashboard`` processes (a dashboard's own helpers are not a second one)."""
     out = [p for p in inst.host.procs()
            if p["state"] not in ("Z", "X") and "dashboard" in p["cmdline"] and "update" not in p["cmdline"]
            and any("hermes" in a for a in p["cmdline"])]
@@ -219,7 +219,7 @@ def _overlap(runs: list[dict]) -> list[tuple[int, int]]:
 
 class WorkerSampler:
     """Samples the sandbox process table once a second while the block runs and records, per card,
-    the most kanban workers (``hermes ... chat -q "work kanban task <id>"``) alive at the same moment:
+    the most kanban workers (``iskra ... chat -q "work kanban task <id>"``) alive at the same moment:
     two at once is a duplicate spawn, whatever the board says afterwards."""
 
     def __init__(self, inst: X.Install, interval: float = 1.0) -> None:
@@ -285,7 +285,7 @@ def run(column: str, root: Path) -> SimpleNamespace:
 
             o.dash_port = X.free_port()
             inst.spawn("dashboard", "dashboard", "--no-open", "--host", "127.0.0.1", "--port", str(o.dash_port))
-            try:  # the first ``hermes dashboard`` builds the web UI, as it does for the user
+            try:  # the first ``iskra dashboard`` builds the web UI, as it does for the user
                 X.wait_for(lambda: _dashboard_health(o.dash_port), timeout=600, what="the dashboard /api/health")
             except AssertionError as exc:
                 raise AssertionError(f"premise: the dashboard never came up: {exc}\n{inst.diagnostics()}") from None
@@ -442,7 +442,7 @@ class HandoffProperties:
         self._relaunched(o)
         assert not o.pid_file, f"{o.pid_file}\n{o.diag}"
         assert f"Gateway is running (PID: {o.ident['pid']})" in o.status.stdout, (
-            f"`hermes gateway status` cannot find the relaunched gateway:\n{H.describe(o.status)}\n{o.diag}")
+            f"`iskra gateway status` cannot find the relaunched gateway:\n{H.describe(o.status)}\n{o.diag}")
 
     def test_dashboard_is_back_on_its_port(self, fleet):
         o = fleet

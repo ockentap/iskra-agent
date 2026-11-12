@@ -1,5 +1,5 @@
 """A connect failure through a proxy whose URL carries a secret never puts that secret into the
-adapter's fatal message, the runtime status (``hermes gateway status`` / Desktop) or the startup
+adapter's fatal message, the runtime status (``iskra gateway status`` / Desktop) or the startup
 "queued for retry" warning: those all show ``adapter.fatal_error_message``, built from the error
 text that aiohttp/httpx echo the proxy URL into.
 

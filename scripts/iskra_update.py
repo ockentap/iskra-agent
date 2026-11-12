@@ -22,13 +22,25 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(HERE))
 
-from iskra_rebrand import LITERAL_RULES, run as rebrand_run  # noqa: E402
+from iskra_rebrand import LITERAL_RULES, run as rebrand_run
 
 # Files the rebrand owns; upstream wins on these during a merge.
 REBRAND_PATHS: set[str] = {rule.path for rule in LITERAL_RULES} | {
     "hermes_cli/status.py",   # box header is rewritten by a custom handler
     "iskra",                  # launcher
 }
+
+# Trees the rebrand rewrites in place (command hints). Every local edit under
+# these is rule-driven, so taking upstream's side and re-running the script
+# reconstructs the fork exactly. Nothing hand-written lives there.
+REBRAND_DIRS: tuple[str, ...] = (
+    "agent", "hermes_cli", "gateway", "tools", "cron",
+    "tui_gateway", "acp_adapter", "plugins",
+)
+
+
+def rebrand_owned(path: str) -> bool:
+    return path in REBRAND_PATHS or path.split("/", 1)[0] in REBRAND_DIRS
 
 
 def git(*args: str, check: bool = True) -> subprocess.CompletedProcess:
@@ -76,7 +88,7 @@ def main(argv: list[str] | None = None) -> int:
     merge = git("merge", "--no-commit", "--no-ff", upstream_ref, check=False)
     if merge.returncode != 0:
         conflicted = out("diff", "--name-only", "--diff-filter=U").split()
-        outside = [p for p in conflicted if p not in REBRAND_PATHS]
+        outside = [p for p in conflicted if not rebrand_owned(p)]
         if outside:
             print("conflicts outside the rebrand surface — aborting:", file=sys.stderr)
             for p in outside:

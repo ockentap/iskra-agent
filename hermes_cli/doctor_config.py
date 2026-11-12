@@ -181,7 +181,7 @@ def _check_env_file(should_fix: bool, f: Finding) -> None:
         except UnicodeDecodeError:
             content = env_path.read_text(encoding="latin-1")
         if not check_bool(_has_provider_env_config(content), "API key or custom endpoint configured", f"No API key found in {_DHH}/.env"):
-            f.issues.append("Run 'hermes setup' to configure API keys")
+            f.issues.append("Run 'iskra setup' to configure API keys")
     elif (PROJECT_ROOT / '.env').exists():  # project root as fallback
         check_ok(".env file exists (in project directory)")
     else:
@@ -193,11 +193,11 @@ def _check_env_file(should_fix: bool, f: Finding) -> None:
             with warn_on_error(""):
                 os.chmod(str(env_path), 0o600)
             check_ok(f"Created empty {_DHH}/.env")
-            check_info("Run 'hermes setup' to configure API keys")
+            check_info("Run 'iskra setup' to configure API keys")
             f.fixed += 1
         else:
-            check_info("Run 'hermes setup' to create one")
-            f.issues.append("Run 'hermes setup' to create .env")
+            check_info("Run 'iskra setup' to create one")
+            f.issues.append("Run 'iskra setup' to create .env")
 
 
 def _known_provider_ids(cfg: dict) -> tuple[set, list, object, object, object]:
@@ -281,7 +281,7 @@ def _validate_model_config(config_path, issues: list) -> None:
         known_list = ", ".join(sorted(known_providers)) if known_providers else "(unavailable)"
         _fail_and_issue(f"model.provider '{provider_raw}' is not a recognised provider", f"(known: {known_list})",
                         f"model.provider '{provider_raw}' is unknown. Valid providers: {known_list}. "
-                        f"Fix: run 'hermes config set model.provider <valid_provider>'", issues)
+                        f"Fix: run 'iskra config set model.provider <valid_provider>'", issues)
     policy_id = str(runtime_provider or catalog_provider or "").strip().lower()
     accepts_vendor_slug = policy_id in _VENDOR_SLUG_PROVIDERS or policy_id == "custom" or policy_id.startswith("custom:")
     # openai-api pointed at a non-OpenAI endpoint (local router, proxy) is an aggregator in all but name:
@@ -301,9 +301,9 @@ def _validate_model_config(config_path, issues: list) -> None:
         with warn_on_error(""):
             if not _provider_has_credentials(runtime_provider):
                 _fail_and_issue(f"model.provider '{runtime_provider}' is set but no API key is configured",
-                                f"(add it to {_DHH}/.env or run 'hermes setup')",
-                                f"No credentials found for provider '{runtime_provider}'. Run 'hermes setup' or set the provider's "
-                                f"API key in {_DHH}/.env, or switch providers with 'hermes config set model.provider <name>'", issues)
+                                f"(add it to {_DHH}/.env or run 'iskra setup')",
+                                f"No credentials found for provider '{runtime_provider}'. Run 'iskra setup' or set the provider's "
+                                f"API key in {_DHH}/.env, or switch providers with 'iskra config set model.provider <name>'", issues)
 
 
 def _warn_builtin_name_owned_by_entry(provider_raw: str, providers, issues: list) -> None:
@@ -320,7 +320,7 @@ def _warn_builtin_name_owned_by_entry(provider_raw: str, providers, issues: list
         check_warn(f"model.provider '{provider_raw}' runs on your providers.{owner} endpoint, not the built-in",
                    f"({url})")
         issues.append(f"model.provider '{provider_raw}' names a built-in, but providers.{owner} declares its own base_url, "
-                      f"so requests go to {url} (with that entry's credential when it declares one). Run 'hermes config set model.provider "
+                      f"so requests go to {url} (with that entry's credential when it declares one). Run 'iskra config set model.provider "
                       f"{slug}' to say so explicitly, or remove providers.{owner}.base_url to use the built-in provider.")
 
 
@@ -408,7 +408,7 @@ def _drift_config_version(f: Finding, should_fix: bool, config_path) -> None:
     if check_bool(current_ver >= latest_ver, f"Config version up to date (v{current_ver})", outdated):
         return
     if not should_fix:
-        f.issues.append("Run 'hermes doctor --fix' or 'hermes setup' to migrate config")
+        f.issues.append("Run 'iskra doctor --fix' or 'iskra setup' to migrate config")
         return
     try:
         results = migrate_config(interactive=False, quiet=False)
@@ -421,7 +421,7 @@ def _drift_config_version(f: Finding, should_fix: bool, config_path) -> None:
         f.fixed += 1
     except Exception as mig_err:
         check_warn(f"Auto-migration failed: {mig_err}")
-        f.issues.append("Run 'hermes setup' to migrate config")
+        f.issues.append("Run 'iskra setup' to migrate config")
 
 
 def _failing_boot_migration():
@@ -444,7 +444,7 @@ def _drift_stale_root_keys(f: Finding, should_fix: bool, config_path) -> None:
         return
     check_warn(f"Stale root-level config keys: {', '.join(stale_root_keys)}", "(should be under 'model:' section)")
     if not should_fix:
-        f.issues.append("Stale root-level provider/base_url in config.yaml — run 'hermes doctor --fix'")
+        f.issues.append("Stale root-level provider/base_url in config.yaml — run 'iskra doctor --fix'")
         return
     # Coerce scalar/None ``model:`` into a dict before mutation (setdefault would hand back a scalar).
     raw_model = raw_config.get("model")
@@ -485,7 +485,7 @@ def _drift_max_iterations_ghost(f: Finding, should_fix: bool, config_path) -> No
     check_warn(f"HERMES_MAX_ITERATIONS={env_ghost} in .env shadows agent.max_turns={cfg_max_turns} in config.yaml",
                "(stale ghost from an earlier `iskra setup` run)")
     if not should_fix:
-        f.issues.append("Stale HERMES_MAX_ITERATIONS in .env shadows config.yaml — run 'hermes doctor --fix'")
+        f.issues.append("Stale HERMES_MAX_ITERATIONS in .env shadows config.yaml — run 'iskra doctor --fix'")
     elif remove_env_value("HERMES_MAX_ITERATIONS"):
         check_ok(f"Removed stale HERMES_MAX_ITERATIONS from .env (config.yaml agent.max_turns={cfg_max_turns} is now authoritative)")
         f.fixed += 1

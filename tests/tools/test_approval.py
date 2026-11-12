@@ -1136,7 +1136,7 @@ class TestPgrepKillExpansion:
 
 class TestLaunchctlGatewayLifecycle:
     """launchctl stop/kickstart/bootout/unload against the Hermes service
-    label achieves the same effect as `hermes gateway stop|restart` and
+    label achieves the same effect as `iskra gateway stop|restart` and
     must require the same approval. See issue #33071.
     """
 
@@ -1172,7 +1172,7 @@ class TestLaunchctlGatewayLifecycle:
             "launchctl kick'start' -k gui/501/ai.hermes.gateway",
             'launchctl boot"out" gui/501/ai.hermes.gateway',
             'launchctl bootout gui/501/ai.hermes."gateway"',
-            'hermes gateway re"start"',
+            'iskra gateway re"start"',
             'systemctl re"start" hermes-gateway',
         ):
             dangerous, _, _ = detect_dangerous_command(cmd)

@@ -1,6 +1,6 @@
 """CFG-2: a resumed local session runs the profile's CURRENT config-derived settings.
 
-Main's ``hermes -c`` was a new CLI process: toolsets, ``terminal.backend``, ``max_turns``, checkpoints and
+Main's ``iskra -c`` was a new CLI process: toolsets, ``terminal.backend``, ``max_turns``, checkpoints and
 the reasoning default came from the config it read at startup, while the stored session supplied the
 model/provider (``cli_model_switch_mixin.py`` restore). The owner freezes a LocalSessionPolicy at creation,
 so ``session.resume`` re-derives those fields from the profile as a new policy generation, keeping the
@@ -85,7 +85,7 @@ async def test_resume_after_restart_rereads_config_derived_fields_and_keeps_pick
                        'backend': 'local', 'model': 'm1'}, created
     await owner.close()
 
-    # `hermes tools disable web`, `hermes config set ...`, then a gateway restart and `hermes -c`.
+    # `iskra tools disable web`, `iskra config set ...`, then a gateway restart and `iskra -c`.
     (home / 'config.yaml').write_text(AFTER)
     cold = await initialize_session_authority(_runner(store), profile_id=str(home), instance_id='restarted')
     viewer = AuthorityConnection(cold, object(), {'user_id': 'human'})

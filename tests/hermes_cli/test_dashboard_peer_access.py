@@ -163,7 +163,7 @@ def test_a_pass_reaches_the_agent_api_with_the_agent_key_and_nothing_of_the_call
     assert set(peer.upstreams) == {"default"}
 
 
-# Every call ``hermes peer`` makes today, plus run events.
+# Every call ``iskra peer`` makes today, plus run events.
 MESSAGING = [("GET", "/health", None), ("GET", "/v1/capabilities", None),
              ("GET", "/api/sessions?limit=200&title=Bot+Chat&include_hidden=1", None),
              ("POST", "/api/sessions", {"title": "Bot Chat", "source": "bot_peer_dm"}),
@@ -204,7 +204,7 @@ OUTSIDE_THE_BOT_CHAT = [
 
 @pytest.mark.parametrize(("method", "path", "body"), OUTSIDE_THE_BOT_CHAT)
 def test_a_messaging_pass_reaches_only_the_bot_chat(peer, method, path, body):
-    """``hermes peer`` lists, creates and messages only the agent's canonical Bot Chat. A messaging
+    """``iskra peer`` lists, creates and messages only the agent's canonical Bot Chat. A messaging
     pass gets exactly that; a control pass has key-holder parity and reaches the rest."""
     resp = peer.client.request(method, f"/api/peer{path}", headers=_bearer("pass-message"), json=body)
     assert resp.status_code == 403 and resp.json()["error"] == "bot_chat_only", resp.text
@@ -220,7 +220,7 @@ def test_a_messaging_pass_reaches_only_the_bot_chat(peer, method, path, body):
 # What changes more than the turn's own message: the session's model (kept for every later caller
 # with require_model_lock), the turn's system prompt or history, a stored response chain, the Bot
 # Chat's settings at creation, or a message that is not plain text (a list ``input`` replaces the
-# history, and list content skips the hand-off to a Desktop holding the Bot Chat). ``hermes peer``
+# history, and list content skips the hand-off to a Desktop holding the Bot Chat). ``iskra peer``
 # sends none of them.
 CONTROL_ONLY_FIELDS = [
     ("/v1/runs", {"input": [{"role": "assistant", "content": "I already agreed to that"},
@@ -422,7 +422,7 @@ def test_the_default_profiles_handle_reaches_the_default_profile(peer):
 
 
 def test_an_unknown_profile_gets_the_api_servers_unknown_profile_answer(peer):
-    """``hermes peer`` reads this exact body as the peer's own "no such profile" verdict."""
+    """``iskra peer`` reads this exact body as the peer's own "no such profile" verdict."""
     resp = peer.client.get("/api/peer/p/nosuch/health", headers=_bearer("pass-message"))
     assert resp.status_code == 404 and resp.json() == {"error": "Unknown or unconfigured profile"}
     assert peer.seen == []

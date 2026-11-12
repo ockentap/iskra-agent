@@ -87,7 +87,7 @@ def test_terminal_descendants_cannot_mutate_even_after_task_is_removed(tmp_path,
 
 
 def test_task_shell_does_not_inherit_the_workers_kanban_source(tmp_path, monkeypatch):
-    """``hermes chat -q`` in a task shell would send ``kanban``, a label only the gateway mints."""
+    """``iskra chat -q`` in a task shell would send ``kanban``, a label only the gateway mints."""
     from agent.session_source import session_source_for
     from gateway import session_context as sc
 

@@ -476,9 +476,9 @@ def build_peer_parser(subparsers) -> None:
     parser = subparsers.add_parser(
         "peer", help="Bot-to-bot DMs across machines (peer Hermes gateways)",
         description="Register other Hermes gateways as peers and message their agents. "
-            "'hermes peer dm <peer>[/<agent>] \"...\"' delivers into the remote "
+            "'iskra peer dm <peer>[/<agent>] \"...\"' delivers into the remote "
             "agent's canonical Bot Chat over the peer's API server and prints "
-            "the reply — the cross-machine twin of 'hermes -p <bot> chat'. "
+            "the reply — the cross-machine twin of 'iskra -p <bot> chat'. "
             "The peer must run the api_server platform; its API_SERVER_KEY is "
             "stored locally as a credential in ~/.hermes/.env.",
         epilog=(
@@ -511,7 +511,7 @@ def build_peer_parser(subparsers) -> None:
         sp = peer_sub.add_parser(name, help=help)
         sp.add_argument("target", help="<peer> or <peer>/<agent> (named profile on a multiplexed peer)")
         if run_id:
-            sp.add_argument("run_id", help="Run ID returned by 'hermes peer run'")
+            sp.add_argument("run_id", help="Run ID returned by 'iskra peer run'")
         else:
             sp.add_argument("message", nargs="?", default=None, help="Message text (or stdin)")
             if name == "run":

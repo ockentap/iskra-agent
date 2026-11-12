@@ -1,7 +1,7 @@
 """Routes only the Webapp or native Desktop's Web Access pane use exist only on the surfaces that use them.
 
-One dashboard app serves every surface: the standalone ``hermes dashboard``, the headless
-``hermes serve``, the gateway's own listener for native clients, and the gateway's Webapp. The surface
+One dashboard app serves every surface: the standalone ``iskra dashboard``, the headless
+``iskra serve``, the gateway's own listener for native clients, and the gateway's Webapp. The surface
 policy (``hermes_cli.web_server_surface``) says which of them serve:
 
 - ``/api/webapp-access/*``: native Desktop's Web Access pane, which calls the gateway's own listener
@@ -47,7 +47,7 @@ def nothing_acts(monkeypatch):
 
 
 def _owner_client() -> TestClient:
-    """The loopback session token's holder: the standalone dashboard's page, ``hermes serve``'s
+    """The loopback session token's holder: the standalone dashboard's page, ``iskra serve``'s
     spawner, or a tab of the loopback Webapp."""
     client = TestClient(web_server.app, raise_server_exceptions=False)
     client.headers[web_server._SESSION_HEADER_NAME] = web_server._SESSION_TOKEN

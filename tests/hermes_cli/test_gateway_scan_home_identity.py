@@ -20,7 +20,7 @@ import pytest
 from hermes_cli import gateway
 from hermes_cli import dashboard_procs
 
-# Named ``hermes`` so ``python <dir>/hermes gateway run`` satisfies the canonical gateway matcher.
+# Named ``iskra`` so ``python <dir>/hermes gateway run`` satisfies the canonical gateway matcher.
 _GATEWAY_STUB = """
 import os, time
 open(os.environ["STUB_READY"], "w").close()

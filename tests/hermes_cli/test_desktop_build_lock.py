@@ -211,7 +211,7 @@ def test_gui_releases_lock_before_packaged_electron_handoff(tmp_path, monkeypatc
 
 
 def test_gui_releases_lock_after_build_failure(tmp_path, monkeypatch, capsys):
-    """A failed build must not deadlock the next `hermes desktop`."""
+    """A failed build must not deadlock the next `iskra desktop`."""
     root = _checkout(tmp_path)
     monkeypatch.setattr("hermes_cli.main.PROJECT_ROOT", root, raising=False)
 
@@ -237,7 +237,7 @@ def test_gui_releases_lock_after_build_failure(tmp_path, monkeypatch, capsys):
 
 
 def test_update_path_waits_for_a_held_lock(tmp_path, monkeypatch, capsys):
-    """`hermes update`'s desktop rebuild queues behind a holder instead of failing the update."""
+    """`iskra update`'s desktop rebuild queues behind a holder instead of failing the update."""
     from hermes_cli import source_build as source_build_mod
     from hermes_cli.main_desktop import _refresh_installed_desktop_apps
 
@@ -292,7 +292,7 @@ _UPDATE_HOLDER = (
 
 
 def test_a_held_desktop_build_lock_keeps_an_updater_off_the_checkout(tmp_path):
-    """C5: a direct ``hermes desktop`` build holds DesktopBuildLock while npm writes the
+    """C5: a direct ``iskra desktop`` build holds DesktopBuildLock while npm writes the
     checkout; an updater (UpdateLock over the same checkout) must be refused meanwhile."""
     root = _checkout(tmp_path)
     build = DesktopBuildLock(root)

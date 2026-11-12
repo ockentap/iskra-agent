@@ -219,7 +219,7 @@ def test_checkout_inside_a_guarded_root_is_not_hermes_state():
 @pytest.mark.parametrize("kind", ["environments", "test-environment"])
 def test_pm_generation_dir_around_the_running_venv_is_the_interpreter(tmp_path, kind):
     """scripts/run_tests.sh runs ``<home>/installs/<key>/<kind>/<gen>/venv`` with HOME pointed at the
-    run's fake home, so that venv sits under the guarded root. `hermes update` probes
+    run's fake home, so that venv sits under the guarded root. `iskra update` probes
     ``<venv>/../hermes_cli/main.py`` (update_owning_install) and must not trip the guard."""
     from tests.home_io_guard import _pm_generation_dirs
 

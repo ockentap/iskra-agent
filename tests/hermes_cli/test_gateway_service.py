@@ -64,9 +64,9 @@ class TestUserSystemdPrivateSocketPreflight:
 class TestSystemdServiceRefresh:
 
     def test_systemd_restart_timeout_prints_status_guidance(self, monkeypatch, capsys):
-        """`hermes gateway restart` must not surface a raw TimeoutExpired traceback.
+        """`iskra gateway restart` must not surface a raw TimeoutExpired traceback.
 
-        The dashboard spawns `hermes gateway restart` in the background; when a
+        The dashboard spawns `iskra gateway restart` in the background; when a
         wedged adapter websocket pushes drain past the 90s CLI timeout, the
         dashboard would previously show a Python traceback (issue #19937
         follow-up: the same failure mode applies to restart, not just stop).
@@ -100,7 +100,7 @@ class TestSystemdServiceRefresh:
 
         output = capsys.readouterr().out
         assert "still restarting after 90s" in output
-        assert "hermes gateway status" in output
+        assert "iskra gateway status" in output
 
     def test_refresh_refuses_to_bake_pytest_tmpdir_into_real_user_unit(
         self, tmp_path, monkeypatch
@@ -168,7 +168,7 @@ class TestRequireServiceInstalled:
         assert exc_info.value.code == 1
         out = capsys.readouterr().out
         assert "not installed" in out
-        assert "hermes gateway install" in out
+        assert "iskra gateway install" in out
 
     def test_passes_when_unit_exists(self, tmp_path, monkeypatch):
         unit_path = tmp_path / "hermes-gateway.service"
@@ -180,7 +180,7 @@ class TestRequireServiceInstalled:
 
 class TestServiceIdentityForForeignHome:
     """A HERMES_HOME that is neither ``~/.hermes`` nor ``~/.hermes/profiles/<name>`` must never resolve to
-    the default profile's ``hermes-gateway`` unit (a temp-home harness uninstalled the production gateway)."""
+    the default profile's ``iskra-gateway`` unit (a temp-home harness uninstalled the production gateway)."""
 
     @pytest.fixture
     def machine_home(self, tmp_path, monkeypatch):
@@ -348,7 +348,7 @@ class TestGeneratedSystemdUnits:
 
     def test_launchd_plist_persists_configured_nofile_soft_limit(self, monkeypatch):
         """The generated plist must carry SoftResourceLimits/NumberOfFiles so a
-        plist rewrite by `hermes gateway start` cannot strip the FD floor and
+        plist rewrite by `iskra gateway start` cannot strip the FD floor and
         reintroduce EMFILE crashes (launchd default soft limit is 256)."""
         from hermes_cli import resource_limits
 
@@ -830,7 +830,7 @@ class TestLaunchdDomainDetection:
 class TestLaunchdUnsupportedFallbackPolicy:
     """A 5/125 launchctl exit must not brand a domain the host is demonstrably managing.
 
-    Regression for the recurrence where ``hermes gateway install --force`` over the LIVE job
+    Regression for the recurrence where ``iskra gateway install --force`` over the LIVE job
     returned EIO (5) — launchctl's answer for an already-loaded label — which
     ``_launchd_degrade_or_raise`` read as "this macOS cannot manage launchd services". It wrote the
     permanent launchd-unsupported marker and started a detached gateway beside the supervised one,
@@ -1670,7 +1670,7 @@ class TestPreflightUserSystemd:
 
         msg = str(exc_info.value)
         assert "sudo loginctl enable-linger" in msg
-        assert "hermes gateway run" in msg  # foreground fallback mentioned
+        assert "iskra gateway run" in msg  # foreground fallback mentioned
         assert "Interactive authentication required" in msg
 
     def test_enable_linger_succeeds_and_socket_appears(self, monkeypatch, capsys):
@@ -2006,7 +2006,7 @@ class TestDockerAwareGateway:
 
 
     def test_install_in_container_prints_docker_guidance(self, monkeypatch, capsys):
-        """'hermes gateway install' inside Docker exits 0 with container guidance."""
+        """'iskra gateway install' inside Docker exits 0 with container guidance."""
         import pytest
 
         monkeypatch.setattr(gateway_cli, "is_managed", lambda: False)
@@ -2082,13 +2082,13 @@ class TestLegacyHermesUnitDetection:
 
     These guard against the scenario that tripped Luis in April 2026: an
     older install left a ``hermes.service`` unit behind when the service was
-    renamed to ``hermes-gateway.service``. After PR #5646 (signal recovery
+    renamed to ``iskra-gateway.service``. After PR #5646 (signal recovery
     via systemd), the two services began SIGTERM-flapping over the same
     Telegram bot token in a 30-second cycle.
 
     The detector must flag ``hermes.service`` ONLY when it actually runs our
     gateway, and must NEVER flag profile units
-    (``hermes-gateway-<profile>.service``) or unrelated third-party services.
+    (``iskra-gateway-<profile>.service``) or unrelated third-party services.
     """
 
     # Minimal ExecStart that looks like our gateway
@@ -2218,7 +2218,7 @@ class TestRemoveLegacyHermesUnits:
 
 
 class TestMigrateLegacyCommand:
-    """Tests for the `hermes gateway migrate-legacy` subcommand dispatch."""
+    """Tests for the `iskra gateway migrate-legacy` subcommand dispatch."""
 
 
     def test_gateway_command_migrate_legacy_dispatches(
@@ -2434,7 +2434,7 @@ class TestSystemScopeWizardPreCheck:
         assert gateway_cli._system_scope_wizard_would_need_root() is True
 
     def test_non_root_with_explicit_system_arg_returns_true(self, tmp_path, monkeypatch):
-        # Caller passed system=True explicitly (e.g. ``hermes gateway start --system``).
+        # Caller passed system=True explicitly (e.g. ``iskra gateway start --system``).
         self._setup_units(tmp_path, monkeypatch, system_present=False, user_present=False)
         monkeypatch.setattr(gateway_cli.os, "geteuid", lambda: 1000)
 
@@ -2442,7 +2442,7 @@ class TestSystemScopeWizardPreCheck:
 
 
 class TestGatewayCommandCatchesSystemScopeError:
-    """The direct CLI path (``hermes gateway start --system`` etc.) must
+    """The direct CLI path (``iskra gateway start --system`` etc.) must
     still exit 1 with a clean message when non-root. The top-level
     ``gateway_command`` catches ``SystemScopeRequiresRootError`` and
     converts it back to ``sys.exit(1)``, preserving existing CLI behavior.
@@ -2834,7 +2834,7 @@ class TestTimeoutStopSecCoversCronFloor:
 
 
 class TestUnitAnchoredServiceIdentity:
-    """The installed ``hermes-gateway.service`` owns the bare name: under ``sudo`` the naming basis moves
+    """The installed ``iskra-gateway.service`` owns the bare name: under ``sudo`` the naming basis moves
     mid-command when ``_sync_hermes_home_from_systemd_unit()`` adopts the unit's HERMES_HOME (#108674).
 
     ``platforms("linux")`` because ``_bare_unit_pinned_home()`` is Linux- and root-gated on purpose: a systemd unit

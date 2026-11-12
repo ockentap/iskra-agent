@@ -68,7 +68,7 @@ _REPAIR_BACKUP_MIN_FREE_BYTES = 256 * 1024 * 1024  # 256 MiB absolute floor
 _REPAIR_BACKUP_FREE_FRACTION = 0.02  # plus 2% of the volume
 _FTS_TABLES = ("messages_fts", "messages_fts_trigram")
 _MANUAL_RECOVER_HINT = ("Free disk space, then retry (or recover manually with "
-                        "`hermes sessions recover --source {db_path} --inspect-only` first).")
+                        "`iskra sessions recover --source {db_path} --inspect-only` first).")
 
 
 def _sidecars(db_path: Path):
@@ -394,14 +394,14 @@ def _persistent_repair_attempts_exhausted(db_path: Path) -> bool:
 
 
 def _persistent_repair_exhausted_error(db_path: Path) -> str:
-    """The stable operator-facing diagnostic for an exhausted repair budget. The ``hermes`` commands
-    carry the profile selector: a bare ``hermes`` follows ``active_profile`` (#105887)."""
+    """The stable operator-facing diagnostic for an exhausted repair budget. The ``iskra`` commands
+    carry the profile selector: a bare ``iskra`` follows ``active_profile`` (#105887)."""
     from hermes_constants import profile_cli_selector
     profile_arg = profile_cli_selector()
     return (f"automatic repair has already failed {_MAX_PERSISTENT_REPAIR_ATTEMPTS} times on this exact file — the "
             f"corruption is beyond the schema/FTS repair strategies (likely b-tree page damage). Manual recovery "
-            f"required: restore a backup, or salvage with `hermes {profile_arg}sessions recover --source {db_path} "
-            f"--inspect-only`, then (if it reports recoverable) `hermes {profile_arg}sessions recover --source {db_path} "
+            f"required: restore a backup, or salvage with `iskra {profile_arg}sessions recover --source {db_path} "
+            f"--inspect-only`, then (if it reports recoverable) `iskra {profile_arg}sessions recover --source {db_path} "
             f"--output recovered-state.db` (recovery snapshots the damaged file first, then runs the page-level "
             f"`.recover` lane on the copy; do NOT point a raw `sqlite3` shell at the live database). "
             f"Delete {_repair_ledger_path(db_path).name} to force another automatic attempt.")
@@ -492,7 +492,7 @@ def _backup_db_file(db_path: Path) -> tuple[Optional[Path], Optional[str]]:
     partials, deleted intact copies) and dedupe could return one with no real forensic copy on disk.
 
     Refusal reasons (``_backup_free_space_error`` / ``_MANUAL_RECOVER_HINT``) point operators at the safe lane,
-    `hermes sessions recover --source <db> --inspect-only`, never at a raw sqlite3 shell on the live file.
+    `iskra sessions recover --source <db> --inspect-only`, never at a raw sqlite3 shell on the live file.
 
     See #69603.
     """

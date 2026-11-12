@@ -1,4 +1,4 @@
-"""Standalone ``hermes serve``/``dashboard`` (no gateway authority) keeps session edits.
+"""Standalone ``iskra serve``/``dashboard`` (no gateway authority) keeps session edits.
 
 The edit runs the gateway's receipt transaction on the process's single writer under the
 exact owner lock: revision/retry/idle guards hold, an owner discovery cannot reach answers 503

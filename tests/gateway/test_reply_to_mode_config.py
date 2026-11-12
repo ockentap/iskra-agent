@@ -1,6 +1,6 @@
 """``reply_to_mode: off`` reaches the adapter as ``off`` however it was written.
 
-YAML 1.1 reads a bare ``off`` as ``False`` and ``hermes config set ... off`` writes ``false``. The
+YAML 1.1 reads a bare ``off`` as ``False`` and ``iskra config set ... off`` writes ``false``. The
 single-profile env bridge maps that back to ``off``, but a multiplexed secondary profile skips the
 bridge and reads ``PlatformConfig.reply_to_mode`` directly, so ``False`` fell to the adapters'
 ``or 'first'`` default and every reply kept quoting the user's message.

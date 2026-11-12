@@ -1,6 +1,6 @@
 """A remote client that sends a ticket subprotocol without ``Origin`` reaches the Webapp's ticket gate (#147361).
 
-The Android app (ktor) dials ``/api/ws`` from a remote peer with ``hermes-gateway-ticket.<ticket>`` and no
+The Android app (ktor) dials ``/api/ws`` from a remote peer with ``iskra-gateway-ticket.<ticket>`` and no
 ``Origin``. The runtime wrapper took that for a native local Desktop dial and closed it 4403 before the
 Webapp ever saw the ticket its own ``/api/auth/ws-ticket`` had minted.
 """

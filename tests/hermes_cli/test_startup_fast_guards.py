@@ -4,7 +4,7 @@ Two invariants, each of which has been broken before:
 
 1. IMPORT WEIGHT: _startup_fast must stay stdlib-only. The whole point of
    the module is to run before main.py's heavy import wall; one careless
-   ``from hermes_cli.config import ...`` silently makes `hermes --version`
+   ``from hermes_cli.config import ...`` silently makes `iskra --version`
    slow again for everyone (the regression would be invisible — everything
    still works, just 40x slower).
 

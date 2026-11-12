@@ -162,7 +162,7 @@ class TestUninspectableHolderInstanceScope:
         """argv[0] is the SHARED install binary, so it cannot prove a hold of profile b's store.
 
         Every hermes process on a normal host runs ``<root>/venv/bin/hermes``; counting that token
-        as proof made ``hermes -p other chat -q`` an uninspectable holder of every OTHER profile's
+        as proof made ``iskra -p other chat -q`` an uninspectable holder of every OTHER profile's
         state.db, deferring its FTS rebuild and auto-VACUUM for as long as the sibling lived
         (#92401, inside a single install). The process's own ``-p``/``--profile`` selection decides.
         """

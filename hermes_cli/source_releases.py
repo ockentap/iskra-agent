@@ -196,7 +196,9 @@ def _resolve_stable(repository: str, git_cmd=None, cwd=None) -> SourceTarget:
     try:
         tag, commit = _resolve_release("stable", git_cmd, cwd, repository=repository, pointer=False)
     except (OSError, ValueError, subprocess.SubprocessError) as exc:
-        logger.warning("Could not resolve the stable source release: %s", exc)
+        # A fork with no published releases is not a warning-level event.
+        if "404" not in str(exc):
+            logger.warning("Could not resolve the stable source release: %s", exc)
         raise ValueError(_describe_release_failure(exc)) from exc
     return SourceTarget("stable", "stable", repository, commit=commit, version=str(tag).removeprefix("v"))
 

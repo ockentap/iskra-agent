@@ -49,7 +49,7 @@ def test_env_secret_with_shell_text_is_not_used(monkeypatch, caplog, value):
 
 
 def test_shell_text_secret_is_reported_once_on_stderr(monkeypatch, capsys):
-    # The log files are not the console of `hermes serve` / `hermes dashboard`.
+    # The log files are not the console of `iskra serve` / `iskra dashboard`.
     monkeypatch.setattr(basic, "_shell_text_secret_reported", False, raising=False)
     monkeypatch.setenv("HERMES_DASHBOARD_BASIC_AUTH_SECRET", "$(openssl rand -hex 32)")
     basic._resolve_secret({})

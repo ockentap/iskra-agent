@@ -131,7 +131,7 @@ def test_sweep_archives_idle_work_and_never_touches_live_kanban_or_young_trees(r
     unpushed = _tree(repo, "hermes-unpushed", unpushed=True)
     live_cwd = _tree(repo, "lane-live-cwd", dirty=True)
     live_lock = _tree(repo, "hermes-live-lock", dirty=True)
-    _git(["worktree", "lock", "--reason", f"hermes pid={os.getpid()}", str(live_lock)], repo)
+    _git(["worktree", "lock", "--reason", f"iskra pid={os.getpid()}", str(live_lock)], repo)
     kanban = _tree(repo, "t_0abc12", dirty=True)
     young = _tree(repo, "lane-young", dirty=True)
     unarchivable = _tree(repo, "lane-embedded", dirty=True)
@@ -372,7 +372,7 @@ def test_the_pruner_removes_a_tree_only_when_everything_irreproducible_is_archiv
 
 
 def test_prune_older_than_bounds_what_the_sweep_removes(repo, capsys):
-    """`hermes worktree prune --older-than N` never archives or removes a tree idle < N days."""
+    """`iskra worktree prune --older-than N` never archives or removes a tree idle < N days."""
     import argparse
 
     from hermes_cli.worktree_cmd import cmd_worktree

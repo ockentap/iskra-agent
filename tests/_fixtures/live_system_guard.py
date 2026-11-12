@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 # (``cmd_update``, ``kill_gateway_processes``, ``stop_profile_gateway``).
 # When a single test forgets to mock either ``os.kill`` or the global
 # ``find_gateway_pids`` helper, the real call leaks out of the hermetic
-# environment and finds the developer's live ``hermes-gateway`` process
+# environment and finds the developer's live ``iskra-gateway`` process
 # via ``psutil`` — sending it SIGTERM mid-test. The shutdown forensics in
 # PR #23285 caught this happening 5+ times in 3 days, every time
 # correlated with a ``tests/hermes_cli/`` pytest run starting up.
@@ -30,9 +30,9 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent
 #    instead of silently murdering the real gateway.
 #  • ``subprocess.run`` / ``subprocess.Popen`` / ``call`` / ``check_call`` /
 #    ``check_output`` reject any ``systemctl ... <verb> <unit>`` invocation
-#    that would mutate ANY live Hermes unit — ``hermes-gateway[-<profile>]``,
-#    ``hermes-dashboard[-<profile>]``, ``hermes-serve[-<profile>]`` and every
-#    other ``hermes``/``hermes-*`` unit. Read-only systemctl calls
+#    that would mutate ANY live Hermes unit — ``iskra-gateway[-<profile>]``,
+#    ``iskra-dashboard[-<profile>]``, ``iskra-serve[-<profile>]`` and every
+#    other ``iskra``/``iskra-*`` unit. Read-only systemctl calls
 #    (``status``, ``show``, ``list-units``, ``is-active``) still pass through.
 #
 # We intentionally do NOT stub ``find_gateway_pids`` / ``_scan_gateway_pids``
@@ -66,7 +66,7 @@ def _live_system_guard(request, monkeypatch):
       • pty.spawn
       • asyncio.create_subprocess_exec / create_subprocess_shell
     A mutating systemctl verb is refused against every Hermes unit
-    (``hermes``/``hermes-*``: gateway, dashboard, serve, any profile).
+    (``iskra``/``iskra-*``: gateway, dashboard, serve, any profile).
     Subprocess inspection looks at the WHOLE command string (not just
     tokens[0]), so ``bash -c "systemctl restart hermes-dashboard"``,
     ``sudo systemctl ...``, ``env systemctl ...``, ``setsid systemctl ...``
@@ -190,7 +190,7 @@ def _live_system_guard(request, monkeypatch):
         "hermes_cli.main gateway",
         "hermes_cli/main.py gateway",
         "gateway/run.py",
-        "hermes gateway",
+        "iskra gateway",
     )
     _MUTATING_VERBS = (
         "restart", "start", "stop", "kill", "reload",
@@ -253,7 +253,7 @@ def _live_system_guard(request, monkeypatch):
         return words
 
     def _is_hermes_unit(word: str) -> bool:
-        # ``hermes`` / ``hermes-<anything>`` once any path and unit suffix are
+        # ``iskra`` / ``iskra-<anything>`` once any path and unit suffix are
         # stripped: hermes-gateway[-<profile>], hermes-dashboard[-<profile>],
         # hermes-serve[-<profile>], ... — never ``myhermes-dashboard`` or ``nginx``.
         name = word.rsplit("/", 1)[-1].lower()
@@ -314,7 +314,7 @@ def _live_system_guard(request, monkeypatch):
         probes) launch the bare ``python -m gateway.run`` module entry with an explicit ``env``
         that re-homes BOTH ``HERMES_HOME`` and ``HOME`` away from the developer's account. Such a
         child resolves no developer unit or config, holds no live port, and is reaped by its
-        test: the orphan class the guard exists for is the ``hermes gateway run|start|restart``
+        test: the orphan class the guard exists for is the ``iskra gateway run|start|restart``
         CLI spawn against the real home, which the fixtures never use."""
         if not isinstance(env, dict):
             return False
@@ -370,7 +370,7 @@ def _live_system_guard(request, monkeypatch):
                 "Mark with @pytest.mark.live_system_guard_bypass if "
                 "intentional."
             )
-        # Block any subprocess that would run `hermes update` (or the
+        # Block any subprocess that would run `iskra update` (or the
         # equivalent `python -m hermes_cli.main update`).  These commands
         # run `git fetch origin + git pull` against the REAL checkout,
         # overwriting files like pyproject.toml mid-test-run and corrupting
@@ -395,7 +395,7 @@ def _live_system_guard(request, monkeypatch):
             raise RuntimeError(
                 f"tests/conftest.py live-system guard: blocked "
                 f"subprocess.{name}({cmd!r}) — this command would run "
-                "`hermes update` against the real checkout, fetching "
+                "`iskra update` against the real checkout, fetching "
                 "from origin and overwriting repo files (e.g. "
                 "pyproject.toml) mid-test-run. This corrupts every "
                 "subsequent subprocess in the same runner. "
@@ -409,7 +409,7 @@ def _live_system_guard(request, monkeypatch):
         # gateway run|start|restart``). ``_spawn_hermes_action`` launches it
         # with start_new_session=True, so it outlives the pytest worker; the
         # child inherits the pytest-tmp HERMES_HOME, resolves the DEVELOPER's
-        # ``hermes-gateway`` systemd unit (a tmp home hashes to no profile
+        # ``iskra-gateway`` systemd unit (a tmp home hashes to no profile
         # suffix), restarts the live gateway, and the survivors squat the
         # webhook port. 2026-09-03: 39 such orphans lived 6 days after a
         # sibling refactor moved the spawn seam and left tests patching the
@@ -427,7 +427,7 @@ def _live_system_guard(request, monkeypatch):
             raise RuntimeError(
                 f"tests/conftest.py live-system guard: blocked "
                 f"subprocess.{name}({cmd!r}) — this would spawn a REAL "
-                "hermes gateway runtime that outlives the test (it is "
+                "iskra gateway runtime that outlives the test (it is "
                 "detached), restarts the developer's live gateway, and "
                 "holds the webhook port. Patch the spawn seam where "
                 "production reads it (hermes_cli.web_server_gateway."

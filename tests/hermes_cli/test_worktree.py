@@ -175,7 +175,7 @@ class TestWorktreeLockReaping:
         )
         if pid is not None:
             subprocess.run(
-                ["git", "worktree", "lock", "--reason", f"hermes pid={pid}", str(p)],
+                ["git", "worktree", "lock", "--reason", f"iskra pid={pid}", str(p)],
                 cwd=repo, capture_output=True,
                 check=False,
             )
@@ -262,7 +262,7 @@ class TestWorktreeLockPredicate:
 
     def test_unparseable_hermes_lock_reason_fails_safe_to_live(self, git_repo):
         # N5: a hermes lock this version cannot read is never evidence that its owner is gone.
-        p = self._mk_locked(git_repo, "hermes-future", "hermes owner=v2 pid=12x")
+        p = self._mk_locked(git_repo, "hermes-future", "iskra owner=v2 pid=12x")
         assert worktree_ops._worktree_lock_is_live(str(git_repo), str(p)) == "live"
 
     def test_bad_repo_root_fails_safe_to_live(self, tmp_path):
@@ -274,7 +274,7 @@ class TestWidenedPruner:
     """Behavior contracts for the widened pruner (#all-.worktrees coverage,
     squash-merge escape hatch, kanban exclusion, preserved-work warning).
 
-    Previously only ``hermes-*`` directories were considered, so salvage/
+    Previously only ``iskra-*`` directories were considered, so salvage/
     review/port lanes created with raw ``git worktree add`` accumulated
     forever (real incident: 117 dirs / 26 GB). And squash-merged branches'
     local commits are unreachable from refs/remotes/* forever, so the
@@ -396,7 +396,7 @@ class TestWidenedPruner:
 
 class TestMergeVerdictCache:
     """The ``git cherry`` patch-equivalence probe is memoized on disk because it
-    dominates ``hermes -w`` startup (~0.2-1.0s per worktree, re-run on every
+    dominates ``iskra -w`` startup (~0.2-1.0s per worktree, re-run on every
     launch for every tree preserved as unpushed).
 
     The invariant that makes caching safe: the verdict is a pure function of the

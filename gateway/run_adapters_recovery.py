@@ -102,7 +102,7 @@ class GatewaySecondaryReconnectMixin:
         strikes.pop(status_key, None)
         message = (f"{adapter.platform.value} bot token is in use elsewhere: another process (another machine or a "
                    f"leftover gateway) kept polling it through {len(_TOKEN_CONTENTION_RECONNECT_DELAYS)} reconnects. "
-                   "Stop that poller, then run 'hermes gateway restart'.")
+                   "Stop that poller, then run 'iskra gateway restart'.")
         logger.error("%s: %s", status_key, message)
         adapter._set_fatal_error("token_in_use_elsewhere", message, retryable=False)
         self._update_platform_runtime_status(status_key, platform_state="fatal", error_code="token_in_use_elsewhere",

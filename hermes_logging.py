@@ -308,7 +308,7 @@ class _ComponentFilter(logging.Filter):
         return canonical_logger_name(record.name).startswith(self._prefixes)
 
 
-# Logger name prefixes per component; used by _ComponentFilter and ``hermes logs --component``.
+# Logger name prefixes per component; used by _ComponentFilter and ``iskra logs --component``.
 COMPONENT_PREFIXES = {
     # ``plugins.platforms``: messaging adapters that migrated out of
     # ``gateway/platforms/`` into bundled plugins (#41112) are still gateway
@@ -381,7 +381,7 @@ def setup_logging(
     _line_buffer_piped_stdout()
 
     # A second Hermes home in a process that already logs for another one — a dashboard or
-    # ``hermes serve`` backend building agents for several profiles, a multiplexed gateway —
+    # ``iskra serve`` backend building agents for several profiles, a multiplexed gateway —
     # gets routed by record home. Stacking another file handler here would hand it EVERY
     # profile's records (the handlers carry no home filter), and a duplicate writer on top of
     # an existing router.
@@ -692,7 +692,7 @@ class _ProfileRoutingFileHandler(logging.Handler):
         self._liveness_checked_at[home] = _monotonic()
         if home.is_dir() and not named_profile_is_deleted(home):
             return False
-        # Deleted out of band (CLI ``hermes profile delete`` while this process runs; it
+        # Deleted out of band (CLI ``iskra profile delete`` while this process runs; it
         # tombstones before rmtree). The startup snapshot still names it, so its handler would
         # retry the vanished logs/ path on every record (#103777). Release it the way an
         # in-process delete does: the stale fd is closed on this routed record and the home is

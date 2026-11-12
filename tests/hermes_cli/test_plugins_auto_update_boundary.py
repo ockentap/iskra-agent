@@ -89,7 +89,7 @@ def _real_checks():
 
 
 def test_slash_update_with_an_argument_does_not_update_every_plugin(monkeypatch):
-    """`/plugins update <name>` mirrors `hermes plugins update <name>`; it must not run Update all on every
+    """`/plugins update <name>` mirrors `iskra plugins update <name>`; it must not run Update all on every
     plugin (in the TUI it would also run inside the 45 s slash worker the batch was moved out of)."""
     from hermes_cli import plugins_auto_update
 
@@ -104,7 +104,7 @@ def test_slash_update_with_an_argument_does_not_update_every_plugin(monkeypatch)
 
 
 def test_cli_update_all_skips_a_catalog_install_held_with_ref(tmp_path, monkeypatch, capsys):
-    """`hermes plugins update` (the command `hermes update` recommends) leaves a `--ref` hold where the user
+    """`iskra plugins update` (the command `iskra update` recommends) leaves a `--ref` hold where the user
     put it, like every other Update all; naming the plugin is what moves it."""
     from hermes_cli import plugins_cmd, plugins_cmd_update, plugins_updates
     from hermes_cli.plugins_cmd_update_all import cmd_update_all

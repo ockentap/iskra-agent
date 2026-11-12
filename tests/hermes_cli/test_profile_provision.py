@@ -166,7 +166,7 @@ def test_every_surface_creates_through_provision_profile(launch, monkeypatch):
 
 
 def _cli_args(*argv):
-    """Parse ``hermes profile create ...`` with the real parser, so a misnamed flag dest fails here."""
+    """Parse ``iskra profile create ...`` with the real parser, so a misnamed flag dest fails here."""
     import argparse
     from hermes_cli.subcommands.profile import build_profile_parser
     parser = argparse.ArgumentParser()

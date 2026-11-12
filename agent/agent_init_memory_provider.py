@@ -47,7 +47,7 @@ def _warn_memory_provider_unavailable(name: str, reason: str = "", say=None) -> 
     _warn_once(name, (
         f"⚠ Memory provider {name!r} is selected but reports unavailable — external memory "
         "is disabled for this session (built-in memory still works). Check the "
-        "provider's credentials/config with 'hermes memory status'. Note: "
+        "provider's credentials/config with 'iskra memory status'. Note: "
         "systemd/gateway services do not inherit ~/.hermes/.env automatically; set "
         f"any required variables in the service environment.{f' {reason}' if reason else ''}"
     ), say=say)

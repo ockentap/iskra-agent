@@ -5,7 +5,7 @@ identity, each accepting only its own randomly minted key. ``check_routing`` is 
 invariant every scenario shares: a request on a host the scenario did not select, or a
 selected host receiving any bearer other than its own, is a credential leak.
 
-Hermes itself runs for real in child processes (``hermes chat -q`` / ``hermes -z`` /
+Hermes itself runs for real in child processes (``iskra chat -q`` / ``iskra -z`` /
 ``python -m tui_gateway.entry``) with HOME and HERMES_HOME inside the test's tmp dir,
 every credential/endpoint env var stripped, and only these fake hosts configured.
 """
@@ -288,7 +288,7 @@ class RunResult:
 
 def run_hermes(argv: list[str], home: Path, *, hermes_home: Path | None = None, proxy: str | None = None,
                timeout: float = 240.0) -> RunResult:
-    """Run the real ``hermes`` entry point in its own process group; kill only that group."""
+    """Run the real ``iskra`` entry point in its own process group; kill only that group."""
     start = time.monotonic()
     proc = subprocess.Popen(
         [sys.executable, "-m", "hermes_cli.main", *argv],

@@ -66,7 +66,7 @@ def projects_command(args: argparse.Namespace) -> int:
         if parser is not None:
             parser.print_help()
         else:
-            print("usage: hermes project <action> [options]\nRun 'hermes project --help' for the full list.", file=sys.stderr)
+            print("usage: hermes project <action> [options]\nRun 'iskra project --help' for the full list.", file=sys.stderr)
         return 0
     handler = _HANDLERS.get(action)
     if handler is None:

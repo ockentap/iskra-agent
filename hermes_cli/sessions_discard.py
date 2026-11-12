@@ -20,7 +20,7 @@ async def _resume(client, name):
         except GatewayClientError as exc:
             if str(exc) != "not_found":
                 raise
-    raise GatewayClientError(f"No session found matching '{name}'. Use 'hermes sessions list' to see available sessions.")
+    raise GatewayClientError(f"No session found matching '{name}'. Use 'iskra sessions list' to see available sessions.")
 
 
 def _confirm(session_id, rows):

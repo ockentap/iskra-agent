@@ -2,8 +2,8 @@
 
 Hand-edited or legacy config.yaml files hold scalars where a migration step expects a
 mapping. Each step must guard the shapes it indexes, and ``run_migrations`` must isolate
-a step that still raises so one bad value cannot wedge ``hermes config migrate`` /
-``hermes update`` and leave the config unversioned.
+a step that still raises so one bad value cannot wedge ``iskra config migrate`` /
+``iskra update`` and leave the config unversioned.
 """
 
 import logging
@@ -134,7 +134,7 @@ def test_successful_migration_warning_still_stamps_latest_version(tmp_path):
 
 
 def test_config_migrate_command_reports_a_stopped_pass(tmp_path, capsys):
-    """`hermes config migrate` must not say "Configuration updated!" for a pass that stopped,
+    """`iskra config migrate` must not say "Configuration updated!" for a pass that stopped,
     and exits 1 so scripts see it."""
     import pytest
     from hermes_cli.config import _cmd_config_migrate

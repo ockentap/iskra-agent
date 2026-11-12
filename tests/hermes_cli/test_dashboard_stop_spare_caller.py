@@ -1,6 +1,6 @@
 """Root selection for ``dashboard --stop`` / update cleanup must spare the caller.
 
-The dashboard scan also selects the shell the ``--stop`` was typed into (``bash -c 'hermes
+The dashboard scan also selects the shell the ``--stop`` was typed into (``bash -c 'iskra
 dashboard --stop'``: same entry token, same subcommand). Killing it takes down
 the invoking terminal; the historical fix for the hosted-TUI case is descendant hygiene
 (#113819), which is orthogonal to root selection.
@@ -16,7 +16,7 @@ from hermes_cli.main_dashboard import _find_stale_dashboard_pids
 
 def test_scan_spares_only_the_callers_wrapper_shell(capsys):
     """The bash the ``--stop`` was typed into is dropped; the real backend and an unrelated
-    wrapper with the same argv shape (another user's ``bash -c 'hermes serve'``) stay targets."""
+    wrapper with the same argv shape (another user's ``bash -c 'iskra serve'``) stay targets."""
     processes = [
         (111, "/opt/hermes/bin/python hermes dashboard --port 9119"),
         (222, "bash -c hermes dashboard --stop"),

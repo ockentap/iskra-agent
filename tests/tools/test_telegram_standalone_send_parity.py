@@ -1,4 +1,4 @@
-"""The standalone Telegram sender (``hermes send``, the ``send_message`` tool, standalone cron
+"""The standalone Telegram sender (``iskra send``, the ``send_message`` tool, standalone cron
 delivery) makes the gateway adapter's outbound decisions for the same text: the push-notification
 mode, the invisible-only guard, the ``rich_messages`` fast-path, and a MarkdownV2 retry before
 plain text when Bot API HTML rejects a tag. The ``telegram`` package is stubbed; the bot records

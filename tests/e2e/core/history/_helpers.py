@@ -1,7 +1,7 @@
 """Transcript-ledger harness for the conversation-history (C3) and prompt-cache (C17) suites.
 
 Everything real except the model: a real ``AIAgent`` + ``SessionDB`` on disk in-process, the
-real ``tui_gateway`` stdio JSON-RPC server and the real ``hermes chat -q`` oneshot CLI as
+real ``tui_gateway`` stdio JSON-RPC server and the real ``iskra chat -q`` oneshot CLI as
 subprocesses, all pointed at one recording ``FakeLLMServer``. The invariants below read the
 three durable/observable projections of a conversation and cross-check them:
 
@@ -359,7 +359,7 @@ _SID_RE = re.compile(r"^session_id:\s*(\S+)\s*$", re.MULTILINE)
 
 def run_oneshot(env: dict[str, str], cwd: Path, prompt: str, spawned: Spawned, *,
                 resume: str | None = None, timeout: float = 180.0) -> tuple[str, str]:
-    """``hermes chat -q PROMPT -Q [--resume SID]`` in a fresh process -> (stdout, durable sid)."""
+    """``iskra chat -q PROMPT -Q [--resume SID]`` in a fresh process -> (stdout, durable sid)."""
     cmd = [sys.executable, "-m", "hermes_cli.main", "chat", "-q", prompt, "-Q"]
     if resume:
         cmd += ["--resume", resume]
@@ -396,7 +396,7 @@ class TuiGateway:
         self.stored: dict[str, str] = {}
 
     def __enter__(self) -> TuiGateway:
-        # A ``hermes chat -q`` hop leaves the always-on gateway owning this home, and the standalone
+        # A ``iskra chat -q`` hop leaves the always-on gateway owning this home, and the standalone
         # stdio entry refuses a home a gateway owns (it would be a second state.db writer). Stop
         # the owner first so each "gw" hop is still a fresh process on the same durable store.
         subprocess.run([sys.executable, "-m", "hermes_cli.main", "gateway", "stop"], cwd=self.cwd,

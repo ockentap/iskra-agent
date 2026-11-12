@@ -403,7 +403,7 @@ def test_desktop_dependency_failure_still_builds_the_tui_and_web_ui(source_produ
     assert not (root / "apps/desktop/node_modules").exists()
     out = capsys.readouterr().out
     assert "Desktop app build owed: desktop dependencies failed" in out
-    assert "hermes uninstall --gui" in out
+    assert "iskra uninstall --gui" in out
 
 
 @pytest.mark.platforms("linux")
@@ -459,7 +459,7 @@ def test_packaged_desktop_is_reused_only_while_it_names_head(tmp_path, monkeypat
 
 @pytest.mark.parametrize("enabled", [False, True])
 def test_update_rebuilds_the_webapp_bundle_a_home_serves(tmp_path, monkeypatch, enabled):
-    """``hermes update`` rebuilds ``apps/desktop/dist-webapp``, with the function ``hermes webapp``
+    """``iskra update`` rebuilds ``apps/desktop/dist-webapp``, with the function ``iskra webapp``
     uses, when any home sharing this install has ``webapp.enabled``: that home's gateway serves the
     bundle as built, so an old one would talk to the updated backend. Otherwise it is left alone."""
     import hermes_cli.left_core_migration as left_core
@@ -492,9 +492,9 @@ def test_update_rebuilds_the_webapp_bundle_a_home_serves(tmp_path, monkeypatch, 
 
 @pytest.mark.parametrize("built", [True, False])
 def test_a_failed_webapp_rebuild_in_update_marks_the_served_bundle_out_of_date(tmp_path, monkeypatch, capsys, built):
-    """When ``hermes update`` cannot rebuild the Webapp bundle a home serves, the previous bundle
+    """When ``iskra update`` cannot rebuild the Webapp bundle a home serves, the previous bundle
     stays on disk but is marked out of date: its gateway reports the Webapp unavailable and says to
-    run ``hermes webapp`` (which rebuilds it) instead of serving it against the updated backend. The
+    run ``iskra webapp`` (which rebuilds it) instead of serving it against the updated backend. The
     update still reports the failure. With no bundle built there is nothing to mark."""
     import hermes_cli.left_core_migration as left_core
     import hermes_cli.main_install_repair as install_repair
@@ -530,9 +530,9 @@ def test_a_failed_webapp_rebuild_in_update_marks_the_served_bundle_out_of_date(t
         build_update_products(root, desktop=False)
 
     reason = bundle_missing_reason(dist)
-    assert reason is not None and reason.startswith(NOT_BUILT) and "hermes webapp" in reason
+    assert reason is not None and reason.startswith(NOT_BUILT) and "iskra webapp" in reason
     if built:
         assert (dist / "index.html").read_text(encoding="utf-8") == "<!doctype html>"
-        assert "hermes webapp" in capsys.readouterr().out
+        assert "iskra webapp" in capsys.readouterr().out
     else:
         assert sorted(root.rglob("*")) == before

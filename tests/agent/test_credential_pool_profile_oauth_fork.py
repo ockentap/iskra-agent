@@ -568,7 +568,7 @@ def test_heal_is_idempotent_and_logs_once(fleet, caplog):
 
 
 def test_heal_never_deletes_the_only_surviving_copy(fleet):
-    """Root lost its grant (user ran `hermes auth remove` at root); the profile's
+    """Root lost its grant (user ran `iskra auth remove` at root); the profile's
     copy is the only one left — and an independent second account stays put."""
     from agent.credential_pool import load_pool
 
@@ -719,7 +719,7 @@ def test_heal_leaves_a_different_account_alone(fleet):
 
 
 def test_heal_pkce_singleton_shape_commits_live_pair_to_root_singleton(fleet):
-    """`hermes auth` PKCE shape: root + profile each have .anthropic_oauth.json +
+    """`iskra auth` PKCE shape: root + profile each have .anthropic_oauth.json +
     a hermes_pkce-seeded row; the profile's copy is the rotated (live) one."""
     from agent.credential_pool import load_pool
 
@@ -882,14 +882,14 @@ def test_heal_leaves_an_aliased_anthropic_singleton_alone(fleet):
 # ── E. the clean mark outlives the process ──────────────────────────────
 #
 # The in-memory mark only silences the heal for one process, so every fresh
-# `hermes` invocation re-paid its two nested EXCLUSIVE auth-store locks to
+# `iskra` invocation re-paid its two nested EXCLUSIVE auth-store locks to
 # rediscover a store it had already cleared. Persisting the mark removes that,
 # but a mark that outlives the process must also invalidate on anything the
 # heal reads -- including the ROOT store, which the in-memory fingerprint
 # could safely ignore precisely because it died with the process.
 
 def _new_process(auth_mod):
-    """Simulate a fresh `hermes` invocation: in-memory state gone, disk kept."""
+    """Simulate a fresh `iskra` invocation: in-memory state gone, disk kept."""
     auth_mod._oauth_heal_clean_marks.clear()
     auth_mod._global_auth_store_cache = None
 

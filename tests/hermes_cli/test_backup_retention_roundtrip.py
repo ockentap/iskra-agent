@@ -20,7 +20,7 @@ def _no_real_gateway_service(monkeypatch):
 
 
 def test_run_backup_prunes_older_default_named_zips_but_not_others(tmp_path, monkeypatch):
-    """Hourly `hermes backup` callers accumulated 150+ zips; --keep bounds the default-named
+    """Hourly `iskra backup` callers accumulated 150+ zips; --keep bounds the default-named
     ones and leaves custom-named or foreign zips alone (#81317)."""
     from argparse import Namespace
     from hermes_cli import backup as backup_mod

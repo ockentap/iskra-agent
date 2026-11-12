@@ -4,7 +4,7 @@ hardening, durable lazy-install target, and dual-stack (Happy Eyeballs) connects
 Windows binds stdio to the console code page (cp1252), so ``print("café")`` raises
 ``UnicodeEncodeError``, and Python children inherit the same default unless
 ``PYTHONUTF8``/``PYTHONIOENCODING`` are set. Import this module first in every entry
-point (``hermes``, ``hermes-agent``, ``hermes-acp``, ``gateway.run``, ``batch_runner``,
+point (``iskra``, ``iskra-agent``, ``iskra-acp``, ``gateway.run``, ``batch_runner``,
 ``cron/scheduler``). It does NOT re-exec with ``-X utf8``: ``open()`` in the current
 process still needs an explicit ``encoding="utf-8"`` (ruff ``PLW1514``). POSIX is left
 alone deliberately — users' ``LANG``/``LC_*`` choices are respected.
@@ -166,7 +166,7 @@ def _patch_urllib3_create_connection(module) -> None:
 class _Urllib3ConnectionPatcher(importlib.abc.MetaPathFinder, importlib.abc.Loader):
     """One-shot import hook: patch urllib3's connect walker the moment the module loads.
 
-    Importing urllib3 eagerly costs ~50 ms on every CLI start, and ``hermes`` / the TUI
+    Importing urllib3 eagerly costs ~50 ms on every CLI start, and ``iskra`` / the TUI
     gateway never load it unless something actually calls ``requests``.
     """
 
@@ -260,7 +260,7 @@ def enable_windows_vt(streams=None) -> bool:
     """Opt the console behind stdout/stderr in to ANSI escape processing.
 
     ``hermes_cli.colors`` and the skins emit raw SGR codes whenever stdout is a TTY. A
-    conhost console (PowerShell 5.1, cmd.exe, the installer's ``hermes setup``) prints
+    conhost console (PowerShell 5.1, cmd.exe, the installer's ``iskra setup``) prints
     them as ``←[35m`` until the output handle has ENABLE_VIRTUAL_TERMINAL_PROCESSING, and
     shells hand native children a console with it off. The mode belongs to the console
     buffer, so setting it here also covers the relaunched child. Handles that are not a
@@ -508,7 +508,7 @@ harden_import_path(str(_root))
 
 
 def _settle_interrupted_update() -> None:
-    """Put back the tree a killed ``hermes update`` left half-moved, before PM, launch preparation or
+    """Put back the tree a killed ``iskra update`` left half-moved, before PM, launch preparation or
     any Hermes package imports from it (``hermes_cli._early_recovery``; ``hermes_cli.main`` repeats the
     call for entries that never reach this module). A killed ZIP swap can leave ``hermes_cli/`` itself
     moved aside: the journal-driven restore then runs from that moved-aside copy, the code that wrote
@@ -605,7 +605,7 @@ if not _pm_repair:
         # usable Hermes plus a warning. Activation below is the real gate — a tree whose
         # dependencies cannot load still exits with the repair remedy.
         print(f"hermes: source-update completion failed: {exc}; "
-              "running with the previous dependencies — run `hermes update` to finish it",
+              "running with the previous dependencies — run `iskra update` to finish it",
               file=sys.stderr)
     try:
         recover_if_needed(_root)
@@ -615,7 +615,7 @@ if not _pm_repair:
             print(f"hermes: {message}", file=sys.stderr)
             raise SystemExit(1) from None
         if command_argv(sys.argv[1:])[:1] != ["pm"]:
-            print(f"hermes: {exc}; run `hermes pm repair`", file=sys.stderr)
+            print(f"hermes: {exc}; run `iskra pm repair`", file=sys.stderr)
             raise SystemExit(1) from None
 install_happy_eyeballs_socket_connect()
 export_scratch_tmp_env()

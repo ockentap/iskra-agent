@@ -1,7 +1,7 @@
 """The Webapp's live socket ticket is minted by the server that serves the page.
 
 ``POST /api/webapp/socket-ticket?socket=gateway&profile=<name>`` hands the browser a one-use ticket for
-``/api/ws`` on the same origin (offered as the ``hermes-gateway-ticket.`` subprotocol). It names the
+``/api/ws`` on the same origin (offered as the ``iskra-gateway-ticket.`` subprotocol). It names the
 caller's login (and the profile it names, ``test_webapp_ticket_profile.py``), and the upgrade gate
 redeems it exactly once.
 """

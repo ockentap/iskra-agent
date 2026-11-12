@@ -77,7 +77,7 @@ def test_a_turn_warning_is_not_overwritten():
 
 
 def test_classic_cli_view_prints_the_restart_notice_for_an_interrupted_turn(capsys):
-    """The attached classic CLI (``hermes chat``) prints the notice on stderr; a completed turn's
+    """The attached classic CLI (``iskra chat``) prints the notice on stderr; a completed turn's
     warning stays unprinted there, as before."""
     from hermes_cli.gateway_chat_view import GatewayChatView
 

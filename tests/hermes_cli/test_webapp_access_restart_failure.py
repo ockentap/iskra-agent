@@ -1,7 +1,7 @@
 """A Web Access restart whose child exits without replacing the gateway says why on ``/status``.
 
-The restart route answers ``restart_started: true`` as soon as ``hermes gateway restart`` is
-spawned. When that child exits at once (a missing dependency environment prints ``run `hermes pm
+The restart route answers ``restart_started: true`` as soon as ``iskra gateway restart`` is
+spawned. When that child exits at once (a missing dependency environment prints ``run `iskra pm
 repair```), the old gateway keeps serving the old config, so the pane polling ``/status`` for the
 new one needs the failure and its cause there, not a 90-second timeout.
 """
@@ -26,7 +26,7 @@ def client(monkeypatch):
 @pytest.fixture()
 def restart_child(monkeypatch, tmp_path):
     """The real restart spawn (``_spawn_gateway_restart`` → ``_spawn_hermes_action``, log header
-    included), with the ``hermes gateway restart`` argv swapped for a stand-in child whose output
+    included), with the ``iskra gateway restart`` argv swapped for a stand-in child whose output
     and exit code each test picks: no gateway lifecycle code runs."""
     import hermes_cli._launchers as launchers
     from hermes_cli import web_server
@@ -65,7 +65,7 @@ def _status_after_child_exits(client, pid: int) -> dict:
 def test_a_restart_child_that_exits_at_once_reports_its_last_error_line(client, restart_child):
     restart_child["script"] = (
         "import sys; print('Starting gateway restart...');"
-        "print(\"error: Hermes's dependency environment is missing; run `hermes pm repair`\");"
+        "print(\"error: Hermes's dependency environment is missing; run `iskra pm repair`\");"
         "sys.exit(1)"
     )
 
@@ -76,7 +76,7 @@ def test_a_restart_child_that_exits_at_once_reports_its_last_error_line(client, 
     assert failure == {
         "pid": answer["restart_pid"],
         "exit_code": 1,
-        "reason": "error: Hermes's dependency environment is missing; run `hermes pm repair`",
+        "reason": "error: Hermes's dependency environment is missing; run `iskra pm repair`",
     }
 
 
@@ -110,7 +110,7 @@ def test_a_retry_that_fails_to_spawn_does_not_lend_its_error_to_the_recorded_chi
     from hermes_cli import web_server
 
     monkeypatch.setattr(web_server, "GATEWAY_RESTART_COOLDOWN_SECONDS", 0.0)
-    restart_child["script"] = "import sys; print('first child: run `hermes pm repair`'); sys.exit(1)"
+    restart_child["script"] = "import sys; print('first child: run `iskra pm repair`'); sys.exit(1)"
     first = client.post("/api/webapp-access/restart").json()
     web_server._LAST_GATEWAY_RESTART[1].wait(timeout=10)
 
@@ -125,4 +125,4 @@ def test_a_retry_that_fails_to_spawn_does_not_lend_its_error_to_the_recorded_chi
 
     failure = client.get("/api/webapp-access/status").json()["restart_failure"]
     assert failure["pid"] == first["restart_pid"]
-    assert failure["reason"] == "first child: run `hermes pm repair`"
+    assert failure["reason"] == "first child: run `iskra pm repair`"

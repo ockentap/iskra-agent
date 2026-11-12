@@ -47,7 +47,7 @@ def test_auth_parked_oauth_server_ignores_discovery_until_credentials_change(mon
         assert len(attempts) == 1
 
         token_file.write_text(json.dumps({"access_token": "b", "token_type": "Bearer", "refresh_token": "new"}))
-        _select_new_servers({"cloud": cfg})  # `hermes mcp login` landed: the next pass revives it
+        _select_new_servers({"cloud": cfg})  # `iskra mcp login` landed: the next pass revives it
         await _settle()
         assert len(attempts) == 2
 

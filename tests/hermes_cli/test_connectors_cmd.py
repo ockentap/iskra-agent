@@ -1,4 +1,4 @@
-"""Behaviour contracts for ``hermes connectors``."""
+"""Behaviour contracts for ``iskra connectors``."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Classic `hermes --cli chat` session commands on the shared gateway, driven in a real PTY.
+"""Classic `iskra --cli chat` session commands on the shared gateway, driven in a real PTY.
 
 The classic CLI is main's HermesCLI again (gateway-backed agent and session store), so each
 expectation is main's own output for the same keystrokes (lanes/pushready/probe_cmds.py, main =

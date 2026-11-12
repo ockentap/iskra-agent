@@ -143,7 +143,7 @@ class TestSubscribe:
         assert list(_routes(home).values()) == [first]  # identical: in-flight runs keep their route digest
 
     def test_a_fresh_subscription_ignores_state_left_by_a_removed_route(self, home):
-        name = events._route_name("ambush", "feed.emission.created", ARGS)  # e.g. after `hermes webhook remove`
+        name = events._route_name("ambush", "feed.emission.created", ARGS)  # e.g. after `iskra webhook remove`
         (home / "mcp_event_subscriptions.json").write_text(json.dumps({name: {"cursor": "stale"}}))
         session = FakeSession(_grant())
         _subscribe(session)

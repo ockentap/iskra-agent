@@ -8,7 +8,7 @@ the way the Desktop and CLI do:
 * ``query_runtime_control``: the client half of the pipe identity check must refuse before
   sending anything, with the named ``gateway_elevated`` reason and its remedy, never the
   generic ``cannot verify bootstrap peer process``;
-* ``discover_gateway_endpoint`` (what ``hermes gateway ensure`` and the Desktop boot read):
+* ``discover_gateway_endpoint`` (what ``iskra gateway ensure`` and the Desktop boot read):
   ``inaccessible`` / ``gateway_elevated`` with the same remedy, without any gateway record.
 
 The gateway's handler must never run: no request crosses the elevation boundary.

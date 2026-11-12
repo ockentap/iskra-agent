@@ -58,7 +58,7 @@ def _idle_entry(scratch: Path, name: str) -> Path:
 
 
 def test_a_short_lived_process_still_completes_its_due_prune(tmp_path):
-    """A `hermes` command that exits right after boot still gets its pass: the detached child
+    """A `iskra` command that exits right after boot still gets its pass: the detached child
     removes the idle entry of the (routed) home the command resolved, after the command is gone,
     and leaves the launch home alone. Red on a daemon-thread prune, which dies with the command.
     The user's shell stays the pass's own even when everything between it and the pass exited
@@ -274,7 +274,7 @@ class TestScratchDirPermissionPolicy:
 
     def test_effective_home_marker_does_not_govern_another_homes_scratch(self, tmp_path, monkeypatch):
         # The caller's home decides the policy. A boot caller (``export_scratch_tmp_env``) and
-        # ``hermes doctor`` have already resolved theirs, so the marker lookup must not fall back
+        # ``iskra doctor`` have already resolved theirs, so the marker lookup must not fall back
         # to ``get_hermes_home()``: for a sticky profile with HERMES_HOME unset that lookup warns
         # about the default profile on every command, and it is the wrong home to judge by anyway.
         selected = tmp_path / "home"

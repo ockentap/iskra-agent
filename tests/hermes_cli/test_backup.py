@@ -217,7 +217,7 @@ class TestIterBackupFiles:
         """Both backup entry points must select the identical file set.
 
         Before the walks were unified, the automatic pre-update path pruned
-        ``hermes-agent`` at ANY depth, silently dropping nested skill dirs
+        ``iskra-agent`` at ANY depth, silently dropping nested skill dirs
         like ``skills/autonomous-ai-agents/hermes-agent/`` that the manual
         path preserved. One shared iterator makes that drift impossible;
         this test pins the contract."""
@@ -1095,7 +1095,7 @@ def _break_member(monkeypatch, failing_member: str) -> None:
 
 
 class TestImportAtomicWrites:
-    """`hermes import` must never leave a user's file truncated.
+    """`iskra import` must never leave a user's file truncated.
 
     The pre-fix code did ``open(target, "wb")`` then ``dst.write(src.read())``,
     which zeroes the existing file *before* any replacement bytes exist. These
@@ -1322,7 +1322,7 @@ class TestImportAtomicWrites:
         file whose contents now come from the zip.  Whoever produced the
         archive would then get whatever that file executes as.  The other
         ``utils`` writers can preserve the full mode safely because they
-        re-serialize content this process produced; ``hermes import`` is the
+        re-serialize content this process produced; ``iskra import`` is the
         one write path where the bytes are untrusted, and it is also the path
         that documents ``sudo`` use for owner preservation.
 
@@ -1877,7 +1877,7 @@ class TestFailedZipMemberRecovery:
 
 
 class TestPreUpdateBackup:
-    """Tests for create_pre_update_backup — the auto-backup ``hermes update``
+    """Tests for create_pre_update_backup — the auto-backup ``iskra update``
     runs before touching anything."""
 
 
@@ -1891,7 +1891,7 @@ class TestPreUpdateBackup:
 
     def test_backup_contents_match_full_backup(self, hermes_home):
         """Pre-update backup should include the same user data that
-        ``hermes backup`` would, and should exclude the same directories."""
+        ``iskra backup`` would, and should exclude the same directories."""
         from hermes_cli.backup import create_pre_update_backup
         out = create_pre_update_backup(hermes_home=hermes_home)
         assert out is not None
@@ -1911,7 +1911,7 @@ class TestPreUpdateBackup:
         assert "gateway.pid" not in names
 
     def test_pre_update_zip_does_not_nest_the_pre_update_snapshot(self, hermes_home):
-        """``hermes update`` in ``full`` mode takes the quick snapshot *before*
+        """``iskra update`` in ``full`` mode takes the quick snapshot *before*
         the full zip, so the zip walk sees the snapshot it just made. It must
         skip it — otherwise every pre-update zip ships state.db twice."""
         from hermes_cli.backup import (
@@ -2046,7 +2046,7 @@ class TestRunPreUpdateBackup:
 
 class TestPreMigrationBackup:
     """Tests for create_pre_migration_backup — the auto-backup
-    ``hermes import-agent openclaw`` runs before mutating ~/.hermes/."""
+    ``iskra import-agent openclaw`` runs before mutating ~/.hermes/."""
 
     @pytest.fixture
     def hermes_home(self, tmp_path):
@@ -2058,7 +2058,7 @@ class TestPreMigrationBackup:
 
     def test_restorable_with_hermes_import(self, hermes_home, tmp_path):
         """The zip produced by pre-migration backup must be a valid Hermes
-        backup — `hermes import` should accept it."""
+        backup — `iskra import` should accept it."""
         from hermes_cli.backup import create_pre_migration_backup, _validate_backup_zip
         out = create_pre_migration_backup(hermes_home=hermes_home)
         assert out is not None
@@ -2089,7 +2089,7 @@ class TestPreMigrationBackup:
 # ---------------------------------------------------------------------------
 
 class TestRestoreCronJobsIfEmptied:
-    """`hermes update` config migration can leave cron/jobs.json valid-but-empty,
+    """`iskra update` config migration can leave cron/jobs.json valid-but-empty,
     silently dropping every scheduled job. `restore_cron_jobs_if_emptied` is the
     post-migration safety net that restores from the pre-update snapshot."""
 
@@ -2544,7 +2544,7 @@ class TestMemoryProviderExternalPaths:
 
 
 class TestImportHonorsHermesHomeOverride:
-    """`hermes import` must restore into the home the command runs under.
+    """`iskra import` must restore into the home the command runs under.
 
     Resolving the target through get_default_hermes_root() maps a profile
     home (<root>/profiles/<name>) back to <root>: the import then overwrites
@@ -2701,7 +2701,7 @@ def _write_session_db(path: Path, sessions: int, messages_per_session: int) -> N
 
 
 class TestImportLiveSessionDatabase:
-    """`hermes import` must not swap the inode of a database Hermes holds open.
+    """`iskra import` must not swap the inode of a database Hermes holds open.
 
     Publishing state.db with a rename leaves any live gateway/dashboard/WebUI
     connection reading and writing the unlinked inode, so its sessions vanish

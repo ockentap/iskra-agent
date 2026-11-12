@@ -1,4 +1,4 @@
-"""After the checkout moves, the running ``hermes update`` process imports nothing from the tree.
+"""After the checkout moves, the running ``iskra update`` process imports nothing from the tree.
 
 Once git (or the ZIP swap) writes the new code, every module this interpreter has not loaded yet is
 the REPLACEMENT tree's: importing one mixes generations in one process, and it is also why every

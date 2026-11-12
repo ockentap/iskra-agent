@@ -145,7 +145,7 @@ def kanban_command(args: argparse.Namespace) -> int:
             parser.print_help()
         else:
             print("usage: hermes kanban <action> [options]\n"
-                  "Run 'hermes kanban --help' for the full list of actions.", file=sys.stderr)
+                  "Run 'iskra kanban --help' for the full list of actions.", file=sys.stderr)
         return 0
 
     # Fast-fail for UX only; the durable trust boundary is in kanban_db, since children can

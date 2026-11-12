@@ -1,4 +1,4 @@
-"""A fresh Windows machine for the PR-time install.ps1 -> ``hermes update`` suite.
+"""A fresh Windows machine for the PR-time install.ps1 -> ``iskra update`` suite.
 
 Every file here drives the REAL user entry points on a real Windows runner:
 
@@ -6,7 +6,7 @@ Every file here drives the REAL user entry points on a real Windows runner:
   directory that is not a project, like a user who downloaded it);
 * the ``hermes.exe`` it publishes in ``%LOCALAPPDATA%\\hermes\\bin`` for every later
   command (``--version``, one-shot turns, ``gateway run/status/stop``, ``update``);
-* ``hermes update --yes`` from HEAD to NEXT, a synthetic child of HEAD.
+* ``iskra update --yes`` from HEAD to NEXT, a synthetic child of HEAD.
 
 Only external edges are replaced (tests/install/README.md, "The isolation trick"):
 
@@ -21,7 +21,7 @@ Tool and dependency downloads (uv, the managed Python, wheels, Node) use the net
 exactly like the real installer.
 
 Each machine is a fake user profile: ``USERPROFILE``/``HOME``/``LOCALAPPDATA``/``APPDATA``
-point inside it and ``HERMES_HOME`` is NOT set, so the installer and every ``hermes``
+point inside it and ``HERMES_HOME`` is NOT set, so the installer and every ``iskra``
 command resolve the default ``%LOCALAPPDATA%\\hermes`` the way a real user's do. CI
 puts the profiles in ``C:\\Users`` itself (``HERMES_E2E_PROFILES_ROOT``): the checkout
 carries 159-character paths, so a profile any deeper than a real one would hit MAX_PATH
@@ -481,7 +481,7 @@ class Machine:
             return {}
 
     def spawn_gateway(self, env_extra: dict[str, str] | None = None, *, as_user: bool = False) -> subprocess.Popen:
-        """``hermes gateway run`` through the published launcher, windowless and detached from
+        """``iskra gateway run`` through the published launcher, windowless and detached from
         this console: the shape the Desktop / login item uses to host a gateway.
 
         ``as_user``: under a standard-user token, as a non-elevated login item / Desktop starts it."""
@@ -669,7 +669,7 @@ class Journey:
 
 
 def failure_line(run: Run) -> str:
-    """The first line a ``hermes`` command printed as its failure (``✗ ...``), else ``""``."""
+    """The first line a ``iskra`` command printed as its failure (``✗ ...``), else ``""``."""
     for line in run.stdout.splitlines():
         if line.strip().startswith("✗"):
             return line.strip()
@@ -696,7 +696,7 @@ class Turn:
 
 
 def one_shot_turn(machine: Machine, srv: Any, label: str, *, as_user: bool = False) -> Turn:
-    """``hermes chat -q ... -Q`` through the published launcher against the loopback provider."""
+    """``iskra chat -q ... -Q`` through the published launcher against the loopback provider."""
     from tests.e2e.core.windows._helpers import last_user
     from tests.fakes.fake_llm_provider import Text
 

@@ -245,7 +245,7 @@ _SPLIT_TOOLSETS = {"cli": ["terminal", "browser", "file"]}
 
 
 def test_upgrade_converts_after_the_config_step(tmp_path, monkeypatch):
-    """`hermes update` / Desktop migrate config.yaml to v52 before the left-core pass: the v52 step
+    """`iskra update` / Desktop migrate config.yaml to v52 before the left-core pass: the v52 step
     records the core-era Camofox use, so the pass still converts the home."""
     monkeypatch.setenv("HERMES_HOME", str(tmp_path / "launch"))
     home = _home(tmp_path, env=_SPLIT_ENV, config={"_config_version": 51, "platform_toolsets": _SPLIT_TOOLSETS})
@@ -307,7 +307,7 @@ def test_the_config_yaml_an_env_only_conversion_creates_is_stamped(tmp_path, mon
 
 
 def test_a_plain_save_stamping_an_unversioned_camofox_home_keeps_its_conversion(tmp_path, monkeypatch):
-    """Any config write before the first left-core pass (`hermes config set`, a model switch) stamps an
+    """Any config write before the first left-core pass (`iskra config set`, a model switch) stamps an
     unstamped config.yaml at the current version without running the v52 step; the home still converts."""
     from hermes_cli.config import load_config, save_config
     from hermes_constants import reset_hermes_home_override, set_hermes_home_override
@@ -334,7 +334,7 @@ def test_a_stamped_camofox_home_without_the_plugin_is_told_where_it_went(tmp_pat
     said = []
     assert lcm.migrate_home(home, install=lambda name: pytest.fail("nothing is installed"), say=said.append) == []
     assert len(said) == 1
-    assert "Camofox browser backend moved out of core" in said[0] and "hermes plugins install camofox" in said[0]
+    assert "Camofox browser backend moved out of core" in said[0] and "iskra plugins install camofox" in said[0]
     assert (home / "config.yaml").read_bytes() == before
 
     assert lcm._pending(home, say=said.append, backoff=True) == []
@@ -347,7 +347,7 @@ def test_catalog_miss_names_the_install_command(tmp_path, _fresh):
     said = []
     assert lcm.migrate_home(home, install=lambda name: pytest.fail("no catalog entry"), say=said.append) == []
     assert "cannot find in the plugin catalog yet" in said[0]
-    assert "hermes plugins install camofox" in said[0]
+    assert "iskra plugins install camofox" in said[0]
 
 
 def test_camofox_env_stays_out_of_children():

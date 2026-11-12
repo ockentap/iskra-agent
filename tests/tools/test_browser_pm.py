@@ -103,7 +103,7 @@ def test_execution_acquires_missing_browser_through_pm(browser_store, monkeypatc
 
 
 def test_doctor_fix_publishes_and_reads_the_pm_browser(browser_store, monkeypatch, capsys):
-    """Plain ``hermes doctor`` never acquires Chromium; ``--fix`` acquires it explicitly through PM and reports
+    """Plain ``iskra doctor`` never acquires Chromium; ``--fix`` acquires it explicitly through PM and reports
     the published binary. Only the worker/download boundary is replaced: selection, admission, facts and
     environment composition are the actual PM implementation."""
     from hermes_cli import doctor_tools
@@ -140,7 +140,7 @@ def test_termux_ownership_policy_never_provisions(browser_store, monkeypatch):
     monkeypatch.setattr(pm, "ensure", forbidden)
     assert launcher._maybe_autoinstall_chromium() is False
     assert launcher.chromium_ready()[0] is False
-    doctor_tools._check_chromium(True)  # not even `hermes doctor --fix`
+    doctor_tools._check_chromium(True)  # not even `iskra doctor --fix`
 
 
 def test_cdp_override_does_not_require_pm_browser(browser_store, monkeypatch):
@@ -171,7 +171,7 @@ def test_a_missing_pinned_browser_is_named_in_the_hint(browser_store, tmp_path):
     ok, hint = launcher.chromium_ready()
     assert ok is False
     assert "browser.executable_path" in hint and str(missing) in hint
-    assert "hermes pm install chromium" not in hint
+    assert "iskra pm install chromium" not in hint
 
 
 def test_historical_warmer_is_inert(monkeypatch):

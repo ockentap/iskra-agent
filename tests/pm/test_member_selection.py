@@ -19,7 +19,7 @@ def test_scoped_members_respect_disabled_and_keep_other_profiles(tmp_path, monke
 
 
 def test_manifest_only_member_is_named_after_its_plugin_dir_and_stays_unique(tmp_path):
-    """uv's conflict text names the workspace member (``hermes-plugin-<key> depends on …``);
+    """uv's conflict text names the workspace member (``iskra-plugin-<key> depends on …``);
     a bare path hash left the user with nothing to disable. Two same-named plugins from
     different homes must still be distinct members."""
     import tomllib

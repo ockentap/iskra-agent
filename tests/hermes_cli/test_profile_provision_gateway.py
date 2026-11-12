@@ -1,4 +1,4 @@
-"""``hermes profile create`` through the gateway: the create runs in the caller's profile, refusals keep
+"""``iskra profile create`` through the gateway: the create runs in the caller's profile, refusals keep
 their type and full text, an older or unreachable gateway falls back only when no URL names it, an
 answer that can't be confirmed is never a local create, and two creates of one name in one process end
 in one profile and a clean "already exists"."""
@@ -83,7 +83,7 @@ def test_a_refused_create_answers_with_its_type_and_whole_text(root, monkeypatch
     assert error["message"] == long_text  # Desktop shows it whole
     assert str(refusal_from(rpc_error(error).data)) == long_text  # and the CLI gets it whole too
 
-    huge = "Profile name '" + "n" * 4000 + "' is invalid. Then run `hermes profile create ok`."
+    huge = "Profile name '" + "n" * 4000 + "' is invalid. Then run `iskra profile create ok`."
     monkeypatch.setattr(profile_provision, "provision_profile", _raise(ValueError(huge)))
     error = server._methods["profiles.create"](1, {"name": "other", "no_alias": True})["error"]
     assert error["message"] == huge
@@ -170,7 +170,7 @@ def test_typed_refusals_and_fallbacks(root, monkeypatch):
         create_through_gateway(request)
     assert "secret-in-url" not in str(unreachable.value)
     _gateway(monkeypatch, TimeoutError())
-    with pytest.raises(GatewayCreateError, match="check `hermes profile list`"):
+    with pytest.raises(GatewayCreateError, match="check `iskra profile list`"):
         create_through_gateway(request)
 
 
@@ -452,7 +452,7 @@ def test_a_handler_failure_named_like_a_routing_refusal_is_an_unknown_outcome(ro
 
 
 def test_a_create_with_no_gateway_url_loads_no_gateway_platforms_or_pydantic():
-    """Every ``hermes profile create`` runs this module: naming a URL needs ``gateway.platforms`` (~225
+    """Every ``iskra profile create`` runs this module: naming a URL needs ``gateway.platforms`` (~225
     modules) and reading a gateway's receipt needs pydantic, so neither loads on the way to a local create."""
     import subprocess
     import sys

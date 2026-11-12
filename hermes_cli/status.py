@@ -222,7 +222,7 @@ def _render_gateway(ctx):
         # A satellite profile has no gateway.pid of its own; the default multiplexer is its live process.
         if not snapshot.running and named_profile_served_by_running_multiplexer():
             _kv_flag("Status:", True, "running (via the default-profile multiplexer)", "stopped")
-            _kv("Manage with:", "hermes gateway status   # from the default profile")
+            _kv("Manage with:", "iskra gateway status   # from the default profile")
             return
         _kv_flag("Status:", snapshot.running, "running", "stopped")
         _kv("Manager:", snapshot.manager)
@@ -345,7 +345,7 @@ def _render_deep(ctx):
 
 
 def _render_footer(ctx):
-    _banner(("─" * 60, "  Run 'hermes doctor' for detailed diagnostics", "  Run 'hermes setup' to configure"),
+    _banner(("─" * 60, "  Run 'iskra doctor' for detailed diagnostics", "  Run 'iskra setup' to configure"),
             Colors.DIM)
     print()
 
@@ -405,7 +405,7 @@ def _render_summary(ctx):
         _kv("Gateway:", "unknown")
     _summary_row("Platforms:", _connected_platform_labels, "none configured")
     _kv("Jobs:", _cron_summary())
-    _banner(("  Run 'hermes status --full' for every section",), Colors.DIM)
+    _banner(("  Run 'iskra status --full' for every section",), Colors.DIM)
     print()
 
 

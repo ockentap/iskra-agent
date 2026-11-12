@@ -477,7 +477,7 @@ class TestUpdate:
 
     def test_an_owned_category_keeps_skills_the_installer_added_to_it(self, profile_env):
         """``distribution_owned: [skills/research/]`` owns the author's research skills, not the
-        category: ``hermes skills install`` and agent-created skills land in ``skills/<category>/``
+        category: ``iskra skills install`` and agent-created skills land in ``skills/<category>/``
         too. The category was replaced wholesale, deleting them (the #25120 loss, still live for
         the explicit form the docs show)."""
         staged, plan = self._owned_category(profile_env, "rb")

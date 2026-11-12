@@ -476,7 +476,7 @@ class GeminiFake:
         return f"http://127.0.0.1:{self._server.server_address[1]}"
 
     def child_env(self) -> dict[str, str]:
-        """Env for the ``hermes`` child: route HTTPS through the proxy and trust the fake CA."""
+        """Env for the ``iskra`` child: route HTTPS through the proxy and trust the fake CA."""
         ca = str(self.ca_pem)
         return {"HTTPS_PROXY": self.proxy_url, "https_proxy": self.proxy_url,
                 "HTTP_PROXY": self.proxy_url, "http_proxy": self.proxy_url,

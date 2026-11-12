@@ -566,7 +566,7 @@ class _ShallowLock:
         except OSError as exc:
             raise RuntimeError(f"cannot create shallow lock: {exc}") from exc
         try:
-            os.write(fd, b"hermes shallow maintenance\n")
+            os.write(fd, b"iskra shallow maintenance\n")
         except OSError as exc:
             # A leaked fd would read as a live holder (and pin the file on Windows).
             os.close(fd)

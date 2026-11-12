@@ -30,8 +30,8 @@ def _build_parser() -> argparse.ArgumentParser:
     from hermes_cli import __release_date__, __version__
 
     parser = argparse.ArgumentParser(
-        prog="hermes-agent",
-        description="Legacy single-query Hermes Agent runner. For the full CLI use `iskra`.",
+        prog="iskra-agent",
+        description="Legacy single-query Iskra runner. For the full CLI use `iskra`.",
     )
     parser.add_argument("--version", action="version", version=f"Iskra v{__version__} ({__release_date__})")
     parser.add_argument("prompt", nargs="*", help="query to run (same as --query)")

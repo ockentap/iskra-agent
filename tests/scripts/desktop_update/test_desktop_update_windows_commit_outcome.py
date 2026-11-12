@@ -1,7 +1,7 @@
 """Post-commit outcomes (contract C3) on the real Windows hand-off script.
 
-A real ``windows.ps1`` drives a real published launcher whose ``hermes``
-application is a scripted stand-in: once ``hermes update`` exits 0 the install
+A real ``windows.ps1`` drives a real published launcher whose ``iskra``
+application is a scripted stand-in: once ``iskra update`` exits 0 the install
 is on the new version, so nothing afterwards may report "still on the previous
 version", and the hand-off's own supervision (watchdog, probes, marker
 release) must not turn healthy work into a failure.
@@ -137,7 +137,7 @@ def test_a_result_that_cannot_be_published_leaves_no_tmp_file(tmp_path: Path) ->
 @pytest.mark.parametrize(('receipt', 'ok'), [('interrupted', True), ('partial', True), ('interrupted,another-run', False),
                                              ('failed', False)])
 def test_nonzero_exit_after_the_commit_point_is_installed_with_a_followup(tmp_path: Path, receipt: str, ok: bool) -> None:
-    # Contract C3: `hermes update` exits 130 / 1 AFTER its commit point (Ctrl-C after the code
+    # Contract C3: `iskra update` exits 130 / 1 AFTER its commit point (Ctrl-C after the code
     # moved, a parked autostash). Its own receipt (matched by the correlation id) says so: the
     # result must report the update installed with an owed follow-up, never "update failed".
     code, out, argv, result, _ = _handoff(tmp_path, HANDOFF_RECEIPT=receipt, HANDOFF_EXIT='130')

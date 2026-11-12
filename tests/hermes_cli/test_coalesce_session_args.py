@@ -15,7 +15,7 @@ def _active_provider(monkeypatch, tmp_path, *, with_cli):
 
 
 def test_the_active_memory_providers_command_ends_a_session_name(monkeypatch, tmp_path):
-    """``hermes <provider>`` is registered by the active memory provider, not hardcoded in core."""
+    """``iskra <provider>`` is registered by the active memory provider, not hardcoded in core."""
     _active_provider(monkeypatch, tmp_path, with_cli=True)
     assert _coalesce_session_name_args(["chat", "somemem"]) == ["chat", "somemem"]  # no -c: untouched
     assert _coalesce_session_name_args(["-c", "my", "session", "somemem", "sync"]) == [
@@ -23,7 +23,7 @@ def test_the_active_memory_providers_command_ends_a_session_name(monkeypatch, tm
 
 
 def test_a_provider_without_a_cli_is_part_of_the_session_name(monkeypatch, tmp_path):
-    """A provider that ships no ``cli.py`` registers no ``hermes <name>``, so its name is just a word."""
+    """A provider that ships no ``cli.py`` registers no ``iskra <name>``, so its name is just a word."""
     _active_provider(monkeypatch, tmp_path, with_cli=False)
     assert _coalesce_session_name_args(["-c", "my", "somemem", "notes"]) == ["-c", "my somemem notes"]
 
@@ -34,7 +34,7 @@ class TestCoalesceSessionNameArgs:
     # ── -c / --continue ──────────────────────────────────────────────────
 
     def test_continue_multiword_unquoted(self):
-        """hermes -c Pokemon Agent Dev → -c 'Pokemon Agent Dev'"""
+        """iskra -c Pokemon Agent Dev → -c 'Pokemon Agent Dev'"""
         assert _coalesce_session_name_args(
             ["-c", "Pokemon", "Agent", "Dev"]
         ) == ["-c", "Pokemon Agent Dev"]
@@ -49,7 +49,7 @@ class TestCoalesceSessionNameArgs:
     # ── passthrough (no session flags) ───────────────────────────────────
 
     def test_no_session_flags_passthrough(self):
-        """hermes -w chat -q hello (nothing to merge)"""
+        """iskra -w chat -q hello (nothing to merge)"""
         result = _coalesce_session_name_args(["-w", "chat", "-q", "hello"])
         assert result == ["-w", "chat", "-q", "hello"]
 
@@ -58,7 +58,7 @@ class TestCoalesceSessionNameArgs:
 
 
     def test_stops_at_setup_subcommand(self):
-        """hermes -c my setup → 'setup' is a subcommand, not part of name"""
+        """iskra -c my setup → 'setup' is a subcommand, not part of name"""
         assert _coalesce_session_name_args(
             ["-c", "my", "setup"]
         ) == ["-c", "my", "setup"]

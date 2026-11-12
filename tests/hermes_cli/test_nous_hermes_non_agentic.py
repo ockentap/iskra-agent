@@ -2,7 +2,7 @@
 
 Prior to this check, the warning fired on any model whose name contained
 ``"hermes"`` anywhere (case-insensitive). That false-positived on unrelated
-local Modelfiles such as ``hermes-brain:qwen3-14b-ctx16k`` — a tool-capable
+local Modelfiles such as ``iskra-brain:qwen3-14b-ctx16k`` — a tool-capable
 Qwen3 wrapper that happens to live under the "hermes" tag namespace.
 
 ``is_nous_hermes_non_agentic`` should only match the actual Nous Research

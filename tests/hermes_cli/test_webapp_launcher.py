@@ -1,4 +1,4 @@
-"""``hermes webapp`` opens the browser-hosted Desktop that the gateway serves.
+"""``iskra webapp`` opens the browser-hosted Desktop that the gateway serves.
 
 It builds the Webapp bundle when stale, starts the gateway that serves the current profile (the default
 gateway for a profile it serves, else the profile's own), asks that gateway for a one-use launch link
@@ -119,7 +119,7 @@ def test_a_gateway_started_before_the_webapp_was_turned_on_asks_for_a_restart(wo
     world["answers"]["webapp-status"] = {"ok": True, "result": {"state": "off", "url": None, "reason": None}}
     assert launcher.cmd_webapp(_args()) == 1
     out = capsys.readouterr().out
-    assert "hermes gateway restart" in out
+    assert "iskra gateway restart" in out
     assert world["calls"]["opened"] == []
 
 
@@ -132,10 +132,10 @@ def test_a_webapp_the_gateway_could_not_serve_reports_why_and_how_to_retry(world
                                                                "reason": reason}}
     assert launcher.cmd_webapp(_args()) == 1
     out = capsys.readouterr().out
-    assert reason in out and "hermes gateway restart" in out
+    assert reason in out and "iskra gateway restart" in out
     assert launcher.cmd_webapp(_args(status=True)) == 0
     out = capsys.readouterr().out
-    assert reason in out and "hermes gateway restart" in out
+    assert reason in out and "iskra gateway restart" in out
 
 
 def test_a_launch_refused_for_a_stale_bundle_asks_for_a_build_not_a_restart(world, capsys):

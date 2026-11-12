@@ -22,7 +22,7 @@ def _err(msg: str) -> None:
 def cmd_proxy_start(args: Any) -> int:
     """Run the proxy server in the foreground."""
     if not AIOHTTP_AVAILABLE:
-        _err("hermes proxy requires aiohttp. Run `iskra setup` to install it.")
+        _err("iskra proxy requires aiohttp. Run `iskra setup` to install it.")
         return 1
     provider = getattr(args, "provider", None) or "nous"
     try:
@@ -31,7 +31,7 @@ def cmd_proxy_start(args: Any) -> int:
         _err(f"Error: {exc}")
         return 2
     if not adapter.is_authenticated():
-        auth_hint = getattr(adapter, "auth_hint", f"hermes auth add {adapter.name}")
+        auth_hint = getattr(adapter, "auth_hint", f"iskra auth add {adapter.name}")
         _err(f"Not logged into {adapter.display_name}. Run `{auth_hint}` first.")
         return 2
     from hermes_cli.url_utils import format_url_host
@@ -98,7 +98,7 @@ def cmd_proxy(args: Any) -> int:
     if handler is not None:
         return handler(args)
     _err(
-        "hermes proxy — local OpenAI-compatible proxy that attaches your\n"
+        "iskra proxy — local OpenAI-compatible proxy that attaches your\n"
         "OAuth-authenticated provider credentials to outbound requests.\n"
         "\n"
         "Subcommands:\n"

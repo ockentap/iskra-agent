@@ -72,7 +72,7 @@ def _validate_web_backends(config: dict[str, Any], issues: list[ConfigIssue]) ->
             _issue(issues, "warning",
                    f"web.{_key} is set to '{_val}', but {note} — "
                    "web_search/web_extract will fail until it is changed",
-                   "Run 'hermes tools' and pick a different Web Search & Extract provider")
+                   "Run 'iskra tools' and pick a different Web Search & Extract provider")
 
 
 def _container_slots() -> dict[str, str]:

@@ -70,7 +70,7 @@ async def test_config_creation_retry_does_not_rebind_current_credentials(tmp_pat
 
 def test_dropped_top_level_setting_does_not_wedge_the_session(tmp_path, monkeypatch):
     """A profile that stops defining a frozen top-level setting (an env-routed key the user moved to
-    .env, where ``hermes config set`` writes it) leaves the session running on what its frozen tree
+    .env, where ``iskra config set`` writes it) leaves the session running on what its frozen tree
     holds instead of failing every read of the chat with ``launch_credentials_unavailable``. A
     ROUTE credential that disappeared still refuses, and a settings-only read never needs either."""
     from gateway.session_policy import build_policy, bind_launch_key

@@ -81,7 +81,7 @@ def no_platform_env(monkeypatch):
 
 
 @pytest.mark.parametrize("platform_id, config, env, enabled, configured", [
-    # Dashboard QR onboarding writes both; ``hermes whatsapp`` writes only the env flag.
+    # Dashboard QR onboarding writes both; ``iskra whatsapp`` writes only the env flag.
     pytest.param("whatsapp", _on("whatsapp"), "WHATSAPP_ENABLED=true\n", True, True, id="whatsapp-paired"),
     pytest.param("whatsapp", {}, "WHATSAPP_ENABLED=true\n", True, True, id="whatsapp-env-flag-only"),
     # Declared but never paired: the gateway would not start the bridge.
@@ -260,7 +260,7 @@ class TestProfileScopedMessagingReads:
         payload = resp.json()
         assert payload["env_path"] == str(worker_home / ".env")
         assert payload["gateway_start_command"] == (
-            "hermes -p worker_alpha gateway start"
+            "iskra -p worker_alpha gateway start"
         )
         telegram = _telegram(payload)
         assert telegram["state"] == "startup_failed"
@@ -444,7 +444,7 @@ def test_scoped_enablement_uses_only_own_credentials(client, isolated_profiles, 
 def test_credential_write_hot_serves_a_multiplexed_profile(client, isolated_profiles, monkeypatch, topology):
     """A token saved for a profile the live multiplexer serves is handed to the multiplexer right
     away (``hot_served``), so the UI skips its restart banner. Both Desktop topologies: the dashboard's
-    ``?profile=`` and a pooled ``hermes --profile X serve`` that receives the PUT unscoped (#109088)."""
+    ``?profile=`` and a pooled ``iskra --profile X serve`` that receives the PUT unscoped (#109088)."""
     import hermes_cli.gateway as gateway_cli
     import hermes_cli.gateway_multiplex_served as served_mod
     notified = []

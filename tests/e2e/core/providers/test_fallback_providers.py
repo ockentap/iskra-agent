@@ -1,4 +1,4 @@
-"""Provider fallback (``fallback_providers``) through REAL ``hermes -z`` processes.
+"""Provider fallback (``fallback_providers``) through REAL ``iskra -z`` processes.
 
 Two loopback fakes stand in for two vendors: the primary and the fallback. Everything
 between the CLI and those sockets is real Hermes: config loading, credential resolution,

@@ -1,4 +1,4 @@
-"""`hermes sessions adopt` brings a profile's pre-gateway chats under its gateway, as the host.
+"""`iskra sessions adopt` brings a profile's pre-gateway chats under its gateway, as the host.
 
 The Webapp's browser reaches the gateway through its dashboard mount as the login it authenticated
 (on a loopback bind, the session-token owner). Hermes is single-user, so that login is the machine
@@ -164,7 +164,7 @@ def test_adopt_names_the_upgrade_for_a_store_no_newer_hermes_has_opened(tmp_path
     status, out, err = _refused_adopt(capsys, monkeypatch, home, *argv)
 
     assert status == 1 and out == '', out
-    assert len(err.splitlines()) == 1 and 'older' in err and '`hermes sessions repair`' in err, err
+    assert len(err.splitlines()) == 1 and 'older' in err and '`iskra sessions repair`' in err, err
     assert _store_files(home) == before
 
 

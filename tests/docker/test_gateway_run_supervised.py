@@ -15,7 +15,7 @@ These tests verify the three load-bearing properties of that redirect:
   3. The supervised process itself does NOT recurse — the
      ``HERMES_S6_SUPERVISED_CHILD`` sentinel breaks the loop.
 
-Every ``docker exec`` runs as ``hermes`` per the conftest module
+Every ``docker exec`` runs as ``iskra`` per the conftest module
 docstring; see ``tests/docker/conftest.py`` for rationale.
 """
 from __future__ import annotations
@@ -179,11 +179,11 @@ def test_supervised_gateway_does_not_recurse(
     built_image: str, container_name: str,
 ) -> None:
     """The HERMES_S6_SUPERVISED_CHILD sentinel must prevent the
-    supervised ``hermes gateway run`` from re-entering the redirect.
+    supervised ``iskra gateway run`` from re-entering the redirect.
 
     If recursion happened, every supervised gateway start would itself
     re-dispatch to s6 and exec ``sleep infinity`` — so the supervised
-    gateway slot would never actually run a python ``hermes gateway
+    gateway slot would never actually run a python ``iskra gateway
     run`` process. The slot would oscillate or settle into a state
     with no python in the supervise tree at all.
 
@@ -200,14 +200,14 @@ def test_supervised_gateway_does_not_recurse(
     # over 6s to reach the redirect logic. A fixed sleep would race:
     # if we check too early, the CMD process hasn't exec'd into
     # `sleep infinity` yet and the s6-supervised gateway hasn't
-    # started either — so we'd see the CMD's `hermes gateway run`
+    # started either — so we'd see the CMD's `iskra gateway run`
     # AND the supervised one (2 processes) and falsely conclude
     # recursion. Polling the breadcrumb is the definitive signal
     # that the redirect fired and the CMD process is now `sleep`.
     wait_for_docker_logs(container_name, "s6 supervision")
 
     # Now that the redirect fired, count python processes running
-    # `hermes gateway run`. If the recursion guard fails, s6 would
+    # `iskra gateway run`. If the recursion guard fails, s6 would
     # respawn fresh `gateway run` processes on every cycle, leaving
     # multiple Python-process descendants under the gateway-default
     # supervise tree.
@@ -215,7 +215,7 @@ def test_supervised_gateway_does_not_recurse(
     assert r.returncode == 0
     n = int(r.stdout.strip() or 0)
     assert n <= 1, (
-        f"expected at most one supervised python `hermes gateway run` "
+        f"expected at most one supervised python `iskra gateway run` "
         f"process (the legitimately-supervised gateway); found {n}. "
         f"Recursion guard may have failed. "
         f"ps:\n{docker_exec_sh(container_name, 'ps -eo pid,ppid,cmd').stdout}"

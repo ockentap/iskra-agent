@@ -1,4 +1,4 @@
-"""hermes hooks — inspect and manage shell-script hooks."""
+"""iskra hooks — inspect and manage shell-script hooks."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ def hooks_command(args) -> None:
     sub = getattr(args, "hooks_action", None)
     if not sub:
         print("Usage: hermes hooks {list|test|revoke|doctor}")
-        print("Run 'hermes hooks --help' for details.")
+        print("Run 'iskra hooks --help' for details.")
         return
     handler = _ACTIONS.get(sub)
     if handler is None:

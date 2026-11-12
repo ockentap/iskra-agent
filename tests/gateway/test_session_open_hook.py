@@ -74,7 +74,7 @@ def test_each_open_fires_once_in_the_owning_profile(tmp_path, monkeypatch):
             _wait_done(beta_log, 1)
             wait_until(lambda: _message_count(home, root_sid), timeout=30, what='the first turn to be stored')
             root.close()
-            again = _Wire(home, desc)  # `hermes --resume`: a new client opens the stored session
+            again = _Wire(home, desc)  # `iskra --resume`: a new client opens the stored session
             try:
                 again.call('session.resume', session_id=root_sid)
             finally:

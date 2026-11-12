@@ -5,7 +5,7 @@ child processes via the cross-agent ``AI_AGENT`` standard plus a
 Hermes-specific marker, without clobbering an outer harness.
 
 The AI_AGENT value must equal Hermes' id in the public agent-harness
-registry (``hermes-agent`` in huggingface.js ``agent-harnesses.ts``) —
+registry (``iskra-agent`` in huggingface.js ``agent-harnesses.ts``) —
 standard-var matching there is exact, so any other value is attributed to
 "unknown".
 

@@ -1902,7 +1902,7 @@ def test_docker_env_warnings_never_echo_values(caplog):
 @pytest.mark.parametrize("base", ["default", "profile:research-assistant-for-the-quarterly-ops"])
 def test_workspace_container_labels_identify_it_to_the_orphan_reaper(monkeypatch, base):
     """The orphan reaper must recognise an idle-STOPPED workspace container from the labels the
-    create path actually stamps. ``hermes-task-id`` is truncated to 63 chars, so a profile name of
+    create path actually stamps. ``iskra-task-id`` is truncated to 63 chars, so a profile name of
     36+ chars cut the ``_ws_<digest>`` suffix and the next sweep ``docker rm``-ed the container,
     losing everything installed outside the mounts."""
     monkeypatch.setattr(docker_env, "find_docker", lambda: "/usr/bin/docker")

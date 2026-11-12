@@ -4,9 +4,9 @@ This file is the canary. If anyone removes a guard or weakens it, these
 tests fail. If anyone adds a NEW kill primitive to the codebase without
 adding it to the guard, the corresponding test added here will fail too.
 
-The guard exists to protect the developer's live ``hermes-gateway`` process
+The guard exists to protect the developer's live ``iskra-gateway`` process
 from being SIGTERMed by tests, and every live Hermes systemd unit
-(``hermes-gateway*``, ``hermes-dashboard*``, ``hermes-serve*``) from being
+(``iskra-gateway*``, ``iskra-dashboard*``, ``iskra-serve*``) from being
 restarted or stopped by them. See PR #23397 for the original incident
 (5+ live gateway kills in 3 days). Per Teknium 2026-05-10:
 
@@ -222,11 +222,11 @@ def test_subprocess_run_setsid_systemctl_blocked():
 
 
 def test_host_gateway_start_blocked_but_container_exec_allowed():
-    """A host-side ``hermes gateway start`` spawns a real runtime; the same words addressed to
+    """A host-side ``iskra gateway start`` spawns a real runtime; the same words addressed to
     a container via ``docker exec`` stay inside it and are the Docker harness's business."""
     with pytest.raises(RuntimeError, match="REAL hermes gateway runtime"):
         subprocess.run(["hermes", "-p", "p", "gateway", "start"], check=False)
-    argv = ["docker", "exec", "-u", "hermes", "hermes-test-x", "sh", "-c", "hermes -p p gateway start"]
+    argv = ["docker", "exec", "-u", "hermes", "hermes-test-x", "sh", "-c", "iskra -p p gateway start"]
     # Past the guard the call reaches the real subprocess.run; a missing binary is fine here.
     with pytest.raises(FileNotFoundError):
         subprocess.run(argv, env={"PATH": "/nonexistent"}, check=False)
@@ -365,7 +365,7 @@ def test_subprocess_killall_hermes_blocked():
 def test_subprocess_popen_real_gateway_restart_blocked():
     """``python -m hermes_cli.main gateway restart`` is a detached child that
     inherits the pytest-tmp HERMES_HOME, resolves the developer's real
-    ``hermes-gateway`` unit, and outlives the test (39 six-day orphans squatted
+    ``iskra-gateway`` unit, and outlives the test (39 six-day orphans squatted
     the webhook port, 2026-09-03). Blocked at the spawn primitive."""
     with pytest.raises(RuntimeError, match="live-system guard"):
         subprocess.Popen(

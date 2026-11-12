@@ -79,7 +79,7 @@ _DISPATCH = {
     "status": lambda a: _print_result(pm.status()),
     "transcript": lambda a: _cmd_transcript(last=a.last),
     "say": lambda a: _cmd_say(text=a.text, node=a.node),
-    "stop": lambda a: _print_result(pm.stop(reason="hermes meet stop")),
+    "stop": lambda a: _print_result(pm.stop(reason="iskra meet stop")),
     "node": node_command}  # node subparsers are required=True, so a sub-command is always present
 
 
@@ -188,7 +188,7 @@ def _cmd_install(*, realtime: bool, assume_yes: bool) -> int:
                               "  brew install failed — install them manually")
             print("\n  NOTE: macOS does not auto-route audio. Open\n    System Settings → Sound → "
                   "Input\n  and select 'BlackHole 2ch' before starting a realtime meeting.\n  "
-                  "hermes will not switch your default input for you.")
+                  "iskra will not switch your default input for you.")
     print("\ndone. verify with: hermes meet setup")
     return 0
 
@@ -278,6 +278,6 @@ def _cmd_transcript(last: Optional[int]) -> int:
 
 
 if __name__ == "__main__":  # pragma: no cover
-    parser = argparse.ArgumentParser(prog="hermes meet")
+    parser = argparse.ArgumentParser(prog="iskra meet")
     register_cli(parser)
     sys.exit(meet_command(parser.parse_args()))

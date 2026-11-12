@@ -97,4 +97,4 @@ def test_permissions_status_names_the_stale_tcc_row_for_the_missing_grant(
     out = capsys.readouterr().out
     assert "tccutil reset Accessibility com.trycua.driver" in out
     assert "ScreenCapture" not in out
-    assert "hermes computer-use permissions grant" in out
+    assert "iskra computer-use permissions grant" in out

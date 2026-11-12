@@ -141,7 +141,7 @@ def _kanban_scratch(project, tmp_path, monkeypatch):
                          ids=lambda f: f.__name__.strip("_"))
 def test_workspace_removal_releases_only_its_language_servers(entry, mock_pyright, project, tmp_path,
                                                                  monkeypatch):
-    """Every in-process workspace-removal path (kanban worktree/scratch cleanup, ``hermes -w`` exit, the
+    """Every in-process workspace-removal path (kanban worktree/scratch cleanup, ``iskra -w`` exit, the
     delegate_task worktree prune) shuts down (single-root) or detaches (multi-root) exactly the removed
     root's servers BEFORE the tree goes: the sibling keeps serving diagnostics, the released state is gone
     everywhere, and a repeat release is a no-op."""

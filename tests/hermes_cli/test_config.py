@@ -140,7 +140,7 @@ class TestLoadConfigParseFailure:
     Before issue #23570 this was a single ``print(...)`` that scrolled past
     on the first invocation — users saw aux-fallback misbehavior with no clue
     their config.yaml was being ignored. The helper must:
-      * log at WARNING (so ``hermes logs`` surfaces it)
+      * log at WARNING (so ``iskra logs`` surfaces it)
       * also write to stderr (so it's visible at startup even before
         ``setup_logging()`` has wired up file handlers)
       * dedup on (path, mtime_ns, size) so concurrent loads don't spam
@@ -717,7 +717,7 @@ class TestOptionalEnvVarsRegistry:
     def test_max_iterations_not_offered_as_env_var(self):
         """HERMES_MAX_ITERATIONS must NOT be in OPTIONAL_ENV_VARS (issue #17534).
 
-        Offering it as an editable env var (dashboard, `hermes setup`) lets a
+        Offering it as an editable env var (dashboard, `iskra setup`) lets a
         user write it to .env, recreating the stale ghost that shadows
         config.yaml's agent.max_turns. The iteration budget is configured ONLY
         via config.yaml; HERMES_MAX_ITERATIONS remains a read-only backward-compat
@@ -869,7 +869,7 @@ class TestConfigSupportFloor:
         )
         assert expected_fragment in captured.out
         assert expected_fragment in captured.err
-        assert "run `hermes setup` to regenerate" in captured.out
+        assert "run `iskra setup` to regenerate" in captured.out
         assert "_config_version: 12" in captured.out
         assert any(expected_fragment in w for w in results["warnings"])
         # No 'Config version: X → Y' line — nothing was migrated.
@@ -1865,7 +1865,7 @@ def test_default_config_has_no_duplicate_top_level_keys():
 
 
 class TestConfigCommandFailClosedSurface:
-    """`hermes config set/unset` must exit cleanly (no traceback) when the
+    """`iskra config set/unset` must exit cleanly (no traceback) when the
     fail-closed write guard refuses an unparseable config.yaml."""
 
     def _args(self, **kw):
@@ -1892,7 +1892,7 @@ class TestConfigCommandFailClosedSurface:
 
         assert excinfo.value.code == 1
         err = capsys.readouterr().err
-        assert "formatting error" in err and "`hermes config edit`" in err
+        assert "formatting error" in err and "`iskra config edit`" in err
         assert config_path.read_text(encoding="utf-8") == original
 
     def test_config_command_unset_exits_cleanly_on_broken_yaml(self, tmp_path, capsys):
@@ -1912,7 +1912,7 @@ class TestConfigCommandFailClosedSurface:
 
 
 def test_gateway_multiplex_keys_are_recognized_config_keys():
-    """``hermes config set gateway.multiplex_profiles true`` used to warn 'not a recognized config
+    """``iskra config set gateway.multiplex_profiles true`` used to warn 'not a recognized config
     key' although gateway/config.py reads it; the key (and profile_routes) live in DEFAULT_CONFIG."""
     from hermes_cli.config import _validate_config_key
     from hermes_cli.config_defaults import DEFAULT_CONFIG
@@ -1944,7 +1944,7 @@ def test_empty_dict_default_sections_are_open_containers():
 
 def test_lsp_root_policy_keys_are_recognized_and_off_by_default():
     """``lsp.warmup_timeout`` / ``broken_retry_seconds`` / ``exclude_roots`` (#116446) must be settable via
-    ``hermes config set`` and must default to today's behaviour (no grace, lifetime broken set, no exclusion)."""
+    ``iskra config set`` and must default to today's behaviour (no grace, lifetime broken set, no exclusion)."""
     from hermes_cli.config import _validate_config_key
     for key in ("lsp.warmup_timeout", "lsp.broken_retry_seconds", "lsp.exclude_roots"):
         assert _validate_config_key(key) == (True, None)

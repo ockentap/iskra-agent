@@ -61,9 +61,19 @@ uv run iskra --version        # or: .venv/bin/iskra
 ## Updating from upstream
 
 ```bash
-git remote add upstream https://github.com/NousResearch/hermes-agent.git
-git fetch upstream && git merge upstream/main
+python scripts/iskra_update.py --dry-run   # how far behind
+python scripts/iskra_update.py             # fetch, merge, reapply rebrand, commit
+uv lock && uv sync --python 3.14
 ```
+
+`scripts/iskra_rebrand.py` is the source of truth for the rename: every change
+is a rule, `--check` reports drift and exits non-zero, `--apply` rewrites only
+what upstream put back. The update script resolves conflicts inside the
+rebrand-owned trees in favour of upstream and then re-applies, because nothing
+hand-written lives there. Conflicts anywhere else abort the merge for a human.
+
+The first merge from upstream (6,935 commits, v0.23.0 → 2026-11) needed zero
+conflict resolution: 24/24 rules survived untouched.
 
 Conflicts should be limited to the table above; that is the cost of keeping the
 internal names untouched.

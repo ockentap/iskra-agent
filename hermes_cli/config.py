@@ -335,7 +335,7 @@ def recommended_update_command_for_method(method: str) -> str:
     """Return the update command or guidance for a given install method."""
     if is_nix_install_method(method):
         return _NIX_UPDATE_MSG
-    return _UPDATE_COMMAND_BY_METHOD.get(method, "hermes update")
+    return _UPDATE_COMMAND_BY_METHOD.get(method, "iskra update")
 
 
 def recommended_update_command() -> str:
@@ -1108,7 +1108,7 @@ def print_config_warnings(config: Optional[dict[str, Any]] = None) -> None:
     for ci in issues:
         marker = "\033[31m✗\033[0m" if ci.severity == "error" else "\033[33m⚠\033[0m"
         lines.append(f"  {marker} {ci.message}")
-    lines.append("  \033[2mRun 'hermes doctor' for fix suggestions.\033[0m")
+    lines.append("  \033[2mRun 'iskra doctor' for fix suggestions.\033[0m")
     sys.stderr.write("\n".join(lines) + "\n\n")
 
 
@@ -3483,16 +3483,16 @@ def _run_write_command(fn, *args) -> None:
 
 
 _USAGE_GET = ("Usage: hermes config get <key> [--json] [--raw]", [
-    "hermes config get model", "hermes config get terminal.backend",
-    "hermes config get skills.config --json"], None)
+    "iskra config get model", "iskra config get terminal.backend",
+    "iskra config get skills.config --json"], None)
 _USAGE_SET = ("Usage: hermes config set [--force] <key> <value>", [
-    "hermes config set model anthropic/claude-sonnet-4", "hermes config set terminal.backend docker",
-    "hermes config set OPENROUTER_API_KEY sk-or-..."], [
+    "iskra config set model anthropic/claude-sonnet-4", "iskra config set terminal.backend docker",
+    "iskra config set OPENROUTER_API_KEY sk-or-..."], [
     "", "  --force: skip the unknown-key notice for unrecognized keys,",
     "           and allow a scalar to replace a whole mapping section"])
 _USAGE_UNSET = ("Usage: hermes config unset <key>", [
-    "hermes config unset model", "hermes config unset terminal.backend",
-    "hermes config unset OPENROUTER_API_KEY"], None)
+    "iskra config unset model", "iskra config unset terminal.backend",
+    "iskra config unset OPENROUTER_API_KEY"], None)
 
 
 def _cmd_config_get(args):
@@ -3595,7 +3595,7 @@ def _cmd_config_check(args):
     if missing_config:
         print()
         print(color(f"  {len(missing_config)} new config option(s) available", Colors.YELLOW))
-        print("    Run 'hermes config migrate' to add them")
+        print("    Run 'iskra config migrate' to add them")
 
     from hermes_cli.config_check_diagnostics import config_check_diagnostics
 

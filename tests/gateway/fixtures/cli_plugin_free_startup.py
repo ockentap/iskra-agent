@@ -1,7 +1,7 @@
 """The classic CLI's real startup and command dispatch, in a fresh process, recording every plugin
 discovery / execution entry point it reaches (#134889 PLG-7).
 
-``argv[1]`` is the launch: ``oneshot`` (``_prepare_agent_startup``, as ``hermes chat -q`` runs it) or
+``argv[1]`` is the launch: ``oneshot`` (``_prepare_agent_startup``, as ``iskra chat -q`` runs it) or
 ``interactive`` (main's fast path: discovery deferred to the first turn). The rest of argv are the
 chat flags (``-t terminal``, ``-s <skill>``). The gateway for ``HERMES_HOME`` must already run, with the probe plugin
 (a ``pre_command`` hook, a command, a skill and a toolset) loaded. Prints one JSON line.

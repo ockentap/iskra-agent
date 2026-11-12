@@ -1,5 +1,5 @@
 """Unattended plugin updates: catalog installs ride ``plugins.auto_apply``, one updater per plugin, the
-Desktop/TUI RPC switch + update-all, and the catalog notice after ``hermes update``."""
+Desktop/TUI RPC switch + update-all, and the catalog notice after ``iskra update``."""
 
 from __future__ import annotations
 
@@ -114,7 +114,7 @@ def test_hermes_update_names_catalog_pins_it_moved_and_rearms_the_check(home, mo
 
 
 def _held_install_metadata(home):
-    """`hermes plugins install cat-plug --ref <older sha>`: pinned, off the catalog pin (empty `pin`), next
+    """`iskra plugins install cat-plug --ref <older sha>`: pinned, off the catalog pin (empty `pin`), next
     to a catalog install that is simply behind its pin."""
     (home / "plugins" / ".install-metadata.json").write_text(json.dumps({
         "held": {"pinned": True, "revision": "a" * 40,
@@ -172,7 +172,7 @@ def test_widened_pin_is_one_review_line_not_a_traceback(home, caplog):
                                 config_get=lambda _s, key: True if key == "auto_apply" else 24)
     lines = [r for r in caplog.records if "wide" in r.getMessage()]
     assert [r.getMessage() for r in lines if "review" in r.getMessage()] == [
-        "plugin wide has an update that needs your review: run `hermes plugins update wide`"]
+        "plugin wide has an update that needs your review: run `iskra plugins update wide`"]
     assert not any(r.exc_info for r in lines)
 
 

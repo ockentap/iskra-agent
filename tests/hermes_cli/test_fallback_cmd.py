@@ -1,4 +1,4 @@
-"""Tests for `hermes fallback` — chain reading, add/remove/clear, legacy migration."""
+"""Tests for `iskra fallback` — chain reading, add/remove/clear, legacy migration."""
 from __future__ import annotations
 
 import types

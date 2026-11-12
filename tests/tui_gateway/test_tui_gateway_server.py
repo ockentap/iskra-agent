@@ -4478,7 +4478,7 @@ def test_config_sync_config_wins_over_env_seed(monkeypatch):
 
 
 def test_config_sync_ignores_env_seed_without_config_model(monkeypatch):
-    # `hermes --tui -m <model>` sets HERMES_MODEL/HERMES_INFERENCE_MODEL as a
+    # `iskra --tui -m <model>` sets HERMES_MODEL/HERMES_INFERENCE_MODEL as a
     # launch-scoped seed. When config.yaml has NO model.default (typical
     # custom-provider-only setup), the sync must NOT adopt the env seed as a
     # config target — doing so replayed the -m flag as a /model switch and
@@ -4631,7 +4631,7 @@ def test_make_agent_passes_configured_fallback_chain(monkeypatch):
 
 def test_make_agent_forwards_agent_disabled_toolsets(monkeypatch):
     """``agent.disabled_toolsets`` must reach AIAgent in gateway sessions too: only the AIAgent
-    filter strips a toolset out of composite defaults (``hermes-cli``), which the gateway's
+    filter strips a toolset out of composite defaults (``iskra-cli``), which the gateway's
     enabled-list resolver can't reach into (#44499)."""
     captured = _capture_make_agent_kwargs(monkeypatch)
     monkeypatch.setattr(server, "_load_enabled_toolsets", lambda *_a, **_kw: ["file"])
@@ -9417,7 +9417,7 @@ def test_enable_gateway_prompts_sets_gateway_env(monkeypatch):
 
 
 def test_setup_status_answers_from_the_bootstrap_record_once_it_exists(monkeypatch):
-    """Under ``hermes serve`` the boot bootstrap records who carries inference; ``setup.status``
+    """Under ``iskra serve`` the boot bootstrap records who carries inference; ``setup.status``
     reports its record (blocking for it while it is in flight) instead of re-probing, so a client's
     first poll sees the boot's answer rather than racing it."""
     import threading
@@ -16991,13 +16991,13 @@ def test_session_branch_uses_persisted_display_history_after_compaction(monkeypa
 
 
 # --------------------------------------------------------------------------
-# model.options — curated-list parity with `hermes model` and classic /model
+# model.options — curated-list parity with `iskra model` and classic /model
 # --------------------------------------------------------------------------
 
 
 def test_model_options_does_not_overwrite_curated_models(monkeypatch):
     """The TUI model.options handler must surface the same curated model
-    list as `hermes model` and the classic CLI /model picker.
+    list as `iskra model` and the classic CLI /model picker.
 
     Regression: earlier versions of this handler unconditionally replaced
     each provider's curated ``models`` field with ``provider_model_ids()``
@@ -17507,7 +17507,7 @@ def test_session_active_list_excludes_finalized_sessions(monkeypatch):
     that window ``session.active_list`` would otherwise still report the dead
     session, which is exactly the footer "N sessions" count that only ever grew
     until a gateway restart. A live session on the real stdio transport (the
-    standalone ``hermes --tui`` case) must still be reported.
+    standalone ``iskra --tui`` case) must still be reported.
     """
     class _DB:
         def get_session_title(self, key):

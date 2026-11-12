@@ -1,7 +1,7 @@
 """Tests for parent→subparser flag propagation.
 
 When flags like --yolo, -w, -s exist on both the parent parser and the 'chat'
-subparser, placing the flag BEFORE the subcommand (e.g. 'hermes --yolo chat')
+subparser, placing the flag BEFORE the subcommand (e.g. 'iskra --yolo chat')
 must not silently drop the flag value.
 
 Regression test for: argparse subparser default=False overwriting parent's
@@ -68,7 +68,7 @@ class TestChatVerboseArg:
         (["chat"], {}),
     ])
     def test_cmd_chat_forwards_the_launch_key_and_endpoint_to_the_classic_cli(self, monkeypatch, argv, expected):
-        """`hermes chat --cli --api-key K --base-url U` must launch the classic CLI on K and U, not on the
+        """`iskra chat --cli --api-key K --base-url U` must launch the classic CLI on K and U, not on the
         profile's credential; the TUI refuses both flags and points here."""
         import types
 
@@ -102,7 +102,7 @@ class TestAcceptHooksOnAgentSubparsers:
     position (before the subcommand, between group/subcommand, and
     after the leaf subcommand) for gateway/cron/acp.  Regression
     against prior behaviour where the flag only worked on the root
-    parser and `chat`, so `hermes gateway run --accept-hooks` failed
+    parser and `chat`, so `iskra gateway run --accept-hooks` failed
     with `unrecognized arguments`."""
 
     ARGVS = [
@@ -148,7 +148,7 @@ print(json.dumps(results))
 """
 
     def test_accepted_at_every_position(self):
-        """Every `hermes <argv>` must exit 0 (help) rather than failing
+        """Every `iskra <argv>` must exit 0 (help) rather than failing
         with `unrecognized arguments`."""
         import json
         import subprocess
@@ -175,7 +175,7 @@ class TestChatSubparserInheritedValueFlags:
     """Verify -t/--toolsets, -m/--model and --provider survive parent→chat
     subparser dispatch.
 
-    Regression test for #28780: `hermes -t web chat` silently dropped the
+    Regression test for #28780: `iskra -t web chat` silently dropped the
     toolset because the chat subparser re-declared `-t/--toolsets` with
     `default=None`, which clobbered the top-level parser's value during
     subparser dispatch.
@@ -234,7 +234,7 @@ class TestChatSubparserInheritedValueFlags:
         assert not offenders, (
             "Chat subparser redeclares these top-level flags without "
             "default=argparse.SUPPRESS; they will silently clobber the "
-            "top-level value when used as `hermes <flag> <value> chat`:\n  "
+            "top-level value when used as `iskra <flag> <value> chat`:\n  "
             + "\n  ".join(f"{opts} dest={dest} default={d!r}"
                           for opts, dest, d in offenders)
         )
@@ -243,7 +243,7 @@ class TestChatSubparserInheritedValueFlags:
 @pytest.mark.parametrize("argv", [
     ["--tui", "--checkpoints"], ["--checkpoints", "chat"], ["chat", "--tui", "--checkpoints"]])
 def test_checkpoints_parses_at_the_top_level_and_survives_chat(argv):
-    """`hermes --tui --checkpoints` is the TUI launch the docs and gateway refusals name; it was
+    """`iskra --tui --checkpoints` is the TUI launch the docs and gateway refusals name; it was
     declared only on `chat`, so the top-level form failed with "unrecognized arguments"."""
     from hermes_cli._parser import build_top_level_parser
     assert build_top_level_parser()[0].parse_args(argv).checkpoints is True

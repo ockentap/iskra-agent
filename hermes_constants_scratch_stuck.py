@@ -188,5 +188,5 @@ def record(root: Path, entry: Path, blockers: list[str], audit) -> None:
 
 
 def stuck_entries(root: Path) -> list[Path]:
-    """Entries the prune is currently skipping as not removable (for ``hermes doctor``)."""
+    """Entries the prune is currently skipping as not removable (for ``iskra doctor``)."""
     return [root / name for name in sorted(load_skips(root, persist=False))]

@@ -1,8 +1,8 @@
-"""Global emergency stop (`hermes pause` / `hermes resume`) — agent/estop.py.
+"""Global emergency stop (`iskra pause` / `iskra resume`) — agent/estop.py.
 
 The ESTOP sentinel is a resumable pause for NEW work only: cron dispatch,
 kanban dispatch, and new gateway turns are halted while it is engaged; work
-already in flight is never touched. Removing the sentinel (`hermes resume`)
+already in flight is never touched. Removing the sentinel (`iskra resume`)
 restores normal operation with no restart.
 
 Ported from: gastownhall/gastown estop.go (MIT); related prior art: #26778
@@ -289,7 +289,7 @@ async def test_gateway_slash_commands_bypass_estop(hermes_home):
         reply = await runner._handle_message(_FakeCmdEvent())
     except Exception:
         return
-    assert reply is None or "hermes is paused" not in (reply or "").lower()
+    assert reply is None or "iskra is paused" not in (reply or "").lower()
 
 
 class _FakePauseEvent(_FakeEvent):
@@ -342,7 +342,7 @@ def test_profile_gateway_honors_canonical_root_estop(tmp_path, monkeypatch):
     """fleet-analyst-class: HERMES_HOME is a profile dir; pause lives at root.
 
     A process launched with HERMES_HOME=~/.hermes/profiles/fleet-analyst must
-    still treat ~/.hermes/ESTOP as engaged. Otherwise `hermes pause` is not
+    still treat ~/.hermes/ESTOP as engaged. Otherwise `iskra pause` is not
     a global emergency stop (t_7b65ff88).
     """
     root = tmp_path / "hermes-root"

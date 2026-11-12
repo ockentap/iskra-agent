@@ -1,8 +1,8 @@
 """Tests for the configurable default interface (cli vs tui).
 
-`hermes` launches the classic prompt_toolkit REPL by default, but users can
+`iskra` launches the classic prompt_toolkit REPL by default, but users can
 flip ``display.interface: tui`` in config.yaml to make the modern Ink TUI the
-default for bare ``hermes`` / ``hermes chat``. Explicit flags always win:
+default for bare ``iskra`` / ``iskra chat``. Explicit flags always win:
 
     --cli                forces the classic REPL (highest precedence)
     --tui                forces the TUI
@@ -13,7 +13,7 @@ default for bare ``hermes`` / ``hermes chat``. Explicit flags always win:
 
 The no-TTY gate exists because ambient TUI preferences must never hijack
 non-interactive invocations: kanban workers / cron / pipelines run
-``hermes … chat -q`` on a pipe, and the TUI's no-TTY bail-out exits 0
+``iskra … chat -q`` on a pipe, and the TUI's no-TTY bail-out exits 0
 without doing the work (a kanban worker then dies with "protocol
 violation" on every attempt).
 
@@ -127,7 +127,7 @@ class TestWantsTuiEarly:
     # REGRESSION (#116902): mouse-residue suppression reads the interface
     # before `_apply_profile_override()` sets HERMES_HOME, so a cache that
     # ignored the home answered every later caller with the DEFAULT home's
-    # interface — `hermes -p <name>` booted the wrong one.
+    # interface — `iskra -p <name>` booted the wrong one.
     def test_reread_after_the_profile_rehomes_the_process(self, tmp_path, monkeypatch):
         default_home = tmp_path / "default"
         profile_home = tmp_path / "profiles" / "coder"

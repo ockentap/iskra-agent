@@ -1,10 +1,10 @@
-"""`hermes gateway stop|restart|start` from a sandbox home must never operate ANOTHER install's systemd unit.
+"""`iskra gateway stop|restart|start` from a sandbox home must never operate ANOTHER install's systemd unit.
 
-Real incident: an e2e helper ran `hermes gateway stop` with a throwaway ``HOME`` and
+Real incident: an e2e helper ran `iskra gateway stop` with a throwaway ``HOME`` and
 ``HERMES_HOME=$HOME/.hermes`` on a host whose production gateway is the system unit
-``hermes-gateway.service`` (``Environment=HERMES_HOME=/root/.hermes``). The sandbox home is the
+``iskra-gateway.service`` (``Environment=HERMES_HOME=/root/.hermes``). The sandbox home is the
 "default" home relative to its own ``HOME``, so the service name resolved to the bare
-``hermes-gateway``; system units are global, so that unit "existed"; ``_sync_hermes_home_from_systemd_unit``
+``iskra-gateway``; system units are global, so that unit "existed"; ``_sync_hermes_home_from_systemd_unit``
 then adopted the production home and ``systemctl stop hermes-gateway`` took every bot offline.
 """
 import os

@@ -679,7 +679,7 @@ def auth_refresh_command(args) -> None:
 def _moved_auth_hint(action: str, provider: str) -> str:
     """``iskra auth status|logout spotify`` after Spotify left core for its plugin's own command."""
     from hermes_cli.left_core_migration import moved_command_hint
-    return moved_command_hint("hermes auth", provider, action)
+    return moved_command_hint("iskra auth", provider, action)
 
 
 def auth_status_command(args) -> None:

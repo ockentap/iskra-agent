@@ -508,7 +508,7 @@ def test_peer_delivery_command_pins_registry_profile_for_secondary_bots(
     tmp_path, monkeypatch
 ):
     """A secondary-profile bot's peer DM must run in the registry-owning
-    profile (#93935). `hermes peer` resolves bot_peers through
+    profile (#93935). `iskra peer` resolves bot_peers through
     profile-scoped load_config(); unpinned, the subprocess inherits the
     calling bot's profile and dies with "No peer named" even though the
     tool-side roster (read from the machine-root config) validated the
@@ -564,7 +564,7 @@ def test_peer_delivery_command(tmp_path, monkeypatch):
 
 def test_delivery_pins_the_hermes_entrypoint_beside_this_interpreter(tmp_path, monkeypatch):
     """A background delivery must not rely on PATH: the runner's service context
-    lacks the gateway's venv bin dir, so a bare ``hermes`` resolves to a system
+    lacks the gateway's venv bin dir, so a bare ``iskra`` resolves to a system
     install whose shebang picks the wrong interpreter and dies on import (#108628).
     With no published install launcher, both transports invoke the entrypoint beside
     this interpreter instead; a published launcher outranks that sibling (#124868)."""
@@ -621,8 +621,8 @@ def test_peer_delivery_author_carries_the_sender_hostname_and_local_stays_bare(t
 
 
 def test_renamed_primary_signs_with_its_friendly_name_and_is_reachable_by_it(tmp_path, monkeypatch):
-    """#89720: `hermes profile rename default Maia` writes profile.yaml ``display_name`` (no Bot Mode
-    title). The primary must then sign `Maia (@hermes)`, not `hermes (@hermes)`, and a teammate must
+    """#89720: `iskra profile rename default Maia` writes profile.yaml ``display_name`` (no Bot Mode
+    title). The primary must then sign `Maia (@hermes)`, not `iskra (@hermes)`, and a teammate must
     reach it as `maia` / `@maia` — the tag the Desktop roster inserts — while `@hermes` keeps resolving.
     A Bot Mode title outranks the display_name in the signature, as in the Desktop's botFriendlyNames."""
     calls = _capture_spawn(monkeypatch)

@@ -1,6 +1,6 @@
 """The classic CLI's long live session, with a per-process witness (#134889 T24).
 
-Ported from the local dogfood harness used on #106742 (``dogfood/drive.py``): one real ``hermes``
+Ported from the local dogfood harness used on #106742 (``dogfood/drive.py``): one real ``iskra``
 (``display.interface: cli``) session in tmux against a loopback ``FakeLLMServer`` keyed on the
 ``LIVEnn`` marker in the latest user message (zero spend), driven through tool turns, approval and
 clarify modals, a background process, delegation, a sweep of slash commands, side tasks

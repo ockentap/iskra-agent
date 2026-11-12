@@ -20,7 +20,7 @@ def _screen_status(args) -> int:
         return 1
     if not st.installed:
         print("Bot Desktop: packages missing → " + ", ".join(st.missing))
-        print("  Install: " + (st.install_command or "hermes computer-use screen install"))
+        print("  Install: " + (st.install_command or "iskra computer-use screen install"))
         return 1
     if st.running:
         holder = lease.public_view(lease.get())

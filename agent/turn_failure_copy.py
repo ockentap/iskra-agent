@@ -461,11 +461,11 @@ def oauth_relogin_command(provider: Any) -> str:
 
     slug = str(provider or "").strip().lower()
     if slug == "nous":
-        return f"hermes {profile_cli_selector()}portal"
+        return f"iskra {profile_cli_selector()}portal"
     if _login_owned_by_external_cli(slug):
         # `auth add` refuses a plugin with no auth_handler; the model flow runs the vendor CLI's login.
-        return f"hermes {profile_cli_selector()}model"
-    return f"hermes {profile_cli_selector()}auth add {slug} --type oauth"
+        return f"iskra {profile_cli_selector()}model"
+    return f"iskra {profile_cli_selector()}auth add {slug} --type oauth"
 
 
 def _login_owned_by_external_cli(slug: str) -> bool:
@@ -483,12 +483,12 @@ def relogin_command_hint(provider: Any) -> str:
 
     slug = str(provider or "").strip().lower()
     if not slug:
-        return f"hermes {profile_cli_selector()}auth add <provider>"
+        return f"iskra {profile_cli_selector()}auth add <provider>"
     from agent.error_surface import auth_kind
 
     if _login_owned_by_external_cli(slug) or auth_kind(slug) == "oauth":
         return oauth_relogin_command(slug)
-    return f"hermes {profile_cli_selector()}auth add {slug}"
+    return f"iskra {profile_cli_selector()}auth add {slug}"
 
 
 def nonretryable_copy(

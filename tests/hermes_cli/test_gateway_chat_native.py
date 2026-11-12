@@ -1,6 +1,6 @@
 """Native PTY clients against an ordinary daemon and loopback model only.
 
-`hermes --cli chat` (interactive and -q/-Q) is main's HermesCLI again, its agent and session store the
+`iskra --cli chat` (interactive and -q/-Q) is main's HermesCLI again, its agent and session store the
 gateway's; `-z` stays on the gateway transport client. The CLI process may read state.db (maintainer
 ruling) but builds no AIAgent, no GatewayRunner and no SessionDB writer. The thin client's
 `/approve <id>` detach/reconnect leg is retired: main's classic approval is the modal the A/B harness

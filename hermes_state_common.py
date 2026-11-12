@@ -306,7 +306,7 @@ AUTO_VACUUM_MIN_FREELIST_RATIO = 0.25
 # state_meta key ``fts_storage_version``. The main schema version advances
 # freely on open (so future migrations always land); the FTS *layout* only
 # reaches the current version when a DB is either born fresh or explicitly
-# optimized via ``hermes sessions optimize-storage``. A legacy DB sits at
+# optimized via ``iskra sessions optimize-storage``. A legacy DB sits at
 # layout 0 (marker absent) with a working inline index until the user opts in.
 #   1 = v23 external-content layout with a tool-row-excluded trigram
 #   2 = trigram also excludes structured tool_calls JSON
@@ -1168,7 +1168,7 @@ FTS_REBUILD_DEFERRAL_KEY = "fts_rebuild_deferral"
 
 # ── Legacy (v22 / inline-content) FTS DDL ──────────────────────────────
 # Used ONLY to keep an existing pre-v23 install's search working and its
-# triggers repairable UNTIL the user opts into `hermes db optimize`. This is
+# triggers repairable UNTIL the user opts into `iskra db optimize`. This is
 # the exact inline shape v11..v22 shipped: each virtual table stores its own
 # copy of ``content || tool_name || tool_calls`` and the trigram table indexes
 # every row (including role='tool'). We never CREATE these on a fresh install —
@@ -1245,7 +1245,7 @@ END;
 # `<db>.repair.lock` (offline schema surgery, minutes in VACUUM).  Lives here: mixins cannot import hermes_state.
 
 # ── Cross-process full-FTS-rebuild admission (single authority) ────────────── Several independent Hermes
-# processes routinely share one state.db (gateway service, the Desktop app's `hermes serve` backend,
+# processes routinely share one state.db (gateway service, the Desktop app's `iskra serve` backend,
 # interactive CLI sessions, the TUI slash worker). A full structural FTS rebuild — the FTS5 'rebuild'
 # command or the drop/recreate script in `_recover_stale_fts` — must only ever run in ONE of them at a time:
 # two concurrent rebuilds collide on write and have structurally corrupted state.db in production (PR

@@ -66,7 +66,7 @@ _PYTEST_LAUNCHER_NAMES = frozenset({"pytest", "py.test", "pytest.exe", "py.test.
 #: The repo's test runner: under its fork server (HERMES_TEST_FORKSERVER) a test
 #: process has no ``python -m pytest`` ancestor, only ``python .../run_tests_parallel.py``.
 #: It counts only as the script a Python interpreter runs: a prompt or an editor
-#: naming the file (``hermes chat -q "fix scripts/run_tests_parallel.py"``) is no test.
+#: naming the file (``iskra chat -q "fix scripts/run_tests_parallel.py"``) is no test.
 _TEST_RUNNER_SCRIPT = "run_tests_parallel.py"
 
 #: Memoised ancestry answer: the tree above us doesn't change; keep the hot path free.

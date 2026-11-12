@@ -3007,7 +3007,7 @@ def _cli_turn(session_id: str, parent_session_id: str = "") -> None:
 
 
 def test_finite_cli_runs_report_their_own_entrypoint(direct_runtime, tmp_path, monkeypatch):
-    """`hermes -z` / `chat -q` / `-Q` runs (HERMES_SINGLE_QUERY_SESSION) report `one_shot`, a
+    """`iskra -z` / `chat -q` / `-Q` runs (HERMES_SINGLE_QUERY_SESSION) report `one_shot`, a
     dispatcher-spawned one (kanban worker, A2A forward) `background`; the REPL stays `interactive`,
     and a delegated child or a non-CLI surface keeps its own entrypoint inside a finite run."""
     monkeypatch.delenv("HERMES_SINGLE_QUERY_SESSION", raising=False)

@@ -68,7 +68,7 @@ class TestEffectiveRuntimeProvider:
 
 
 class TestFallbackEntryRuntimeKwargs:
-    """One kwargs shape for every resolution-time walker and ``hermes fallback check``."""
+    """One kwargs shape for every resolution-time walker and ``iskra fallback check``."""
 
     def test_carries_provider_model_base_url_and_entry_key(self, monkeypatch):
         from hermes_cli.fallback_config import fallback_entry_runtime_kwargs

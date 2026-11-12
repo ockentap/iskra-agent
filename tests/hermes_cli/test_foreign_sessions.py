@@ -316,7 +316,7 @@ def test_import_is_written_by_the_gateway_not_this_process(tmp_path, gateway, mo
 
 @pytest.mark.asyncio
 async def test_imported_chat_resumes_writable_as_cli(tmp_path, monkeypatch):
-    """``hermes --resume @claude`` continues the import as an ordinary CLI session, not a read-only mount."""
+    """``iskra --resume @claude`` continues the import as an ordinary CLI session, not a read-only mount."""
     from gateway import run
     from gateway.config import GatewayConfig
     from gateway.session import SessionStore

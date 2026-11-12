@@ -379,7 +379,7 @@ class TestGatewayRuntimeStatus:
 
         Per-profile Docker supervision: ``coder``'s gateway died leaving a
         ``gateway_state=running`` record at PID 139.  The OS then recycled 139
-        onto the live *default* gateway (``hermes gateway run``).  The recorded
+        onto the live *default* gateway (``iskra gateway run``).  The recorded
         ``start_time`` is absent (older state file), so the start-time PID-reuse
         guard does not catch it.  Without the profile scope the live command
         line still ``looks_like_gateway`` and ``coder`` is wrongly reported up.
@@ -396,7 +396,7 @@ class TestGatewayRuntimeStatus:
         monkeypatch.setattr(status, "_get_process_start_time", lambda pid: None)
         # PID 139 is now the live DEFAULT gateway (bare, no -p coder).
         monkeypatch.setattr(
-            status, "_read_process_cmdline", lambda pid: "hermes gateway run --replace"
+            status, "_read_process_cmdline", lambda pid: "iskra gateway run --replace"
         )
 
         assert (
@@ -419,7 +419,7 @@ class TestGatewayRuntimeStatus:
         monkeypatch.setattr(status, "_pid_exists", lambda pid: True)
         monkeypatch.setattr(status, "_get_process_start_time", lambda pid: 1000)
         for cmdline in (
-            "hermes -p coder gateway run --replace",
+            "iskra -p coder gateway run --replace",
             "/opt/hermes/.venv/bin/hermes --profile coder gateway run --replace",
             "hermes_home=/opt/data/profiles/coder hermes gateway run --replace",
         ):
@@ -436,11 +436,11 @@ class TestGatewayRuntimeStatus:
         (#100817), while a foreign ``-p coder`` keeps being rejected."""
         default_home = Path("/opt/hermes-data")
         for cmdline in (
-            "hermes --profile default gateway run --replace --external-supervisor",
+            "iskra --profile default gateway run --replace --external-supervisor",
             "/opt/hermes/.venv/bin/hermes -p default gateway run",
         ):
             assert status._command_line_belongs_to_profile(cmdline, default_home) is True, cmdline
-        assert status._command_line_belongs_to_profile("hermes -p coder gateway run", default_home) is False
+        assert status._command_line_belongs_to_profile("iskra -p coder gateway run", default_home) is False
 
     def test_command_line_belongs_to_profile_normalizes_separators(self):
         """A Windows argv renders HERMES_HOME with backslashes while the
@@ -465,7 +465,7 @@ class TestGatewayRuntimeStatus:
         default_home = Path("/opt/hermes-data")
         assert not status._command_line_belongs_to_profile("HERMES_HOME=/opt/hermes-data2 hermes gateway run", default_home)
         assert status._command_line_belongs_to_profile("HERMES_HOME=/opt/hermes-data hermes gateway run", default_home)
-        assert status._command_line_belongs_to_profile("hermes gateway run", default_home)
+        assert status._command_line_belongs_to_profile("iskra gateway run", default_home)
 
     def test_command_line_belongs_to_profile_matches_own_home_spellings_only(self):
         """Token-bounded value AND name: quoted values (ps/wmic re-quoting) and a trailing separator
@@ -1351,7 +1351,7 @@ class TestPlannedStopMarker:
         ``_get_process_start_time`` returns None on macOS / native Windows
         (no ``/proc/<pid>/stat``). The planned-stop watcher only runs there,
         so if the authoritative consume required a non-None start_time match
-        it would always return False — and ``hermes gateway stop`` would be
+        it would always return False — and ``iskra gateway stop`` would be
         misclassified as an unexpected ``UNKNOWN`` exit, exit 1, and revived
         by the service manager (the very crash loop #34597 set out to fix).
         With start_time unavailable on BOTH sides we fall back to PID
@@ -1786,7 +1786,7 @@ def test_strict_gateway_identity_rejects_reused_pid(tmp_path, monkeypatch):
 def test_strict_gateway_identity_adopts_held_lock_when_pid_file_is_gone(tmp_path, monkeypatch):
     """A held lock whose record validates against the live process IS the gateway's identity: a
     --replace relaunch (or a launch-service gateway, #110166) leaves gateway.lock without
-    gateway.pid, and raising there aborted every following `hermes update` (#123430)."""
+    gateway.pid, and raising there aborted every following `iskra update` (#123430)."""
     pid_path = tmp_path / "gateway.pid"
     lock_path = tmp_path / "gateway.lock"
     record = {"pid": 123, "start_time": 10.0, "kind": "hermes-gateway",
@@ -1824,7 +1824,7 @@ def test_pid_record_names_the_entry_point_under_an_inline_launcher(tmp_path, mon
 def test_retained_gateway_state_keeps_watchdog_degraded_like_startup_failed():
     """A watchdog-stamped ``degraded`` of a dead process is a current failure under the same rule as
     ``startup_failed`` (#113372): kept while the operator wants the gateway running, ``stopped`` once
-    ``hermes gateway stop`` records the intent. The startup-time ``degraded`` (retryable platforms, no
+    ``iskra gateway stop`` records the intent. The startup-time ``degraded`` (retryable platforms, no
     watchdog exit_reason) of a dead process is just ``stopped``."""
     watchdog = {"gateway_state": "degraded", "exit_reason": "loop_liveness_watchdog"}
     assert status.retained_gateway_state(watchdog) == "degraded"

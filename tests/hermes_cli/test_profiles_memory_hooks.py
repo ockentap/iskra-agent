@@ -212,7 +212,7 @@ def test_the_hook_sees_the_new_profiles_configured_secret_sources(profile_env, m
 
 
 def test_an_installed_memory_provider_name_is_not_a_free_alias(profile_env, monkeypatch):
-    """A memory provider registers ``hermes <name>``; core no longer hardcodes which names those are."""
+    """A memory provider registers ``iskra <name>``; core no longer hardcodes which names those are."""
     import plugins.memory as memory_pkg
     from hermes_cli.profiles import check_alias_collision
 

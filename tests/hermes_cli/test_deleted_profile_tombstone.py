@@ -1,8 +1,8 @@
 """Deleted named profiles must stay gone until explicitly recreated.
 
 A live serve/logging process can mkdir ``profiles/<name>/logs`` after
-``hermes profile delete`` removes the tree. That empty shell then
-reappears in ``hermes profile list`` and Desktop Bot Mode. These tests
+``iskra profile delete`` removes the tree. That empty shell then
+reappears in ``iskra profile list`` and Desktop Bot Mode. These tests
 lock the tombstone + no-mkdir contract without depending on Desktop.
 """
 
@@ -198,7 +198,7 @@ class TestDeletedProfileTombstone:
     def test_marker_less_shell_is_not_a_profile(self, profile_env):
         """A ``profiles/<name>`` dir with no identity file (a pre-tombstone ghost shell left by a
         cron ticker, or a stray infrastructure dir) is not listed, served, or seeded with the
-        default install's ``.env`` — that seeding is what legitimised ghosts on ``hermes update``
+        default install's ``.env`` — that seeding is what legitimised ghosts on ``iskra update``
         (#95188 path D, #94823, #99392). ``profile create`` may take the name back."""
         default_env = profile_env / ".hermes" / ".env"
         default_env.write_text("OPENAI_API_KEY=sk-real\n", encoding="utf-8")
@@ -213,7 +213,7 @@ class TestDeletedProfileTombstone:
         assert not (shell / ".env").exists()
         assert _named_homes(profile_env) == ["legacy"]
         assert [name for name, _ in profiles_to_serve(True)] == ["default", "legacy"]
-        # ``hermes --profile ghost serve`` (a stale Desktop boot target) must not start a backend
+        # ``iskra --profile ghost serve`` (a stale Desktop boot target) must not start a backend
         # in the shell — its ensure_hermes_home() would rebuild the full profile tree.
         assert not profile_exists("ghost")
         with pytest.raises(FileNotFoundError):
@@ -311,7 +311,7 @@ class TestNamedProfileHome:
 
     def test_tombstone_dir_marks_profiles_root(self, tmp_path):
         # A profiles/.deleted directory is only ever created by
-        # `hermes profile delete` — its presence alone anchors recognition,
+        # `iskra profile delete` — its presence alone anchors recognition,
         # so tombstones are honored even when root markers are missing.
         profiles_dir = tmp_path / "opt" / "profiles"
         (profiles_dir / ".deleted").mkdir(parents=True)

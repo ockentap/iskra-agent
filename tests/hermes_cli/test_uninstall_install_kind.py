@@ -51,7 +51,7 @@ def test_all_refusals_point_at_the_data_mode():
     # CLI stewards point at the CLI flag; desktop refusals deliberately
     # point at the app's own data path.
     for steward in (STEWARD_NIX, STEWARD_DOCKER, "somepkg"):
-        assert "hermes uninstall --data" in steward_uninstall_message(steward)
+        assert "iskra uninstall --data" in steward_uninstall_message(steward)
     for platform in ("win32", "darwin", "linux"):
         message = steward_uninstall_message(STEWARD_DESKTOP, platform=platform)
         assert "Settings -> About" in message
@@ -197,7 +197,7 @@ def test_gui_summary_reports_steward_and_gate(monkeypatch, tmp_path):
 
 
 def test_gui_summary_classifies_the_agent_root(tmp_path, monkeypatch):
-    """The steward facts classify the home's ``hermes-agent`` checkout — the
+    """The steward facts classify the home's ``iskra-agent`` checkout — the
     tree the code-removal modes would delete — not some unrelated root."""
     import hermes_cli.gui_uninstall as gu
     from hermes_cli import steward as st

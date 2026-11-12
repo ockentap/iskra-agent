@@ -615,7 +615,7 @@ class TestAliasCacheIsProfileScoped:
 
 
 class TestOneShotUsesTheSameHostInvariant:
-    """`hermes chat -m <alias>` must not trust the alias's provider label.
+    """`iskra chat -m <alias>` must not trust the alias's provider label.
 
     These exercise the REAL resolver — the leak lives inside
     resolve_runtime_provider's provider-specific branches, so stubbing it

@@ -853,7 +853,7 @@ def cmd_info(name: str) -> None:
     console.print()
     rows = [("Repo", entry.repo), ("Subdir", entry.subdir), ("Version", entry.version), ("Pinned SHA", entry.sha),
             ("Image", entry.image),
-            ("Maintainer", entry.maintainer), ("Requires", f"hermes {entry.requires_hermes}" if entry.requires_hermes else ""),
+            ("Maintainer", entry.maintainer), ("Requires", f"iskra {entry.requires_hermes}" if entry.requires_hermes else ""),
             ("Platforms", ", ".join(entry.platforms)), ("Docs", entry.docs_url)]
     for label, value in rows:
         if value:

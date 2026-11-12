@@ -135,7 +135,7 @@ def _load(platform, chat_id="gui", check="_load_daybreak"):
 
 
 def test_gateway_reads_the_profile_switch_each_turn(tmp_path, monkeypatch):
-    """The owner's chat turns (Desktop, TUI, ``hermes chat``: ``Platform.LOCAL``) run in the gateway, which copies
+    """The owner's chat turns (Desktop, TUI, ``iskra chat``: ``Platform.LOCAL``) run in the gateway, which copies
     the switch onto the turn's agent from the profile's config.yaml, so a flip reaches the next turn of a running chat."""
     from gateway.config import Platform
     home = tmp_path / ".hermes"

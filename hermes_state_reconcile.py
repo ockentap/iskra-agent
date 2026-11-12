@@ -1,7 +1,7 @@
 """Additive state.db schema drift: detection, the one-shot browse reconcile, and explicit repair.
 
 Drift (a declared table/column missing) is not corruption. Browsing catches an unowned store up
-once, additive DDL only (:func:`reconcile_drift_for_browse`); ``hermes sessions repair`` reconciles
+once, additive DDL only (:func:`reconcile_drift_for_browse`); ``iskra sessions repair`` reconciles
 a protected snapshot so failed DDL never leaves the store partly upgraded or escalates into FTS
 surgery (:func:`repair_declarative_schema`). Neither runs while a gateway owns the store.
 """
@@ -105,7 +105,7 @@ def _reconcile_locked(path, backup, report):
 # The full integrity scan is read-only and scales with file size, so it runs BEFORE the lock, on the
 # same 3 s budget (BROWSE_INTEGRITY_BUDGET_S); a gateway booting meanwhile simply takes the lock. A
 # store too large to verify and catch up in that budget is refused with a retryable 503 that names
-# `hermes sessions repair` (repair_declarative_schema: same additive catch-up, no time limit). The
+# `iskra sessions repair` (repair_declarative_schema: same additive catch-up, no time limit). The
 # scan is tied to the file's (size, mtime) signature: if the store changed by the time the lock is
 # held, the scan no longer vouches for it and nothing is written. Under the lock only the cheap drift
 # re-check and the DDL run, cut off by BROWSE_RECONCILE_BUDGET_S (a sqlite progress handler; the DDL
@@ -131,13 +131,13 @@ def is_declarative_drift_error(exc: BaseException) -> bool:
 
 
 def _repair_command(home: Path) -> str:
-    """The `hermes sessions repair` invocation that targets *home* (no time limit, additive only)."""
+    """The `iskra sessions repair` invocation that targets *home* (no time limit, additive only)."""
     from gateway.status import _profile_label_for_home  # never raises: None when unknown
     label = _profile_label_for_home(home)
     if label == 'default':
-        return 'hermes sessions repair'
+        return 'iskra sessions repair'
     if label:
-        return f'hermes -p {label} sessions repair'
+        return f'iskra -p {label} sessions repair'
     return f'HERMES_HOME={home} hermes sessions repair'
 
 
@@ -145,13 +145,13 @@ def _owner_remedy(home: Path) -> tuple[str, str]:
     from gateway.status import _profile_label_for_home  # never raises: None when unknown
     label = _profile_label_for_home(home)
     if label and label != 'default':
-        return label, f'hermes -p {label} gateway restart'
-    return label or str(home), 'hermes gateway restart'
+        return label, f'iskra -p {label} gateway restart'
+    return label or str(home), 'iskra gateway restart'
 
 
 def _owning_gateway_restart(home: Path) -> str:
     """Restart command for the gateway that holds *home*'s lock. A multiplexer launched from another
-    home (usually the default) records that home in ``hermes_home``; `hermes -p <named> gateway
+    home (usually the default) records that home in ``hermes_home``; `iskra -p <named> gateway
     restart` is refused there ("Manage the host gateway instead"), so name the owner's own command."""
     from gateway.runtime_ownership import canonical_home
     from gateway.status import _read_gateway_lock_record
@@ -262,7 +262,7 @@ _BROWSE_SIBLING_POLL_S = 0.1
 
 class CorruptStoreError(sqlite3.DatabaseError):
     """The lagging store is also damaged: browsing must not write DDL into it. Worded like sqlite's
-    own malformed-image error so every caller maps it to the corrupt-store status (``hermes doctor``)."""
+    own malformed-image error so every caller maps it to the corrupt-store status (``iskra doctor``)."""
 
     def __init__(self, detail: str):
         super().__init__(f'database disk image is malformed (integrity_check: {detail})')
@@ -410,12 +410,12 @@ def reconcile_drift_for_browse(path: Path) -> bool:
         except RuntimeError as exc:
             raise DeclarativeDriftError(
                 f'Session store is missing its history tables ({reason}); this is not upgrade drift. '
-                'Run `hermes sessions recover`.') from exc
+                'Run `iskra sessions recover`.') from exc
     home = path.parent
     label, _ = _owner_remedy(home)
 
     def owned(drift, holder=None):
-        restart = 'hermes gateway restart' if holder else _owning_gateway_restart(home)
+        restart = 'iskra gateway restart' if holder else _owning_gateway_restart(home)
         who = f' ({holder})' if holder else ''
         return DeclarativeDriftError(
             f"Session store for profile '{label}' is behind this Hermes version ({drift}), and a "
@@ -480,7 +480,7 @@ def reconcile_drift_for_browse(path: Path) -> bool:
                 except DeclarativeDriftError as exc:
                     raise DeclarativeDriftError(
                         f"Session store for profile '{label}' is behind this Hermes version and could not "
-                        f'be caught up ({exc}); nothing was changed. Run `hermes sessions repair` for that '
+                        f'be caught up ({exc}); nothing was changed. Run `iskra sessions repair` for that '
                         'profile.') from exc
         except BrowseBudgetExceeded as exc:
             raise too_slow() from exc
@@ -491,7 +491,7 @@ def reconcile_drift_for_browse(path: Path) -> bool:
     if after := schema_drift_reason(path):
         raise DeclarativeDriftError(
             f"Session store for profile '{label}' is behind this Hermes version and could not be "
-            f'caught up ({after}). Run `hermes sessions repair` for that profile.')
+            f'caught up ({after}). Run `iskra sessions repair` for that profile.')
     logging.getLogger(__name__).warning(
         'state.db at %s lagged SCHEMA_SQL (%s); added the missing tables/columns for browsing', path, reason)
     return True

@@ -13,7 +13,7 @@ store_update = dead_launcher.store_update  # the Store-update fixture, on a defa
 
 @pytest.mark.platforms("windows")  # ``refresh_ready_owner_launcher`` acts on native Windows only
 def test_ensure_repairs_a_ready_owners_launcher(store_update, monkeypatch):
-    """A gateway can be ready on the new payload (``hermes gateway start``, or the old payload cleaned up
+    """A gateway can be ready on the new payload (``iskra gateway start``, or the old payload cleaned up
     behind a gateway that outlived the update) while its logon launcher names the deleted interpreter.
     Ensure returns before discovery then, so it repairs the owner's launcher itself: here the root's,
     for a named profile the root multiplexer serves."""

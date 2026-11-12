@@ -128,7 +128,7 @@ def test_dashboard_pairing_tightens_an_existing_world_readable_session(host, tmp
 
 
 def test_cli_pairing_writes_the_session_owner_only(host, tmp_path, monkeypatch):
-    """`hermes whatsapp` runs the pairing child itself, so its creds need the store's umask too."""
+    """`iskra whatsapp` runs the pairing child itself, so its creds need the store's umask too."""
     from types import SimpleNamespace
 
     import hermes_constants

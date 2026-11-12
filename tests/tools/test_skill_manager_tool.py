@@ -1088,7 +1088,7 @@ class TestBackgroundOwnershipPolicyConsistency:
 # ---------------------------------------------------------------------------
 # Pinned-skill guard — skill_manage refuses only `delete` on pinned skills.
 # Patches and edits go through so pinned skills can still evolve as pitfalls
-# come up. The user unpins via `hermes curator unpin <name>` to delete.
+# come up. The user unpins via `iskra curator unpin <name>` to delete.
 # ---------------------------------------------------------------------------
 
 class TestPinnedGuard:
@@ -1370,7 +1370,7 @@ class TestCuratorConsolidationDeleteGuard:
 
 
 # ---------------------------------------------------------------------------
-# Content lock (#25083, #140332) — `hermes curator lock <name>` makes skill_manage refuse
+# Content lock (#25083, #140332) — `iskra curator lock <name>` makes skill_manage refuse
 # AUTONOMOUS mutations (review fork / curator pass) of that one skill: whole directory,
 # single-op and batch paths. Foreground user-directed writes are not gated; unlocked
 # siblings keep learning; an unreadable sidecar fails closed for autonomous writes only.
@@ -1445,7 +1445,7 @@ class TestLockedGuard:
         for op, res in zip(self._MUTATIONS, results):
             assert res["success"] is False, (op, res)
             assert "locked" in res["error"], (op, res)
-            assert "hermes curator unlock locked-skill" in res["error"], (op, res)
+            assert "iskra curator unlock locked-skill" in res["error"], (op, res)
         assert after == before
 
     def test_unlocked_sibling_keeps_learning_and_unlock_lifts_refusal(self, tmp_path, monkeypatch):
@@ -1476,7 +1476,7 @@ class TestLockedGuard:
             results = [json.loads(skill_manage(name="locked-skill", **op)) for op in self._MUTATIONS]
             after = self._tree(d)
         for op, res in zip(self._MUTATIONS, results):
-            assert res["success"] is False and "hermes curator unlock locked-skill" in res["error"], (op, res)
+            assert res["success"] is False and "iskra curator unlock locked-skill" in res["error"], (op, res)
         assert after == before
 
     def test_batch_refuses_before_any_sibling_op_is_applied(self, tmp_path, monkeypatch):

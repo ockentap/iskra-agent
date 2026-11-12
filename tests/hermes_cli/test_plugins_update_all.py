@@ -1,4 +1,4 @@
-"""`hermes plugins update` with no name: offer every plugin that has an update, never move one silently."""
+"""`iskra plugins update` with no name: offer every plugin that has an update, never move one silently."""
 from __future__ import annotations
 
 import argparse

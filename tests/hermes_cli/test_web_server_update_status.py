@@ -26,7 +26,7 @@ class TestUpdateStatusRootLog:
             self.client.headers[_SESSION_HEADER_NAME] = _SESSION_TOKEN
 
     def test_update_status_recovers_completed_result_after_dashboard_restart(self, monkeypatch, tmp_path):
-        # The dashboard runs under a profile home; ``hermes update`` mirrors to the ROOT home's
+        # The dashboard runs under a profile home; ``iskra update`` mirrors to the ROOT home's
         # update.log (main_dashboard), so the durable completion marker is read there.
         root = tmp_path / "root"
         (root / "logs").mkdir(parents=True)
@@ -60,7 +60,7 @@ class TestUpdateStatusRootLog:
 
 
     def test_update_status_ignores_another_profiles_completion_in_the_shared_root_log(self, monkeypatch, tmp_path):
-        # Every profile's ``hermes update`` mirrors into the ROOT update.log; profile A's success
+        # Every profile's ``iskra update`` mirrors into the ROOT update.log; profile A's success
         # there must not certify the action profile B's dashboard started (and lost on restart).
         root = tmp_path / "root"
         (root / "logs").mkdir(parents=True)

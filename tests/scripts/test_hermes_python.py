@@ -1,7 +1,7 @@
 """``scripts/hermes-python``: the interpreter a just recipe runs.
 
 On a GitHub Actions runner it is the one setup-pm exported as HERMES_PYTHON.
-Anywhere else HERMES_PYTHON may be inherited from a wrapped ``hermes`` (Nix,
+Anywhere else HERMES_PYTHON may be inherited from a wrapped ``iskra`` (Nix,
 Termux, a TUI launch) and name a release venv without the dev tools, so the
 checkout's environment (scripts/run-in-hermes-env) wins. run-in-hermes-env and
 the inherited interpreter are stubbed at their process boundary: each announces

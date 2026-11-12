@@ -1,4 +1,4 @@
-"""N8: quitting ``hermes --tui -w`` removes a clean worktree (and its branch), as ``main`` did
+"""N8: quitting ``iskra --tui -w`` removes a clean worktree (and its branch), as ``main`` did
 before #106742; a dirty one, or one the gateway still has queued/started work in, is kept."""
 import json
 import sqlite3
@@ -80,7 +80,7 @@ def test_tui_worktree_quit_removes_only_a_clean_idle_tree(tmp_path, monkeypatch,
 
 
 def _quit_with(tmp_path, monkeypatch, prepare):
-    """Run ``hermes --tui -w`` whose Ink session ``prepare(db, cwd)`` shapes, then quit; the tree."""
+    """Run ``iskra --tui -w`` whose Ink session ``prepare(db, cwd)`` shapes, then quit; the tree."""
     from hermes_cli import main_tui_launch
     from hermes_cli.worktree_ops import _setup_worktree
     from hermes_constants import get_hermes_home

@@ -55,7 +55,7 @@ def test_non_retryable_reasons_stop(reason):
 
 # ── delivery surfaces never run their own retry loop ─────────────────────────
 #
-# Retired: the relay handler and local runner used to re-run a `hermes -p ...`
+# Retired: the relay handler and local runner used to re-run a `iskra -p ...`
 # CLI turn on transient failure. Execution now belongs to the profile
 # authority's canonical admission; retry policy applies inside that turn.
 # These surfaces must only forward/refuse with a typed reason, never spawn.
@@ -79,7 +79,7 @@ def _deliver(params):
 def test_relay_deliver_refuses_with_typed_reason_and_never_spawns(home, monkeypatch):
     calls = []
     # The server module's import-time update prefetch runs `git ...`; only a
-    # `hermes` CLI spawn would be a delivery attempt.
+    # `iskra` CLI spawn would be a delivery attempt.
     monkeypatch.setattr("subprocess.run", lambda argv, **k: calls.append(list(argv)))
     out = _deliver({"id": "a" * 32, "profile": "ops", "message": "ping"})
     assert "error" in out

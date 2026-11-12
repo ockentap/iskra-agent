@@ -313,7 +313,7 @@ _TWIN = 'ctx.register_command("pptwin", lambda arg: "PLUGIN_TWIN", description="
 @pytest.mark.parametrize("unload", ["disable", "stop_registering"])
 def test_a_command_a_plugin_reload_removed_is_dispatched_again(tmp_path, monkeypatch, capsys, unload):
     """The open CLI cached the session's catalog; then the running gateway reloads its plugins (what
-    ``hermes plugins disable`` asks for) without the command, in the same session and gateway life.
+    ``iskra plugins disable`` asks for) without the command, in the same session and gateway life.
     The cached name gets ``unsupported_command`` from ``slash.exec`` once: the CLI re-reads the catalog
     and dispatches the name again, so a same-named skill runs, and a name nothing else matches gets
     the "no longer has this plugin command" line, never the raw code, on that try or a later one."""

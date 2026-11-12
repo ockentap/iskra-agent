@@ -1,4 +1,4 @@
-"""`hermes gateway attach`: the public attach for a third-party local client (#142159).
+"""`iskra gateway attach`: the public attach for a third-party local client (#142159).
 
 The real CLI runs against a real control socket with a real ticket store: it prints the owner's
 WebSocket URL and one single-use ticket bound to the caller's profile, or the bootstrap's verdict.

@@ -1,6 +1,6 @@
 """#101789 on the real Windows hand-off script: a Desktop swap blocked by a program outside Hermes.
 
-A real ``windows.ps1`` drives a published launcher whose ``hermes update`` is a scripted stand-in
+A real ``windows.ps1`` drives a published launcher whose ``iskra update`` is a scripted stand-in
 printing exactly what ``hermes_cli.desktop_release_holders`` prints when Windows refused the
 promotion rename. The result the relaunched Desktop reads must name that program (message and a
 structured ``release_holders`` list), so the Desktop can offer to close exactly it, and the retry

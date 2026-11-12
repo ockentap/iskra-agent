@@ -100,7 +100,7 @@ def _profile_to_dict(info) -> dict[str, Any]:
 def _profile_setup_command(name: str) -> str:
     """Return the shell command used to configure a profile in the CLI."""
     _resolve_profile_dir(name)
-    return "hermes setup" if name == "default" else f"{name} setup"
+    return "iskra setup" if name == "default" else f"{name} setup"
 
 
 # Returned by the offloaded file readers below to mean "the file is not there", which a plain

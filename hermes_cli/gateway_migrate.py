@@ -37,7 +37,7 @@ from agent.deadline import poll_until
 logger = logging.getLogger(__name__)
 
 MANIFEST_NAME = "gateway_migration.json"
-MIGRATE_COMMAND = "hermes gateway migrate --multiplex"
+MIGRATE_COMMAND = "iskra gateway migrate --multiplex"
 _SERVED_WAIT_SECONDS = 90.0
 
 

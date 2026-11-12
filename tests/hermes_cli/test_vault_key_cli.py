@@ -1,4 +1,4 @@
-"""`hermes vault key migrate --to keychain|file` through the real argparse tree: the key moves, the
+"""`iskra vault key migrate --to keychain|file` through the real argparse tree: the key moves, the
 vault still opens, and ``vault.key_storage`` follows so a recreated vault lands in the same place."""
 
 from __future__ import annotations

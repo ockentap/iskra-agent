@@ -594,7 +594,7 @@ def _init_prompt_cache_config(agent):
         logger.warning(
             "Agent configuration for prompt_caching.cache_ttl could not be loaded (%s); "
             "using default prompt caching settings. Check the active Hermes Python "
-            "environment and dependencies; run 'hermes config check' after "
+            "environment and dependencies; run 'iskra config check' after "
             "configuration imports work again.",
             type(exc).__name__,
         )
@@ -2184,7 +2184,7 @@ def init_agent(
         logger.warning(
             "Agent configuration could not be loaded (%s); using defaults for "
             "memory, skills, compression and related settings. Check the active "
-            "Hermes Python environment and dependencies; run 'hermes config check' "
+            "Hermes Python environment and dependencies; run 'iskra config check' "
             "after configuration imports work again.",
             type(exc).__name__,
         )

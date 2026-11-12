@@ -1017,7 +1017,7 @@ class TestProcKeyAndBytecodeShapes:
 
     def test_committed_bytecode_flags_but_a_cache_the_validate_run_wrote_does_not(self, tmp_path):
         """Catalog rule 17 (hermes-emotion shipped tests/__pycache__/*.pyc): tracked bytecode runs in
-        place of the scanned source. ``hermes plugins validate`` imports the plugin before it scans,
+        place of the scanned source. ``iskra plugins validate`` imports the plugin before it scans,
         so an untracked ``__pycache__`` is that run's own output and must not read as shipped."""
         plugin = _mk_plugin(tmp_path, {**BASE_FILES, "tests/__pycache__/t.cpython-312.pyc": "x",
                                        "__pycache__/__init__.cpython-314.pyc": "x"})

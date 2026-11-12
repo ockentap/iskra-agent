@@ -158,7 +158,7 @@ def _cmd_dispatch(args: argparse.Namespace) -> int:
 
 
 _DAEMON_DEPRECATED = (
-    "hermes kanban daemon: DEPRECATED — the dispatcher now runs\ninside the gateway. To use "
+    "iskra kanban daemon: DEPRECATED — the dispatcher now runs\ninside the gateway. To use "
     "kanban:\n\n    hermes gateway start       # starts the gateway + embedded dispatcher\n\nReady "
     "tasks will be picked up on the next dispatcher tick\n(default: every 60 seconds). Configure "
     "via config.yaml:\n\n    kanban:\n      dispatch_in_gateway: true      # default\n      "

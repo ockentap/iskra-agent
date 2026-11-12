@@ -1,10 +1,10 @@
-"""``hermes acp`` with a per-task overlay ``HERMES_HOME`` (#138949, #134889 ACP-18).
+"""``iskra acp`` with a per-task overlay ``HERMES_HOME`` (#138949, #134889 ACP-18).
 
 A Multica task home is a private real directory mirroring a served profile through symlinks, its
 ``gateway.lock`` among them. The symlinked lock names the owner that serves the mirrored profile:
 the editor attaches to that owner (no second owner on the shared ``state.db``), over the real ACP
 stdio wire and a real gateway. (A home others can write never selects an owner: covered in
-tests/hermes_cli/test_gateway_runtime_discovery.py; ``hermes acp`` startup narrows its own home to
+tests/hermes_cli/test_gateway_runtime_discovery.py; ``iskra acp`` startup narrows its own home to
 0700 first, so that case is not reachable through the entry.)
 """
 import json

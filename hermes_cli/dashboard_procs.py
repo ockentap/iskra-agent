@@ -372,7 +372,7 @@ def _exclude_pids_from_env() -> set[int]:
 
 #: Executables that only *carry* a hermes command line. A process headed by one of these
 #: never serves traffic itself; when its argv matches the dashboard patterns it is a
-#: wrapper around the command (``bash -c 'hermes dashboard --stop'``), not a backend.
+#: wrapper around the command (``bash -c 'iskra dashboard --stop'``), not a backend.
 _WRAPPER_HEAD_COMMANDS = frozenset({
     "ash", "bash", "csh", "dash", "fish", "ksh", "sh", "tcsh", "zsh",
     "env", "nohup", "nice", "stdbuf", "timeout", "watch", "xargs",
@@ -434,7 +434,7 @@ def _is_caller_wrapper_shell(pid: int, ancestors: set[int]) -> bool:
     """True when *pid* is a caller ancestor headed by a wrapper executable.
 
     Root selection is a substring match, so the shell a ``--stop`` was typed into (or a
-    ``bash -c 'hermes dashboard --stop'`` wrapper) matches on its own argv. Ancestor alone
+    ``bash -c 'iskra dashboard --stop'`` wrapper) matches on its own argv. Ancestor alone
     is not a spare: the backend hosting a shell-escaped TUI is also the caller's ancestor
     and must stay stoppable — only a wrapper-headed ancestor is spared.
     """

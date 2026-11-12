@@ -153,7 +153,7 @@ class TestSendTelegramStandaloneProxy:
 
 def test_send_to_platform_honours_configured_base_url(monkeypatch: pytest.MonkeyPatch) -> None:
     """``platforms.telegram.extra.base_url`` reaches the standalone Bot through the production
-    dispatch (``_send_to_platform``), so cron / ``hermes send`` / send_message use the same
+    dispatch (``_send_to_platform``), so cron / ``iskra send`` / send_message use the same
     self-hosted or compatible Bot API server as the gateway, never api.telegram.org."""
     from gateway.config import Platform, PlatformConfig
     from tools.send_message_tool import _send_to_platform

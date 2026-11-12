@@ -1,4 +1,4 @@
-"""#140400 end to end: a `hermes chat`-shaped turn's clarify batch answered from a second viewer.
+"""#140400 end to end: a `iskra chat`-shaped turn's clarify batch answered from a second viewer.
 
 Real GatewayRunner + session API WebSocket, a loopback model asking two questions, the real clarify
 tool. Socket A creates a ``cli`` session and submits with ``clarify_batch`` (what GatewayAgent sends);

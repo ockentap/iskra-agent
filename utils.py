@@ -557,7 +557,7 @@ def atomic_roundtrip_yaml_update(path: str | Path, key_path: str, value: Any) ->
     """
     from ruamel.yaml.comments import CommentedMap
     # Honor escaped dots and prefer existing literal dotted keys (model IDs like ``glm-5.3``) over
-    # blind splitting — same navigation as ``hermes config set``'s ``_set_nested``; otherwise
+    # blind splitting — same navigation as ``iskra config set``'s ``_set_nested``; otherwise
     # /model + TUI persistence wrote ``glm-5: {'3': ...}`` phantom siblings.
     # See #91607.
     from hermes_cli.config import _greedy_literal_match, _split_key_path

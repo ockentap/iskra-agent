@@ -1,4 +1,4 @@
-"""Contract C3: after the commit point nothing fails `hermes update`.
+"""Contract C3: after the commit point nothing fails `iskra update`.
 
 Post-commit step failures are ⚠ + a receipt follow-up + an armed obligation; the receipt
 is durable while the run is open; receipts resolve to the root home.

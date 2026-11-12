@@ -66,7 +66,7 @@ def _run_portal_one_shot(config: dict) -> None:
     def _on_error(exc: Exception) -> None:
         from hermes_cli.auth_error_copy import provider_setup_failure_lines
         print()
-        lead, *rest = provider_setup_failure_lines(exc, retry_command="hermes portal")
+        lead, *rest = provider_setup_failure_lines(exc, retry_command="iskra portal")
         print_error(f"  {lead}")
         for line in rest:
             print_info(f"  {line}")
@@ -127,7 +127,7 @@ def _quick_setup_nous_portal(config: dict) -> None:
 
     def _on_error(exc: Exception) -> None:
         from hermes_cli.auth_error_copy import provider_setup_failure_lines
-        lead, *rest = provider_setup_failure_lines(exc, retry_command="hermes model")
+        lead, *rest = provider_setup_failure_lines(exc, retry_command="iskra model")
         print_warning(lead)
         for line in rest:
             print_info(line)
@@ -158,7 +158,7 @@ def _run_first_time_quick_setup(config: dict, hermes_home, is_existing: bool, im
     # Step 4: Offer messaging gateway setup
     print()
     gateway_choice = prompt_choice("Connect a messaging platform? (Telegram, Discord, etc.)", [
-        "Set up messaging now (recommended)", "Skip — set up later with 'hermes setup gateway'",
+        "Set up messaging now (recommended)", "Skip — set up later with 'iskra setup gateway'",
     ], 0)
     if gateway_choice == 0:
         setup_gateway(config)
@@ -397,7 +397,7 @@ def _run_quick_setup(config: dict, hermes_home):
     current_ver, latest_ver = check_config_version()
     if not (missing_required or missing_optional or missing_config or current_ver < latest_ver):
         print_success("Everything is configured! Nothing to do.")
-        _info(None, "Run 'hermes setup' and choose 'Full Setup' to reconfigure,",
+        _info(None, "Run 'iskra setup' and choose 'Full Setup' to reconfigure,",
               "or pick a specific section from the menu.")
         return
     if missing_required:
@@ -423,7 +423,7 @@ def _run_quick_setup(config: dict, hermes_home):
     if missing_messaging:  # checklist, then prompt for each selected platform's vars
         print_header("Messaging Platforms", gap=True)
         _info("Connect Hermes to messaging apps to chat from anywhere.",
-              "You can configure these later with 'hermes setup gateway'.")
+              "You can configure these later with 'iskra setup gateway'.")
         # Group by platform in first-seen order; vars matching no platform are dropped.
         grouped: dict[str, list] = {}
         emojis = {}

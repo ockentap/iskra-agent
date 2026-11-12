@@ -64,7 +64,7 @@ def test_registration_uses_current_hermes_owner(tmp_path, monkeypatch, root):
 
 
 def test_root_registration_ignores_staging_swap_in_scandir(tmp_path, monkeypatch):
-    """hermes owns the scandir, so it can swap any dot dir root builds there for a symlink."""
+    """iskra owns the scandir, so it can swap any dot dir root builds there for a symlink."""
     scandir, staging, victim = tmp_path / "scan", tmp_path / "staging", tmp_path / "victim"
     for path in (scandir, staging, victim):
         path.mkdir()

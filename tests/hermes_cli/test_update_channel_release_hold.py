@@ -1,6 +1,6 @@
 """A channel whose release predates the gateway runtime holds the install where it is (#140729).
 
-The channel picked that release, the user did not ask to go back: ``hermes update`` reports that
+The channel picked that release, the user did not ask to go back: ``iskra update`` reports that
 the build is newer than the release and holds there, exiting 0, instead of refusing the
 downgrade on every attempt. An explicit ``--branch`` to a pre-runtime commit is still refused.
 """
@@ -111,7 +111,7 @@ def test_a_channel_release_older_than_the_runtime_holds_the_install_and_exits_cl
     assert git(source.root, "rev-parse", "HEAD") == source.installed
     assert "Refusing" not in out and "Downgrading is unsupported" not in out
     assert f"This build is newer than the {name} release {source.release[:12]}" in out
-    assert "hermes update --set-channel main" in out
+    assert "iskra update --set-channel main" in out
     assert len(source.completed) == 1 and source.completed[0]["expected_sha"] == source.installed
     # A held install is not up to date with its channel: the closing line says it was held.
     assert source.completed[0]["completion_message"] == f"✓ Holding at this build until a newer {name} release ships."

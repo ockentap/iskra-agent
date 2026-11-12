@@ -1,7 +1,7 @@
 """Regression for #68523 — one systemctl timeout must not abort fleet restarts.
 
-On hosts with many profile-backed ``hermes-gateway*.service`` units,
-``hermes update`` used to wrap the entire per-scope unit loop in a single
+On hosts with many profile-backed ``iskra-gateway*.service`` units,
+``iskra update`` used to wrap the entire per-scope unit loop in a single
 ``except subprocess.TimeoutExpired``. A timeout on unit N skipped units
 N+1…, leaving later gateways on pre-update in-memory modules while the
 checkout on disk was already new (mixed-generation crashes).
@@ -135,7 +135,7 @@ class TestFleetRestartTimeoutIsolation:
     def test_hermes_dashboard_near_prefix_is_rejected(self):
         # Same strict shape on the dashboard side: a bare
         # ``startswith("hermes-dashboard")`` gate would also accept the
-        # unrelated ``hermes-dashboardd.service``.
+        # unrelated ``iskra-dashboardd.service``.
         seen: list[str] = []
 
         _for_each_systemd_gateway_unit(
@@ -148,7 +148,7 @@ class TestFleetRestartTimeoutIsolation:
 
     def test_hermes_server_near_prefix_is_rejected(self):
         # Review on #83595: a bare ``startswith("hermes-serve")`` gate also
-        # accepts the unrelated ``hermes-server.service``. Only the exact
+        # accepts the unrelated ``iskra-server.service``. Only the exact
         # base unit or the hyphenated profile family should pass.
         seen: list[str] = []
 
@@ -162,8 +162,8 @@ class TestFleetRestartTimeoutIsolation:
 
     def test_hermes_gateway_near_prefix_is_rejected(self):
         # Same strict shape on the gateway side: profile units are
-        # ``hermes-gateway-<profile>``, so a hypothetical
-        # ``hermes-gatewayd.service`` must not enter the restart path.
+        # ``iskra-gateway-<profile>``, so a hypothetical
+        # ``iskra-gatewayd.service`` must not enter the restart path.
         seen: list[str] = []
 
         _for_each_systemd_gateway_unit(

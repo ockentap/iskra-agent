@@ -1,9 +1,9 @@
-"""GW-1 fixture: `hermes pause` holds every gateway turn, including interactive (TUI/Desktop/CLI) ones.
+"""GW-1 fixture: `iskra pause` holds every gateway turn, including interactive (TUI/Desktop/CLI) ones.
 
 A real GatewayRunner + session authority + WS API in a fake HERMES_HOME, a loopback model. Phase 1
 starts a turn that blocks in the model, engages the ESTOP and releases it: the running turn must
 finish normally. Phase 2 submits a new interactive turn while paused: its completion must carry
-``estop.paused_reply()`` (the reason and "run `hermes resume`") and the model is never called.
+``estop.paused_reply()`` (the reason and "run `iskra resume`") and the model is never called.
 Phase 3 resumes and the next turn runs. Writes receipt.json into HERMES_HOME.
 """
 import asyncio

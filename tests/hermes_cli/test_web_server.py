@@ -86,7 +86,7 @@ def _install_example_plugin(_isolate_hermes_home):
     # An installed-but-not-enabled user plugin has its API mount skipped
     # and its assets 404'd — which is the whole point of the gate. These
     # fixtures exist to exercise the *serving* paths, so opt the example
-    # plugin in exactly as a real operator would with `hermes plugins
+    # plugin in exactly as a real operator would with `iskra plugins
     # enable example`.
     from hermes_cli.config import load_config, save_config
     _cfg = load_config()
@@ -709,7 +709,7 @@ CONFIG_SCHEMA = ProviderConfigSchema(
         data = resp.json()
         pip_rows = [row for row in data["results"] if row["kind"] == "pip"]
         assert pip_rows and pip_rows[0]["status"] == "installed"
-        assert pip_rows[0]["command"] == "hermes pm install"
+        assert pip_rows[0]["command"] == "iskra pm install"
         assert prepared == ["flatprov"]
 
 
@@ -1386,7 +1386,7 @@ CONFIG_SCHEMA = ProviderConfigSchema(
         """A custom endpoint that requires auth must persist model.api_key (where
         the runtime reads it) AND register a named custom_providers entry so the
         endpoint reappears as a ready row in the picker — matching the
-        ``hermes model`` custom flow. Regression for the desktop loop where a
+        ``iskra model`` custom flow. Regression for the desktop loop where a
         keyed custom endpoint could never be configured from the GUI."""
         from hermes_cli.config import load_config
 
@@ -3156,7 +3156,7 @@ class TestDesktopHostRendezvousIsolation:
 
     def test_desktop_backend_does_not_claim_the_host_serve_record(self, monkeypatch, tmp_path):
         """A Desktop child must not block a separately supervised public dashboard, yet a
-        terminal `hermes plugins install` on a Desktop-only box must still find it (#119644):
+        terminal `iskra plugins install` on a Desktop-only box must still find it (#119644):
         it publishes under its OWN role, which the attach ladder never reads."""
         import io
         import urllib.request
@@ -3190,7 +3190,7 @@ class TestDesktopHostRendezvousIsolation:
             # Not a host owner: the supervised public dashboard's attach ladder sees nobody.
             assert hr.read_record(hr.ROLE_SERVE) is None
             assert _host_backend_attachment() is None
-            # ...but a terminal `hermes plugins install` still lights up its open chats.
+            # ...but a terminal `iskra plugins install` still lights up its open chats.
             assert notify_serve_backend("demo", tmp_path) == {"ok": True}
             assert dialed == [("http://127.0.0.1:9231/api/dashboard/agent-plugins/activate",
                                "desktop-spawn-token")]
@@ -4629,7 +4629,7 @@ class TestDashboardPluginManifestExtensions:
 # /api/pty WebSocket — terminal bridge for the dashboard "Chat" tab.
 #
 # These tests drive the endpoint with a tiny fake command (typically ``cat``
-# or ``sh -c 'printf …'``) instead of the real ``hermes --tui`` binary.  The
+# or ``sh -c 'printf …'``) instead of the real ``iskra --tui`` binary.  The
 # endpoint resolves its argv through ``_resolve_chat_argv``, so tests
 # monkeypatch that hook.
 # ---------------------------------------------------------------------------
@@ -5150,7 +5150,7 @@ class TestServeIndexMissingIndex:
 
 
 class TestHeadlessServeTokenPage:
-    """Headless `hermes serve` must serve the Desktop token handshake page
+    """Headless `iskra serve` must serve the Desktop token handshake page
     at `/` when the dashboard auth gate is off (#94227).
 
     The Electron renderer boots by fetching `/` and extracting

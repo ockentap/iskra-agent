@@ -5,7 +5,7 @@ Layer context (Aug 2026, after the 12-minute Windows update hang): reapers
 previously inferred process lineage from PPIDs and cmdline shape. These
 primitives make identity positive instead: spawners stamp children
 (HERMES_SPAWN), long-lived processes self-register (pid, create_time,
-purpose, spawner) in spawn-ledger.json, and `hermes update` reaps holders the
+purpose, spawner) in spawn-ledger.json, and `iskra update` reaps holders the
 ledger PROVES are orphaned backends — in any update context, no hand-off
 contract needed.
 
@@ -241,7 +241,7 @@ def test_ledger_entries_filters_dead_reused_and_foreign(tmp_path):
 
 @pytest.mark.platforms("posix")
 def test_ledger_entries_excludes_a_killed_but_unreaped_process(tmp_path):
-    """A zombie is dead even though it keeps its create_time until reaped: ``hermes update``
+    """A zombie is dead even though it keeps its create_time until reaped: ``iskra update``
     books the stopped dashboard gone, then must not find it again as a pre-update survivor."""
     import psutil
 
@@ -359,7 +359,7 @@ def test_desktop_ssh_backend_spawn_shape_is_desktop_owned(monkeypatch):
     assert pi.is_desktop_owned_backend(ssh_argv) is True
     monkeypatch.setattr(sys, "argv", ["hermes", *ssh_argv])
     assert pi.is_desktop_owned_backend() is True
-    # The bare inherited flag (a Desktop terminal pane running `hermes serve`) is still not ownership.
+    # The bare inherited flag (a Desktop terminal pane running `iskra serve`) is still not ownership.
     assert pi.is_desktop_owned_backend(["serve", "--host", "127.0.0.1", "--port", "0"]) is False
 
 

@@ -1,4 +1,4 @@
-"""``hermes kanban notify-subscribe`` run from a gateway session records the caller as the sender.
+"""``iskra kanban notify-subscribe`` run from a gateway session records the caller as the sender.
 
 An agent in a Telegram group runs the command through its terminal tool without ``--user-id``.
 Under ``group_sessions_per_user`` (the default) the wake rebuilds the session key from the row,

@@ -522,7 +522,7 @@ class TestStatusEndpointTopology:
         assert data["gateway_shared_with"] is None
 
     def test_unscoped_status_on_a_served_profiles_own_backend_uses_multiplexer_record(self, monkeypatch, tmp_path):
-        # `hermes -p coder serve` answers plain /api/status (no ?profile=) for its own home. That
+        # `iskra -p coder serve` answers plain /api/status (no ?profile=) for its own home. That
         # home's gateway.lock is the multiplexer's too, so the same live record applies.
         import hermes_cli.web_routers.status as status_router
 

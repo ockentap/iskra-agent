@@ -118,7 +118,7 @@ def _hermes_home_points_at_production(value: str) -> bool:
 # ``import hermes_bootstrap`` (transitively: any entry-point module) runs
 # ``export_scratch_tmp_env()``, which points TMPDIR/TMP/TEMP at
 # ``<HERMES_HOME>/cache/scratch`` unless a temp var is already set — and a
-# Hermes-launched shell (agent terminal, ``hermes`` child) arrives with that
+# Hermes-launched shell (agent terminal, ``iskra`` child) arrives with that
 # redirect already applied, tagged by HERMES_SCRATCH_DIR. Either way the tmp
 # root ends up INSIDE a guarded real home (the operator's, or a custom one
 # honored below), so the session sandbox, pytest's basetemp and every
@@ -1084,7 +1084,7 @@ def _relocate_basetemp_outside_operator_home(config) -> None:
     # Hermes home). The repo is no escape either: the default install checks it
     # out *inside* the home (~/.hermes/hermes-agent). The relocated basetemp goes
     # into ONE prunable root outside the home, never loose into the operator's
-    # $HOME (123 ``hermes-pytest-basetemp-*`` dirs piled up there in a day, one per
+    # $HOME (123 ``iskra-pytest-basetemp-*`` dirs piled up there in a day, one per
     # test file the per-file runner spawned). It is removed when this pytest exits
     # and, for runs that were killed before that, swept once it is 24h idle.
     safe = Path(tempfile.mkdtemp(prefix="b-", dir=_pytest_disk_temp_root(native)))
@@ -1153,7 +1153,7 @@ def _processes_with_hermes_home_under(roots) -> list[int]:
 def _reap_session_hermes_processes(config) -> list[int]:
     """SIGTERM every process still running against a Hermes home this session created.
 
-    Tests that run a real ``hermes chat -q`` child get a grandchild ``gateway run`` (detached, own
+    Tests that run a real ``iskra chat -q`` child get a grandchild ``gateway run`` (detached, own
     session) that no per-test subprocess patch can see, and pytest's tmp cleanup removes only
     directories: each one used to outlive the run at ~250 MB. The session basetemp and the session
     sandbox home bound exactly what this run created, so nothing else is ever signalled.

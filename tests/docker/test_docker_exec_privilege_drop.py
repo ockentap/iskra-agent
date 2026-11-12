@@ -108,16 +108,16 @@ def sleep_container(built_image: str, container_name: str) -> Iterator[str]:
 def test_shim_drops_root_to_hermes_uid(sleep_container: str) -> None:
     """docker exec defaults to root; the shim should drop to uid 10000.
 
-    We invoke `hermes` with a Python-style `-c` shim equivalent — there's no
+    We invoke `iskra` with a Python-style `-c` shim equivalent — there's no
     pure-hermes "print my uid" command, so we use the venv's python directly
     via the shim's PATH lookup: `python -c 'print(os.getuid())'` is resolved
     through the venv. But that bypasses the shim. Instead, we exploit the
-    fact that the venv's `hermes` is a console_scripts entry — under the
+    fact that the venv's `iskra` is a console_scripts entry — under the
     hood it's a tiny Python wrapper. We can't easily inject "print my uid"
-    into it without forking subcommands. Simplest approach: have `hermes`
+    into it without forking subcommands. Simplest approach: have `iskra`
     do anything that writes to disk, then check the file's owner.
 
-    Use `hermes config set` which writes config.yaml under HERMES_HOME.
+    Use `iskra config set` which writes config.yaml under HERMES_HOME.
     The resulting file ownership tells us what UID the shim ended up at.
     """
     # Wipe any prior state.
@@ -170,20 +170,20 @@ def test_e2e_login_then_supervised_gateway_can_read_auth(
     "Hermes is not logged into Nous Portal" on every message.
 
     We can't do a real OAuth login in a unit test, but we can stand in
-    for it by writing the same file shape via `hermes config set`-style
+    for it by writing the same file shape via `iskra config set`-style
     writes — what matters is the *file ownership invariant* downstream
     of `_save_auth_store`. If the shim works, every file the
     `docker exec` path produces is hermes-readable.
 
-    Specifically: pretend the operator ran `hermes login` (writes
+    Specifically: pretend the operator ran `iskra login` (writes
     auth.json) and verify (a) the file exists and (b) it's readable by
-    the hermes UID. We use `hermes auth list` since that touches the
+    the hermes UID. We use `iskra auth list` since that touches the
     auth store on the read side and would fail with the same
     'not logged in' shape if the file was unreadable to uid 10000.
     """
     # Have the shim-protected `docker exec` write the auth store.
-    # `hermes auth list` is read-only but still exercises _load_auth_store
-    # under the shim's UID. We invoke `hermes config set` first to
+    # `iskra auth list` is read-only but still exercises _load_auth_store
+    # under the shim's UID. We invoke `iskra config set` first to
     # provoke a write into HERMES_HOME so we have something concrete to
     # owner-check.
     r = subprocess.run(

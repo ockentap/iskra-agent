@@ -289,7 +289,7 @@ class SessionFtsSetupMixin:
         self._fts_unavailable_warned = True
         logger.warning(
             "SQLite FTS5 unavailable for %s; full-text session search "
-            "disabled. Run `hermes update` to rebuild the venv with a "
+            "disabled. Run `iskra update` to rebuild the venv with a "
             "current Python (managed uv guarantees FTS5). (underlying error: %s)",
             self.db_path,
             exc,
@@ -395,7 +395,7 @@ class SessionFtsSetupMixin:
     # backfill and teardown run in chunks: each its own bounded transaction (WAL
     # growth stays small), resumable from its marker (claimed by CAS), and a
     # progress tick. They run back to back with no pause while no other process
-    # holds state.db: the foreground `hermes sessions optimize-storage` refuses to
+    # holds state.db: the foreground `iskra sessions optimize-storage` refuses to
     # start under a holder (held_store_refusal, #110054), and a fixed 0.2 s pause
     # after each few-ms chunk was >95% of the wall time. Chunk size (in ROWS, never
     # an id span: a pruned store has id gaps) adapts toward TARGET seconds, since

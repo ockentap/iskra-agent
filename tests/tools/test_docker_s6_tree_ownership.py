@@ -1,4 +1,4 @@
-"""The image's root s6 supervision tree must stay out of the unprivileged ``hermes`` user's reach.
+"""The image's root s6 supervision tree must stay out of the unprivileged ``iskra`` user's reach.
 
 Everything under the root ``s6-svscan`` scandir (``/run/service``) is supervised by a root
 ``s6-supervise``, which executes each slot's ``run``/``finish``/``log/run`` as root and writes

@@ -97,7 +97,7 @@ def test_bare_route_preserves_custom_caller_home(homes, monkeypatch):
 
 
 def _hermes(monkeypatch, *argv):
-    """Run the real ``hermes`` entry point; return the process exit code."""
+    """Run the real ``iskra`` entry point; return the process exit code."""
     import sys
     from hermes_cli import main as hermes_main
     monkeypatch.setattr(sys, "argv", ["hermes", *argv])

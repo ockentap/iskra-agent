@@ -32,7 +32,7 @@ a regression.
 
 Run from the PR worktree (it auto-resolves ``MAIN_DIR`` from the parent
 of the worktree directory, or falls back to a sibling
-``hermes-agent-main`` checkout)::
+``iskra-agent-main`` checkout)::
 
     python tests/plugins/tts/check_parity_vs_main.py
 """

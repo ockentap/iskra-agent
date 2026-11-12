@@ -145,7 +145,7 @@ def test_target_worktree_owns_admission_and_fork_comparison(installation, monkey
 
 def test_bare_git_off_path_reads_through_the_updaters_git(installation, monkeypatch, tmp_path):
     """Desktop passes a bare ``git`` when it found none; a Windows install's only git is PM's
-    store copy, off PATH outside ``hermes update``. The check must read HEAD through that git."""
+    store copy, off PATH outside ``iskra update``. The check must read HEAD through that git."""
     import shutil
 
     from hermes_cli import update_pause_record

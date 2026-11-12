@@ -920,7 +920,7 @@ class TestProtectedInstructionFiles:
 
 
 class TestProfileHomeExemptsHermesRoot:
-    """issue #60: under ``hermes -p <name>`` (``HERMES_HOME=<root>/profiles/<name>``)
+    """issue #60: under ``iskra -p <name>`` (``HERMES_HOME=<root>/profiles/<name>``)
     the exemption used to cover ONLY the profile dir, so the ROOT's direct files
     (LEDGER.md / MEMORY.md / SOUL.md ...) fell through to the ``.hermes`` component
     rule, were read as project-local ``.hermes`` config, and — having no approval

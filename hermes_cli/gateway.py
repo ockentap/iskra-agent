@@ -5049,7 +5049,7 @@ def _cmd_setup(args):
 
 _WSL_FOREGROUND_HINT = (
     "", "  hermes gateway run                              # direct foreground",
-    "  tmux new -s hermes 'hermes gateway run'         # persistent via tmux",
+    "  tmux new -s hermes 'iskra gateway run'         # persistent via tmux",
     "  nohup hermes gateway run > ~/.hermes/logs/gateway.log 2>&1 &  # background",
 )
 # ``(exit_code, *lines)`` when a subcommand has no service backend, keyed by (subcommand, reason).
@@ -5158,7 +5158,7 @@ def _install_systemd_from_cli(args, *, force: bool, system: bool, run_as_user) -
         print_warning("WSL detected — systemd services may not survive WSL restarts.")
         _print_info_lines(
             "  Consider running in foreground instead: hermes gateway run",
-            "  Or use tmux/screen for persistence: tmux new -s hermes 'hermes gateway run'",
+            "  Or use tmux/screen for persistence: tmux new -s hermes 'iskra gateway run'",
         )
         print()
     # Honor --start-now/--start-on-login; else prompt on a TTY, default True headless.
@@ -5542,7 +5542,7 @@ _STATUS_STOPPED_HINTS = {
         "  nohup hermes gateway run > ~/.hermes/logs/gateway.log 2>&1 &  # Best-effort background start",
     ),
     "wsl": (
-        "  tmux new -s hermes 'hermes gateway run'         # persistent via tmux",
+        "  tmux new -s hermes 'iskra gateway run'         # persistent via tmux",
         "  nohup hermes gateway run > ~/.hermes/logs/gateway.log 2>&1 &  # background",
     ),
     "windows": ("  hermes gateway install  # Install as Windows Scheduled Task (auto-start on login)",),

@@ -1,4 +1,4 @@
-"""hermes fallback — manage the fallback provider chain (tried in order when the primary fails).
+"""iskra fallback — manage the fallback provider chain (tried in order when the primary fails).
 
 Subcommands: ``list`` (default), ``add`` (same picker as `iskra model`), ``remove``, ``clear``, ``check``
 (readiness, in :mod:`hermes_cli.fallback_check`).

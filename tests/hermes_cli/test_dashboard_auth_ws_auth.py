@@ -257,7 +257,7 @@ class TestWsAuthOkLoopback:
     @pytest.mark.parametrize("surface", ["dashboard", "serve"])
     def test_off_the_webapp_the_loopback_gate_takes_only_the_token_as_on_main(
             self, loopback_app, monkeypatch, surface):
-        """The standalone dashboard and ``hermes serve`` mint no socket tickets, so their loopback
+        """The standalone dashboard and ``iskra serve`` mint no socket tickets, so their loopback
         gate judges ``?token=`` alone, as on main: a ticket opens nothing there and is not spent, and
         one riding beside the session token does not refuse it."""
         from hermes_cli.dashboard_auth.ws_tickets import consume_ticket
@@ -361,7 +361,7 @@ class TestWsAuthOkGated:
     @pytest.mark.parametrize("surface", ["dashboard", "serve"])
     def test_off_the_webapp_internal_credential_opens_every_socket_as_on_main(
             self, gated_app, monkeypatch, surface):
-        """The standalone dashboard and ``hermes serve`` accept the server's own credential on every
+        """The standalone dashboard and ``iskra serve`` accept the server's own credential on every
         socket their gate judges, plugin sockets included, as on main."""
         monkeypatch.setattr(web_server.app.state, "ui_surface", surface, raising=False)
         credential = internal_ws_credential()

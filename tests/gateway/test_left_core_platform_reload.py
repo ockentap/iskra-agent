@@ -53,7 +53,7 @@ async def test_a_platform_installed_by_this_start_is_in_the_runners_config(tmp_p
 @pytest.mark.asyncio
 @pytest.mark.parametrize("installed", [["yuanbao"], []])
 async def test_a_named_launch_stays_standalone_across_the_reload(tmp_path, monkeypatch, installed):
-    """``hermes -p foo gateway run`` on a host with default + foo downgrades the implicit multiplex
+    """``iskra -p foo gateway run`` on a host with default + foo downgrades the implicit multiplex
     default to standalone and reserves only foo. The reload after the migration installed a platform
     must keep that verdict: a fresh decision re-enables multiplex and serves default's adapters,
     which this process never reserved. With or without an install, the runner gets foo's own platforms."""

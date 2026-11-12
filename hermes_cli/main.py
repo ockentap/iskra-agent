@@ -327,7 +327,7 @@ def _require_tty(command_name: str) -> None:
     """Exit 1 if stdin is not a terminal: curses/input() prompts spin at 100% CPU on a pipe."""
     if not sys.stdin.isatty():
         print(
-            f"Error: 'hermes {command_name}' requires an interactive terminal.\n"
+            f"Error: 'iskra {command_name}' requires an interactive terminal.\n"
             f"It cannot be run through a pipe or non-interactive subprocess.\n"
             f"Run it directly in your terminal instead.",
             file=sys.stderr,
@@ -1354,7 +1354,7 @@ def _resolve_continue_arg(args, *, use_tui: bool) -> None:
             else:
                 print(f"No session found matching '{continue_val}'.", file=sys.stderr)
                 print(
-                    "Use 'hermes sessions list' to see available sessions, or "
+                    "Use 'iskra sessions list' to see available sessions, or "
                     "pass --create-if-missing to start a new session with that title.",
                     file=sys.stderr,
                 )
@@ -1445,7 +1445,7 @@ def _resolve_chat_session_args(args, use_tui: bool) -> None:
         else:
             kind = "TUI" if use_tui else "CLI"
             print(f"No previous {kind} session found to resume.")
-            print("Use 'hermes sessions list' to see available sessions.")
+            print("Use 'iskra sessions list' to see available sessions.")
             sys.exit(1)
 
     _resolve_continue_arg(args, use_tui=use_tui)
@@ -1496,7 +1496,7 @@ def _warn_retired_xai_models() -> None:
             for _ref in _retired_xai_refs:
                 sys.stderr.write(f"  \033[33m⚠\033[0m {format_issue(_ref)}\n")
             sys.stderr.write(f"  \033[2mMigration guide: {MIGRATION_GUIDE_URL}\033[0m\n")
-            sys.stderr.write("  \033[2mRun 'hermes doctor' for details.\033[0m\n\n")
+            sys.stderr.write("  \033[2mRun 'iskra doctor' for details.\033[0m\n\n")
     except Exception:
         pass
 
@@ -1581,7 +1581,7 @@ def _first_run_setup_guard(args) -> None:
         cmd_setup(args)
         return
     print()
-    print("You can run 'hermes setup' at any time to configure.")
+    print("You can run 'iskra setup' at any time to configure.")
     sys.exit(1)
 
 
@@ -1848,8 +1848,8 @@ def _resolve_active_provider(config, model_cfg, effective_provider, custom_provi
                 )
         else:
             from hermes_cli.left_core_migration import provider_install_hint
-            hint = provider_install_hint(effective_provider) or ("Check 'hermes model' for available providers, or run "
-                                                                  "'hermes doctor' to diagnose config issues.")
+            hint = provider_install_hint(effective_provider) or ("Check 'iskra model' for available providers, or run "
+                                                                  "'iskra doctor' to diagnose config issues.")
             print(f"Warning: Unknown provider '{effective_provider}'. {hint} Falling back to auto provider detection.")
     if not active:
         try:

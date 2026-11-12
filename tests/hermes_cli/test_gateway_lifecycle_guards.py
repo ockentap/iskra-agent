@@ -3,7 +3,7 @@
 Two P0 invariants:
 
 * A lifecycle call never acts on a service definition pinning another HERMES_HOME. A probe run with
-  ``HOME=<scratch>`` resolved the bare ``hermes-gateway`` name (its scratch ``.hermes`` looked native),
+  ``HOME=<scratch>`` resolved the bare ``iskra-gateway`` name (its scratch ``.hermes`` looked native),
   found the ACCOUNT's real unit through the account-anchored unit dir, and ``systemctl --user stop``
   took the production gateway down.
 * ``gateway stop``/``restart`` refuse while the gateway runs live sessions, naming them, unless the
@@ -129,7 +129,7 @@ def test_stop_refuses_while_sessions_are_live_and_names_them(monkeypatch, record
     assert "2 live session(s)" in out
     assert "chat turn agent:main:telegram:dm:7" in out
     assert "background delegation deleg_ab12cd34" in out
-    assert "hermes gateway stop --yes" in out
+    assert "iskra gateway stop --yes" in out
 
     gw._cmd_stop(SimpleNamespace(all=False, system=False, interrupt=True))
     assert stopped == [False]
@@ -227,7 +227,7 @@ def test_sudo_system_stop_checks_the_units_home_not_roots(tmp_path, monkeypatch,
 
 @pytest.mark.parametrize("verb", ["stop", "restart"])
 def test_host_served_profile_refuses_before_unserving_its_live_turns(tmp_path, monkeypatch, capsys, verb):
-    """``hermes -p coder gateway stop|restart`` on a profile the host serves unserves it in the host,
+    """``iskra -p coder gateway stop|restart`` on a profile the host serves unserves it in the host,
     which Stops its executing turns: the live-work policy applies first, scoped to that profile."""
     from gateway import control_socket
     from hermes_cli import gateway_profile_lifecycle as gpl
@@ -256,7 +256,7 @@ def test_host_served_profile_refuses_before_unserving_its_live_turns(tmp_path, m
     assert exc.value.code == 1 and requests == []
     assert asked == [(host_home, {"profile": "coder"})]
     assert "1 live session(s)" in out and "agent:coder:telegram:dm:7" in out
-    assert f"hermes -p coder gateway {verb} --yes" in out
+    assert f"iskra -p coder gateway {verb} --yes" in out
     assert not (profile_home / "gateway.parked").exists()
 
     command(SimpleNamespace(all=False, system=False, force=False, interrupt=True))

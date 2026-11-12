@@ -1,4 +1,4 @@
-"""``session.list`` carries what a session picker shows, and filters by folder with ``hermes -c``'s rule (#150091)."""
+"""``session.list`` carries what a session picker shows, and filters by folder with ``iskra -c``'s rule (#150091)."""
 from types import SimpleNamespace
 
 import pytest

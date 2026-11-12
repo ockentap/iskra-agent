@@ -1,6 +1,6 @@
 """The hand-off's `--gateway` flag, exercised against the real posix script.
 
-`hermes update --gateway` (re)starts the local messaging gateway after the
+`iskra update --gateway` (re)starts the local messaging gateway after the
 update. A Desktop served by a remote gateway (#117529) must not ask for that:
 the restarted local gateway shares the remote host's channel credentials and
 becomes a competing long-poll consumer — Telegram answers the conflict by
@@ -29,7 +29,7 @@ requires_posix_handoff = pytest.mark.skipif(
     reason="posix.sh detaches through /bin/bash and /usr/bin/python3",
 )
 
-# Stands in for `hermes`: answers the `update --help` probe (so --keep-stash
+# Stands in for `iskra`: answers the `update --help` probe (so --keep-stash
 # is kept), and appends every non-help invocation's argv as one JSON line so
 # the tests can inspect exactly what the update was invoked with.
 FAKE_HERMES = """#!/usr/bin/env bash
@@ -123,20 +123,20 @@ def test_every_owed_followup_reaches_the_desktop_result(tmp_path, step):
     assert result["exit_code"] == 0 and result["ok"] is True
     assert result["manual"] is True
     assert step in result["message"]
-    assert ("hermes gateway restart" in result["message"]) is (step == "gateway_restart")
+    assert ("iskra gateway restart" in result["message"]) is (step == "gateway_restart")
 
 
 @requires_posix_handoff
 def test_dashboard_only_gateway_restart_followup_gets_no_gateway_hint(tmp_path):
     """#141071: the step id stays gateway_restart, but a restart owed only for a serve/dashboard unit
-    must not tell the user to run `hermes gateway restart`, which never touches that unit."""
+    must not tell the user to run `iskra gateway restart`, which never touches that unit."""
     line = ("  ⚠ Update follow-up 'gateway_restart' did not finish: serve/dashboard unit(s) hermes-dashboard were not"
             " restarted onto the new code; see the systemctl advice above (the next launch retries it)")
     _run_handoff(tmp_path, [], f"{line}\n✓ Update complete!")
 
     result = json.loads((tmp_path / ".hermes-update-result.json").read_text(encoding="utf-8-sig"))
     assert result["manual"] is True and "gateway_restart" in result["message"]
-    assert "hermes gateway restart" not in result["message"]
+    assert "iskra gateway restart" not in result["message"]
 
 
 @requires_posix_handoff

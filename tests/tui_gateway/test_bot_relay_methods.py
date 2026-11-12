@@ -105,7 +105,7 @@ def test_deliver_forwards_stable_id_to_target_profile_authority(home, monkeypatc
 
     def _fake_run(argv, *a, **k):
         # The server module's import-time update prefetch runs `git ...`; only
-        # a `hermes` spawn would be a delivery attempt.
+        # a `iskra` spawn would be a delivery attempt.
         if argv and argv[0] != "git":
             spawned.append(argv)
         return type("P", (), {"returncode": 0, "stdout": "", "stderr": ""})()

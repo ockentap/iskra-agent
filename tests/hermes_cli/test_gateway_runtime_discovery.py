@@ -179,7 +179,7 @@ def test_the_client_verdict_names_the_unsafe_node_and_its_fix(monkeypatch, reque
 
 @pytest.mark.platforms("linux", "macos")
 def test_hermes_chat_prints_the_whole_repair_command(monkeypatch, request):
-    """``hermes chat`` shows a failed attach through ``agent_init_failure_message``, whose 120-character
+    """``iskra chat`` shows a failed attach through ``agent_init_failure_message``, whose 120-character
     summary cut the hint mid-path: the whole command must reach the user."""
     import asyncio
     import shutil

@@ -1,4 +1,4 @@
-"""Tests for --ignore-user-config and --ignore-rules flags on `hermes chat`.
+"""Tests for --ignore-user-config and --ignore-rules flags on `iskra chat`.
 
 Ported from openai/codex#18646 (`feat: add --ignore-user-config and --ignore-rules`).
 Codex's flags fully isolate a run from user-level config and exec-policy .rules
@@ -194,7 +194,7 @@ class TestSharedDefaults:
         return tmp_path
 
     def test_classic_cli_defaults_are_the_shared_defaults(self, tmp_path, monkeypatch):
-        """An empty config.yaml gives ``hermes chat`` the turn cap and subagent cap that load_config
+        """An empty config.yaml gives ``iskra chat`` the turn cap and subagent cap that load_config
         (gateway, TUI, dashboard) gives: unlimited and 250."""
         from hermes_cli.config import load_config
 
@@ -207,7 +207,7 @@ class TestSharedDefaults:
             _default("delegation", "max_iterations"))
 
     def test_a_shell_terminal_timeout_survives_a_file_terminal_section(self, tmp_path, monkeypatch):
-        """``hermes chat`` mirrors the file's terminal section to env; a key the file does not set
+        """``iskra chat`` mirrors the file's terminal section to env; a key the file does not set
         must not export a built-in default over the user's TERMINAL_TIMEOUT."""
         self._home(tmp_path, monkeypatch, "terminal:\n  backend: local\n")
         monkeypatch.setenv("TERMINAL_TIMEOUT", "600")

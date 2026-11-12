@@ -291,7 +291,7 @@ def test_base_self_reference_gated_on_a_selected_extra_keeps_its_extra(layout):
 
 
 def test_virtual_plugin_self_reference_installs_its_own_extra_after_the_rename(layout):
-    """A virtual member is renamed ``hermes-plugin-<key>``; its ``own-name[extra]`` reference
+    """A virtual member is renamed ``iskra-plugin-<key>``; its ``own-name[extra]`` reference
     must follow, or uv resolves the declared name as some other package from the index and
     the extra the plugin asked for is never installed."""
     import tomllib
@@ -415,7 +415,7 @@ def test_staging_root_and_env_are_honored_without_live_mutation(layout, monkeypa
 
 
 def test_selected_plugin_extra_naming_core_installs_the_workspace_core(layout):
-    """A plugin extra pinning core (``hermes-agent[x] @ git+…``) resolves to this checkout.
+    """A plugin extra pinning core (``iskra-agent[x] @ git+…``) resolves to this checkout.
 
     The generated root IS core, so uv refuses any member requirement naming it without a
     ``{ workspace = true }`` source ("is included as a workspace member, but is missing an

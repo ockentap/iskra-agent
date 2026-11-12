@@ -1,4 +1,4 @@
-"""``hermes webhook subscribe`` pins new routes to ``signature: generic`` and ``webhook test`` signs so the
+"""``iskra webhook subscribe`` pins new routes to ``signature: generic`` and ``webhook test`` signs so the
 real adapter accepts it under that pin (#84265)."""
 import json
 from argparse import Namespace
@@ -26,7 +26,7 @@ def _args(**kwargs):
 
 
 def _send_test(monkeypatch, name: str):
-    """Run ``hermes webhook test`` and return the request it would have POSTed."""
+    """Run ``iskra webhook test`` and return the request it would have POSTed."""
     sent = []
 
     class _Resp:

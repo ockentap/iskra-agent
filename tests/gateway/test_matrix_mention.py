@@ -90,7 +90,7 @@ class TestIsBotMentioned:
         assert self.adapter._is_bot_mentioned("hey @hermes:example.org help")
 
     def test_localpart_in_body(self):
-        assert self.adapter._is_bot_mentioned("hermes can you help?")
+        assert self.adapter._is_bot_mentioned("iskra can you help?")
 
 
     def test_matrix_pill_in_formatted_body(self):
@@ -113,8 +113,8 @@ class TestStripMention:
 
     def test_localpart_preserved(self):
         """Bare localpart (no @) is preserved — avoids false positives in paths."""
-        result = self.adapter._strip_mention("hermes help me")
-        assert result == "hermes help me"
+        result = self.adapter._strip_mention("iskra help me")
+        assert result == "iskra help me"
 
 
 # ---------------------------------------------------------------------------

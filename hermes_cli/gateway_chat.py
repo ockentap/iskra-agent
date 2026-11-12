@@ -32,7 +32,7 @@ _RELOCATED = {
     "compact": "`display.compact: true` in config.yaml",
     "create-if-missing without -c <name>": "`-c <name> --create-if-missing`",
 }
-_SAFE_MODE_EXAMPLE = 'hermes chat --safe-mode --provider openrouter --model anthropic/claude-sonnet-4 -q "hello"'
+_SAFE_MODE_EXAMPLE = 'iskra chat --safe-mode --provider openrouter --model anthropic/claude-sonnet-4 -q "hello"'
 
 
 # The documented environment equivalents of creation flags (the set Ink's localCreationOptions
@@ -191,7 +191,7 @@ async def run_gateway_chat(args, emitter=None):
                     if str(exc) != "not_found":
                         raise
                     raise GatewayClientError(
-                        f"No session found matching '{name}'. Use 'hermes sessions list' to see available "
+                        f"No session found matching '{name}'. Use 'iskra sessions list' to see available "
                         "sessions, or pass -c <name> --create-if-missing to start a new session with that title.")
             check_resume_policy(args, snapshot)
         else:

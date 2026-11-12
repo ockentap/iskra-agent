@@ -1,4 +1,4 @@
-"""``hermes profile create`` through a live gateway process (real ``gateway.run``).
+"""``iskra profile create`` through a live gateway process (real ``gateway.run``).
 
 * local: the CLI on the gateway's own home has the profile made by the gateway (this process's
   ``provision_profile`` is made to fail, so only the gateway can have made it), and a refused request (an
@@ -111,7 +111,7 @@ def test_cli_creates_through_a_live_gateway_local_and_by_url(tmp_path, monkeypat
 
 
 def _create_on_profile(home: Path, user: Path, profile: str, *argv, env=None):
-    """``hermes -p <profile> profile create ...`` in a process that cannot create locally."""
+    """``iskra -p <profile> profile create ...`` in a process that cannot create locally."""
     code = ("import sys\n"
             f"sys.argv = ['hermes', '-p', {profile!r}, 'profile', 'create', *{list(argv)!r}, '--no-alias']\n"
             "import hermes_cli.profile_provision as provision\n"
@@ -128,7 +128,7 @@ def _create_on_profile(home: Path, user: Path, profile: str, *argv, env=None):
 
 @pytest.mark.platforms("linux", "macos")
 def test_a_terminal_on_a_served_profile_creates_from_that_profile(tmp_path):
-    """The multiplexer serves ``work``; ``hermes -p work profile create`` reaches it, and the new
+    """The multiplexer serves ``work``; ``iskra -p work profile create`` reaches it, and the new
     profile copies work's keys and model (``--clone``: its SOUL.md), never the launch profile's."""
     from tests.gateway.test_multiplex_cold_profile_sidebar_mutation import multiplex_daemon
     with multiplex_daemon(tmp_path, profiles=("work",)) as (home, _descriptor, _env):
@@ -148,7 +148,7 @@ def test_a_terminal_on_a_served_profile_creates_from_that_profile(tmp_path):
 
 @pytest.mark.platforms("linux", "macos")
 def test_a_url_terminal_on_work_clones_the_gateways_work_not_its_launch_profile(tmp_path):
-    """A URL's connection carries no profile-bound ticket: ``hermes -p work profile create --clone`` from
+    """A URL's connection carries no profile-bound ticket: ``iskra -p work profile create --clone`` from
     another home names ``work``, and the multiplexed gateway clones ITS work (keys, SOUL.md)."""
     from tests.gateway.test_multiplex_cold_profile_sidebar_mutation import multiplex_daemon
     token = {"HERMES_DASHBOARD_SESSION_TOKEN": "url-terminal-owner"}

@@ -1,7 +1,7 @@
 """Behavior tests for the Windows desktop-exe integrity gate (#69179).
 
 The desktop self-update chain (Desktop → hermes-setup --update →
-``hermes update`` → ``hermes desktop --build-only`` → relaunch) rebuilds
+``iskra update`` → ``iskra desktop --build-only`` → relaunch) rebuilds
 Hermes.exe on the end user's machine. Before this gate, "build succeeded" was
 just "the file exists", so a truncated PE (corrupt cached Electron zip), a
 non-PE file, or a wrong-architecture tree shipped as the new app — Windows
@@ -285,7 +285,7 @@ def test_gate_fails_clearly_without_backup(tmp_path, capsys):
     assert "missing MZ header" in out
 
 
-# ─── end-to-end: `hermes desktop --build-only` exits nonzero on corrupt exe ─
+# ─── end-to-end: `iskra desktop --build-only` exits nonzero on corrupt exe ─
 
 
 def _ns(**kw):

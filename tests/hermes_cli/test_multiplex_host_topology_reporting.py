@@ -1,9 +1,9 @@
 """Multiplex-only reporting: one host gateway serving N profiles must be reported as such.
 
 Invariants (all fail on origin/main):
-* ``hermes -p <served> cron status`` names the HOST gateway as the ticker and never tells the
+* ``iskra -p <served> cron status`` names the HOST gateway as the ticker and never tells the
   user to start a second process.
-* ``hermes -p <served> doctor`` reports the single host gateway + its roster, not
+* ``iskra -p <served> doctor`` reports the single host gateway + its roster, not
   "Per-profile gateways: up/total", and still checks the HOST systemd unit's linger.
 * the state.db holder line names the shared host process and the profiles it serves.
 """
@@ -50,7 +50,7 @@ def test_cron_status_names_the_host_gateway_for_a_served_profile(served_host, ca
     assert f"PID {os.getpid()}" in out and "served" in out
     assert "not running" not in out.lower()
     # Never route the user to a SECOND host process: per-profile install is legacy-only remediation.
-    assert "hermes gateway install" not in out
+    assert "iskra gateway install" not in out
     assert "sudo hermes gateway install --system" not in out
 
 

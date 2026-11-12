@@ -1,10 +1,10 @@
-"""Regression coverage for stale ``hermes serve`` generations after an abort.
+"""Regression coverage for stale ``iskra serve`` generations after an abort.
 
-Issue #92145: ``hermes update`` moves the checkout from generation N to N+1
+Issue #92145: ``iskra update`` moves the checkout from generation N to N+1
 while the updater still holds the pre-pull module graph.  When the in-process
 restart phase raises, a fresh process retries the *gateway* profiles — but
-``hermes serve`` is not a gateway profile.  It hosts ``tui_gateway.server``,
-systemd lists ``hermes-gateway.service`` before ``hermes-serve.service`` (so
+``iskra serve`` is not a gateway profile.  It hosts ``tui_gateway.server``,
+systemd lists ``iskra-gateway.service`` before ``iskra-serve.service`` (so
 the serve unit is the one an abort typically never reaches), and the final
 read-back (``collect_fleet_versions``) only inspects gateway state.  A serve
 process left on generation N is therefore invisible to every check, and the
@@ -449,7 +449,7 @@ def test_units_already_restarted_by_the_phase_are_skipped(linux_systemctl):
 
 
 def test_unrelated_hermes_server_service_is_never_touched(linux_systemctl):
-    """``hermes-serve*`` is a systemd glob, not a name gate (review on #83595)."""
+    """``iskra-serve*`` is a systemd glob, not a name gate (review on #83595)."""
     fake = _Systemctl(
         listed=["hermes-server.service", "hermes-serve.service"],
         active={"hermes-server.service": True, "hermes-serve.service": True},
@@ -489,7 +489,7 @@ def test_dashboard_unit_is_restarted_and_verified_by_the_serve_pass(linux_system
 
 
 def test_default_profile_dashboard_unit_is_restarted_by_the_serve_pass(linux_systemctl):
-    """#125297: the unprofiled ``hermes-dashboard.service`` — the exact unit from the
+    """#125297: the unprofiled ``iskra-dashboard.service`` — the exact unit from the
     report's receipts — is enumerated and restarted alongside serve units."""
     fake = _Systemctl(
         listed=["hermes-dashboard.service"],
@@ -882,7 +882,7 @@ def _fake_systemctl_path(tmp_path):
     The child interpreter is outside the in-process live-system guard and resolves
     ``systemctl`` through ``shutil.which``; without this it restarted the developer's
     real hermes-serve / hermes-dashboard units. The fake lists one active user-scope
-    ``hermes-serve.service`` whose ``MainPID`` changes once it is restarted.
+    ``iskra-serve.service`` whose ``MainPID`` changes once it is restarted.
     """
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir()
@@ -1022,7 +1022,7 @@ def test_serve_backend_survives_selection_when_the_dashboard_unit_restarts(monke
 
 
 def _dual_scope_systemctl(*, user_pid=10, system_pid=20, settle=("user", "system")):
-    """Both managers own a ``hermes-serve.service``; each is its own process."""
+    """Both managers own a ``iskra-serve.service``; each is its own process."""
     state = {"user": user_pid, "system": system_pid}
     calls: list[tuple[str, list]] = []
 
@@ -1051,7 +1051,7 @@ def test_settled_user_scope_does_not_suppress_the_stale_system_scope(
 
     ``user/hermes-serve`` was restarted before the phase aborted;
     ``system/hermes-serve`` is a different process still on the pre-update
-    generation. A bare ``hermes-serve`` skip token suppressed BOTH, leaving
+    generation. A bare ``iskra-serve`` skip token suppressed BOTH, leaving
     the stale one running with nothing reporting it.
     """
     run, calls = _dual_scope_systemctl()

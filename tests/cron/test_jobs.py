@@ -1645,7 +1645,7 @@ class TestJobsJsonIdKeyedMap:
     load_jobs() return a dict. Every consumer iterates it as a list, so
     ``list_jobs()`` → ``_normalize_job_record`` → ``dict(<id-string>)`` raised
     ``ValueError: dictionary update sequence element #0 has length 1; 2 is
-    required`` and took down ``hermes cron list``, the ``cronjob(action=
+    required`` and took down ``iskra cron list``, the ``cronjob(action=
     "list")`` tool, and the Dashboard cron view. The values already carry
     their own ``id`` matching the map key, so flattening is lossless.
     """

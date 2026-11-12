@@ -192,7 +192,7 @@ def _post_setup_openai_codex() -> None:
         _print_success("    Image generation will use your existing Codex/ChatGPT OAuth credentials")
         return
 
-    relogin = "hermes auth add openai-codex"
+    relogin = "iskra auth add openai-codex"
     _print_info("    OpenAI (Codex auth) needs credentials.")
     try:
         from hermes_cli.auth import _codex_device_code_login, _save_codex_tokens

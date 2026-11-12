@@ -192,7 +192,7 @@ def cron_list(show_all: bool = False):
     from hermes_cli.profiles import get_active_profile_name
     if not jobs:
         print(color(f"No scheduled jobs in profile '{get_active_profile_name()}'.\n"
-                    "Create one with 'hermes cron create ...' or the /cron command in chat.", Colors.DIM))
+                    "Create one with 'iskra cron create ...' or the /cron command in chat.", Colors.DIM))
         return
 
     _print_banner(f"Scheduled Jobs (profile: {get_active_profile_name()})")
@@ -454,7 +454,7 @@ def _print_store_unwritable(report: dict, *, brief: bool = False) -> None:
     print(color(f"  Fix: {report['fix']}. Each due job then fires once on the next tick.", Colors.YELLOW))
 
 
-def _print_ticker_health(pids: list, restart_command: str = "hermes gateway restart") -> None:
+def _print_ticker_health(pids: list, restart_command: str = "iskra gateway restart") -> None:
     """Report builtin-ticker liveness for a gateway process known to be alive.
 
     The ticker THREAD can die silently or stay alive while every tick fails, so check both
@@ -583,11 +583,11 @@ def cron_status():
                 from hermes_cli.gateway import host_multiplexer_serving
                 owner = host_multiplexer_serving(active)
             host_profile = owner.profile_label if owner is not None else "default"
-            _print_ticker_health([host.pid], restart_command=f"hermes --profile {host_profile} gateway restart")
+            _print_ticker_health([host.pid], restart_command=f"iskra --profile {host_profile} gateway restart")
         elif pids or gateway_alive_via_lock or served_by_multiplexer or in_process_ticker:
             if served_by_multiplexer:
                 print("  Scheduler host: the host gateway (multiplexing this profile)")
-                _print_ticker_health([], restart_command="hermes --profile default gateway restart")
+                _print_ticker_health([], restart_command="iskra --profile default gateway restart")
             elif in_process_ticker:
                 print(f"  Scheduler host: an in-process ticker (hermes serve / Desktop backend) ticking profile '{active}'")
                 _print_ticker_health([], restart_command="restart the Hermes Desktop app (or its serve backend)")

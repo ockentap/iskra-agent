@@ -106,7 +106,7 @@ def test_boot_keeps_the_steps_before_a_failing_one_and_retries_it_each_start(
 ):
     """A step that raises is partial progress at boot, not a failure to undo: the steps before it
     stay (no backup restore), the stamp stops at the last good one, the failing step is retried on
-    every start of the same revision, and ``hermes doctor`` says why the version is behind."""
+    every start of the same revision, and ``iskra doctor`` says why the version is behind."""
     import json
 
     import hermes_yaml as yaml
@@ -227,7 +227,7 @@ def test_state_db_guard_passes_valid_db(tmp_path, monkeypatch):
 
 
 def test_boot_drops_the_live_plugin_catalog_cache(tmp_path, monkeypatch):
-    """Bundled-app updates skip `hermes update`'s tail; the boot step covers them (#119340)."""
+    """Bundled-app updates skip `iskra update`'s tail; the boot step covers them (#119340)."""
     monkeypatch.setenv("HERMES_HOME", str(tmp_path))
     cache = tmp_path / "cache" / "plugin-catalog.json"
     cache.parent.mkdir()

@@ -588,7 +588,7 @@ def test_other_profile_home_does_not_bridge_process_config(tmp_path, monkeypatch
 
 
 def test_parent_injected_dashboard_session_token_survives_dotenv(tmp_path, monkeypatch):
-    """A parent that spawns `hermes dashboard` mints HERMES_DASHBOARD_SESSION_TOKEN and keeps it for
+    """A parent that spawns `iskra dashboard` mints HERMES_DASHBOARD_SESSION_TOKEN and keeps it for
     its own /api probes; a persisted token in ~/.hermes/.env must not replace it, or the parent gets
     HTTP 401 from its own child (#115955). Ordinary keys keep the documented .env-wins precedence."""
     home = tmp_path / "hermes"

@@ -1,8 +1,8 @@
-"""``hermes profile`` alias names: profiles named like Hermes' server subcommands keep their alias.
+"""``iskra profile`` alias names: profiles named like Hermes' server subcommands keep their alias.
 
 A profile's wrapper alias is its own command on PATH (``~/.local/bin/<name>``); it does not shadow
-``hermes dashboard``, ``hermes serve`` or ``hermes webapp``, so ``check_alias_collision`` admits those
-names as main does: ``hermes profile create dashboard`` gets its ``dashboard`` alias, and ``profile
+``iskra dashboard``, ``iskra serve`` or ``iskra webapp``, so ``check_alias_collision`` admits those
+names as main does: ``iskra profile create dashboard`` gets its ``dashboard`` alias, and ``profile
 alias``, rename and import accept them.
 """
 from __future__ import annotations

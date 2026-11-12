@@ -58,7 +58,7 @@ def _show_model_section(config: dict[str, Any]) -> None:
         env_ghost = None
     if env_ghost is not None and str(env_ghost).strip() != str(cfg_max_turns).strip():
         print(color(f"                ⚠ .env has stale HERMES_MAX_ITERATIONS={env_ghost} "
-                    f"(run 'hermes doctor --fix' to remove)", Colors.YELLOW))
+                    f"(run 'iskra doctor --fix' to remove)", Colors.YELLOW))
 
 
 def _show_display_section(config: dict[str, Any]) -> None:

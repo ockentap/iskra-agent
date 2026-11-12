@@ -29,7 +29,7 @@ from tests.waiting import wait_until
 
 @pytest.fixture
 def homes_and_spawn(tmp_path):
-    entry = tmp_path / "bin" / "hermes"  # a ``hermes`` entry token: the cmdline reads as a gateway
+    entry = tmp_path / "bin" / "hermes"  # a ``iskra`` entry token: the cmdline reads as a gateway
     entry.parent.mkdir()
     entry.write_text("import time\ntime.sleep(60)\n", encoding="utf-8")
     argv = [sys.executable, str(entry), "gateway", "run"]

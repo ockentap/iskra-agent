@@ -231,8 +231,8 @@ def test_every_log_file_writes_a_stamp_hermes_logs_since_can_read():
 
 
 def test_update_logs_are_read_from_the_root_home_under_a_profile(tmp_path, monkeypatch, capsys):
-    # ``hermes update`` mirrors to <root>/logs/update.log and the hand-off scripts write the root
-    # too; `hermes logs update` under a sticky profile read the profile's (absent) copy.
+    # ``iskra update`` mirrors to <root>/logs/update.log and the hand-off scripts write the root
+    # too; `iskra logs update` under a sticky profile read the profile's (absent) copy.
     from hermes_cli.logs import list_logs, log_file_path, tail_log
 
     root = tmp_path / "root"

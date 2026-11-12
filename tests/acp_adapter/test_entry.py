@@ -108,8 +108,8 @@ def test_setup_browser_is_one_explicit_package_request(monkeypatch):
 @pytest.mark.parametrize("flags, profile", [([], "work"), (["-p", "other"], "other"), (["-p", "default"], None)],
                          ids=["sticky", "flag", "flag-default"])
 def test_console_script_runs_in_the_selected_profile(tmp_path, flags, profile):
-    """`hermes-acp` starts in entry.main() without hermes_cli.main, and must still serve the profile
-    `hermes acp` would pick: the sticky `hermes profile use` choice, or `-p`."""
+    """`iskra-acp` starts in entry.main() without hermes_cli.main, and must still serve the profile
+    `iskra acp` would pick: the sticky `iskra profile use` choice, or `-p`."""
     import os
     import subprocess
 

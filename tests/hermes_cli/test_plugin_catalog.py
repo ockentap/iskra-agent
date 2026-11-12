@@ -151,7 +151,7 @@ def _fresh_cache(tmp_path, monkeypatch, doc: dict):
 
 
 def test_newer_in_tree_pin_outranks_a_fresh_live_cache(tmp_path, monkeypatch):
-    """Right after `hermes update` bumps an in-tree pin, a live cache fetched BEFORE the bump must not
+    """Right after `iskra update` bumps an in-tree pin, a live cache fetched BEFORE the bump must not
     re-install the old sha: for the same entry the newer catalog wins (checkout catalog commit time vs
     the doc's generated_at). Live-only entries survive; an older checkout still defers to the doc."""
     old, new = SHA, "a" * 40
@@ -206,7 +206,7 @@ def _serve(monkeypatch, doc: dict):
 def test_a_catalog_doc_past_two_mib_is_still_accepted(tmp_path, monkeypatch):
     """The published doc crossed 2 MiB on 2026-11-09 (1,268 entries). A 2 MiB cap made every client drop
     the live doc and install its in-tree pin instead, so catalog bumps merged after the client's own copy
-    never reached `hermes plugins install <name>`. A doc of today's size and shape must be taken and cached."""
+    never reached `iskra plugins install <name>`. A doc of today's size and shape must be taken and cached."""
     cache = _fresh_cache(tmp_path, monkeypatch, {"entries": [], "removed": []})
     cache.unlink()
     entries = [_entry(f"plugin-{i}", description="x" * 1600, version="1.0.0") for i in range(1400)]
@@ -244,7 +244,7 @@ def test_curated_fields_the_published_doc_lacks_come_from_the_checkout(tmp_path,
 
 def test_in_tree_catalog_time_does_not_lazy_fetch_on_treeless_clones(tmp_path, monkeypatch):
     """``in_tree_catalog_time`` dates the checkout with a pathspec'd ``git log``; the pathspec makes git
-    open every commit's tree. On a treeless (``tree:0``) partial clone — the layout ``hermes update``
+    open every commit's tree. On a treeless (``tree:0``) partial clone — the layout ``iskra update``
     produces — none of those trees exist locally, so an unrestricted probe lazy-fetches each one against
     the remote: measured 40-80 s per inventory request, past the desktop's 30s RPC limit (#125683).
     The probe must scope ``GIT_NO_LAZY_FETCH`` to itself so missing objects fail fast into the

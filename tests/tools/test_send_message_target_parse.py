@@ -432,7 +432,7 @@ def test_unresolved_plugin_target_requires_explicit_parser() -> None:
     )
     platform_registry.register(entry)
     platform = Platform(platform_name)
-    # Simulate a fresh `hermes send` process: the dynamic Platform member
+    # Simulate a fresh `iskra send` process: the dynamic Platform member
     # is known from config, but plugin discovery has not registered its
     # adapter entry yet.
     platform_registry.unregister(platform_name)
@@ -607,9 +607,9 @@ def test_unknown_platform_that_left_core_names_its_install_command(tmp_path, mon
 
     monkeypatch.setenv("HERMES_HOME", str(tmp_path))
     _, _, _, err = _resolve_platform_config("homeassistant", GatewayConfig())
-    assert "unregistered plugin platform: homeassistant" in err and "`hermes plugins install homeassistant`" in err
+    assert "unregistered plugin platform: homeassistant" in err and "`iskra plugins install homeassistant`" in err
     _, _, err = resolve_send_target("homeassistant", "living room")
-    assert "`hermes plugins install homeassistant`" in err
+    assert "`iskra plugins install homeassistant`" in err
     _, _, _, err = _resolve_platform_config("nosuchplatform", GatewayConfig())
     assert err == "Unknown or unregistered plugin platform: nosuchplatform"
 

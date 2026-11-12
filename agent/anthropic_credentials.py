@@ -496,7 +496,7 @@ def _refresh_oauth_token(creds: dict[str, Any]) -> Optional[str]:
             # Another process may have spent this token and lost the commit; its sidecar verdict is authoritative.
             if is_rotation_consumed_uncommitted(refresh_token, source_path=cred_path):
                 logger.debug("Refresh token was already consumed by an uncommitted rotation "
-                             "- refusing to replay it; run 'hermes auth add anthropic'")
+                             "- refusing to replay it; run 'iskra auth add anthropic'")
                 return None
             fingerprint = hashlib.sha256(refresh_token.encode("utf-8")).hexdigest()[:32]
             if fingerprint in _DEAD_REFRESH_TOKEN_FINGERPRINTS:
@@ -509,7 +509,7 @@ def _refresh_oauth_token(creds: dict[str, Any]) -> Optional[str]:
                     _DEAD_REFRESH_TOKEN_FINGERPRINTS.add(fingerprint)
                     logger.warning(
                         "Claude Code OAuth refresh token is terminally invalid (%s); Hermes cannot use this "
-                        "login. Run 'hermes auth add anthropic' to give Hermes its own login.", e)
+                        "login. Run 'iskra auth add anthropic' to give Hermes its own login.", e)
                 else:
                     logger.debug("Failed to refresh Claude Code token: %s", e)
                 return None
@@ -524,7 +524,7 @@ def _refresh_oauth_token(creds: dict[str, Any]) -> Optional[str]:
                 logger.error(
                     "Anthropic OAuth refresh rotated the single-use token but could not "
                     "commit it to %s (%s) — treating the refresh as failed; "
-                    "run 'hermes auth add anthropic' to give Hermes its own login",
+                    "run 'iskra auth add anthropic' to give Hermes its own login",
                     cred_path, e,
                 )
                 mark_rotation_consumed_uncommitted(
@@ -632,7 +632,7 @@ def _resolve_claude_code_token_from_credentials(creds: Optional[dict[str, Any]] 
     logger.debug("Claude Code credentials expired — attempting refresh")
     refreshed = _refresh_oauth_token(creds)
     if not refreshed:
-        logger.debug("Token refresh failed — run 'hermes auth add anthropic' to give Hermes its own login")
+        logger.debug("Token refresh failed — run 'iskra auth add anthropic' to give Hermes its own login")
     return refreshed or None
 
 

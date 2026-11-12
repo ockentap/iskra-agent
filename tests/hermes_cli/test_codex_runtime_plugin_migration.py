@@ -273,7 +273,7 @@ class TestStripUnmanagedPluginTables:
 
     When codex itself writes ``[plugins."<name>@<marketplace>"]`` tables
     (via the user running ``codex plugins enable`` directly), re-running
-    ``hermes codex-runtime migrate`` would re-emit them inside the managed
+    ``iskra codex-runtime migrate`` would re-emit them inside the managed
     block and the resulting duplicate-table-header would crash codex.
     """
 
@@ -454,8 +454,8 @@ class TestSameNameUserMcpTable:
 
 
     def test_cli_migrate_dry_run_json_reports_without_writing(self, tmp_path, monkeypatch, capsys):
-        """`hermes codex-runtime migrate --dry-run --json` is the supported automation seam:
-        drive it through the real ``hermes`` argparse tree so the subcommand registration in
+        """`iskra codex-runtime migrate --dry-run --json` is the supported automation seam:
+        drive it through the real ``iskra`` argparse tree so the subcommand registration in
         hermes_cli/main.py stays pinned, and honour ``CODEX_HOME`` like every codex sibling."""
         import json
 

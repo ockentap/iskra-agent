@@ -56,7 +56,7 @@ def _home_candidates() -> list:
         from hermes_constants import get_hermes_home
         candidates.append(Path(get_hermes_home()) / "bin" / "lightpanda")
     except Exception as e:  # pragma: no cover - defensive
-        logger.debug("hermes home unavailable for lightpanda lookup: %s", e)
+        logger.debug("iskra home unavailable for lightpanda lookup: %s", e)
     return candidates
 
 

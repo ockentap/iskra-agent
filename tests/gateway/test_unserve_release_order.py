@@ -14,7 +14,7 @@ async def test_unserve_holds_the_profile_lock_until_its_handles_close(tmp_path, 
     deleter_could_start = []
 
     def close_all_under(directory):
-        # A `hermes profile delete` waiting on the lock rmtree's the home the moment it wins.
+        # A `iskra profile delete` waiting on the lock rmtree's the home the moment it wins.
         try:
             with exclusive_maintenance([home]):
                 deleter_could_start.append(True)

@@ -2,7 +2,7 @@
 
 The checkout's ``.hermes/bin`` launchers are shared by every data root and by
 the ``~/.local/bin`` shims. Rewriting them to the launching root's store
-Python bricks ``hermes`` once that root is deleted. The launching process must
+Python bricks ``iskra`` once that root is deleted. The launching process must
 still relaunch into its own root's Python.
 """
 import json

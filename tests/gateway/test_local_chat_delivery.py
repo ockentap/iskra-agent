@@ -165,7 +165,7 @@ async def test_cron_result_for_a_local_origin_without_its_owner_is_an_error(tmp_
     from cron import scheduler_delivery as sd
     from gateway.session_cron import unbind_owner
     runner, authority, ref, _ = await _local(tmp_path, monkeypatch)
-    unbind_owner(authority)  # a standalone `hermes cron run`: no gateway in this process
+    unbind_owner(authority)  # a standalone `iskra cron run`: no gateway in this process
     job = {'id': 'j1', 'name': 'digest', 'deliver': 'origin',
            'origin': {'platform': 'local', 'chat_id': ref.session_id}}
     error = await asyncio.to_thread(sd._deliver_result, job, 'CRON_RESULT_j1', adapters=runner.adapters,

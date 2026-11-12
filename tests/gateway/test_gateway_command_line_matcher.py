@@ -1,6 +1,6 @@
 """Tests for the strict gateway command-line matcher.
 
-Regression guard for the Windows ``hermes gateway restart`` silent-outage bug:
+Regression guard for the Windows ``iskra gateway restart`` silent-outage bug:
 the previous loose substring match (``"... gateway" in cmdline``) false-matched
 ``gateway status``/``dashboard`` siblings and unrelated processes such as
 ``python -m tui_gateway``, which let ``restart()`` race a still-draining old
@@ -27,15 +27,15 @@ ACCEPT = [
     "python gateway/run.py",
     "python -m gateway.run",   # module spelling of the dedicated entrypoint
     "hermes-gateway.exe",
-    "hermes gateway",          # bare `hermes gateway` defaults to run
-    "hermes gateway run",
+    "iskra gateway",          # bare `iskra gateway` defaults to run
+    "iskra gateway run",
     # profile selector AFTER the `gateway` token (argv is profile-position
     # agnostic — _apply_profile_override strips --profile/-p anywhere)
-    "hermes gateway --profile work run",
+    "iskra gateway --profile work run",
     "python -m hermes_cli.main gateway -p work run",
-    "hermes gateway --profile=work run",
+    "iskra gateway --profile=work run",
     # a profile literally NAMED "gateway"
-    "hermes -p gateway gateway run",
+    "iskra -p gateway gateway run",
     "python -m hermes_cli.main --profile gateway gateway run",
     # quoted Windows paths with spaces (shlex-aware tokenization)
     r'"C:\Program Files\Hermes\hermes-gateway.exe"',

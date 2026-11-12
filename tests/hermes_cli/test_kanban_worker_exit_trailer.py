@@ -1,7 +1,7 @@
 """A dead Kanban worker is booked the same way whichever process notices it.
 
 ``_recent_worker_exits`` is filled by ``os.waitpid`` and so only knows children of
-the process running the sweep; a per-tick ``hermes kanban dispatch`` process finds it
+the process running the sweep; a per-tick ``iskra kanban dispatch`` process finds it
 empty. The worker's own exit trailer in its log is the durable witness the sweep reads
 instead, and a tripped protocol-violation budget must hold the card until an operator
 unblocks it.

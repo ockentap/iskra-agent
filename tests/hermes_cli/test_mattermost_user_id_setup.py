@@ -1,4 +1,4 @@
-"""`hermes gateway setup` → Mattermost must name a user-ID lookup that exists.
+"""`iskra gateway setup` → Mattermost must name a user-ID lookup that exists.
 
 The profile dialog does not show the ID. System Console → User Management →
 Users and GET /api/v4/users/username/<username> do; /users/me with the bot

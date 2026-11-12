@@ -1,5 +1,5 @@
 """User systemd unit location and identity: the account home owns the unit dir (#98699) and a bare
-``hermes-gateway.service`` pinning THIS home is this home's service (#109476)."""
+``iskra-gateway.service`` pinning THIS home is this home's service (#109476)."""
 
 import pytest
 
@@ -9,7 +9,7 @@ pytestmark = pytest.mark.platforms("linux")
 
 
 def test_user_unit_dir_follows_the_account_home_not_a_profile_pinned_process_home(tmp_path, monkeypatch):
-    # ``hermes -p x gateway install`` launched from a process whose HOME profile isolation already
+    # ``iskra -p x gateway install`` launched from a process whose HOME profile isolation already
     # pointed at the ACTIVE profile's ``{HERMES_HOME}/home``; the unit must land where
     # ``systemctl --user`` looks — under the account home — not under that profile dir.
     account_home = tmp_path / "account"
@@ -28,8 +28,8 @@ def test_user_unit_dir_follows_the_account_home_not_a_profile_pinned_process_hom
 
 
 def test_bare_user_unit_pinning_this_custom_home_is_adopted_by_lifecycle_commands(tmp_path, monkeypatch):
-    # A pre-#106611 install of a custom root left ``hermes-gateway.service`` (bare) pinning that root;
-    # the recomputed ``hermes-gateway-<hash>`` name made it invisible and ``restart`` ran foreground.
+    # A pre-#106611 install of a custom root left ``iskra-gateway.service`` (bare) pinning that root;
+    # the recomputed ``iskra-gateway-<hash>`` name made it invisible and ``restart`` ran foreground.
     custom_root = tmp_path / "hermes"
     custom_root.mkdir()
     unit_dir = tmp_path / "xdg" / "systemd" / "user"

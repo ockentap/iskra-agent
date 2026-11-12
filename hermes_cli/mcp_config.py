@@ -1052,7 +1052,7 @@ def cmd_mcp_configure(args):
     """Reconfigure which tools are enabled for an existing MCP server."""
     import sys as _sys
     if not _sys.stdin.isatty():
-        print("Error: 'hermes mcp configure' requires an interactive terminal.", file=_sys.stderr)
+        print("Error: 'iskra mcp configure' requires an interactive terminal.", file=_sys.stderr)
         _sys.exit(1)
     name = args.name
     cfg = _lookup_server(name, _get_mcp_servers(), "Available")
@@ -1125,18 +1125,18 @@ def cmd_mcp_configure(args):
 
 
 _MCP_USAGE = (
-    "hermes mcp                                    Open the catalog picker (default)",
-    "hermes mcp catalog                            List Nous-approved MCPs",
-    "hermes mcp install <name>                     Install a catalog MCP",
-    "hermes mcp add <name> --url <endpoint>        Add a custom MCP server",
-    "hermes mcp add <name> --command <cmd>         Add a stdio server",
-    "hermes mcp add <name> --preset <preset>       Add from a known preset",
-    "hermes mcp remove <name>                      Remove a server",
-    "hermes mcp list                               List configured servers",
-    "hermes mcp test <name>                        Test connection",
-    "hermes mcp configure <name>                   Toggle tools",
-    "hermes mcp login <name>                       Re-authenticate OAuth",
-    "hermes mcp reauth <name> | --all              Re-auth one or all OAuth servers",
+    "iskra mcp                                    Open the catalog picker (default)",
+    "iskra mcp catalog                            List Nous-approved MCPs",
+    "iskra mcp install <name>                     Install a catalog MCP",
+    "iskra mcp add <name> --url <endpoint>        Add a custom MCP server",
+    "iskra mcp add <name> --command <cmd>         Add a stdio server",
+    "iskra mcp add <name> --preset <preset>       Add from a known preset",
+    "iskra mcp remove <name>                      Remove a server",
+    "iskra mcp list                               List configured servers",
+    "iskra mcp test <name>                        Test connection",
+    "iskra mcp configure <name>                   Toggle tools",
+    "iskra mcp login <name>                       Re-authenticate OAuth",
+    "iskra mcp reauth <name> | --all              Re-auth one or all OAuth servers",
 )
 
 

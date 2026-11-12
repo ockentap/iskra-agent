@@ -52,7 +52,7 @@ def _ink_child(script: str, *args: str, scripts: Path = _SCRIPTS, **env: str) ->
 def test_gateway_bootstrap_reaches_a_verdict_on_the_store_python():
     """With no owner running, discovery's fallback imports a dependency (gateway.status -> utils ->
     hermes_yaml -> ruamel). The bootstrap must answer with its bounded gateway verdict, not die on
-    the import -- which left a fresh `hermes --tui` unable to start or recover a gateway at all."""
+    the import -- which left a fresh `iskra --tui` unable to start or recover a gateway at all."""
     _commit_generation()
 
     child = _ink_child("gateway_bootstrap.py")
@@ -99,7 +99,7 @@ def test_store_python_without_a_generation_names_the_remedy():
     lines = bootstrap.stderr.strip().splitlines()
     assert bootstrap.returncode == 1
     assert lines[0] == "gateway unavailable: bootstrap_dependencies", bootstrap.stderr
-    assert lines[-1] == "gateway unavailable: run `hermes pm repair`, then restart the TUI", bootstrap.stderr
+    assert lines[-1] == "gateway unavailable: run `iskra pm repair`, then restart the TUI", bootstrap.stderr
 
 
 def test_clipboard_helper_without_a_generation_answers_false(tmp_path):

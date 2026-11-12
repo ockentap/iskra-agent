@@ -676,7 +676,7 @@ def launchd_install(force: bool = False, *, start_now: bool = True, force_unit_p
                 from hermes_constants import display_hermes_home
                 print(
                     "⚠ Service definition could not be reloaded with launchd. "
-                    "Run 'hermes gateway install --force' or check "
+                    "Run 'iskra gateway install --force' or check "
                     f"{display_hermes_home()}/logs/launchd-reload.log for details."
                 )
             return

@@ -61,6 +61,6 @@ def test_standalone_without_hermes_reports_setup_not_ambient_installs(command, t
     )
     assert result.returncode == 1
     assert "Hermes environment" in result.stdout
-    assert "hermes setup" in result.stdout
+    assert "iskra setup" in result.stdout
     assert "pip" not in result.stdout + result.stderr
     assert "Traceback" not in result.stderr

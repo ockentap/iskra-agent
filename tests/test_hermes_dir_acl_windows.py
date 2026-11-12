@@ -213,7 +213,7 @@ def test_elevated_update_step_makes_a_stranded_home_usable(reporters_parent, mon
     """alt-glitch on #140490: the owed ``windows_home_acl`` step had unit tests only. Here the real
     step runs from this elevated runner over a home whose nested dirs and files carry the reporters'
     Administrators-only DACL, with real grants; the filtered token must use every one afterwards.
-    (The full elevated ``hermes update`` run stays a workflow_dispatch / live retest.)"""
+    (The full elevated ``iskra update`` run stays a workflow_dispatch / live retest.)"""
     from hermes_cli import update_windows_acl
 
     nested = reporters_parent / "sessions" / "2026"

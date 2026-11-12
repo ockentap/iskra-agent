@@ -83,7 +83,7 @@ def test_every_reader_skips_the_retired_fact(upgraded_store, monkeypatch):
 
 
 def test_ensure_rerecords_the_old_chromium_env_without_installing(upgraded_store, monkeypatch):
-    """`hermes update` skips installed defaults, so nothing reinstalls Chromium to re-record its env: an
+    """`iskra update` skips installed defaults, so nothing reinstalls Chromium to re-record its env: an
     ensure() that finds it installed re-derives the env from the package code, without a fetch."""
     import pm.install
 

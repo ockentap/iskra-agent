@@ -3,7 +3,7 @@
 A user who reaches the gateway's Webapp through a reverse proxy or tunnel sets ``webapp.public_url``.
 On the Webapp listener it engages sign-in even on a loopback bind, it is the one public Host the
 listener accepts, and sign-in and MCP OAuth callbacks are built on it. ``dashboard.public_url``
-describes ``hermes dashboard``: the gateway's Webapp ignores it, and the standalone dashboard keeps
+describes ``iskra dashboard``: the gateway's Webapp ignores it, and the standalone dashboard keeps
 reading it as before. The live cases run a real gateway listener in a child process
 (``fixtures/webapp_fallback_peer.py``) with its own ``HERMES_HOME``.
 """
@@ -131,7 +131,7 @@ def test_sign_in_callbacks_are_built_on_the_webapps_public_url(own_url):
 
 @pytest.fixture(scope="module")
 def dashboard_url_only(tmp_path_factory):
-    # dashboard.public_url set for `hermes dashboard`, no sign-in provider, a loopback Webapp.
+    # dashboard.public_url set for `iskra dashboard`, no sign-in provider, a loopback Webapp.
     spec = {"webapp": {"enabled": True, "port": free_port()}, "dashboard_public_url": DASHBOARD_URL,
             "probe_host": "dash.example.net"}
     return run(tmp_path_factory.mktemp("dashboard-url"), spec)

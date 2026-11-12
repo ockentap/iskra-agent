@@ -202,7 +202,7 @@ def migrate_from_agents(hermes_home: Path, source_name: str = "", extra_args: tu
             return 0
         print_info(("Found: " + ", ".join(s.label for s, _ in found) + ". " if found else
                     "No other agent setup found on this computer. ")
-                   + "Import one with: " + ", ".join(f"hermes migrate {s.name}" for s in IMPORT_SOURCES))
+                   + "Import one with: " + ", ".join(f"iskra migrate {s.name}" for s in IMPORT_SOURCES))
         return 0
     source = next(s for s in IMPORT_SOURCES if s.name == source_name)
     if not _ensure_plugin(hermes_home):

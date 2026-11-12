@@ -92,7 +92,7 @@ async def probe(peer):
             params = dict(request_id=source, source=source, cwd=str(cwd), model='policy-' + source)
             if source == 'cli':
                 params['toolsets'] = ['terminal']
-            if source == 'tui':  # `hermes --tui -s policy-skill --pass-session-id`
+            if source == 'tui':  # `iskra --tui -s policy-skill --pass-session-id`
                 params.update(skills=['policy-skill'], pass_session_id=True)
             created = await rpc(ws, 'session.create', **params)
             assert 'result' in created, created

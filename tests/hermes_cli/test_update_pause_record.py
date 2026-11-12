@@ -22,7 +22,7 @@ pytestmark = pytest.mark.skipif(sys.platform == "win32", reason="POSIX signals; 
 
 # Every child (and its children) locks a private file for THIS repo's checkout, like the
 # conftest fixture does in-process: the real one lives in the git common dir that parallel test
-# files and, from a linked worktree, the live install's `hermes update` share. A held one reads
+# files and, from a linked worktree, the live install's `iskra update` share. A held one reads
 # as "another update is live" and recovery correctly defers to it.
 _PRIVATE_CHECKOUT_LOCK = """
 import os
@@ -198,7 +198,7 @@ def test_an_adopted_baseline_never_replaces_this_runs_own(tmp_path, monkeypatch)
 
 
 def _orphan(tmp_path: Path, profiles: dict) -> None:
-    """A record whose owner — a real ``hermes update`` stand-in — was SIGKILLed after writing it."""
+    """A record whose owner — a real ``iskra update`` stand-in — was SIGKILLed after writing it."""
     owner = _child(f"""
         import time
         from hermes_cli import update_pause_record as r
@@ -307,7 +307,7 @@ _HOLDER = """
     host.wait()
 """
 # A stand-in for the host the update relaunched: its argv names the host command, and the
-# ``hermes update`` its agent starts is its child.
+# ``iskra update`` its agent starts is its child.
 _HOST = """
 import subprocess, sys
 probe = "from hermes_cli.update_lock import UpdateLock; l = UpdateLock(); print(l.acquire(), l.holder is not None)"

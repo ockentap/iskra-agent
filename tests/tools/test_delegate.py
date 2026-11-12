@@ -77,7 +77,7 @@ class TestStripBlockedTools(unittest.TestCase):
     def test_mixed_composite_is_subtracted_at_child_assembly(self):
         """A mixed platform bundle must not re-expose blocked leaf tools.
 
-        ``hermes-cli`` contains both allowed tools and every sensitive
+        ``iskra-cli`` contains both allowed tools and every sensitive
         delegate tool, so it cannot be dropped wholesale. Child construction
         must instead pass exact one-tool deny toolsets to AIAgent, where
         model_tools applies them after resolving the composite.

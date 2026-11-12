@@ -1,7 +1,7 @@
 """A CLI ``restart`` must stamp the planned-restart marker itself.
 
 The gateway writes ``.restart_pending.json`` only on an in-band restart (SIGUSR1 / pause-for-update).
-``hermes gateway restart`` on Windows is ``stop()`` + ``start()`` — Windows has no SIGUSR1 — so
+``iskra gateway restart`` on Windows is ``stop()`` + ``start()`` — Windows has no SIGUSR1 — so
 without a CLI writer the next boot reads a plain stop and never sends the "Gateway online" notice to
 the configured home channels.
 """

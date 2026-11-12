@@ -64,16 +64,16 @@ _FILE_REFRESH_ROWS = (
 
 _OAUTH_BLOCKS = (
     # (row name, auth getter, login hint, detail rows)
-    ("OpenAI Codex", "get_codex_auth_status", "hermes model", _FILE_REFRESH_ROWS),
+    ("OpenAI Codex", "get_codex_auth_status", "iskra model", _FILE_REFRESH_ROWS),
     ("Qwen OAuth", "get_qwen_auth_status", "qwen auth qwen-oauth", (
         ("Auth file:", "auth_file", None, None),
         ("Access exp:", "expires_at_ms", _qwen_expiry, None),
         ("Error:", "error", None, False))),
-    ("MiniMax OAuth", "get_minimax_oauth_auth_status", "hermes auth add minimax-oauth", (
+    ("MiniMax OAuth", "get_minimax_oauth_auth_status", "iskra auth add minimax-oauth", (
         ("Region:", "region", None, True),
         ("Access exp:", "expires_at", None, None),
         ("Error:", "error", None, False))),
-    ("xAI OAuth", "get_xai_oauth_auth_status", "hermes auth add xai-oauth", _FILE_REFRESH_ROWS))
+    ("xAI OAuth", "get_xai_oauth_auth_status", "iskra auth add xai-oauth", _FILE_REFRESH_ROWS))
 
 _APIKEY_PROVIDERS = {
     "Z.AI / GLM": ("GLM_API_KEY", "ZAI_API_KEY", "Z_AI_API_KEY"), "Kimi / Moonshot": ("KIMI_API_KEY",),

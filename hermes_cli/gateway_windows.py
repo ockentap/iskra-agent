@@ -960,7 +960,7 @@ def _install_startup_fallback(script_path: Path, start_now: bool, detail: str) -
         # An earlier task survives (UAC declined, access denied on re-create) and still fires at
         # logon; adding the fallback beside it would start the gateway twice (#80569).
         print("⚠ Scheduled Task is still registered — skipped the Startup fallback to avoid a duplicate autostart.")
-        print("  If that task is disabled or broken, run 'hermes gateway uninstall', then install again.")
+        print("  If that task is disabled or broken, run 'iskra gateway uninstall', then install again.")
     else:
         entry = _install_startup_entry(script_path)
         print(f"✓ Installed Windows login item: {entry}")
@@ -975,7 +975,7 @@ def _install_startup_fallback(script_path: Path, start_now: bool, detail: str) -
         from hermes_cli.gateway import _profile_arg
 
         profile_arg = _profile_arg()
-        start_cmd = f"hermes {profile_arg} gateway start" if profile_arg else "hermes gateway start"
+        start_cmd = f"iskra {profile_arg} gateway start" if profile_arg else "iskra gateway start"
         print("ℹ Startup fallback installed; gateway not started now.")
         print(f"  Start manually with: {start_cmd}")
     _print_next_steps()

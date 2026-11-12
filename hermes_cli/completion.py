@@ -183,7 +183,7 @@ _hermes() {{
             subcmds=(
 {top_cmds_str}
             )
-            _describe 'hermes command' subcmds
+            _describe 'iskra command' subcmds
             ;;
         args)
             case ${{line[1]}} in

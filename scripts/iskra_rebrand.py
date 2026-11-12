@@ -100,6 +100,11 @@ LITERAL_RULES: list[Rule] = [
     Rule("agent/legacy_cli.py", 'version=f"Hermes Agent v{__version__}',
          'version=f"Iskra v{__version__}',
          name="legacy_cli: --version"),
+    Rule("agent/legacy_cli.py", 'prog="hermes-agent"', 'prog="iskra-agent"',
+         name="legacy_cli: prog name"),
+    Rule("agent/legacy_cli.py", 'description="Legacy single-query Hermes Agent runner.',
+         'description="Legacy single-query Iskra runner.',
+         name="legacy_cli: description"),
     Rule("hermes_cli/_parser.py",
          'description="Hermes Agent - AI assistant with tool-calling capabilities"',
          'description="Iskra - AI assistant with tool-calling capabilities"',
@@ -113,6 +118,16 @@ LITERAL_RULES: list[Rule] = [
     Rule("hermes_cli/source_releases.py", 'OFFICIAL_REPOSITORY = "NousResearch/hermes-agent"',
          'OFFICIAL_REPOSITORY = "ockentap/iskra-agent"',
          name="updater: official repository"),
+    Rule("hermes_cli/source_releases.py",
+         '    except (OSError, ValueError, subprocess.SubprocessError) as exc:\n'
+         '        logger.warning("Could not resolve the stable source release: %s", exc)\n'
+         '        raise ValueError(_describe_release_failure(exc)) from exc',
+         '    except (OSError, ValueError, subprocess.SubprocessError) as exc:\n'
+         '        # A fork with no published releases is not a warning-level event.\n'
+         '        if "404" not in str(exc):\n'
+         '            logger.warning("Could not resolve the stable source release: %s", exc)\n'
+         '        raise ValueError(_describe_release_failure(exc)) from exc',
+         name="updater: quiet 404 for fork without releases"),
     Rule("hermes_cli/update_cmd_git.py",
          'OFFICIAL_REPO_URLS = {\n'
          '    "https://github.com/NousResearch/hermes-agent.git",\n'
@@ -158,11 +173,43 @@ LITERAL_RULES: list[Rule] = [
          'assert get_default_hermes_root() == local_appdata / "hermes"',
          'assert get_default_hermes_root() == local_appdata / "iskra"',
          name="tests: windows default root"),
+    Rule("tests/agent/test_legacy_cli.py", '"usage: hermes-agent"', '"usage: iskra-agent"',
+         name="tests: legacy cli usage"),
+    Rule("tests/agent/test_legacy_cli.py", '"Hermes Agent v"', '"Iskra v"',
+         name="tests: legacy cli version"),
+    Rule("tests/agent/test_legacy_cli.py", '"hermes-agent"', '"iskra-agent"', count=0,
+         name="tests: legacy cli script name"),
 ]
 
 REGEX_RULES: list[RegexRule] = [
     RegexRule("hermes_cli/**/*.py", r'prog="hermes(?=[ "]?)', 'prog="iskra',
               name="cli: argparse prog names"),
+    # Command strings that are not wrapped in backticks, e.g. f"hermes -p {p} auth add …".
+    # A quote, the bare name and a space: module names contain an underscore and
+    # never match, and prose keeps reading naturally after the rename.
+    RegexRule("agent/**/*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="copy: agent bare commands"),
+    RegexRule("hermes_cli/**/*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="copy: cli bare commands"),
+    RegexRule("gateway/**/*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="copy: gateway bare commands"),
+    RegexRule("tools/**/*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="copy: tools bare commands"),
+    RegexRule("cron/**/*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="copy: cron bare commands"),
+    RegexRule("tui_gateway/**/*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="copy: tui bare commands"),
+    RegexRule("acp_adapter/**/*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="copy: acp bare commands"),
+    RegexRule("plugins/**/*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="copy: plugin bare commands"),
+    RegexRule("tests/**/*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="tests: bare commands"),
+    # Root-level modules (hermes_state_*.py, run_agent.py, …) carry copy too.
+    RegexRule("*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="root: command hints"),
+    RegexRule("*.py", r"""(["'])hermes(?=\s)""", r"\1iskra",
+              name="root: bare commands"),
     # Copy that tells the user which command to run. Only backticked command
     # forms are touched: `hermes <sub>`, `hermes`, `hermes-agent`. Module
     # references such as `hermes_cli` keep their underscore and never match.
@@ -182,6 +229,23 @@ REGEX_RULES: list[RegexRule] = [
               name="copy: acp command hints"),
     RegexRule("plugins/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
               name="copy: plugin command hints"),
+    # Tests assert on the copy the code emits, so they follow the same rename.
+    RegexRule("tests/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="tests: command hints"),
+    # Localised copy: user-visible strings live in YAML values, never in keys.
+    # Only the product name, backticked commands and the data-directory path
+    # are rewritten; `hermes_cli/...` module references and YAML keys keep
+    # their names because code looks them up verbatim.
+    RegexRule("locales/*.yaml", r"`hermes(?=[ `{])", "`iskra",
+              name="locales: command hints"),
+    RegexRule("locales/*.yaml", r"/\.hermes/", "/.iskra/",
+              name="locales: data dir paths"),
+    RegexRule("locales/*.yaml", r"\.hermes/", ".iskra/",
+              name="locales: relative data dir paths"),
+    RegexRule("locales/*.yaml", r"\bhermes(?=\s)", "iskra",
+              name="locales: bare commands"),
+    RegexRule("locales/*.yaml", r"\bHermes\b", "Iskra",
+              name="locales: product name"),
 ]
 
 
@@ -272,10 +336,14 @@ def run(apply: bool) -> int:
                     _write(path, new_text)
         if hits:
             report.append((APPLIED, rule.label(), f"{hits} occurrence(s)"))
-        elif any(rule.replacement in _read(p) for p in files):
-            report.append((OK, rule.label(), ""))
         else:
-            report.append((DRIFT, rule.label(), "no upstream text found"))
+            # Backreferences in the replacement are not literal text; probe the
+            # literal part so an already-renamed tree reports OK, not drift.
+            probe = re.sub(r"\\[1-9]", "", rule.replacement)
+            if probe and any(probe in _read(p) for p in files):
+                report.append((OK, rule.label(), ""))
+            else:
+                report.append((DRIFT, rule.label(), "no upstream text found"))
 
     status_path = ROOT / "hermes_cli/status.py"
     if status_path.exists():

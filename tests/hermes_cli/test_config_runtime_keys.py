@@ -1,4 +1,4 @@
-"""`hermes config get/set` must recognize keys the runtime reads but DEFAULT_CONFIG leaves unseeded:
+"""`iskra config get/set` must recognize keys the runtime reads but DEFAULT_CONFIG leaves unseeded:
 core provider selections (``browser.cloud_provider``, ``<category>.use_gateway``), MoA preset fields
 (``moa.presets.<name>.fanout``), core-owned keys with a known reader (``computer_use.backend``), and keys
 an ACTIVE plugin declares through ``config_keys``.
@@ -126,7 +126,7 @@ def test_every_selection_category_key_set_is_what_read_selection_returns(hermes_
     for dotted in selection_config_keys():
         section, key = dotted.split(".")
         name_keys.setdefault(section, set()).add(key)
-    # Every `hermes tools` / Tool Gateway category read_selection serves.
+    # Every `iskra tools` / Tool Gateway category read_selection serves.
     assert {"web", "image_gen", "video_gen", "tts", "stt", "browser"} <= set(name_keys)
     for section, keys in name_keys.items():
         key = next(k for k in ("cloud_provider", "backend", "provider") if k in keys)

@@ -152,7 +152,7 @@ def test_oneshot_unit_dispatcher_scope_wraps_or_warns_never_dooms_silently(
 ) -> None:
     """A dispatcher under any systemd unit that is NOT the supervised gateway (a
     ``Type=oneshot`` dispatch timer, #113612) loses its cgroup at unit exit. With a
-    user bus the worker gets its own ``hermes-worker-*`` scope; without one the
+    user bus the worker gets its own ``iskra-worker-*`` scope; without one the
     spawn still happens (the unit's ``KillMode``/lifetime is unknowable, a
     long-lived sequencer keeps working) but the operator is told exactly why the
     workers may die. A cron caller under the same unit is unchanged."""

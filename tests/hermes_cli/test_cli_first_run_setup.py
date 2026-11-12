@@ -271,7 +271,7 @@ def test_empty_key_error_names_actual_provider(monkeypatch, capsys):
     out = capsys.readouterr().out
     assert "fireworks" in out
     assert "OPENROUTER_API_KEY" not in out
-    assert "hermes model" in out or "hermes setup" in out
+    assert "iskra model" in out or "iskra setup" in out
 
 
 # ---------------------------------------------------------------------------
@@ -328,7 +328,7 @@ def test_benched_credential_prints_cooldown_instead_of_wizard(monkeypatch, capsy
                          cause=t("cli.startup.cooldown_cause_rate_limit"), minutes=1))
     assert t("cli.startup.cooldown_cause_token_refresh") not in out
     assert "not logged into Nous Portal" in out
-    assert "re-authenticate" not in out and "hermes model" not in out
+    assert "re-authenticate" not in out and "iskra model" not in out
 
 
 def test_auth_json_only_login_explains_instead_of_wizard(monkeypatch, capsys, tmp_path):

@@ -153,7 +153,7 @@ def test_plugins_disabled_naming_the_bundled_adapter_is_not_use_and_still_disabl
     assert lcm.yuanbao_in_use(home) is False
     manifest = PluginManifest(name="yuanbao", source="user", path=str(home / "plugins" / "yuanbao"), key="yuanbao")
     assert gate_manifest(manifest, {name}, None).error == "disabled via config"
-    assert lcm.legacy_plugin_alias(name) == "yuanbao"  # `hermes plugins <verb> <name>` names the catalog plugin
+    assert lcm.legacy_plugin_alias(name) == "yuanbao"  # `iskra plugins <verb> <name>` names the catalog plugin
     # Installed and enabled (before the update, or by hand): core's old disable still wins.
     assert gate_manifest(manifest, {name}, {"yuanbao"}).error == \
         "listed in both plugins.enabled and plugins.disabled — disabled wins"
@@ -206,7 +206,7 @@ def test_every_platform_core_knows_but_yuanbao_keeps_the_yb_tools_off():
 
 def test_a_legacy_hermes_list_kept_the_yb_tools_off_and_keeps_them_off(tmp_path):
     """tools_config reads a saved ``[hermes]`` as hermes-cli + hermes-api-server, neither of which carried yb_*;
-    ``hermes-gateway`` included ``hermes-yuanbao``, so that row keeps them."""
+    ``iskra-gateway`` included ``iskra-yuanbao``, so that row keeps them."""
     home = _home(tmp_path, env="YUANBAO_APP_ID=a\nYUANBAO_APP_SECRET=s\n",
                  config="platform_toolsets:\n  telegram: [hermes]\n  slack: [hermes-gateway]\n")
     lcm.migrate_home(home, install=lambda name: (home / "plugins" / name).mkdir(parents=True) or {"ok": True},
@@ -218,7 +218,7 @@ def test_a_legacy_hermes_list_kept_the_yb_tools_off_and_keeps_them_off(tmp_path)
 
 @pytest.mark.parametrize("bundle", ["hermes-yuanbao", "hermes-gateway"])
 def test_a_disabled_hermes_yuanbao_bundle_keeps_the_yb_tools_disabled(tmp_path, bundle):
-    """Core's ``hermes-yuanbao`` bundle was the core tools plus yb_*, and ``hermes-gateway`` included it;
+    """Core's ``iskra-yuanbao`` bundle was the core tools plus yb_*, and ``iskra-gateway`` included it;
     ``agent.disabled_toolsets`` naming either removed the yb_* tools. Neither does once the bundle is gone,
     so the conversion disables the plugin's ``yuanbao`` toolset there, once, and turns nothing else off."""
     home = _home(tmp_path, env="YUANBAO_APP_ID=a\nYUANBAO_APP_SECRET=s\n",

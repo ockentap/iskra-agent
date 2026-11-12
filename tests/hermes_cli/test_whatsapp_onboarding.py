@@ -123,7 +123,7 @@ def test_start_whatsapp_onboarding_existing_creds_returns_linked_account(monkeyp
 
 @pytest.mark.parametrize("lines,returncode,expected", [
     # The bridge names the cause before exiting 1; the exit code must not replace it.
-    (['{"event":"error","error":"passkey_required"}\n'], 1, "hermes whatsapp --passkey-browser"),
+    (['{"event":"error","error":"passkey_required"}\n'], 1, "iskra whatsapp --passkey-browser"),
     (['{"event":"error","error":"logged_out","reason":401}\n'], 1, "logged_out"),
     # No streamed cause: the exit reason is all the dashboard can show.
     (['{"event":"qr","qr":"payload"}\n'], 1, "exited with code 1"),

@@ -596,7 +596,7 @@ LEFT_CORE: tuple[LeftCoreFeature, ...] = (
         # feature in use: nothing installs automatically, and the old spelling prints where it went.
         plugin="mcp-serve", label="Hermes as an MCP server", in_use=lambda home, **_: False,
         unchanged="the conversation tools keep their names; MCP clients change their args to [\"mcp-serve\"]",
-        command="mcp-serve", old_command="hermes mcp serve",
+        command="mcp-serve", old_command="iskra mcp serve",
     ),
     LeftCoreFeature(
         # CAMOFOX_URL is an address, not a credential: core kept it out of children only through its
@@ -806,7 +806,7 @@ def moved_command_hint(prog: str, value: str, action: str = "") -> str:
         get = "" if present else f" Install it with: `{_install_command(moved.plugin, home)}`."
         return (f"{moved.label} moved out of core into the '{moved.plugin}' plugin: `{moved.old_command}` is now "
                 f"`iskra {moved.command}`.{get}")
-    if prog == "hermes auth":
+    if prog == "iskra auth":
         feature = next((f for f in LEFT_CORE if f.cli and f.cli == value), None)
     elif prog == "hermes":
         feature = next((f for f in LEFT_CORE if value and value in (f.cli, f.command, *f.old_cli)), None)
@@ -819,8 +819,8 @@ def moved_command_hint(prog: str, value: str, action: str = "") -> str:
         get = f" Install it with: `{install}`."
     else:
         get = f" Enable it with: `{install.replace(' install ', ' enable ')}`." if prog == "hermes" else ""
-    if prog == "hermes auth":
-        old = " ".join(p for p in ("hermes auth", action, value) if p)
+    if prog == "iskra auth":
+        old = " ".join(p for p in ("iskra auth", action, value) if p)
         return (f"{feature.label} moved out of core into the '{feature.plugin}' plugin: `{old}` is now "
                 f"`iskra {value} {action or 'login'}`.{get}")
     label = f"`iskra {value}`" if value in feature.old_cli else feature.label

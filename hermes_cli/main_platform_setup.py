@@ -208,7 +208,7 @@ def cmd_whatsapp(args):
             print("  ✓ Session cleared")
         else:
             if not _whatsapp_has_paired_identity(session_dir):
-                print("Pairing is incomplete. Run 'hermes whatsapp' again and choose to re-pair.")
+                print("Pairing is incomplete. Run 'iskra whatsapp' again and choose to re-pair.")
                 return
             # Older installs may have lost WHATSAPP_ENABLED; a kept pairing re-asserts it.
             if (get_env_value("WHATSAPP_ENABLED") or "").lower() != "true":
@@ -247,7 +247,7 @@ def cmd_whatsapp(args):
 
     print()
     if pair_result is None or pair_result.returncode != 0 or not _whatsapp_has_paired_identity(session_dir):
-        print("⚠ Pairing may not have completed. Run 'hermes whatsapp' to try again.")
+        print("⚠ Pairing may not have completed. Run 'iskra whatsapp' to try again.")
         return
     # Only enable WhatsApp now that pairing actually succeeded (see above).
     save_env_value("WHATSAPP_ENABLED", "true")

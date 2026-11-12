@@ -3,7 +3,7 @@ picked value back, on the surfaces the gateway serves:
 
 * a messaging chat gets the clarify prompt (here the base adapter's numbered text) and the typed
   number answers it while the command is still running;
-* a local session (classic CLI, Ink TUI, Desktop over ``hermes-gateway-v1``) gets the ``clarify``
+* a local session (classic CLI, Ink TUI, Desktop over ``iskra-gateway-v1``) gets the ``clarify``
   server request on its own socket, and the viewer's response frame settles it although that
   socket's ``slash.exec`` is still waiting for the handler.
 """

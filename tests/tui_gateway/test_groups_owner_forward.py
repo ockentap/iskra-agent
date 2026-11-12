@@ -171,7 +171,7 @@ def test_a_starting_gateway_is_waited_for_and_nothing_lands_locally(home, owner,
 def test_a_named_profile_gateway_never_hides_the_standalone_rooms(home, owner, monkeypatch):
     _discovery(monkeypatch, "absent")  # Desktop on its own first
     srv._methods["groups.create"](1, {"room_id": "room-desk", "name": "Desk", "members": MEMBERS})
-    _discovery(monkeypatch, "ready")  # then `hermes -p ops gateway` serves the selected profile
+    _discovery(monkeypatch, "ready")  # then `iskra -p ops gateway` serves the selected profile
 
     listed = srv._methods["groups.list"](2, {"profile": "ops"})["result"]["rooms"]
     state = srv._methods["groups.state"](3, {"profile": "ops", "room_id": "room-desk"})

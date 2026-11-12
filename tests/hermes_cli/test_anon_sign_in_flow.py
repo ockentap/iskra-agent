@@ -1,6 +1,6 @@
 """``anon_auth.run_sign_in``: the one plain device-code sign-in every surface renders.
 
-Driven directly against the same fake portal ``hermes auth upgrade`` is tested with, so the states,
+Driven directly against the same fake portal ``iskra auth upgrade`` is tested with, so the states,
 the persistence rules, the cancel rules and the free tier's handoff are exercised on the real wire
 rather than mocked away. Each test asserts a single ruled property of the flow.
 """

@@ -4,12 +4,12 @@
   one-shot chat turn: the reply is
   printed, the prompt reached the wire, and both messages persisted to ``state.db`` under
   the session id the CLI announced.
-* ``hermes serve`` (the Desktop backend) — announces its port on stdout, and after the
+* ``iskra serve`` (the Desktop backend) — announces its port on stdout, and after the
   Desktop's Windows quit path (``taskkill /T /F``) leaves no process behind that it
   spawned (found by ownership of the scratch profile, not by parent links, which a
   detached grandchild does not keep) and a fresh backend boots again over the leftover
   host records.
-* ``hermes gateway run`` + ``hermes gateway stop`` — the Windows graceful-stop IPC (stop
+* ``iskra gateway run`` + ``iskra gateway stop`` — the Windows graceful-stop IPC (stop
   marker, not TerminateProcess) drains the gateway: it exits on its own, records
   ``stopped``, removes its pid file, and nothing it spawned survives.
 """

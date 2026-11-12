@@ -151,7 +151,7 @@ def test_current_updater_entrypoints_declare_the_handoff_sentinel():
     import sys
 
     # The sentinel local looks unused; deleting it would make a current
-    # `hermes update` frame hand off to the takeover child mid-run. Assert
+    # `iskra update` frame hand off to the takeover child mid-run. Assert
     # against the shipped entrypoints in a fresh interpreter: importing
     # hermes_cli.main probes the checkout's payload manifest, which the
     # in-process home-I/O guard refuses for worktrees under ~/.hermes.

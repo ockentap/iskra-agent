@@ -1,6 +1,6 @@
 """Vertex AI through the classic CLI's gateway path: ``/config`` and ``/bg`` (#134889 T6).
 
-A real ``hermes chat --cli`` runs in a private tmux server with ``provider: vertex`` and a synthetic
+A real ``iskra chat --cli`` runs in a private tmux server with ``provider: vertex`` and a synthetic
 service-account JSON. The fake (``tests/fakes/providers/vertex.py``) stands in for both Google
 boundaries on loopback: the OAuth token endpoint (the real ``google-auth`` signs and exchanges a
 JWT) and the Vertex OpenAI-compatible endpoint (reached through ``HTTPS_PROXY`` with a test CA).

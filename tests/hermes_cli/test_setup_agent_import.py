@@ -1,9 +1,9 @@
-"""`hermes setup`'s "Coming from another agent?" step: it offers only the agents found on disk, installs
+"""`iskra setup`'s "Coming from another agent?" step: it offers only the agents found on disk, installs
 the agent-importers plugin through the catalog install only after a yes, then runs that plugin's
 import for each pick.
 
 Real step code, a temp HERMES_HOME and a fake HOME; the terminal prompts, the catalog install (network)
-and the child `hermes import-agent` process are stand-ins that record what the step asked for.
+and the child `iskra import-agent` process are stand-ins that record what the step asked for.
 """
 
 from __future__ import annotations
@@ -163,7 +163,7 @@ def test_grok_bot_export_in_downloads_is_offered_like_the_other_agents(homes):
 
 
 def test_hermes_migrate_names_an_agent_installs_the_plugin_and_forwards_its_flags(homes, monkeypatch):
-    """`hermes migrate grok-bot ...` through the real parser: the plugin is installed from the catalog
+    """`iskra migrate grok-bot ...` through the real parser: the plugin is installed from the catalog
     when missing, and the import runs as its own command (no --from-setup) with the user's flags."""
     import argparse
 
@@ -180,12 +180,12 @@ def test_hermes_migrate_names_an_agent_installs_the_plugin_and_forwards_its_flag
         ("import", ["--profile", "default", "import-agent", "grok-bot", "--yes", "--activate-routines",
                     "--source", str(user_home / "export.json"), "--bot", "Scout"], str(hermes_home)),
     ]
-    # Setup imports OpenClaw's secrets (its old step did); `hermes migrate openclaw` only on request.
+    # Setup imports OpenClaw's secrets (its old step did); `iskra migrate openclaw` only on request.
     calls.clear()
     monkeypatch.setattr(step, "_ensure_plugin", lambda home: True)
     openclaw = parser.parse_args(["migrate", "openclaw", "-y"])
     assert openclaw.func(openclaw) == 0
     assert calls[-1][1] == ["--profile", "default", "import-agent", "openclaw", "--yes"]
-    # A failed import fails the command, so `hermes migrate x && ...` stops there.
+    # A failed import fails the command, so `iskra migrate x && ...` stops there.
     monkeypatch.setattr(step.subprocess, "run", lambda argv, env, check=False: subprocess.CompletedProcess(argv, 1))
     assert args.func(args) == 1

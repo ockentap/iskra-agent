@@ -260,7 +260,7 @@ def fresh_install_env(sb: Sandbox) -> dict[str, str]:
 
 
 def pin_main_channel(sb: Sandbox) -> None:
-    """Follow every commit on main, as `hermes update --set-channel main` records it.
+    """Follow every commit on main, as `iskra update --set-channel main` records it.
 
     An official-origin source checkout defaults to the stable channel (the latest published GitHub
     release). These sandboxes publish commits on main and no releases, and their subject is moving

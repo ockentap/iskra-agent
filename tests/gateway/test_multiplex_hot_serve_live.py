@@ -2,7 +2,7 @@
 
 A profile created under the running multiplexer is served by it without a restart: ``identify``
 lists the new home, a ticket minted for it opens a session owned by this process, and ``profiles/``
-(not the boot-time reservation) is what the next restart reserves — so ``hermes -p new`` finds an
+(not the boot-time reservation) is what the next restart reserves — so ``iskra -p new`` finds an
 owner instead of spawning a stray per-profile daemon that would later collide with the
 multiplexer's all-or-nothing reserve. A secondary whose ``state.db`` is unusable parks only itself.
 """
@@ -85,7 +85,7 @@ def mux(tmp_path, peer):
 
 
 def start_daemon(mux, timeout=90, *, extra_args=()):
-    """Boot the multiplexer the way ``hermes gateway run`` does; the canonical gateway command-line
+    """Boot the multiplexer the way ``iskra gateway run`` does; the canonical gateway command-line
     matcher (``gateway.status.looks_like_gateway_command_line``) is what the CLI's liveness probes
     apply to the recorded PID, so the fixture must spawn a recognisable launcher."""
     log = mux['log'].open('a+', encoding='utf-8', errors='replace')
@@ -162,7 +162,7 @@ def test_profile_created_under_live_multiplexer_is_served_and_owned(mux):
     proc, desc = start_daemon(mux)
     try:
         assert served_homes(desc) == {root.resolve(), mux['boot'].resolve()}
-        # ``hermes profile create`` under the multiplexer's root: the CLI signals the control socket.
+        # ``iskra profile create`` under the multiplexer's root: the CLI signals the control socket.
         created = subprocess.run([sys.executable, '-m', 'hermes_cli.main', 'profile', 'create', 'fresh'],
                                  cwd=ROOT, env=env, capture_output=True, text=True, timeout=120, check=False)
         assert created.returncode == 0, (created.stdout, created.stderr)
@@ -180,7 +180,7 @@ def test_profile_created_under_live_multiplexer_is_served_and_owned(mux):
         with sqlite3.connect(f"file:{fresh / 'state.db'}?mode=ro", uri=True) as db:
             assert db.execute('SELECT instance_id FROM runtime_epoch').fetchone() == (desc['instance_id'],)
             assert db.execute('SELECT 1 FROM sessions WHERE id=?', (sid,)).fetchone()
-        # ``hermes -p fresh`` resolves to the multiplexer instead of spawning a daemon of its own.
+        # ``iskra -p fresh`` resolves to the multiplexer instead of spawning a daemon of its own.
         ensured = subprocess.run([sys.executable, '-m', 'hermes_cli.main', '-p', 'fresh', 'gateway', 'ensure',
                                   '--timeout', '15'], cwd=ROOT, env=env, capture_output=True, text=True, timeout=60, check=False)
         payload = json.loads(ensured.stdout.strip().splitlines()[-1])
@@ -216,7 +216,7 @@ def kill_recorded_gateway(root, timeout=45):
 
 @pytest.mark.live_system_guard_bypass
 def test_named_profile_ensure_during_multiplexer_downtime_starts_the_multiplexer(mux):
-    """The multiplexer is down (restart/update) and ``hermes -p boot gateway ensure`` runs: the client
+    """The multiplexer is down (restart/update) and ``iskra -p boot gateway ensure`` runs: the client
     must start the MULTIPLEXER, never a per-profile daemon (which would answer this client and then
     block the multiplexer's next all-or-nothing reserve with ``Cannot reserve gateway profiles``)."""
     root, env, boot = mux['root'], mux['env'], mux['boot']

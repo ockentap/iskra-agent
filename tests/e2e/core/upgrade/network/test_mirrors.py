@@ -29,7 +29,7 @@ from tests.e2e.core.upgrade.network import _seed as S
 
 pytestmark = [
     pytest.mark.platforms("linux"),
-    # Every `hermes update` here targets a throwaway sandboxed install, never the real checkout.
+    # Every `iskra update` here targets a throwaway sandboxed install, never the real checkout.
     pytest.mark.live_system_guard_bypass,
     pytest.mark.skipif(H.sandbox_required_reason() is not None, reason=str(H.sandbox_required_reason())),
     pytest.mark.skipif(N.netns_required_reason() is not None, reason=str(N.netns_required_reason())),
@@ -80,7 +80,7 @@ def test_pip_mirror_update_restages_pm_runtime_through_the_mirror(inst):
 @pytest.mark.allow_network  # S.prefetch seeds the mirror with the pinned npm tarball
 def test_npm_registry_mirror_serves_pm_npm_download(inst):
     """``~/.npmrc`` names the mirror; the npm tool's store entry is missing, so
-    `hermes pm install npm` has to fetch its pinned tarball: from the mirror, never from
+    `iskra pm install npm` has to fetch its pinned tarball: from the mirror, never from
     registry.npmjs.org."""
     tool = S.installed_tool(inst, "npm")
     version = tool["version"]
@@ -115,7 +115,7 @@ def test_npm_registry_mirror_serves_pm_npm_download(inst):
 @pytest.mark.allow_network  # S.prefetch seeds the mirror with the pinned pnpm tarballs
 def test_npm_registry_mirror_serves_both_pm_pnpm_downloads(inst):
     """pnpm is two npm-hosted archives (the native executable, then the launcher whose dist/ it
-    needs): with ``~/.npmrc`` naming the mirror, `hermes pm install pnpm` fetches both from it,
+    needs): with ``~/.npmrc`` naming the mirror, `iskra pm install pnpm` fetches both from it,
     never from registry.npmjs.org."""
     from pm.lock import Lockfile
     from pm.store import current_target

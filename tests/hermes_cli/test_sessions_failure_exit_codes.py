@@ -1,5 +1,5 @@
-"""`hermes sessions` exit status tracks the outcome: a subcommand that fails, refuses, or could not ask for
-its confirmation exits non-zero, so cron/CI wrappers and `hermes sessions repair && ...` chains can tell."""
+"""`iskra sessions` exit status tracks the outcome: a subcommand that fails, refuses, or could not ask for
+its confirmation exits non-zero, so cron/CI wrappers and `iskra sessions repair && ...` chains can tell."""
 
 import sqlite3
 import sys

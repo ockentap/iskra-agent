@@ -328,7 +328,7 @@ def test_status_flags_a_gateway_this_hermes_cannot_attach(homes, monkeypatch, ca
     output = capsys.readouterr().out
     assert ('✓ Gateway is running (PID: 4242)' in output) is healthy
     assert ('incompatible: runtime_protocol' in output) is not healthy
-    assert ('hermes gateway restart' in output) is not healthy
+    assert ('iskra gateway restart' in output) is not healthy
 
 
 @pytest.mark.parametrize('served', [True, False])

@@ -223,7 +223,7 @@ def _write_exe_launcher(target: Path, python: Path, root: Path) -> None:
 
 
 def _command(home: Path) -> Path:
-    """The ``hermes`` a console runs: PATHEXT resolves .exe before .cmd."""
+    """The ``iskra`` a console runs: PATHEXT resolves .exe before .cmd."""
     exe = home / "bin" / "hermes.exe"
     return exe if exe.exists() else home / "bin" / "hermes.cmd"
 
@@ -242,7 +242,7 @@ def test_review_tree_leaves_the_installed_commands_alone(form, path_registration
     """A review tree started against the real home keeps the installed checkout's commands in its bin.
 
     Its boot bootstrap runs expose_cli too; republishing there would point every
-    console's ``hermes`` at the review tree."""
+    console's ``iskra`` at the review tree."""
     home = _windows_home(tmp_path, monkeypatch)
     installed = _checkout(home / "hermes-agent")
     review = _checkout(home / "reviews" / "pr-1" / "rebuild-wt")

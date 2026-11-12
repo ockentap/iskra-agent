@@ -166,7 +166,7 @@ def _print_summary(should_fix: bool, total: Finding) -> None:
         print()
         print(numbered)
         if not should_fix and total.issues:
-            print(color("  Tip: run 'hermes doctor --fix' to auto-fix what's possible.", Colors.DIM))
+            print(color("  Tip: run 'iskra doctor --fix' to auto-fix what's possible.", Colors.DIM))
     else:
         print(color("─" * 60, Colors.GREEN))
         print(color("  All checks passed! 🎉", Colors.GREEN, Colors.BOLD))

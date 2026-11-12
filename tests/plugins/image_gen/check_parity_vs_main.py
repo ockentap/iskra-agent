@@ -39,7 +39,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 # Pin one path to current main, one to the PR worktree.
 # ``REPO_ROOT`` is ``.../.worktrees/<name>``; the main checkout lives
 # two levels up. When running directly from a regular clone (no
-# worktree), ``MAIN_DIR`` falls back to a sibling ``hermes-agent-main``
+# worktree), ``MAIN_DIR`` falls back to a sibling ``iskra-agent-main``
 # checkout if one exists.
 def _resolve_main_dir() -> Path:
     candidate = REPO_ROOT.parent.parent

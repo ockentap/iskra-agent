@@ -148,7 +148,7 @@ def test_pinned_fresh_clone_publishes_nothing_when_the_pin_fails(tmp_path):
 
 @pytest.mark.parametrize("damage", ["commitless", "lost_head", "dangling_gitdir_file"])
 def test_unusable_checkout_is_moved_aside_and_recloned(tmp_path, damage):
-    """An interrupted clone, or a .git a killed update left unreadable (the state `hermes update`
+    """An interrupted clone, or a .git a killed update left unreadable (the state `iskra update`
     tells the user to repair by rerunning the installer): moved aside, never deleted, then cloned."""
     origin = _origin(tmp_path / "origin")
     install = tmp_path / "install"

@@ -4,7 +4,7 @@
 ``agent.browser_page_backend:BrowserPageBackend`` are what ``browser-vault-plugin.md`` tells a plugin to
 subclass or return: ``ctx.register_login_backend`` / ``ctx.register_browser_page_backend`` accept only
 instances of the base classes, and the core login-backend wrapper accepts only ``VaultItemMeta`` items.
-A plugin built the way the guide shows passes ``hermes plugins validate`` without a private-import
+A plugin built the way the guide shows passes ``iskra plugins validate`` without a private-import
 warning, registers through the real ``PluginContext``, and is driven by the vault.
 """
 

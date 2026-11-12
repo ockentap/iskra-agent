@@ -1,7 +1,7 @@
 """Nous free tier on the read-only display surfaces and the keepalive.
 
-Contract (R-USR-1): wherever a free-tier identity renders (``hermes auth status nous``,
-``hermes auth list``, ``hermes status``, ``hermes portal info``) the user sees the free-tier label
+Contract (R-USR-1): wherever a free-tier identity renders (``iskra auth status nous``,
+``iskra auth list``, ``iskra status``, ``iskra portal info``) the user sees the free-tier label
 plus the upgrade hint, and never the internal identity vocabulary. A real account keeps its normal
 rendering. The keepalive has nothing to keep alive for the free tier and must not start a thread.
 """
@@ -94,7 +94,7 @@ def _render_all(capsys) -> dict[str, str]:
     out["auth list"] = capsys.readouterr().out
     ctx = SimpleNamespace(config={}, nous_logged_in=False, nous_inference_present=False, nous_account_info=None)
     status_auth._render_auth_providers(ctx)
-    out["hermes status"] = capsys.readouterr().out
+    out["iskra status"] = capsys.readouterr().out
     portal_cli._cmd_status(SimpleNamespace())
     out["portal info"] = capsys.readouterr().out
     return out
@@ -205,7 +205,7 @@ def test_no_chat_copy_of_any_sign_in_state_leaks_a_terminal_verb_or_a_forbidden_
         "handoff_status": guest_handoff.wire_status(_HANDOFF_VIEWS[0]),
     }
     forbidden = re.compile(r"claim|nous portal|anonymous|guest", re.IGNORECASE)
-    terminal_or_url = re.compile(r"hermes |https?://", re.IGNORECASE)
+    terminal_or_url = re.compile(r"iskra |https?://", re.IGNORECASE)
 
     for state_type in anon_auth.SignInState.__subclasses__():
         kwargs = {field.name: placeholders[field.name] for field in dataclasses.fields(state_type)}

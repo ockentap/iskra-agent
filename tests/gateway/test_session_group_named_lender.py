@@ -119,7 +119,7 @@ def test_a_named_profile_is_lent_through_its_own_mirror_and_mints_its_own_grants
 
 
 def test_a_single_profile_gateway_never_advertises_the_root_gateways_listener(lender, monkeypatch):
-    # `hermes -p helper gateway run`: its own process. The root gateway's listener neither serves
+    # `iskra -p helper gateway run`: its own process. The root gateway's listener neither serves
     # helper nor holds this process's grant secret, so its /p/helper mirror would never answer.
     secret_scope.set_multiplex_active(False)
     monkeypatch.setenv('HERMES_HOME', str(lender.helper))

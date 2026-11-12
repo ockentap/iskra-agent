@@ -230,7 +230,7 @@ class TestBuildJobPromptScansSkillContent:
         """A skill that *describes* an exfil command in prose (e.g. a
         security postmortem documenting "the attacker could just
         ``cat ~/.hermes/.env``") must NOT be blocked. This was a real
-        false positive in the bundled `hermes-agent-dev` skill that
+        false positive in the bundled `iskra-agent-dev` skill that
         silently killed every PR-scout cron job for weeks.
 
         Skill bodies are vetted at install time by ``skills_guard.py``;
@@ -320,7 +320,7 @@ class TestScriptOutputNotStrictScanned:
     code — same trust class as install-vetted skill markdown — and must be
     scanned with the looser assembled-content tier instead.
 
-    Live incident: the ``hermes-triage`` cron was blocked every 5 minutes
+    Live incident: the ``iskra-triage`` cron was blocked every 5 minutes
     once an open security issue containing the root-delete pattern entered
     its ingest queue (112 such rows in the triage corpus — dangerous-command
     quotes are *normal* for triage data).

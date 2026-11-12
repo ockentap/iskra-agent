@@ -1,7 +1,7 @@
 """Behaviour contracts for the gateway SSH attach path (hermes_cli/gateway_connections_ssh*.py).
 
 The remote-shell pieces are exercised by running them in a real local ``sh``/``dash`` against a
-temp ``HOME`` with a fake ``hermes`` executable, so the spawn command, lockfile publication and
+temp ``HOME`` with a fake ``iskra`` executable, so the spawn command, lockfile publication and
 marker gate are proven by execution rather than by string shape.
 """
 

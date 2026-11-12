@@ -1,7 +1,7 @@
 """Network drop mid-turn on the gateway's session WebSocket: the turn finishes, the client comes back.
 
 Refs #145171 (EP-2). Contract: closing a client removes a viewer; it never stops accepted work.
-A real ``hermes gateway run`` in a hermetic home, a loopback model that holds each turn open until
+A real ``iskra gateway run`` in a hermetic home, a loopback model that holds each turn open until
 the test releases it (so "mid-turn" is deterministic), and a client on the gateway's ticketed
 ``/api/ws`` that loses its connection with no WebSocket close frame (a FIN, then an RST).
 ``sessions.orphan_end_grace_s`` is 1 s, so the owner's "last viewer vanished" close fires while the

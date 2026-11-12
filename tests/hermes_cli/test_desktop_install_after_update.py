@@ -1,6 +1,6 @@
-"""``hermes update`` refreshes the installed macOS ``Hermes.app`` from the rebuilt bundle (#52339).
+"""``iskra update`` refreshes the installed macOS ``Hermes.app`` from the rebuilt bundle (#52339).
 
-``hermes desktop --build-only`` only packages into ``apps/desktop/release/``; Finder launches the
+``iskra desktop --build-only`` only packages into ``apps/desktop/release/``; Finder launches the
 copy in ``/Applications``. These pin the contract of ``_install_rebuilt_macos_bundles``: a stale
 or missing installed copy is (re)installed, a current one and a running one are never touched, and
 a failed swap leaves the previous bundle launchable. Which paths count as installed is decided by

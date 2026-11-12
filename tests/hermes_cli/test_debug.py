@@ -1,4 +1,4 @@
-"""Tests for ``hermes debug`` CLI command and debug utilities."""
+"""Tests for ``iskra debug`` CLI command and debug utilities."""
 
 import os
 from unittest.mock import MagicMock, patch
@@ -122,7 +122,7 @@ class TestCaptureLogSnapshot:
 class TestMissingLogNote:
     """A missing log explains itself when the writer isn't this backend.
 
-    `hermes debug share` runs on the backend, so a desktop connected to a
+    `iskra debug share` runs on the backend, so a desktop connected to a
     remote/docker/SSH backend can never contribute desktop.log. Reporting a
     bare absence sends triage after a client-side bug it cannot see.
     """
@@ -449,7 +449,7 @@ class TestRunDebugShareRedaction:
             )
 
     def test_fallback_provider_key_never_reaches_upload_bound_content(self, hermes_home_with_secret):
-        """``hermes dump`` quotes ``fallback_providers`` from config.yaml; neither the CLI share
+        """``iskra dump`` quotes ``fallback_providers`` from config.yaml; neither the CLI share
         bundle nor the gateway /debug report may carry a fallback entry's api_key."""
         from hermes_cli.debug import _capture_dump, collect_debug_report, collect_share_bundle
 
@@ -483,7 +483,7 @@ class TestRunDebugShareRedaction:
             "    model: backup-model\n"
             f"    api_key: {yaml_value}\n", encoding="utf-8")
 
-        texts = [_capture_dump(redact=False),  # `hermes dump` stdout, as printed
+        texts = [_capture_dump(redact=False),  # `iskra dump` stdout, as printed
                  *collect_share_bundle(log_lines=20).values(),
                  collect_debug_report(log_lines=20, dump_text=_capture_dump())]
 
@@ -522,7 +522,7 @@ class TestRunDebugShareRedaction:
         assert any("backup-model" in text for text in uploaded)  # the dump really reached the sink
         assert not [text for text in uploaded if secret in text]  # checked first: the sink alone catches a leak
 
-        texts = [_capture_dump(redact=False),  # `hermes dump` stdout, as printed
+        texts = [_capture_dump(redact=False),  # `iskra dump` stdout, as printed
                  collect_debug_report(log_lines=20, dump_text=_capture_dump())]
 
         assert all(s in texts[0] for s in ("backup-model", "BACKUP_KEY_ENV_NAME", "BACKUP_API_KEY_ENV_NAME", "4321"))
@@ -538,7 +538,7 @@ class TestRunDebugShareRedaction:
     ])
     def test_fallback_base_url_credential_never_reaches_upload_bound_content(self, hermes_home_with_secret, base_url):
         """A fallback ``base_url`` can carry its credential in the URL (userinfo, query, fragment). The
-        dump is config made to be pasted, so ``hermes dump`` itself and every upload of it get strict
+        dump is config made to be pasted, so ``iskra dump`` itself and every upload of it get strict
         URL-credential redaction, not the log policy."""
         from hermes_cli.debug import _capture_dump, collect_debug_report, collect_share_bundle
 
@@ -549,7 +549,7 @@ class TestRunDebugShareRedaction:
             "    model: backup-model\n"
             f"    base_url: '{base_url.format(s=secret)}'\n", encoding="utf-8")
 
-        texts = [_capture_dump(redact=False),  # `hermes dump` stdout, as printed
+        texts = [_capture_dump(redact=False),  # `iskra dump` stdout, as printed
                  *collect_share_bundle(log_lines=20).values(),
                  collect_debug_report(log_lines=20, dump_text=_capture_dump())]
 
@@ -694,7 +694,7 @@ class TestScheduleAutoDelete:
 
     The new implementation is stateless: it records pending deletions to
     ``~/.hermes/pastes/pending.json`` and lets ``_sweep_expired_pastes``
-    handle the DELETE requests synchronously on the next ``hermes debug``
+    handle the DELETE requests synchronously on the next ``iskra debug``
     invocation.
     """
 
@@ -855,7 +855,7 @@ class TestSweepExpiredPastes:
 class TestBuildDebugShare:
     """The shared core that returns structured paste URLs (not printed text).
 
-    Backs both ``hermes debug share`` (CLI) and ``POST /api/ops/debug-share``
+    Backs both ``iskra debug share`` (CLI) and ``POST /api/ops/debug-share``
     (dashboard). The dashboard renders ``urls`` as real, copyable links, so the
     contract here is the return value, not stdout.
     """
@@ -1086,7 +1086,7 @@ class TestDebugSlashCommand:
 
 
 class TestShareConsentGate:
-    """`hermes debug share` requires explicit consent before uploading.
+    """`iskra debug share` requires explicit consent before uploading.
 
     Uses SimpleNamespace rather than MagicMock so ``args.yes`` is a real
     ``False`` — a MagicMock auto-provides a truthy ``.yes`` and would silently

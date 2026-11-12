@@ -21,7 +21,7 @@ def test_host_daemon_does_not_inherit_named_profile_dotenv(tmp_path, monkeypatch
                                'HERMES_LANGUAGE=fr\n', encoding='utf-8')
     for key in ('TELEGRAM_BOT_TOKEN', 'OPENROUTER_API_KEY', 'HERMES_LANGUAGE'):
         monkeypatch.delenv(key, raising=False)
-    # The `hermes -p work` client: its process home is the profile and its .env is in os.environ.
+    # The `iskra -p work` client: its process home is the profile and its .env is in os.environ.
     monkeypatch.setenv('HERMES_HOME', str(work))
     load_hermes_dotenv(hermes_home=work)
     assert os.environ['TELEGRAM_BOT_TOKEN'] == 'work-bot-token'

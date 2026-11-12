@@ -1,4 +1,4 @@
-"""``hermes send`` without ``--json`` prints the result's warnings, so a failed media upload shows
+"""``iskra send`` without ``--json`` prints the result's warnings, so a failed media upload shows
 its cause ("Timed out ...") instead of only the generic "No deliverable" error (#133164)."""
 
 import json

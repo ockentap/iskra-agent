@@ -78,7 +78,7 @@ class TestScanContextContent:
         assert "[BLOCKED: AGENTS.md" in _scan_context_content(guidance, "AGENTS.md")
 
     def test_distribution_owned_soul_md_still_blocks_on_a_hit(self, tmp_path):
-        """`hermes profile install <git-url>` copies a third-party SOUL.md into the profile home unscanned
+        """`iskra profile install <git-url>` copies a third-party SOUL.md into the profile home unscanned
         (profile_distribution.DEFAULT_DIST_OWNED), so a SOUL.md owned by distribution.yaml is not the
         user's own file and an injection phrase in it must stay BLOCKED; the same text with no manifest
         loads (#112570 review)."""

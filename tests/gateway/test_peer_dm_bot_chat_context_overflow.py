@@ -1,6 +1,6 @@
 """A peer DM that overflows the LOCAL Bot Chat's context auto-resets it, and the follow-up is answered.
 
-``hermes peer dm`` lands in the peer's Bot Chat, a ``source='local'`` session the authority FIFO owns
+``iskra peer dm`` lands in the peer's Bot Chat, a ``source='local'`` session the authority FIFO owns
 (not an API conversation, so the API_SERVER exemption from the compression-exhaustion reset never
 applies). The reset ran INSIDE the overflowing turn, while that turn's own admission was still
 ``started``: ``reset_local_target`` refused it (``session_busy``), the exception became a failed turn
@@ -126,7 +126,7 @@ def overflow_run(tmp_path_factory):
             assert status == 201, created
             sid = created['session']['id']
             first = _post(api_port, f'/api/sessions/{sid}/chat', {'message': big})
-            # ``hermes peer dm`` resolves the Bot Chat by exact title before every DM (``_find_bot_chat``).
+            # ``iskra peer dm`` resolves the Bot Chat by exact title before every DM (``_find_bot_chat``).
             found = _get(api_port, '/api/sessions?limit=200&title=Bot+Chat&include_hidden=1')['data']
             follow = _post(api_port, f'/api/sessions/{sid}/chat', {'message': 'short follow-up MKFOLLOW'})
     finally:

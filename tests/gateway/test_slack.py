@@ -563,7 +563,7 @@ class TestSlackConnectCleanup:
     async def test_disconnect_closes_workspace_clients_and_clears_runtime_state(self):
         """Regression for #51465: shutdown must close Slack WebClients.
 
-        ``hermes gateway run --replace`` takes the old process through the
+        ``iskra gateway run --replace`` takes the old process through the
         normal adapter.disconnect() path. If Slack leaves AsyncWebClient
         instances open there, aiohttp logs ``Unclosed client session`` while
         the old gateway exits after SIGTERM.
@@ -3325,7 +3325,7 @@ class TestMessageSplitting:
 
     @pytest.mark.asyncio
     async def test_send_coerces_string_unfurl_options(self, adapter):
-        """`hermes config set` / Railway persist YAML booleans as strings.
+        """`iskra config set` / Railway persist YAML booleans as strings.
 
         Relay-plane parity: string "false"/"true" must coerce instead of
         being silently dropped (which would leave previews on with no error).

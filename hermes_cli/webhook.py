@@ -1,4 +1,4 @@
-"""hermes webhook — manage dynamic webhook subscriptions from the CLI."""
+"""iskra webhook — manage dynamic webhook subscriptions from the CLI."""
 
 import hashlib
 import hmac
@@ -161,11 +161,11 @@ def _setup_hint() -> str:
 
 
 def webhook_command(args):
-    """Entry point for 'hermes webhook' subcommand."""
+    """Entry point for 'iskra webhook' subcommand."""
     sub = getattr(args, "webhook_action", None)
     if not sub:
         print("Usage: hermes webhook {subscribe|list|remove|test}")
-        print("Run 'hermes webhook --help' for details.")
+        print("Run 'iskra webhook --help' for details.")
         return
     if not _is_webhook_enabled():
         print(_setup_hint())

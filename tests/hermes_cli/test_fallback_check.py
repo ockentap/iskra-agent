@@ -1,4 +1,4 @@
-"""``hermes fallback check`` (#63852): per-entry readiness through the fallback switch's own resolvers."""
+"""``iskra fallback check`` (#63852): per-entry readiness through the fallback switch's own resolvers."""
 from __future__ import annotations
 
 import json

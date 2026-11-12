@@ -38,7 +38,7 @@ class UpdatePlan:
 
     install_method: str = "unknown"       # git | docker | nix | apt | ...
     updatable_in_place: bool = True
-    update_mechanism: str = "hermes update"
+    update_mechanism: str = "iskra update"
     expected_sha: Optional[str] = None    # current checkout HEAD (pre-pull)
     expected_version: Optional[str] = None
     profiles: list = field(default_factory=list)
@@ -118,7 +118,7 @@ def _restart_mechanism(supervisor: str, profile: str) -> str:
 def describe_restart_mechanism(mechanism: str, profile: str) -> str:
     """Human-readable description of a restart mechanism id."""
     return _MECHANISM_DESCRIPTIONS.get(mechanism) or (
-        f"hermes -p {profile} gateway restart" if profile != "default" else "hermes gateway restart"
+        f"iskra -p {profile} gateway restart" if profile != "default" else "iskra gateway restart"
     )
 
 

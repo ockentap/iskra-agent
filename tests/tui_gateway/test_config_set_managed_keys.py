@@ -1,4 +1,4 @@
-"""``config.set`` refuses a key the administrator's managed scope pins, like ``hermes config set``.
+"""``config.set`` refuses a key the administrator's managed scope pins, like ``iskra config set``.
 
 Before, both TUI paths wrote the pinned key and answered success while the managed value kept
 winning on every read. A managed scope that pins something else must not block other keys.

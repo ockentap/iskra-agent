@@ -576,7 +576,7 @@ def test_rejected_document_stays_rejected_after_a_restart(
     assert _maybe_use_cimd({}, storage) is None
 
 def test_reauthorizing_clears_the_rejection(tmp_path, monkeypatch, private_ports):
-    """`hermes mcp login` wipes stored state, so a fixed document is retried."""
+    """`iskra mcp login` wipes stored state, so a fixed document is retried."""
     monkeypatch.setenv("HERMES_HOME", str(tmp_path))
     storage = HermesTokenStorage("srv")
     storage.mark_cimd_rejected()

@@ -210,7 +210,7 @@ def _report_host_gateway_slot(mgr, issues: list[str]) -> None:
             return check_info("No gateway registered yet — run `iskra gateway install`")
         up = [p for p in slots if mgr.is_running(f"gateway-{p}")]
         issues.append("No host gateway owns the gateway role — start the ONE host multiplexer: "
-                      "hermes --profile default gateway start")
+                      "iskra --profile default gateway start")
         return check_warn(f"No host gateway owns the gateway role ({len(up)}/{len(slots)} supervision "
                           f"slots up: {', '.join(slots)})", "(nothing is serving these profiles)")
     check_ok(f"Host gateway: {topology.describe()}")
@@ -219,7 +219,7 @@ def _report_host_gateway_slot(mgr, issues: list[str]) -> None:
         check_warn(f"LEGACY per-profile gateway slots still supervised: {', '.join(legacy_up)}",
                    "(multiplex-only: the host gateway already serves every profile from one process)")
         issues.append("Fold the legacy per-profile gateways into the host gateway: "
-                      "hermes --profile default gateway migrate --multiplex")
+                      "iskra --profile default gateway migrate --multiplex")
 
 
 def check_certificates(should_fix: bool = False, issues: list | None = None) -> None:
@@ -631,14 +631,14 @@ def _check_command_installation(should_fix: bool, f: Finding) -> None:
         if target not in owned_targets:
             return f.manual_issues.append(f"Review {display}/hermes manually; its target is user-managed and was not changed")
         if not should_fix:
-            return f.issues.append(f"Broken symlink at {display}/hermes — run 'hermes doctor --fix'")
+            return f.issues.append(f"Broken symlink at {display}/hermes — run 'iskra doctor --fix'")
         verb = "Fixed"
     elif link.exists():  # regular file (wrapper script), not a symlink
         return check_ok(f"{display}/hermes exists (non-symlink)")
     else:
         check_fail(f"{display}/hermes not found", "(hermes command may not work outside the venv)")
         if not should_fix:
-            return f.issues.append(f"Missing {display}/hermes symlink — run 'hermes doctor --fix'")
+            return f.issues.append(f"Missing {display}/hermes symlink — run 'iskra doctor --fix'")
         link_dir.mkdir(parents=True, exist_ok=True)
         verb = "Created"
     if pm_launcher:
@@ -646,7 +646,7 @@ def _check_command_installation(should_fix: bool, f: Finding) -> None:
 
         if stage_launcher("hermes", PROJECT_ROOT, link_dir) is None:
             check_fail("Could not publish Hermes launcher")
-            return f.manual_issues.append("Repair the PM store interpreter through the installation owner, then rerun 'hermes doctor --fix'")
+            return f.manual_issues.append("Repair the PM store interpreter through the installation owner, then rerun 'iskra doctor --fix'")
         check_ok(f"{verb} PM launcher: {display}/hermes")
     else:
         if link.is_symlink():

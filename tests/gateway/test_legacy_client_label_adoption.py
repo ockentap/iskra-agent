@@ -1,6 +1,6 @@
 """A phone app's self-labelled chat continues in Desktop; a plugin platform sharing the label is untouched.
 
-The pre-authority ``hermes serve`` stored whatever ``source`` a client sent, so phone apps signed in
+The pre-authority ``iskra serve`` stored whatever ``source`` a client sent, so phone apps signed in
 through the dashboard login left routeless rows labelled ``mobile``, ``ios`` and the like (#146814).
 They are the owner's chats: Desktop's resume adopts them as writable conversations, while a third-party
 WebUI's rows (its own agent writes them) still open read-only. The catalog plugin hermes-mobile

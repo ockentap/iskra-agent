@@ -95,6 +95,6 @@ def test_a_deleted_profile_whose_entry_remains_settles_once_its_daemon_is_gone(t
     from hermes_constants import mark_named_profile_deleted
     home = tmp_path.resolve() / 'profiles' / 'two'
     service, db, identity, _roster = deferred(home)
-    mark_named_profile_deleted(home)  # `hermes profile delete` tombstones it; the config entry stays
+    mark_named_profile_deleted(home)  # `iskra profile delete` tombstones it; the config entry stays
     _disband(service)
     assert tasks.get_task(db, identity)['status'] == 'cancelled'

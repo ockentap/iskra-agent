@@ -52,9 +52,9 @@ def test_retained_tui_worktree_survives_stale_prune_while_its_session_resumes(tm
     monkeypatch.chdir(repo)
     monkeypatch.setenv('HERMES_PYTHON', sys.executable)
     wt_info = _setup_worktree(str(repo), sync_base=False)
-    # The real launcher exits with the TUI, so its `hermes pid=<pid>` launch lock is dead by the next launch.
+    # The real launcher exits with the TUI, so its `iskra pid=<pid>` launch lock is dead by the next launch.
     subprocess.run(['git', '-C', str(repo), 'worktree', 'unlock', wt_info['path']], check=True)
-    subprocess.run(['git', '-C', str(repo), 'worktree', 'lock', '--reason', 'hermes pid=999999999',
+    subprocess.run(['git', '-C', str(repo), 'worktree', 'lock', '--reason', 'iskra pid=999999999',
                     wt_info['path']], check=True)
     monkeypatch.setattr(main_tui_launch, '_setup_tui_worktree', lambda: wt_info)
     monkeypatch.setattr(main_tui_launch, '_make_tui_argv', lambda *_: (['node'], Path('.')))

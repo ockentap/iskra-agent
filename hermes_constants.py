@@ -97,7 +97,7 @@ def account_default_hermes_home() -> Path:
 
     Host service identities (``systemctl --user`` units, LaunchAgents) belong to the account, and their
     definitions are found under the account home. A process started with ``HOME=<scratch>`` used to call
-    ``<scratch>/.hermes`` native, name the bare ``hermes-gateway`` unit, and stop the account's real
+    ``<scratch>/.hermes`` native, name the bare ``iskra-gateway`` unit, and stop the account's real
     gateway through it. When the process HOME is the account home the two answers are the same home.
     """
     account = _account_home()
@@ -299,7 +299,7 @@ def get_routing_process_hermes_home() -> Path:
 
 # Hermes-managed runtime downloads at the root of a home (GGUF models, llama.cpp runtimes,
 # managed Node): re-downloadable on demand and routinely tens to hundreds of GB. Shared by
-# ``hermes backup`` (excludes them) and ``profile create --clone-all`` (skips them from the
+# ``iskra backup`` (excludes them) and ``profile create --clone-all`` (skips them from the
 # default profile) so the two lists cannot drift apart.
 LOCAL_RUNTIME_ROOT_DIRS: frozenset[str] = frozenset({"models", "runtimes", "node"})
 
@@ -374,7 +374,7 @@ def profile_name_for_home(path: str | Path | None) -> str | None:
     """Return the canonical profile id owning *path*, or ``None`` when it is not a profile home.
 
     The default home is the Hermes root itself, so its basename is an installation detail (``.hermes``
-    on POSIX and commonly ``hermes`` on Windows), not the profile id ``default``.
+    on POSIX and commonly ``iskra`` on Windows), not the profile id ``default``.
     """
     if path is None or not str(path).strip():
         return None
@@ -424,7 +424,7 @@ def named_profile_has_servable_identity(profile_home: str | Path) -> bool:
     """Stricter than :func:`named_profile_has_identity`: is this dir a profile a host should change
     its own posture for?
 
-    An EMPTY ``.env`` is all a crashed ``hermes profile create`` leaves behind, and it is enough for
+    An EMPTY ``.env`` is all a crashed ``iskra profile create`` leaves behind, and it is enough for
     ``named_profile_has_identity``. Listing such a shell is harmless; counting it as a second tenant
     is not — it flips the whole host's credential reads fail-closed at the next boot. Every other
     marker, and a non-empty or symlinked ``.env``, still counts.
@@ -672,8 +672,8 @@ def display_hermes_home(home: Path | None = None) -> str:
 
 
 def profile_cli_selector() -> str:
-    """``-p <name> `` (trailing space) pinning copy-pasteable ``hermes ...`` guidance to the
-    active NAMED profile, else ``""``: a bare ``hermes`` follows the sticky ``active_profile``
+    """``-p <name> `` (trailing space) pinning copy-pasteable ``iskra ...`` guidance to the
+    active NAMED profile, else ``""``: a bare ``iskra`` follows the sticky ``active_profile``
     file, which can name a different database than the one that failed (#105887). A custom
     home outside the profile tree has no selector (only HERMES_HOME names it)."""
     name = profile_name_for_home(get_hermes_home())
@@ -859,7 +859,7 @@ _LEGACY_MANAGED_SYSTEM = "nixos"
 # detection instead of blocking config writes.
 _IGNORED_MANAGED_VALUES = frozenset({"brew", "homebrew"})
 # Explicit opt-out (``HERMES_MANAGED=false``): without this a bool-shaped value became a package
-# manager literally named "false" and is_managed() blocked `hermes update` (#12864).
+# manager literally named "false" and is_managed() blocked `iskra update` (#12864).
 _MANAGED_FALSE_VALUES = frozenset({"false", "0", "no", "off"})
 
 
@@ -1004,7 +1004,7 @@ def get_scratch_dir(home: str | Path | None = None, *, prune: bool = True) -> Pa
     The pass itself runs in a detached child process (``hermes_constants_scratch_detach``): the
     directory is created and permissioned before this returns, no caller (the boot hook
     included) waits on the idle scan or the ``rmtree`` of a multi-GB entry, and the pass still
-    finishes when the caller is a ``hermes`` command that exits a moment later.
+    finishes when the caller is a ``iskra`` command that exits a moment later.
 
     Permissions follow :func:`apply_secure_dir_policy`, so an explicit ``HERMES_HOME_MODE`` or
     a managed/shared home is honored instead of a blanket ``0700`` (#117347).
@@ -1057,7 +1057,7 @@ def _prune_scratch_dir_once(scratch: Path) -> None:
 
 
 def scratch_dir_usage_bytes(scratch: Path | None = None) -> int:
-    """Total bytes under the scratch dir (for ``hermes doctor``); 0 when unreadable."""
+    """Total bytes under the scratch dir (for ``iskra doctor``); 0 when unreadable."""
     root = scratch if scratch is not None else get_scratch_dir(prune=False)
     total = 0
     for dirpath, _dirnames, filenames in os.walk(root, onerror=lambda _e: None):
@@ -1409,7 +1409,7 @@ def project_venv_dir(project_root) -> Path | None:
     Installers that keep the interpreter out of the checkout (``$HERMES_HOME/venvs/<name>``, the layout the
     shipped Windows launchers assume) have neither, and the ``project_venv_dir(root) or root / "venv"``
     idiom those call sites share then handed ``uv`` a ``VIRTUAL_ENV`` that does not exist: that one invented
-    path skipped the import probe, reclassified every ``hermes tools`` dependency as missing and failed the
+    path skipped the import probe, reclassified every ``iskra tools`` dependency as missing and failed the
     reinstall with interpreter errors (#116148). The interpreter running this module is the only truthful
     answer to "which venv is live", so fall back to it — but only for the checkout it was loaded from. A
     foreign root (test temp dir, another clone) still resolves to ``None``: handing it someone else's venv
@@ -1431,7 +1431,7 @@ def project_venv_dir(project_root) -> Path | None:
 
 
 def _venv_installs_checkout(venv: Path, root: Path) -> bool:
-    """Is *venv*'s own ``hermes-agent`` installed from *root*?
+    """Is *venv*'s own ``iskra-agent`` installed from *root*?
 
     Where this module was loaded from does not answer that: ``PYTHONPATH=<checkout>
     <other install>/bin/python`` runs one checkout's code on another install's interpreter,

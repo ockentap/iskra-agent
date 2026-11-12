@@ -1,4 +1,4 @@
-"""`hermes -z` against a real gateway with streaming on: the one-shot prints the reply (#139666).
+"""`iskra -z` against a real gateway with streaming on: the one-shot prints the reply (#139666).
 
 With ``streaming.enabled`` the local route's stream consumer "delivers" the reply through
 ``LocalSessionAdapter`` (every send acknowledges), the turn is marked ``already_sent`` and the

@@ -1,4 +1,4 @@
-"""``hermes desktop`` from inside a BUNDLED desktop payload.
+"""``iskra desktop`` from inside a BUNDLED desktop payload.
 
 A bundled artifact ships the CLI inside ``<app>/resources/agent-payload``
 and the desktop app is the artifact itself — there is no source tree to
@@ -279,7 +279,7 @@ class TestCmdGuiOnABundle:
         assert launches == [[str(launcher), "--disable-setuid-sandbox"]]
 
     def test_explicit_profile_reaches_the_bundled_launcher(self, tmp_path, monkeypatch):
-        """`hermes -p work desktop` on a bundle hands Electron --profile work."""
+        """`iskra -p work desktop` on a bundle hands Electron --profile work."""
         repo, launcher = _host_bundle(tmp_path / "app")
         # HERMES_HOME outside the platform home is the root itself on every OS.
         root = tmp_path / "hermes-root"

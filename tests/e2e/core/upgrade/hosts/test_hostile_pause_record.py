@@ -1,8 +1,8 @@
 """The paused-gateway record survives an update that runs under a partner's claim.
 
-A real checkout (a clone of the commit under test) and real processes: a ``hermes update``
+A real checkout (a clone of the commit under test) and real processes: a ``iskra update``
 stand-in that recorded a paused set is SIGKILLed; the next update runs the way Desktop/Tauri
-drives it — the orchestrator holds the marker and the ``hermes update`` child takes the checkout
+drives it — the orchestrator holds the marker and the ``iskra update`` child takes the checkout
 lock and adopts the orchestrator's claim. That update must adopt the orphaned set and fold it into
 its own record, never treat its own partner as "another update" and overwrite the record.
 """
@@ -30,7 +30,7 @@ r.write(r.stamp_tree({"resume_needed": True, "profiles": {"orphan": 4242}}), own
 print("written", flush=True)
 time.sleep(120)
 """
-# The orchestrator (Tauri ``hermes-setup --update``) claims the marker, then runs the update child.
+# The orchestrator (Tauri ``iskra-setup --update``) claims the marker, then runs the update child.
 _ORCHESTRATOR = """
 import subprocess, sys
 from hermes_cli.update_lock import UpdateLock

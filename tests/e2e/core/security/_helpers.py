@@ -1,6 +1,6 @@
 """Shared harness for the security-boundary E2E suite.
 
-Every scenario runs real Hermes processes (``hermes`` CLI, ``hermes serve``, the gateway,
+Every scenario runs real Hermes processes (``iskra`` CLI, ``iskra serve``, the gateway,
 ``tui_gateway``) with HOME=<tmp>/home and HERMES_HOME=<tmp>/home/.hermes, every credential env var
 stripped, and the model served by ``tests/fakes/fake_llm_provider.FakeLLMServer``. Assertions read
 the boundary's observable outcome: files on disk, state.db rows, logs, and the next wire request.

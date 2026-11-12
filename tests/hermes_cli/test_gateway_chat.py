@@ -45,7 +45,7 @@ def test_refusals_name_the_replacement_and_a_runnable_safe_mode_example(monkeypa
     monkeypatch.setattr(gateway_chat, "connect_gateway", lambda: pytest.fail("connected"))
     assert gateway_chat.launch_from_args(argparse.Namespace(worktree=True, run_budget=30.0)) == 2
     err = capsys.readouterr().err
-    assert "--worktree: use" in err and "hermes --tui -w" in err
+    assert "--worktree: use" in err and "iskra --tui -w" in err
     assert "--run-budget: use" in err and "run_budget_seconds" in err
     for name in gateway_chat._UNSUPPORTED:
         assert name in gateway_chat._RELOCATED, f"{name} refused without saying where it went"
@@ -160,7 +160,7 @@ async def test_rpc_preserves_notifications_and_errors():
 
 @pytest.mark.asyncio
 async def test_yolo_slash_toggles_the_session_bypass_on_the_owner(capsys):
-    """`/yolo` in an attached `hermes chat` was refused as an unsupported command, so a `--yolo`
+    """`/yolo` in an attached `iskra chat` was refused as an unsupported command, so a `--yolo`
     launch could not be revoked from the classic CLI; it is the owner's session-scoped config.set."""
     from hermes_cli.gateway_chat_view import GatewayChatView
     calls = []
@@ -179,7 +179,7 @@ async def test_yolo_slash_toggles_the_session_bypass_on_the_owner(capsys):
 
 
 def test_every_relocation_hint_names_a_command_that_parses():
-    """A refusal that points at `hermes --tui --checkpoints` / `hermes --tui -v` must not send the
+    """A refusal that points at `iskra --tui --checkpoints` / `iskra --tui -v` must not send the
     user to a command argparse rejects."""
     import re
     import shlex
@@ -198,7 +198,7 @@ def test_one_letter_alias_refusal_names_a_flag_the_user_can_type(monkeypatch, ca
     monkeypatch.setattr(gateway_chat, "connect_gateway", lambda: pytest.fail("connected"))
     assert gateway_chat.launch_from_args(argparse.Namespace(w=True)) == 2
     err = capsys.readouterr().err
-    assert "options: -w." in err and "\n  -w: use `hermes --tui -w`" in err and "--w" not in err
+    assert "options: -w." in err and "\n  -w: use `iskra --tui -w`" in err and "--w" not in err
 
 
 @pytest.mark.asyncio
@@ -288,7 +288,7 @@ async def test_launch_key_flags_are_never_silently_dropped(monkeypatch, tmp_path
 @pytest.mark.asyncio
 @pytest.mark.parametrize("command", ["/new", "/branch"])
 async def test_new_and_branch_move_the_terminal_continue_pointer(monkeypatch, tmp_path, command):
-    """P3: a bare `hermes -c` after `/new` or `/branch` continues the session this terminal is
+    """P3: a bare `iskra -c` after `/new` or `/branch` continues the session this terminal is
     now on (the in-process CLI re-wrote its breadcrumb on every switch), not the old one."""
     from hermes_cli import gateway_chat_commands, terminal_breadcrumbs
     from hermes_cli.gateway_chat_view import GatewayChatView
@@ -323,7 +323,7 @@ async def test_new_and_branch_move_the_terminal_continue_pointer(monkeypatch, tm
 
 @pytest.mark.asyncio
 async def test_oneshot_z_writes_no_session_lines_to_stderr_like_main(monkeypatch, tmp_path, capsys):
-    """Main's ``hermes -z`` printed the reply on stdout and nothing on stderr; ``-q -Q`` keeps the
+    """Main's ``iskra -z`` printed the reply on stdout and nothing on stderr; ``-q -Q`` keeps the
     ``Session:`` / ``session_id:`` lines automation wrappers read."""
     from contextlib import asynccontextmanager
     from hermes_cli import gateway_chat

@@ -1635,8 +1635,8 @@ def resolve_provider(
     if normalized != "auto":
         from hermes_cli.auth_error_copy import unknown_provider_hint
         hint = unknown_provider_hint(normalized)
-        tail = (f"\n\n{hint}" if hint else " Check 'hermes model' for available providers, "
-                "or run 'hermes doctor' to diagnose config issues.")
+        tail = (f"\n\n{hint}" if hint else " Check 'iskra model' for available providers, "
+                "or run 'iskra doctor' to diagnose config issues.")
         raise AuthError(f"Unknown provider '{normalized}'." + tail, code="invalid_provider")
 
     if explicit_api_key or explicit_base_url:  # one-off CLI creds always mean openrouter/custom
@@ -2367,9 +2367,9 @@ def _reset_config_provider() -> Path:
 
 
 def login_command(args) -> None:
-    """Deprecated: use 'hermes model' or 'hermes setup' instead."""
-    print("The 'hermes login' command has been removed.\nUse 'hermes auth' to manage credentials,\n"
-          "'hermes model' to select a provider, or 'hermes setup' for full setup.")
+    """Deprecated: use 'iskra model' or 'iskra setup' instead."""
+    print("The 'iskra login' command has been removed.\nUse 'iskra auth' to manage credentials,\n"
+          "'iskra model' to select a provider, or 'iskra setup' for full setup.")
     raise SystemExit(0)
 
 

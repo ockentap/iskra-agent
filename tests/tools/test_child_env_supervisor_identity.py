@@ -48,7 +48,7 @@ def test_child_env_factories_drop_the_supervised_gateways_identity(build):
 
     assert _reads_as_unsupervised(child)
     assert not set(OWNER_ONLY) & set(child)
-    # XPC_SERVICE_NAME is launchd's own per-process stamp ("0" below the wrapper); `hermes update`
+    # XPC_SERVICE_NAME is launchd's own per-process stamp ("0" below the wrapper); `iskra update`
     # compares it to decide whether it runs inside a job, so it passes through untouched.
     assert child["XPC_SERVICE_NAME"] == "0"
 
@@ -69,7 +69,7 @@ def test_agent_terminal_child_sees_no_supervisor_identity(tmp_path, monkeypatch)
 
 @pytest.mark.usefixtures("child_env")
 def test_external_supervisor_gateways_tool_child_cli_stays_on_the_gateways_profile(tmp_path, monkeypatch):
-    """Losing the supervisor claim must not unpin the agent's own `hermes ...` commands (#74872)."""
+    """Losing the supervisor claim must not unpin the agent's own `iskra ...` commands (#74872)."""
     from hermes_cli import main as cli_main
 
     root = tmp_path / ".hermes"

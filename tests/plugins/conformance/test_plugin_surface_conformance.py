@@ -2,10 +2,10 @@
 
 ``fixtures/conformance_surface`` is written the way the plugin guide tells an external author to
 write a plugin. It is copied into a temp ``HERMES_HOME``, enabled in that home's ``config.yaml`` and
-loaded by the process plugin manager, as ``hermes`` itself loads it. The tests assert what a user
+loaded by the process plugin manager, as ``iskra`` itself loads it. The tests assert what a user
 of the plugin would see: the tool answers through ``handle_function_call``, hooks fire with the
 documented keyword fields, middleware rewrites the call, ``/conformance-ping`` and
-``hermes conformance-cli`` answer, each provider resolves by name, and unloading the plugin takes
+``iskra conformance-cli`` answer, each provider resolves by name, and unloading the plugin takes
 every one of those back. See website/docs/developer-guide/plugins/index.md § Native plugin
 compatibility contract.
 """
@@ -174,7 +174,7 @@ def test_unload_disposes_every_registration(surface):
 
 
 def test_cli_command_runs_from_the_hermes_entry_point(tmp_path):
-    """``register_cli_command`` adds ``hermes <name>``: run the real CLI in a child process."""
+    """``register_cli_command`` adds ``iskra <name>``: run the real CLI in a child process."""
     home = tmp_path / "hermes-home"
     home.mkdir()
     _install_fixture(home)

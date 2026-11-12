@@ -49,14 +49,14 @@ def test_backend_off_is_dropped_with_a_notice(tmp_path, monkeypatch, capsys):
     out = capsys.readouterr().out
     assert _raw(home)["browser"] == {"inactivity_timeout": 60}
     assert _raw(home)["_config_version"] == DEFAULT_CONFIG["_config_version"]
-    assert "browser_exec is the browser now" in out and "`browser` toolset in `hermes tools`" in out
+    assert "browser_exec is the browser now" in out and "`browser` toolset in `iskra tools`" in out
     # Once: a second pass has nothing left to say.
     _migrate(home)
     assert "browser_exec" not in capsys.readouterr().out
 
 
 def test_quiet_migration_hands_the_notice_to_the_caller(tmp_path, monkeypatch, capsys):
-    """`hermes update` migrates quietly and re-prints only ``config_added``; the notice must be in it."""
+    """`iskra update` migrates quietly and re-prints only ``config_added``; the notice must be in it."""
     monkeypatch.setenv("HERMES_HOME", str(tmp_path / "launch"))
     home = _home(tmp_path / "a", {"_config_version": 51, "browser": {"backend": "off"}})
     results = _migrate(home, quiet=True)
@@ -90,12 +90,12 @@ def test_boot_migration_shows_the_off_notice_at_the_first_agent_start_once(tmp_p
     said = _boot_agents(home, monkeypatch, starts=2)
     assert _raw(home)["_config_version"] == DEFAULT_CONFIG["_config_version"]
     assert len(said) == 1
-    assert "browser_exec is the browser now" in said[0] and "`browser` toolset in `hermes tools`" in said[0]
+    assert "browser_exec is the browser now" in said[0] and "`browser` toolset in `iskra tools`" in said[0]
     assert _boot_agents(home, monkeypatch, starts=1) == []
 
 
 @pytest.mark.parametrize(("value", "reason"), [
-    ("camofox", "Camofox is now the camofox plugin (`hermes plugins install camofox`)"),
+    ("camofox", "Camofox is now the camofox plugin (`iskra plugins install camofox`)"),
     ("local", "browser_exec launches Hermes's packaged Chromium itself"),
     ("browserbase", "a cloud browser is chosen with browser.cloud_provider"),
     ("Browser-Use", "browser_exec (Browser Use mode) is the only browser now"),
@@ -152,7 +152,7 @@ def test_dotenv_settings_move_to_unset_keys_only(tmp_path, monkeypatch):
 
 def test_env_wins_over_the_defaults_core_wrote(tmp_path, monkeypatch):
     """Core resolved ``engine: auto`` to AGENT_BROWSER_ENGINE and ``headed`` as config OR env, and its
-    `hermes tools` Local Browser row wrote ``engine: auto``: those values do not block the move. A
+    `iskra tools` Local Browser row wrote ``engine: auto``: those values do not block the move. A
     non-default engine won on core and stays."""
     monkeypatch.setenv("HERMES_HOME", str(tmp_path / "launch"))
     env = "AGENT_BROWSER_ENGINE=lightpanda\nAGENT_BROWSER_HEADED=true\n"
@@ -190,7 +190,7 @@ def test_relative_profile_keeps_the_directory_core_used(tmp_path, monkeypatch):
 
 def test_a_pinned_relative_profile_names_the_absolute_path_on_update_and_boot(tmp_path, monkeypatch):
     """The relative AGENT_BROWSER_PROFILE was resolved against whatever directory the migrating process ran
-    in: `hermes update` and the first agent after a boot migration both name the absolute path pinned."""
+    in: `iskra update` and the first agent after a boot migration both name the absolute path pinned."""
     import hermes_cli.left_core_migration as lcm
 
     monkeypatch.delenv("CAMOFOX_URL", raising=False)

@@ -4,7 +4,7 @@ The install is the newest by-path release (``_install_helpers.upgrade_base("by-p
 there by that release's own installer and subscribed to ``stable``, so the updater that runs is
 the one users have today. Upstream, HEAD is published as the latest GitHub release and an
 unreleased commit sits on main above it. The update must land exactly on HEAD, not follow main,
-and the next ``hermes`` must start.
+and the next ``iskra`` must start.
 
 The edge fakes api.github.com and github.com as in ``test_release_channel_records`` and tunnels
 every other host to the real one: from a release, the update downloads the dependencies HEAD adds.
@@ -24,7 +24,7 @@ from tests.e2e.core.upgrade.network import _seed as S
 pytestmark = [
     pytest.mark.allow_network,  # the edge tunnels the hosts it does not fake to the real ones
     pytest.mark.platforms("linux"),
-    # Every `hermes update` here targets a throwaway sandboxed install, never the real checkout.
+    # Every `iskra update` here targets a throwaway sandboxed install, never the real checkout.
     pytest.mark.live_system_guard_bypass,
     pytest.mark.skipif(H.sandbox_required_reason() is not None, reason=str(H.sandbox_required_reason())),
     pytest.mark.skipif(N.netns_required_reason() is not None, reason=str(N.netns_required_reason())),
@@ -65,4 +65,4 @@ def test_stable_update_from_the_previous_release_lands_on_the_next_release(inst)
     reads = [h.path for h in edge.proxy.requests(S.GITHUB_API)]
     assert LATEST in reads, f"the latest release was not read through the proxy: {reads}\n" + r.report(inst)
     v = inst.version_works()
-    assert v.rc == 0 and I.TRACEBACK not in v.out, "`hermes --version` broken after the update\n" + I.describe(v.cp)
+    assert v.rc == 0 and I.TRACEBACK not in v.out, "`iskra --version` broken after the update\n" + I.describe(v.cp)

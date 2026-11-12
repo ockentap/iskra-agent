@@ -261,7 +261,7 @@ def test_boot_migrates_legacy_conveniences_to_selected_runtime(tmp_path, monkeyp
                    f'exec "{repo}/venv/bin/hermes" "$@"\n')
     (out / "hermes").write_text(old_wrapper, encoding="utf-8")
     (out / "hermes-acp").write_text(
-        '#!/usr/bin/env bash\n# Hermes Agent — ACP launcher (written by `hermes update`).\n'
+        '#!/usr/bin/env bash\n# Hermes Agent — ACP launcher (written by `iskra update`).\n'
         f'exec "{out}/hermes" acp "$@"\n', encoding="utf-8")
     # Mentions this install only in a comment and runs another checkout's venv.
     foreign = f'#!/bin/sh\n# user note about {repo}/venv/bin/hermes\nexec "{tmp_path}/other/venv/bin/hermes" "$@"\n'
@@ -415,7 +415,7 @@ def test_repin_without_distlib_retires_stale_native_launcher(tmp_path, monkeypat
     process = None
     try:
         if running:
-            # The launcher a repin retires is the one running `hermes update`.
+            # The launcher a repin retires is the one running `iskra update`.
             process = subprocess.Popen([str(original)], cwd=tmp_path, stdin=subprocess.PIPE,
                                        stdout=subprocess.PIPE, text=True, encoding="utf-8")
             first = queue.Queue()

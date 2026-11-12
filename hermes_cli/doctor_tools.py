@@ -159,7 +159,7 @@ def _enabled_cli_toolsets_for_doctor() -> set[str] | None:
 # `requires_env`, so the generic branch would call a missing credential a "system dependency".
 # Name the real fix instead (#9516).
 _TOOLSET_SETUP_HINTS: dict[str, str] = {
-    "image_gen": "(image generation unavailable — check the provider selection and its key or SDK with 'hermes tools')",
+    "image_gen": "(image generation unavailable — check the provider selection and its key or SDK with 'iskra tools')",
 }
 
 
@@ -502,7 +502,7 @@ def _check_tool_availability(should_fix: bool, f: Finding) -> None:
     # disabled toolsets may warn above but must not pollute it.
     api_disabled = _missing_api_key_toolsets_for_summary(unavailable)
     if api_disabled or any(status != "ok" for status, _, _ in web_rows):
-        f.issues.append("Run 'hermes setup' to configure missing API keys for full tool access")
+        f.issues.append("Run 'iskra setup' to configure missing API keys for full tool access")
     _warn_partially_stripped_toolsets(f)
 
 

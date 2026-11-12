@@ -180,7 +180,7 @@ def test_managed_turn_sends_configured_instruction_and_prefill(tmp_path):
 @pytest.mark.platforms("linux")
 def test_new_sessions_send_the_profiles_current_prefill(tmp_path):
     """CFG-7: a ``prefill_messages_file`` path and contents edited after the daemon started reach the
-    next new session, in process and managed, as a new ``hermes chat`` process read them on main."""
+    next new session, in process and managed, as a new ``iskra chat`` process read them on main."""
     def pair(home, name, mark):
         (home / name).write_text(json.dumps([{'role': 'user', 'content': f'PREFILL_{mark}_Q'},
                                              {'role': 'assistant', 'content': f'PREFILL_{mark}_A'}]))

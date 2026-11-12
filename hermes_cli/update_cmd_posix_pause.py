@@ -280,7 +280,7 @@ def _escape_cgroup(unit: dict) -> bool:
     cmd = ["busctl", bus, "call", "org.freedesktop.systemd1", "/org/freedesktop/systemd1",
            "org.freedesktop.systemd1.Manager", "StartTransientUnit", "ssa(sv)a(sa(sv))",
            f"hermes-update-{os.getpid()}.scope", "fail", "2", "PIDs", "au", str(len(pids)), *map(str, pids),
-           "Description", "s", f"hermes update (outside {unit['unit']} while it is paused)", "0"]
+           "Description", "s", f"iskra update (outside {unit['unit']} while it is paused)", "0"]
     with suppress(OSError, subprocess.SubprocessError):
         subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace",
                    stdin=subprocess.DEVNULL, timeout=15, check=False)

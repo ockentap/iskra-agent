@@ -187,7 +187,7 @@ def test_startup_route_decodes_custom_colon_qualified_model(tmp_path, monkeypatc
 
 
 def test_tui_qualified_model_never_reaches_default_provider(tmp_path, monkeypatch):
-    """``hermes --tui -m custom:<name>:<model>`` routes through the startup owner, so provider
+    """``iskra --tui -m custom:<name>:<model>`` routes through the startup owner, so provider
     auto-detection never hands the qualified string to the configured default (#73943)."""
     _write_named_provider(tmp_path, monkeypatch)
     from tui_gateway import server as tui_server  # binds the config path at import: after HERMES_HOME

@@ -137,7 +137,7 @@ def test_clients_refuse_a_control_listener_run_by_another_uid(tmp_path, monkeypa
             monkeypatch.undo()
             await server.stop()
     asyncio.run(run())
-    # Ink's bootstrap and `hermes gateway attach` mint through gateway_client._session_ticket.
+    # Ink's bootstrap and `iskra gateway attach` mint through gateway_client._session_ticket.
     for client in (gateway_client.private_control_query, session_hosted_transport.owner_request):
         source = inspect.getsource(client)
         assert "connect_private(" in source and "AF_UNIX" not in source, client.__qualname__

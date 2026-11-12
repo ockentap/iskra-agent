@@ -178,7 +178,7 @@ class TestAtexitStopSwallowsInterrupt:
 
 class TestAtexitLifecycleUnimportable:
     def test_hook_stays_silent_when_lifecycle_import_fails(self, monkeypatch):
-        """Mid-`hermes update` the on-disk tree can be half-new, so the atexit hook's import of
+        """Mid-`iskra update` the on-disk tree can be half-new, so the atexit hook's import of
         the lifecycle module raises; the hook must stay silent (#112437)."""
         monkeypatch.setitem(sys.modules, "tools.browser_session_lifecycle", None)  # import -> ImportError
         bs._atexit_cleanup()  # must not raise

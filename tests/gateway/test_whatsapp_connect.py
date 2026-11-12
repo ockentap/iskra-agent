@@ -507,7 +507,7 @@ class TestNoCredsPreflight:
     With the guard, ``connect()`` returns False immediately with a
     non-retryable fatal error so the reconnect watcher drops the platform
     and the gateway gets a single clear log line telling the user to run
-    ``hermes whatsapp``.
+    ``iskra whatsapp``.
     """
 
 
@@ -613,4 +613,4 @@ async def test_passkey_required_stops_retries_at_startup_and_during_polling(pass
     assert adapter.fatal_error_retryable is retryable
     assert adapter.fatal_error_code == ("whatsapp_bridge_exited" if retryable else "whatsapp_passkey_required")
     if not retryable:
-        assert "hermes whatsapp --passkey-browser" in adapter.fatal_error_message
+        assert "iskra whatsapp --passkey-browser" in adapter.fatal_error_message

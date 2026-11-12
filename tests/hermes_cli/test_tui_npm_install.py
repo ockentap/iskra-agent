@@ -119,7 +119,7 @@ def test_failed_dependency_preparation_launches_the_previous_build(tui_source, m
     assert argv[-1] == str(root / "ui-tui/dist/entry.js")
     assert subprocess.run(argv, cwd=cwd, check=True, capture_output=True, text=True).stdout.strip() == "tui"
     assert "previous TUI build was started" in capsys.readouterr().err
-    assert len(notices) == 1 and "hermes update" in notices[0]
+    assert len(notices) == 1 and "iskra update" in notices[0]
     assert _events(root) == []
     # --dev runs the sources, and a forced build asks for them: both need the dependencies.
     with pytest.raises(subprocess.CalledProcessError):

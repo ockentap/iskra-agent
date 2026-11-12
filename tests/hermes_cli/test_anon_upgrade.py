@@ -1,4 +1,4 @@
-"""``hermes auth upgrade``: the plain device-code sign-in, then the free tier's apps move over.
+"""``iskra auth upgrade``: the plain device-code sign-in, then the free tier's apps move over.
 
 Driven through a fake portal covering the device-code endpoints plus the free tier's claim
 endpoint, so the wire contract (device code, token grant persisted over the guest singleton, one
@@ -263,4 +263,4 @@ class TestSignInCompletionSettlesTheModel:
         assert model_cfg["base_url"] == INFERENCE.rstrip("/")
         out = capsys.readouterr().out
         assert "Default model is now" not in out
-        assert "run `hermes model` to pick one" in out
+        assert "run `iskra model` to pick one" in out

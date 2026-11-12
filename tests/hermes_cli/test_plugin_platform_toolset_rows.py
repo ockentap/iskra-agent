@@ -8,7 +8,7 @@ import logging
 import pytest
 
 # The rows cli-config.yaml.example seeded into every install (install.sh, install.ps1, the Docker hook,
-# `hermes doctor --fix`), plus Home Assistant's from before it left core. None of these platforms is set up.
+# `iskra doctor --fix`), plus Home Assistant's from before it left core. None of these platforms is set up.
 _SEEDED_ROWS = {
     "cli": ["hermes-cli"],
     "telegram": ["hermes-telegram"],
@@ -62,7 +62,7 @@ def test_invalid_plugin_platform_row_still_warns(caplog):
 
 def test_seeded_config_rows_need_no_plugin():
     """A config.yaml seeded the way the installers seed it names only toolsets that resolve without any
-    plugin loaded: a plugin platform falls back to ``hermes-<platform>`` on its own."""
+    plugin loaded: a plugin platform falls back to ``iskra-<platform>`` on its own."""
     from hermes_cli.config import read_raw_config, seed_config_file
     from hermes_constants import get_hermes_home
     from toolsets import validate_toolset
@@ -74,7 +74,7 @@ def test_seeded_config_rows_need_no_plugin():
 
 
 def test_config_check_accepts_seeded_rows_of_uninstalled_plugin_platforms():
-    """`hermes config check` and the update-time check judge the same rows the same way: Home Assistant's
+    """`iskra config check` and the update-time check judge the same rows the same way: Home Assistant's
     catalog plugin is not installed here, and its seeded row is inert, not an unknown toolset."""
     from hermes_cli.toolset_validation import saved_toolset_resolver, validate_platform_toolsets
 
@@ -88,7 +88,7 @@ def test_config_check_accepts_seeded_rows_of_uninstalled_plugin_platforms():
 
 def test_misspelt_platform_key_naming_its_own_bundle_still_warns(caplog):
     """Only a KNOWN platform's own bundle is exempt: ``telegarm: [hermes-telegarm]`` is a typo of the key,
-    and both the session-time check and `hermes config check` still report it."""
+    and both the session-time check and `iskra config check` still report it."""
     from hermes_cli.tools_config import _get_platform_tools
     from hermes_cli.toolset_validation import saved_toolset_resolver, validate_platform_toolsets
 

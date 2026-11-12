@@ -93,7 +93,7 @@ def _strip_console_status_footer(text: str) -> str:
     if len(lines) < 2:
         return text.rstrip()
     last, prev = (_strip_ansi(lines[i]).strip() for i in (-1, -2))
-    if not (prev.startswith("Run 'hermes doctor'") and last.startswith("Run 'hermes setup'")):
+    if not (prev.startswith("Run 'iskra doctor'") and last.startswith("Run 'iskra setup'")):
         return text.rstrip()
     lines = lines[:-2]
     _drop_trailing_blank(lines)

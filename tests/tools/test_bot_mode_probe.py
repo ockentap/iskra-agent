@@ -222,7 +222,7 @@ def test_fingerprint_changes_on_each_capability_axis(tmp_path):
     after_skill = bot_mode_probe.capability_fingerprint(home)
     assert after_skill != base
 
-    # toolset pin changed (the key `hermes tools enable/disable` writes, #124211)
+    # toolset pin changed (the key `iskra tools enable/disable` writes, #124211)
     (home / "config.yaml").write_text(
         "platform_toolsets:\n  desktop: [hermes-desktop, computer_use]\n", encoding="utf-8"
     )

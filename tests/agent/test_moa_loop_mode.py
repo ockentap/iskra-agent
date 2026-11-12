@@ -853,7 +853,7 @@ def test_reference_messages_flattens_cache_decorated_content():
     from agent.prompt_caching import apply_anthropic_cache_control
 
     plain = [
-        {"role": "system", "content": "hermes system prompt"},
+        {"role": "system", "content": "iskra system prompt"},
         {"role": "user", "content": "Can we get codex usage resets into hermes?"},
     ]
     decorated = apply_anthropic_cache_control(plain, native_anthropic=False)

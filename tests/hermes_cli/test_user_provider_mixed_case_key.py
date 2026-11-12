@@ -2,7 +2,7 @@
 provider every picker row offers under that key, so selecting it must route to THAT endpoint on
 each switch surface. ``resolve_provider_full`` lowercases the request before the user-config
 lookup, and a case-sensitive dict read missed the key: ``OpenAI`` fell through to the legacy
-``openai`` -> OpenRouter alias and ``hermes model`` / ``/model`` switched to the wrong host.
+``openai`` -> OpenRouter alias and ``iskra model`` / ``/model`` switched to the wrong host.
 
 Real config on a temp ``HERMES_HOME``; loopback ``/v1/models``; no mocks on the switch chain.
 """
@@ -74,7 +74,7 @@ def test_cli_model_command_switches_to_the_configured_endpoint(requested):
 
 
 def test_hermes_model_marks_the_configured_mixed_case_provider_active():
-    """``hermes model`` opens with the configured ``providers.OpenAI`` row selected, not OpenRouter."""
+    """``iskra model`` opens with the configured ``providers.OpenAI`` row selected, not OpenRouter."""
     from hermes_cli.config import load_config
     from hermes_cli.main import _resolve_active_provider
     from hermes_cli.main_provider_setup import _named_custom_provider_map

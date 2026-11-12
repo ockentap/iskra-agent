@@ -142,7 +142,7 @@ async def test_legacy_adoption_refuses_live_owner_and_foreign_profile_without_wr
 @pytest.mark.asyncio
 async def test_upgraded_oneshot_and_tool_history_resumes_by_id_and_title_but_stays_out_of_pickers(tmp_path, monkeypatch):
     """main's `chat -q` stored ``oneshot`` rows (``--source tool`` stored ``tool``) and printed
-    `hermes --resume <id>` for each. After the upgrade, the native owner adopts them by id and by
+    `iskra --resume <id>` for each. After the upgrade, the native owner adopts them by id and by
     title like ``cli`` history, and they keep their label so human pickers still hide them."""
     from gateway import run
     from gateway.config import GatewayConfig
@@ -182,7 +182,7 @@ async def test_upgraded_oneshot_and_tool_history_resumes_by_id_and_title_but_sta
 async def test_upgraded_desktop_history_resumes_by_id(tmp_path, monkeypatch):
     """main's Desktop stored its chats with ``source='desktop'``. After the upgrade the native owner
     adopts them by id like ``gui`` history, including the ones stamped with the signed-in Nous
-    account. A served remote backend's login stamp (``hermes serve`` basic auth) adopts for that same
+    account. A served remote backend's login stamp (``iskra serve`` basic auth) adopts for that same
     login only. Any other identity still needs its own authority."""
     from gateway import run
     from gateway.config import GatewayConfig

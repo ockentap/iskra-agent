@@ -3499,7 +3499,7 @@ class APIServerAdapter(OpenAICompatRoutesMixin, BasePlatformAdapter):
                 from agent.estop import check_paused as _estop_check_paused
                 if _estop_check_paused("cron-webhook", logger):
                     return web.json_response(
-                        {"error": "hermes is paused (ESTOP)", "job_id": job_id},
+                        {"error": "iskra is paused (ESTOP)", "job_id": job_id},
                         status=503,
                         headers={"Retry-After": str(60)},
                     )

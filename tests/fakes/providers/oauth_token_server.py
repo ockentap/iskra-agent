@@ -318,7 +318,7 @@ def make_test_ca(directory: Path, hosts: Iterable[str]) -> TestCA:
     directory.mkdir(parents=True, exist_ok=True)
     now = _dt.datetime.now(_dt.UTC)
     ca_key = ec.generate_private_key(ec.SECP256R1())
-    ca_name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "hermes e2e test CA")])
+    ca_name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "iskra e2e test CA")])
     ca_cert = (
         x509.CertificateBuilder().subject_name(ca_name).issuer_name(ca_name)
         .public_key(ca_key.public_key()).serial_number(x509.random_serial_number())

@@ -1,4 +1,4 @@
-"""Coverage for on-demand cancellation of an in-flight cron run (`hermes cron cancel`)."""
+"""Coverage for on-demand cancellation of an in-flight cron run (`iskra cron cancel`)."""
 
 import threading
 import time

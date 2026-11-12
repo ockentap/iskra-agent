@@ -297,7 +297,7 @@ async def test_a_chat_opened_on_the_trial_moves_to_the_provider_the_user_connect
 async def test_a_desktop_boot_that_could_not_record_the_install_tries_again_on_the_next_connection(
         tmp_path, monkeypatch):
     """The gateway outlives app launches. A first boot whose install record failed (a locked
-    config.yaml) is retried when the Desktop next connects, as the per-launch ``hermes serve`` did."""
+    config.yaml) is retried when the Desktop next connects, as the per-launch ``iskra serve`` did."""
     from hermes_cli import free_tier_bootstrap, onboarding_run
     from tui_gateway import server
     attempts = []

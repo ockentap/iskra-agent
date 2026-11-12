@@ -581,7 +581,7 @@ def test_migrations_and_env_templates_are_not_user_disables(marks, monkeypatch):
     monkeypatch.setattr(disabled_metrics, "_process_surface", "cli_config")
     config = load_config()
     config.setdefault("memory", {})["memory_enabled"] = False
-    _persist_migration(config)  # e.g. `hermes config migrate` / profile create in the dashboard
+    _persist_migration(config)  # e.g. `iskra config migrate` / profile create in the dashboard
     # A ``${VAR}`` template on the raw side vs its expanded value: nothing moved.
     monkeypatch.setenv("MEM_ON", "false")
     (marks.home / "config.yaml").write_text("compression:\n  enabled: ${MEM_ON}\n")

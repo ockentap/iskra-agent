@@ -750,7 +750,7 @@ def run_gui_uninstall(args):
     _print_box("│            ✓ Chat GUI Uninstalled!                      │", Colors.GREEN)
     print()
     print("The Hermes agent is still installed. Run 'hermes' to use the CLI,")
-    print("or 'hermes uninstall' to remove the agent too.")
+    print("or 'iskra uninstall' to remove the agent too.")
     print()
 
 

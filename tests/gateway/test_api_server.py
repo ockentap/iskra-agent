@@ -2704,7 +2704,7 @@ class TestModelRoutesAgentCreation:
 class TestStoredSessionModelFilter:
     """A session row that persisted the advertised virtual model must read as
     "no stored model" — replaying "hermes-agent" upstream 400s. Found live
-    (Aug 2026): the first cross-gateway `hermes peer dm` against a fresh
+    (Aug 2026): the first cross-gateway `iskra peer dm` against a fresh
     api_server failed every turn with "hermes-agent is not a valid model ID".
     """
 
@@ -3011,7 +3011,7 @@ class TestCreateAgentModelRecovery:
     def test_create_agent_defaults_to_provider_catalog_model_when_empty(self, monkeypatch):
         """api_server.py had no equivalent of run.py's provider-catalog
         default when model resolves empty but a provider did resolve (e.g.
-        `hermes auth add openai-codex` without `hermes model`) —
+        `iskra auth add openai-codex` without `iskra model`) —
         AIAgent(model="") 400s every call."""
         captured = {}
 
@@ -3076,7 +3076,7 @@ class TestCreateAgentModelRecovery:
     # ── Recovery-net alias guards (PR for #79101) ──────────────────────
 
     def test_create_agent_does_not_cache_virtual_alias(self, monkeypatch):
-        """Write-side guard: the advertised virtual model (``hermes-agent``)
+        """Write-side guard: the advertised virtual model (``iskra-agent``)
         must never enter ``_last_resolved_model``, even when a prior turn
         (or the session-row bug) dispatched it."""
         captured = []

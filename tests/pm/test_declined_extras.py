@@ -1,4 +1,4 @@
-"""`hermes pm install --without EXTRA` drops a recorded extra, and nothing that carries a
+"""`iskra pm install --without EXTRA` drops a recorded extra, and nothing that carries a
 selection forward (recorded extras, the main-era venv scan, a lazy first use) re-adds it
 until the user asks for it again with `--extra EXTRA`."""
 
@@ -231,7 +231,7 @@ def test_automatic_repair_never_undoes_a_without_that_landed_after_its_read(monk
     monkeypatch.setattr(install, "get_package", lambda name: package)
     monkeypatch.setattr(pm.client, "is_runtime", lambda: True)
     monkeypatch.setattr(main_install_repair, "_configured_features_missing_deps",
-                        lambda: [("Matrix", "Run `hermes setup`.", "matrix")])
+                        lambda: [("Matrix", "Run `iskra setup`.", "matrix")])
     install.sync_venv(["all"], explicit=True)
 
     real_lock, opted_out = install._venv_install_lock, []

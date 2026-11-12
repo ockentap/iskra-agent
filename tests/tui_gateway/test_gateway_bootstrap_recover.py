@@ -2,7 +2,7 @@
 
 Main's TUI owned its own sidecar and never depended on an external daemon, so an open TUI must come
 back on its own after ANY end of the shared gateway: a crash, its idle exit, or a planned
-`hermes gateway stop` while the TUI is open. The bounded recovery slot (`@hermes/shared/gateway-client`
+`iskra gateway stop` while the TUI is open. The bounded recovery slot (`@hermes/shared/gateway-client`
 OWNER_RECOVERY_LIMIT) is what keeps a crash-looping owner from being respawned forever."""
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ def _load_bootstrap():
 
 @pytest.mark.parametrize("record", [
     {"gateway_state": "running", "pid": 999999},  # SIGKILL / OOM: dead process still claims live
-    {"gateway_state": "stopped", "pid": 999999},  # `hermes gateway stop` while the TUI is open
+    {"gateway_state": "stopped", "pid": 999999},  # `iskra gateway stop` while the TUI is open
     {"gateway_state": "running", "desired_state": "stopped"},  # durable operator stop intent
     {"gateway_state": "stopped", "exit_reason": "auto-started gateway idle for 600s "
      "(gateway.unmanaged_idle_exit_seconds)"},
@@ -103,7 +103,7 @@ def test_failure_names_the_reason_and_its_remedy(monkeypatch, tmp_path):
 
 
 def test_started_daemon_does_not_inherit_the_launch_time_kanban_board(monkeypatch, tmp_path):
-    """`hermes --tui` pins HERMES_KANBAN_BOARD for its own launch; the shared daemon this bootstrap
+    """`iskra --tui` pins HERMES_KANBAN_BOARD for its own launch; the shared daemon this bootstrap
     starts (spawn_unmanaged_gateway copies os.environ) must keep the profile's current board."""
     module = _load_bootstrap()
     home = (tmp_path / "home").resolve()

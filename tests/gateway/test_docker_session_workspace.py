@@ -1,6 +1,6 @@
 """#140665 (#134889 CLI-39): a gateway-owned session's client cwd reaches the Docker terminal backend.
 
-Before #106742 every ``hermes chat`` was its own process with its own ``TERMINAL_CWD`` and its own
+Before #106742 every ``iskra chat`` was its own process with its own ``TERMINAL_CWD`` and its own
 container. Now the turn runs in the gateway: the client's cwd (or ``--in DIR``) is frozen into the
 session's policy, but never reached ``resolve_task_overrides(task_id)['cwd']``, the per-session mount
 source. So ``container_persistent: false`` mounted no ``/workspace`` at all, and ``true`` shared ONE
@@ -343,7 +343,7 @@ def test_named_launch_profiles_side_agent_keeps_its_sessions_workspace_container
     ws1.mkdir()
     beta = home / 'profiles' / 'beta'
     beta.mkdir(parents=True)
-    monkeypatch.setenv('HERMES_HOME', str(beta))  # `hermes -p beta gateway`
+    monkeypatch.setenv('HERMES_HOME', str(beta))  # `iskra -p beta gateway`
     policy = _policy(beta, ws1, persistent=True)
     with _turn(policy, 'local-a'):
         session_key = _plan('local-a')[0]
@@ -403,7 +403,7 @@ def test_secondary_profiles_managed_worker_turn_keys_its_own_workspace_container
 
 
 def test_named_launch_profiles_managed_worker_turn_keeps_its_sessions_workspace_container(home, tmp_path, monkeypatch):
-    # `hermes -p beta gateway` (a named profile never multiplexes): its routes are `agent:main`, its
+    # `iskra -p beta gateway` (a named profile never multiplexes): its routes are `agent:main`, its
     # in-process turns and side agents bind no profile, and its worker turns must key the same container.
     from gateway import session_kanban
     from gateway.session_policy import policy_scope

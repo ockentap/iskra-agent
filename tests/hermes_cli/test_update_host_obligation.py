@@ -1,7 +1,7 @@
 """The update→restart obligation is HOST-scoped, and one update restarts the host gateway once.
 
-Multiplex-only (Teknium ruling): exactly one ``hermes gateway run`` per host serves every
-profile. The obligation used to live in ONE profile's ``HERMES_HOME``, so ``hermes -p coder
+Multiplex-only (Teknium ruling): exactly one ``iskra gateway run`` per host serves every
+profile. The obligation used to live in ONE profile's ``HERMES_HOME``, so ``iskra -p coder
 update`` armed and cleared coder's copy while restarting the SHARED process; no other profile
 could see that obligation, and every profile that ran the catch-up killed the same gateway
 again. These tests pin the host-scoped contract:
@@ -227,7 +227,7 @@ def test_unwritable_host_state_dir_never_hides_the_debt_from_another_profile(two
 def test_one_installs_completed_restart_never_erases_another_installs_debt(tmp_path):
     """Two installations of one OS user share the host state dir. Install B arming its own pull and
     then completing its restart must leave install A's debt standing; each install arms, reads and
-    clears from its own process, the way two checkouts' ``hermes update`` runs do (review S3)."""
+    clears from its own process, the way two checkouts' ``iskra update`` runs do (review S3)."""
     import shutil
     import subprocess
     import sys

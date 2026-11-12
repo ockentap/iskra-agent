@@ -752,10 +752,10 @@ _MANUAL_SETUP_STEPS = (
 _ACCESS_CHOICES = (
     ("Enable open access (anyone can message the bot)", (("WECOM_DM_POLICY", "open"), ("GATEWAY_ALLOW_ALL_USERS", "true")),
      (("warning", "Open access enabled — anyone can use your bot!"),)),
-    ("Use DM pairing (unknown users request access, you approve with 'hermes pairing approve')", (("WECOM_DM_POLICY", "pairing"),),
+    ("Use DM pairing (unknown users request access, you approve with 'iskra pairing approve')", (("WECOM_DM_POLICY", "pairing"),),
      (("success", "DM pairing mode — users will receive a code to request access."), ("info", "Approve with: hermes pairing approve <platform> <code>"))),
     ("Disable direct messages", (("WECOM_DM_POLICY", "disabled"),), (("warning", "Direct messages disabled."),)),
-    ("Skip for now (bot will deny all users until configured)", (), (("info", "Skipped — configure later with 'hermes gateway setup'"),)),
+    ("Skip for now (bot will deny all users until configured)", (), (("info", "Skipped — configure later with 'iskra gateway setup'"),)),
 )
 
 

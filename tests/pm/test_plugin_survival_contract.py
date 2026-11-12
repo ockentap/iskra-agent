@@ -10,7 +10,7 @@ resolves offline local path-source fixtures):
    join the pm workspace union, because pm scans only plugin roots.
 2. Conflict admission. Through the PUBLIC admission authority
    (hermes_cli.plugins_admission.admit_plugin_set_change — the one path
-   `hermes plugins enable/install` use), a candidate union with no
+   `iskra plugins enable/install` use), a candidate union with no
    valid solution is REFUSED before anything is published: the
    candidate stays unenabled (so the loader never imports it), the
    plugin trees and every home's config.yaml survive untouched, the
@@ -404,7 +404,7 @@ def test_update_sync_disables_plugin_excluded_by_requires_python(admission_env):
     work = yaml.safe_load((profile / "config.yaml").read_text(encoding="utf-8"))
     assert work["memory"]["provider"] == "too-old" and work["plugins"]["disabled"] == ["too-old"]
     assert "too-old" in json.dumps(_latest_receipt(home).get("warnings"))
-    assert "hermes plugins enable too-old" in json.dumps(_latest_receipt(home).get("warnings"))
+    assert "iskra plugins enable too-old" in json.dumps(_latest_receipt(home).get("warnings"))
     assert venv_is_current(project_root=core) is True
 
     for plugin in (home / "plugins" / "too-old", profile / "plugins" / "too-old"):

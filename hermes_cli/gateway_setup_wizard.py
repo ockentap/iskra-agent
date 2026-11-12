@@ -152,7 +152,7 @@ _UNAUTHORIZED_ACCESS_CHOICES = {
         "Keep unknown senders silent"),
     False: (1,
         "Enable open access (anyone can message the bot)",
-        "Use DM pairing (unknown users request access, you approve with 'hermes pairing approve')",
+        "Use DM pairing (unknown users request access, you approve with 'iskra pairing approve')",
         "Politely decline unknown senders (one-time message, then silence)",
         "Skip for now (bot will deny all users until configured)"),
 }
@@ -178,7 +178,7 @@ def _prompt_unauthorized_access(platform_key: str) -> None:
     elif is_email:
         _gw().print_success("  Unknown email senders will be ignored.")
     else:
-        _gw().print_info("  Skipped — configure later with 'hermes gateway setup'")
+        _gw().print_info("  Skipped — configure later with 'iskra gateway setup'")
 
 
 def _telegram_auto_setup(token_var: str) -> tuple[bool, object]:
@@ -403,7 +403,7 @@ _WIZARD_BACKEND_LABELS = {"systemd": "systemd", "launchd": "launchd", "windows":
 _WIZARD_NO_SERVICE_LINES = {
     "wsl": (
         "  WSL detected but systemd is not running.", "  Run in foreground: hermes gateway run",
-        "  For persistence:   tmux new -s hermes 'hermes gateway run'",
+        "  For persistence:   tmux new -s hermes 'iskra gateway run'",
         "  To enable systemd: add systemd=true to /etc/wsl.conf, then 'wsl --shutdown'",
     ),
     "termux": (
@@ -550,6 +550,6 @@ def gateway_setup():
         _gw()._wizard_post_setup()
     else:
         print()
-        _gw().print_info("No platforms configured. Run 'hermes gateway setup' when ready.")
+        _gw().print_info("No platforms configured. Run 'iskra gateway setup' when ready.")
 
     print()

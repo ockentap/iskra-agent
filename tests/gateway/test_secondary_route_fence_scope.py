@@ -70,7 +70,7 @@ async def _delete(served, ref):
 async def _prune(served, ref):
     from gateway.session_prune import _apply
     served.alpha.db.end_session(ref.session_id, 'test')
-    await _apply(served.alpha, {'older_than_days': None}, None)  # the owner-run `hermes sessions prune`
+    await _apply(served.alpha, {'older_than_days': None}, None)  # the owner-run `iskra sessions prune`
 
 
 def _entry(key, sid):

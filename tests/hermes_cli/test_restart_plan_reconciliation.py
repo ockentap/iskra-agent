@@ -120,7 +120,7 @@ def test_restarted_service_unit_matches_profile():
 
 def test_launchd_default_gateway_restarted_via_ai_hermes_label():
     """macOS restart bookkeeping records ``ai.hermes.gateway``, which does not
-    contain the substring ``hermes-gateway``. The default-profile gateway must
+    contain the substring ``iskra-gateway``. The default-profile gateway must
     still count as restarted — otherwise every Desktop update on launchd
     exits 1 after a successful kickstart (receipt outcome=partial, tripwire
     'never touched')."""
@@ -162,7 +162,7 @@ def test_untouched_runtime_is_unaccounted_and_escalates(capsys):
     out = capsys.readouterr().out
     assert "never touched" in out
     assert "coder" in out and "500" in out
-    assert "hermes -p <profile> gateway restart" in out
+    assert "iskra -p <profile> gateway restart" in out
 
 
 def test_external_supervisor_counts_as_restarted():
@@ -208,7 +208,7 @@ def _serve(profile: str, pid: int, kind: str = "serve") -> RuntimeRecord:
 
 
 def test_systemd_dashboard_runtime_reconciles_restarted_via_its_unit():
-    """#125297: the fleet unit pass restarts ``hermes-dashboard{,-<profile>}``, so the
+    """#125297: the fleet unit pass restarts ``iskra-dashboard{,-<profile>}``, so the
     receipt's runtime_outcomes row must credit it as ``restarted`` — not leave the
     dashboard ``deferred`` while the update still reports success."""
     outcomes = match_runtime_outcomes(
@@ -223,7 +223,7 @@ def test_systemd_dashboard_runtime_reconciles_restarted_via_its_unit():
 
 
 def test_systemd_dashboard_runtime_without_unit_restart_stays_unaccounted():
-    """The tripwire side: no ``hermes-dashboard*`` restart in the bookkeeping means
+    """The tripwire side: no ``iskra-dashboard*`` restart in the bookkeeping means
     the row escalates (exit 1), never a silent ``deferred`` on a success receipt."""
     outcomes = match_runtime_outcomes(
         _plan(_dash_unit_runtime("default", 700), _rt("default", 100, supervisor="systemd")),
@@ -263,7 +263,7 @@ def test_serve_never_borrows_relaunched_or_external_gateway_profile():
 
 
 def test_named_profile_serve_does_not_match_gateway_profile_unit():
-    """``hermes-gateway-work.service`` restarted must not credit the ``work``
+    """``iskra-gateway-work.service`` restarted must not credit the ``work``
     serve — the old substring match (``"work" in unit``) did exactly that."""
     outcomes = match_runtime_outcomes(
         _plan(_rt("work", 101, supervisor="systemd"), _serve("work", 901)),
@@ -275,7 +275,7 @@ def test_named_profile_serve_does_not_match_gateway_profile_unit():
 
 
 def test_serve_reconciles_against_its_own_unit_vocabulary():
-    """A serve IS covered when a ``hermes-serve*`` unit for its profile was
+    """A serve IS covered when a ``iskra-serve*`` unit for its profile was
     restarted (or failed) — scope-qualified identities included."""
     outcomes = match_runtime_outcomes(
         _plan(_serve("default", 900), _serve("work", 901),
@@ -287,7 +287,7 @@ def test_serve_reconciles_against_its_own_unit_vocabulary():
     )
     by_pid = {o["pid"]: o["outcome"] for o in outcomes}
     assert by_pid == {900: "restarted", 901: "restarted", 902: "restarted", 903: "failed"}
-    # exact names: ``work`` must not claim ``hermes-serve-workbench``
+    # exact names: ``work`` must not claim ``iskra-serve-workbench``
     outcomes = match_runtime_outcomes(
         _plan(_serve("work", 901)),
         restarted_services=["hermes-serve-workbench.service"], relaunched_profiles=[],
@@ -368,8 +368,8 @@ def test_unaccounted_serve_report_names_serve_remedy_not_gateway_restart(capsys)
     assert report_unaccounted_runtimes(outcomes) is True
     out = capsys.readouterr().out
     assert "serve [default] pid 900" in out
-    assert "relaunch `hermes serve`" in out
-    assert "hermes gateway restart" not in out
+    assert "relaunch `iskra serve`" in out
+    assert "iskra gateway restart" not in out
 
 
 def test_mixed_fleet_only_the_missed_one_escalates(capsys):
