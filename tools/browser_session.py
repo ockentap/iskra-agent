@@ -386,7 +386,7 @@ def _atexit_cleanup() -> None:
     prompt_toolkit key-binding callback corrupts the coroutine state and makes the process unkillable."""
     try:
         from tools.browser_session_lifecycle import emergency_cleanup_all_sessions, stop_cleanup_thread
-    except ImportError:  # half-updated tree mid-`hermes update` (#112437): nothing resolvable to clean
+    except ImportError:  # half-updated tree mid-`iskra update` (#112437): nothing resolvable to clean
         return
     emergency_cleanup_all_sessions()
     stop_cleanup_thread()

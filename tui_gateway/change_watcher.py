@@ -452,7 +452,7 @@ def _groups_changed_payload(before: dict, after: dict) -> dict:
 def _skills_sig():
     """The skill roots' stat signature for every scope a session resolved commands in (each profile
     home and session repo, not only the launch one: ``agent.skill_commands.published_scopes_signature``):
-    a skill installed or removed from another terminal (``hermes skills install``, a dropped SKILL.md,
+    a skill installed or removed from another terminal (``iskra skills install``, a dropped SKILL.md,
     nested under a category) moves it, and attached clients refetch ``commands.catalog`` from this
     gateway instead of rescanning disk."""
     from agent.skill_commands import published_scopes_signature

@@ -78,11 +78,11 @@ class PlatformEntry:
     # Connected/configured for this PlatformConfig (``get_connected_platforms``, setup UI);
     # None falls back to ``validate_config`` or ``check_fn``.
     is_connected: Optional[Callable[[Any], bool]] = None
-    required_env: list = field(default_factory=list)  # ``hermes setup`` display
+    required_env: list = field(default_factory=list)  # ``iskra setup`` display
     install_hint: str = ""  # shown when check_fn is False
     setup_fn: Optional[Callable[[], None]] = None  # None = _setup_standard_platform / env display
     source: str = "plugin"  # "builtin" or "plugin"
-    plugin_name: str = ""  # owning manifest so ``hermes gateway setup`` can auto-enable it
+    plugin_name: str = ""  # owning manifest so ``iskra gateway setup`` can auto-enable it
     allowed_users_env: str = ""  # comma-separated allowed user IDs (_is_user_authorized)
     allow_all_env: str = ""  # truthy "allow everyone" switch
     max_message_length: int = 0  # smart-chunking cap; 0 = no limit
@@ -168,7 +168,7 @@ class PlatformEntry:
     docs_url: str = ""  # setup guide linked from the card
     dashboard_env_vars: tuple = ()  # card fields shown first, in this order, before discovered vars
     # Credentials the card treats as "configured"; None = ``required_env`` (which also drives
-    # ``hermes setup`` and the child-env scrub, so the card may legitimately ask for a different set).
+    # ``iskra setup`` and the child-env scrub, so the card may legitimately ask for a different set).
     dashboard_required_env: Optional[tuple] = None
     # ``{ENV_KEY: (accepts(value) -> bool, 400 detail)}``: the dashboard PUT rejects a non-empty value
     # the predicate refuses, catching credentials pasted into the wrong field.
@@ -206,7 +206,7 @@ class PlatformRegistry:
         self._scoped_entries: dict[str, dict[str, PlatformEntry]] = {}
         # Deferred loaders: name -> callable importing the owning plugin module (which calls
         # register()); eagerly importing ~20 SDK-heavy adapters added seconds to every
-        # `hermes` invocation, so the import happens only when a lookup asks for it.
+        # `iskra` invocation, so the import happens only when a lookup asks for it.
         self._deferred: dict[str, _Loader] = {}
         self._scoped_deferred: dict[str, dict[str, _Loader]] = {}
         self._inflight: dict[_LoadKey, threading.Event] = {}

@@ -246,7 +246,7 @@ def _load_segments_config() -> dict[str, Any]:
     max_turns = 0
     try:
         # Never import gateway.run here: its import-time env setup (_HERMES_GATEWAY, HERMES_QUIET,
-        # TERMINAL_CWD := home) rebinds a CLI/TUI/cron host — hung approvals (#87183), `hermes -z`
+        # TERMINAL_CWD := home) rebinds a CLI/TUI/cron host — hung approvals (#87183), `iskra -z`
         # running in $HOME without the launch dir's AGENTS.md (#95577). Same reader it delegates to.
         from hermes_cli.config_effective import load_user_config_effective
 
@@ -1341,8 +1341,8 @@ def _configured_plugin_inputs() -> Path | None:
     if config_path is None and (legacy_vars := configured_legacy_relay_env_vars(os.environ)):
         logger.warning(
             "Legacy NeMo Relay exporter variables are set but no %s was provided. %s no longer configure "
-            "Relay exporters; any standard user or system plugins.toml still applies. Run `hermes migrate "
-            "relay` (or `hermes update`, which runs it for every profile) to generate %s and select it in .env.",
+            "Relay exporters; any standard user or system plugins.toml still applies. Run `iskra migrate "
+            "relay` (or `iskra update`, which runs it for every profile) to generate %s and select it in .env.",
             RELAY_PLUGINS_CONFIG_ENV,
             ", ".join(legacy_vars),
             get_hermes_home() / "relay-plugins.toml",

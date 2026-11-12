@@ -98,7 +98,7 @@ _IMMUTABLE_ASSET_CACHE_CONTROL = "public, max-age=31536000, immutable"
 _NO_STORE = {"Cache-Control": "no-store, no-cache, must-revalidate"}
 _HEADLESS_MSG = (
     "Headless backend (hermes serve): web UI disabled — use "
-    "`hermes dashboard` for the browser UI."
+    "`iskra dashboard` for the browser UI."
 )
 
 
@@ -147,7 +147,7 @@ def mount_spa(application: FastAPI):
     from hermes_cli.web_server_surface import policy
     from hermes_cli.web_server_static_assets import is_static_asset_path, public_font_file
 
-    # `hermes serve` is the headless backend: it must NEVER serve the browser SPA, even if a
+    # `iskra serve` is the headless backend: it must NEVER serve the browser SPA, even if a
     # dist is lying around, so only the JSON-RPC/WS/API surface is reachable.
     if os.environ.get("HERMES_SERVE_HEADLESS") == "1":
 
@@ -155,7 +155,7 @@ def mount_spa(application: FastAPI):
         async def no_frontend(full_path: str):
             # Desktop token handshake: the Electron shell boots by fetching `/` and reading
             # ``window.__HERMES_SESSION_TOKEN__`` for /api/ws auth. When headless 404'd every
-            # path, a renderer whose spawn token no longer matched (e.g. after `hermes update`)
+            # path, a renderer whose spawn token no longer matched (e.g. after `iskra update`)
             # white-screened. Serve a token-only page at the exact root, but ONLY when the auth
             # gate is off: on a gated serve the token must never be readable without auth.
             # See #94227, #95575.
@@ -195,14 +195,14 @@ def mount_spa(application: FastAPI):
             html = (web_dist() / "index.html").read_text(encoding="utf-8-sig")
         except OSError:
             # Partial build / wiped dist / permissions: same JSON 404 as a fully-missing dist. The
-            # Webapp's bundle is built by `hermes webapp`, not by the dashboard's web project.
+            # Webapp's bundle is built by `iskra webapp`, not by the dashboard's web project.
             webapp = getattr(application.state, "ui_surface", "dashboard") == "webapp"
             missing = ("The Webapp is not built. Run: hermes webapp" if webapp
                        else "Frontend not built. Run: pnpm --dir web run build")
             return _bundle_unavailable(request, missing, 404)
         if getattr(application.state, "ui_surface", "dashboard") == "webapp":
-            # A bundle `hermes update` could not rebuild was built for the code before the update:
-            # refuse it until `hermes webapp` rebuilds it.
+            # A bundle `iskra update` could not rebuild was built for the code before the update:
+            # refuse it until `iskra webapp` rebuilds it.
             from gateway.webapp_listener import bundle_stale_reason
             stale = bundle_stale_reason(web_dist())
             if stale:
@@ -720,7 +720,7 @@ def _schedule_check_fn_probe(fn) -> Optional[threading.Thread]:
 
 
 def _plugin_login_command(name: str) -> str:
-    """A plugin that left core with its own login command (``hermes spotify login``), else ``hermes auth <name>``."""
+    """A plugin that left core with its own login command (``iskra spotify login``), else ``iskra auth <name>``."""
     from hermes_cli.left_core_migration import LEFT_CORE
     return next((f"hermes {f.cli} login" for f in LEFT_CORE if f.plugin == name and f.cli), f"hermes auth {name}")
 
@@ -802,7 +802,7 @@ def _merged_plugins_hub(force_refresh: bool = False) -> dict[str, Any]:
     active = _category_active_names()
 
     for name, version, description, source, dir_str, key in _discover_all_plugins():
-        # Same verdict as `hermes plugins list` / the TUI hub: name+key aliases for the lists, bundled
+        # Same verdict as `iskra plugins list` / the TUI hub: name+key aliases for the lists, bundled
         # backends/platforms/providers and the live memory provider count as enabled without a list
         # entry (#73131, #82898).
         runtime_status = _plugin_status(

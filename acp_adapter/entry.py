@@ -13,15 +13,15 @@ Usage::
 try:
     import hermes_bootstrap
 except ModuleNotFoundError as exc:
-    # Partial ``hermes update`` (git-reset landed, ``uv pip install -e .`` did not).
+    # Partial ``iskra update`` (git-reset landed, ``uv pip install -e .`` did not).
     if exc.name != "hermes_bootstrap" and not "hermes_bootstrap".startswith(f"{exc.name}."):
         raise  # the bootstrap exists but cannot load: skipping it would skip PM activation
 else:
     # Stop a ``utils/``/``proxy/``/``ui/`` package in the launch cwd from shadowing Hermes modules.
     hermes_bootstrap.harden_import_path()
 
-# `hermes-acp` runs without hermes_cli.main: repair a `hermes update` killed mid-pull here, before
-# importing anything else from the checkout (a no-op under `hermes acp`, which already did).
+# `iskra-acp` runs without hermes_cli.main: repair a `iskra update` killed mid-pull here, before
+# importing anything else from the checkout (a no-op under `iskra acp`, which already did).
 from hermes_cli import _early_recovery
 
 if _early_recovery.restore_interrupted_pull():

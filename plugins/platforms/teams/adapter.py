@@ -194,7 +194,7 @@ async def _standalone_send(
 ) -> dict[str, Any]:
     """Acquire a Bot Framework bearer token and POST a single message activity; used by
     ``send_message_tool._send_via_adapter`` when the gateway runner is not in this process
-    (``hermes cron``). ``TEAMS_SERVICE_URL`` is allowlisted and ``chat_id`` charset-checked
+    (``iskra cron``). ``TEAMS_SERVICE_URL`` is allowlisted and ``chat_id`` charset-checked
     (SSRF/path traversal). ``media_files`` / ``force_document`` are signature parity only — text-only."""
     extra = getattr(pconfig, "extra", {}) or {}
     client_id, client_secret, tenant_id = _credentials(pconfig)
@@ -855,7 +855,7 @@ def interactive_setup() -> None:
 
 def _install_hint() -> str:
     """Point to the setup flow that requests PM's declared Teams extra."""
-    return "Teams SDK missing — run `hermes setup`, configure Teams, then restart the gateway"
+    return "Teams SDK missing — run `iskra setup`, configure Teams, then restart the gateway"
 
 
 def register(ctx) -> None:

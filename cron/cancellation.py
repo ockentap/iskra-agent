@@ -1,4 +1,4 @@
-"""On-demand cancellation of an in-flight cron run (``hermes cron cancel``).
+"""On-demand cancellation of an in-flight cron run (``iskra cron cancel``).
 
 The request has to reach the process that owns the run, and that process is usually not
 the one taking the request: ``run_one_job`` hands an attempt to a detached external worker

@@ -1,5 +1,5 @@
 """A local session's client environment: the allowlisted values a shell-launched client (classic CLI,
-Ink TUI) sends as ``session.create``'s ``client_env``. Main's ``hermes`` process read them from its own
+Ink TUI) sends as ``session.create``'s ``client_env``. Main's ``iskra`` process read them from its own
 shell; the one gateway now runs every session, so they are frozen with the session's policy and bound
 for its turns only, never written to the gateway's ``os.environ``. Desktop sends none: its sessions
 keep the gateway's environment, and so does a session created before ``client_env`` existed.

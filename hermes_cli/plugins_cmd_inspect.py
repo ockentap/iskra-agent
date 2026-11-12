@@ -66,7 +66,7 @@ def _yaml_ships_agent_payload(root: Path, manifest: dict[str, Any]) -> bool:
     if any((root / rel).is_file() for rel in _AGENT_PAYLOAD_FILES):
         return True
     # The loader's manifest-only language pack (``_is_manifest_only_language_pack``), judged the way
-    # ``hermes plugins validate`` does: declared locales plus the folder that holds them.
+    # ``iskra plugins validate`` does: declared locales plus the folder that holds them.
     return bool(manifest.get("provides_locales")) and (root / "locales").is_dir()
 
 

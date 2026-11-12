@@ -95,8 +95,8 @@ _SCHEMA_OVERRIDES: dict[str, dict[str, Any]] = {
     "proxy.enabled": {
         "type": "boolean",
         "description": (
-            "Docker-only egress credential firewall. Requires `hermes egress setup` "
-            "and `hermes egress start`; Modal/SSH/Daytona are not wired yet."
+            "Docker-only egress credential firewall. Requires `iskra egress setup` "
+            "and `iskra egress start`; Modal/SSH/Daytona are not wired yet."
         ),
         "category": "security",
     },
@@ -112,7 +112,7 @@ _SCHEMA_OVERRIDES: dict[str, dict[str, Any]] = {
         "type": "boolean",
         "description": (
             "Borrow and refresh the Codex CLI / Claude Code logins when Hermes has no usable login of its own. "
-            "Off: Hermes uses only its own logins (`hermes auth add <provider>`)."
+            "Off: Hermes uses only its own logins (`iskra auth add <provider>`)."
         ),
         "category": "security",
     },
@@ -465,7 +465,7 @@ def _plugin_aux_tasks() -> list[dict[str, Any]]:
 
 def _aux_task_slots() -> tuple[str, ...]:
     """Every auxiliary slot the dashboard may read or assign: built-ins first (UI order), then
-    plugin-registered keys. The picker in ``hermes model`` (``main_provider_setup._all_aux_tasks``)
+    plugin-registered keys. The picker in ``iskra model`` (``main_provider_setup._all_aux_tasks``)
     folds plugin tasks in the same way; the dashboard must not disagree with it."""
     return _AUX_TASK_SLOTS + tuple(entry["key"] for entry in _plugin_aux_tasks())
 
@@ -473,8 +473,8 @@ def _aux_task_slots() -> tuple[str, ...]:
 def _dashboard_code_skew_guard() -> Optional[str]:
     """Return a "restart required" message when this process runs stale code, else None.
 
-    Long-lived dashboard / Desktop-owned ``hermes serve`` processes freeze ``sys.modules``
-    at boot; after ``hermes update`` replaces the checkout, a first-time lazy import can
+    Long-lived dashboard / Desktop-owned ``iskra serve`` processes freeze ``sys.modules``
+    at boot; after ``iskra update`` replaces the checkout, a first-time lazy import can
     resolve a fresh consumer module against a stale cached dependency -> ImportError.
     Mirrors the gateway's ``_model_switch_skew_guard``: refuse the risky call with an
     actionable message. Never a false positive (non-git installs return None).
@@ -497,7 +497,7 @@ def _dashboard_code_skew_guard() -> Optional[str]:
 
 def _dashboard_skew_restart_hint() -> str:
     """Restart advice matching how this process is owned — the same app backs the browser
-    dashboard and Desktop-owned ``hermes serve``; naming a systemd unit would mislead
+    dashboard and Desktop-owned ``iskra serve``; naming a systemd unit would mislead
     macOS/launchd hosts and Desktop SSH backends.
 
     See #97046.
@@ -580,7 +580,7 @@ def _endpoint_known_to_config(cfg: dict, base_url: str) -> bool:
 
 def _register_custom_endpoint(base_url: str, api_key: str, model: str) -> None:
     """Register a named ``custom_providers`` entry for a custom/local endpoint (mirrors the
-    ``hermes model`` custom flow) so the picker gets a proper ready row instead of a "needs
+    ``iskra model`` custom flow) so the picker gets a proper ready row instead of a "needs
     setup" dead-end. Dedups by base_url; never blocks the already-persisted assignment.
 
     SKIPPED when the endpoint is already a fact in the config (#76324): the CLI gateway setup

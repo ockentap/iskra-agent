@@ -110,7 +110,7 @@ def step_migrate_config() -> dict:
             f"(still {post_ver}); restored: "
             + (", ".join(str(p) for p in restored) if restored else "none")
         )
-    # `hermes update` prints what a quiet migration changed; boot has no terminal to print it to.
+    # `iskra update` prints what a quiet migration changed; boot has no terminal to print it to.
     from hermes_cli.left_core_migration import defer_startup_notice
     for notice in results.get("notices") or ():
         defer_startup_notice(notice)
@@ -161,7 +161,7 @@ def step_state_db_guard() -> dict:
     """Verify the active home's state.db is intact.
 
     Boot bootstrap has no pre-update snapshot to restore from (that pairing
-    lives in ``hermes update``), so this is detection: a corrupt db is
+    lives in ``iskra update``), so this is detection: a corrupt db is
     surfaced loudly in the log instead of the user silently losing session
     search. Read-only, idempotent.
     """
@@ -177,7 +177,7 @@ def step_state_db_guard() -> dict:
     message = result.get("message", "unknown error")
     logger.error(
         "state.db failed integrity check after a code update: %s — "
-        "restore a backup with `hermes backup` tooling or contact support",
+        "restore a backup with `iskra backup` tooling or contact support",
         message,
     )
     return {"ok": False, "error": message}
@@ -186,7 +186,7 @@ def step_state_db_guard() -> dict:
 def step_drop_live_plugin_catalog() -> dict:
     """Drop the active home's cached live plugin catalog after a code change.
 
-    Bundled/sealed app updates never run ``hermes update``'s maintenance tail,
+    Bundled/sealed app updates never run ``iskra update``'s maintenance tail,
     so without this a pre-update snapshot out-votes the newer in-tree catalog
     for the rest of its TTL (#119340). Per home, like the boot record.
     """
@@ -203,7 +203,7 @@ def step_adopt_blessed_checkout(project_root: Path | None = None) -> dict:
     Main-era curl|sh / Setup installs created a ``.git`` checkout at a
     blessed managed root but never wrote a stamp — under the stamp-pure
     ladder they would all classify as "somebody's working tree" and
-    `hermes update` would refuse them. This step writes the missing fact
+    `iskra update` would refuse them. This step writes the missing fact
     exactly once: blessed root + ``.git`` + no stamp → a minimal stamp
     with ``updateMechanism: self``.
 

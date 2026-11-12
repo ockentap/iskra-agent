@@ -284,7 +284,7 @@ _ACTIVE_VENV_MARKER_VARS = ("VIRTUAL_ENV", "CONDA_PREFIX", "PYTHONHOME")
 # terminal answers ``launchd``/supervised and takes the exit-75 restart route no supervisor answers.
 # NOTIFY_SOCKET/WATCHDOG_* name the systemd unit's main process (sd_notify's unset_environment).
 # Kept on purpose: XPC_SERVICE_NAME (launchd's own per-process stamp, "0" below the wrapper, which
-# ``hermes update`` compares to tell it runs inside a job), INVOCATION_ID/JOURNAL_STREAM (systemd
+# ``iskra update`` compares to tell it runs inside a job), INVOCATION_ID/JOURNAL_STREAM (systemd
 # sets them for every process of the unit, and the gateway-child dispatch reads them there), and the
 # launch markers HERMES_SUPERVISED_CHILD / HERMES_S6_SUPERVISED_CHILD (profile pinning, s6 redirect).
 _SUPERVISED_PROCESS_IDENTITY_VARS = (

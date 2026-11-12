@@ -54,7 +54,7 @@ _lock = threading.RLock()  # re-entrant: a card settle checks and resolves under
 _pending: dict[str, dict] = {}
 _session_approved: dict[str, set] = {}
 _session_yolo: set[str] = set()
-# Session keys whose launch YOLO (`hermes chat --yolo` session policy) was already seeded by
+# Session keys whose launch YOLO (`iskra chat --yolo` session policy) was already seeded by
 # ``tools.approval_yolo.apply_launch_yolo``: once per boundary, so a later `/yolo` off sticks.
 _launch_yolo_applied: set[str] = set()
 _permanent_approved: set = set()
@@ -728,7 +728,7 @@ _CRON_CTX = _Unattended(
 
 
 def _unattended_contexts() -> list[_Unattended]:
-    """Active unattended contexts in evaluation order: single-query first (``hermes chat -q``
+    """Active unattended contexts in evaluation order: single-query first (``iskra chat -q``
     exports HERMES_INTERACTIVE=1 but nobody answers); cron beats a platform marker because
     cron binds the platform for delivery routing only."""
     contexts = []
@@ -1069,7 +1069,7 @@ def _human_decision(spec: _GateSpec, *, command: str, description: str,
 def _presence(approval_callback=None) -> tuple:
     """``(approval_callback, is_cli, is_gateway, is_ask)`` for the current context.
 
-    Single-query ``-q`` and cron clear the presence trio: ``hermes chat -q`` exports
+    Single-query ``-q`` and cron clear the presence trio: ``iskra chat -q`` exports
     HERMES_INTERACTIVE=1 for sudo prompts, and a gateway sets HERMES_EXEC_ASK=1 at startup and
     passes its environ to every external cron worker (#110932) — in neither can a human answer
     the card, so the gate must resolve from ``approvals.<ctx>_mode`` instead of parking on a

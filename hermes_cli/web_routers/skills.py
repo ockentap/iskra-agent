@@ -26,7 +26,7 @@ router = APIRouter()
 
 _config_profile_scope = late("_config_profile_scope", "hermes_cli.web_server_profiles")
 load_config = late("load_config", "hermes_cli.config")
-# Labels per hub source id (matches `hermes skills search` provenance); keep in
+# Labels per hub source id (matches `iskra skills search` provenance); keep in
 # sync with create_source_router()'s source list.
 _SKILL_HUB_SOURCE_LABELS = {
     "official": "Official (Nous)",
@@ -123,7 +123,7 @@ async def update_skills_hub(
 @hub_router.get("/api/skills/hub/updates")
 async def list_skill_hub_updates(profile: Optional[str] = None):
     """Hub-installed skills with an upstream update, scoped to ``profile`` (the
-    ``hermes skills check`` pass; fetches from each skill's recorded source)."""
+    ``iskra skills check`` pass; fetches from each skill's recorded source)."""
 
     def _run():
         from tools.skills_hub_install import check_for_skill_updates
@@ -411,7 +411,7 @@ def _locked_index() -> tuple[set, dict]:
 
 @router.put("/api/skills/lock")
 async def lock_skill(body: SkillLock, profile: Optional[str] = None):
-    """Lock/unlock a skill against AGENT edits (same record as ``hermes curator lock``).
+    """Lock/unlock a skill against AGENT edits (same record as ``iskra curator lock``).
     The user's own edits (this dashboard's editor, their editor) stay allowed."""
     from tools import skill_usage
     from tools.skill_manager_tool import _find_skill

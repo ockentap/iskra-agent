@@ -27,7 +27,7 @@ _RED_BELOW = 0.2
 # Per-model label on a window plan, as the gateway sends it (``usage_level``). Display words only.
 USAGE_LEVELS = ("free", "low", "medium", "top_tier")
 # Words, limit lines and switch notices come from ``plan_usage.*`` in locales/ (``usage_level_label``,
-# ``_t``); the `hermes model` setup picker passes ``lang="en"`` (its own text is English, as on main).
+# ``_t``); the `iskra model` setup picker passes ``lang="en"`` (its own text is English, as on main).
 # One line for that picker, shown only when a Large row is listed.
 TOP_TIER_FOOTNOTE = "Large models also use your monthly large-model limit."
 # Window pickers split the list here; messaging pickers just order recommended first.
@@ -172,7 +172,7 @@ class PickerUsage:
         plan is paused."""
         if self.paused_reason:
             return "included usage paused"
-        # Only the `hermes model` setup picker shows this, and its own text is English.
+        # Only the `iskra model` setup picker shows this, and its own text is English.
         return self.limit_line(lang="en") or "every model below is included"
 
     def gauges_for_model(self, model_id: str) -> tuple[UsageGauge, ...]:

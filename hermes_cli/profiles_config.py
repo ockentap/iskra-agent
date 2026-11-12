@@ -14,7 +14,7 @@ def _migrate_profile_config_if_outdated(profile_dir: Path) -> None:
         return  # no local config.yaml to migrate: a remote backend migrates in memory on read (D12)
     if not config_exists(profile_dir / "config.yaml"):
         return
-    # Creation must not fail over an unmigratable old config; `hermes doctor --fix` surfaces
+    # Creation must not fail over an unmigratable old config; `iskra doctor --fix` surfaces
     # the detailed error in the target profile.
     with contextlib.suppress(Exception):
         from hermes_constants import reset_hermes_home_override, set_hermes_home_override

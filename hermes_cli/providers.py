@@ -678,7 +678,7 @@ def resolve_provider_full(name: str, user_providers: Optional[dict[str, Any]] = 
         pass
     # Plugin profiles whose endpoint is minted at runtime (empty base_url, e.g. a token exchange
     # that also returns the host) are still real providers: /model --provider, the model picker
-    # and `hermes model` must not reject them as unknown. Last rung, so every user-configured
+    # and `iskra model` must not reject them as unknown. Last rung, so every user-configured
     # entry above wins; the bare ``custom`` placeholder is excluded because model-switch completes
     # it from the current endpoint (see get_provider).
     pdef = _plugin_profile_pdef(canonical)

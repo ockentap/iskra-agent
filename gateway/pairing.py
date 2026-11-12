@@ -38,7 +38,7 @@ DECLINE_DEDUPE_SECONDS = 24 * 3600  # One polite decline per (platform, sender) 
 
 # Default pairing directory override. Deliberately ``None``: an eagerly computed
 # path would freeze the HERMES_HOME/profile context at gateway boot, ignoring later
-# context-local overrides, so the gateway and ``hermes pairing`` CLI wrote different
+# context-local overrides, so the gateway and ``iskra pairing`` CLI wrote different
 # directories. ``_default_pairing_dir()`` resolves fresh per call; tests patch this.
 PAIRING_DIR = None
 
@@ -48,7 +48,7 @@ PAIRING_DIR = None
 # computing the path eagerly freezes it to whatever HERMES_HOME/profile context existed at that exact import
 # moment for the rest of the process's lifetime -- even if a context-local override (see
 # hermes_constants.set_hermes_home_override) is established afterward. A freshly-started, short-lived
-# process (e.g. the ``hermes pairing`` CLI) re-imports this module later with the final environment already
+# process (e.g. the ``iskra pairing`` CLI) re-imports this module later with the final environment already
 # in place, so it never observes the stale value -- the resulting asymmetry is what made pending pairing
 # codes issued by the gateway unrecoverable while CLI-side writes to the same directory kept working
 # (NousResearch/hermes-agent#93449). ``_default_pairing_dir()`` below resolves this fresh on every call in
@@ -65,7 +65,7 @@ def _allowlist_env_for_platform(platform: str) -> Optional[str]:
     Approving a code also writes the user into an already-configured allowlist (revoke removes
     them) so the operator's list stays the visible source of truth. Platforms without one (or with
     no allowlist configured) keep the pairing store as the sole grant record (authz union). See
-    #23778. Discovers plugins first: ``hermes pairing approve`` runs in a CLI process that may not
+    #23778. Discovers plugins first: ``iskra pairing approve`` runs in a CLI process that may not
     have loaded them yet."""
     platform = (platform or "").lower().strip()
     with contextlib.suppress(Exception):
@@ -254,7 +254,7 @@ def _load_json_file(path: Path) -> dict:
     except PermissionError as e:
         try:
             # Surface this loudly: a 0600 file owned by a different user (classic Docker symptom: `docker
-            # exec` runs as root and writes the file, then the gateway process — running as `hermes` after
+            # exec` runs as root and writes the file, then the gateway process — running as `iskra` after
             # gosu drop — can't read it) would otherwise be swallowed by the generic OSError branch below,
             # silently leaving the user marked unauthorized. See issue #10270.
             st = path.stat()
@@ -338,7 +338,7 @@ class PairingStore:
 
     Files per platform: ``{platform}-pending.json``, ``{platform}-approved.json``, plus
     shared ``_rate_limits.json``. With ``profile="<name>"`` storage resolves from that
-    profile's HERMES_HOME exactly as ``hermes -p <name> pairing ...`` does, so multiplex
+    profile's HERMES_HOME exactly as ``iskra -p <name> pairing ...`` does, so multiplex
     gateways and profile-scoped CLI approvals share one whitelist.
     """
 

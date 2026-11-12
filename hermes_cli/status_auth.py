@@ -1,4 +1,4 @@
-"""Credential sections of `hermes status`, run through ``status._SECTIONS`` with its shared context.
+"""Credential sections of `iskra status`, run through ``status._SECTIONS`` with its shared context.
 Origin helpers (``_row``, ``_first_env_value``, ...) are resolved through the ``hermes_cli.status``
 module object so tests that monkeypatch that module keep working."""
 
@@ -101,7 +101,7 @@ def _render_auth_providers(ctx):
     _status._section("Auth Providers")
     from hermes_cli import auth
     try:
-        # Read-only display: the refresh-free snapshot, so `hermes status` never performs an OAuth
+        # Read-only display: the refresh-free snapshot, so `iskra status` never performs an OAuth
         # refresh or burns a single-use refresh token.
         nous_status = auth.get_nous_auth_status_local()
         statuses = {getter: getattr(auth, getter)() for _, getter, _, _ in _OAUTH_BLOCKS[:3]}

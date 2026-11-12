@@ -194,7 +194,7 @@ def _desktop_packaged_executable_in(release_dir: Path) -> Optional[Path]:
 # ─── Desktop stage-and-swap pack (#86443) ─────────────────────────────────── electron-builder packs IN
 # PLACE: before-pack.mjs wipes ``release/<platform>- unpacked`` (or the mac ``Hermes.app``) and the Electron
 # unpack + asar + rename then rebuild it. Any failure after that wipe — corrupt cached zip, blocked
-# download, missing dep, disk full — leaves the user with NO app, and ``hermes update`` used to report
+# download, missing dep, disk full — leaves the user with NO app, and ``iskra update`` used to report
 # "partially complete" over an empty release/. Fix the class, not the predicate: build into a STAGING output
 # dir next to release/, verify the staged result, and only then swap it over the live tree with renames. On
 # any failure the live app is untouched.
@@ -307,7 +307,7 @@ def _swap_staged_desktop_app(
         moved_aside = live_root.exists()
         if moved_aside:
             # A Desktop may have reopened during the long packaging step (Windows lock) or
-            # never exited at all (a manual `hermes update`/`hermes desktop` run does not
+            # never exited at all (a manual `iskra update`/`iskra desktop` run does not
             # wait for it — only the update hand-offs do). Either way a renderer alive
             # past the rename below keeps fetching its old hashed chunks from disk and
             # dies on the next lazy import, so stop it on every platform (#109643).
@@ -336,7 +336,7 @@ def _discard_desktop_staging(staging_dir: Path) -> None:
 
 
 # ─── Desktop exe integrity gate (#69179) ──────────────────────────────────── The desktop self-update chain
-# (Desktop → hermes-setup --update → `hermes update` → `hermes desktop --build-only` → relaunch) rebuilds
+# (Desktop → hermes-setup --update → `iskra update` → `iskra desktop --build-only` → relaunch) rebuilds
 # Hermes.exe on the end user's machine and used to verify only that the file EXISTS before declaring
 # success. A corrupt cached Electron zip whose extraction produced a truncated electron.exe, an interrupted
 # rcedit resource rewrite, a disk-full pack, or a wrong-arch unpacked tree therefore shipped a broken binary
@@ -493,7 +493,7 @@ def _desktop_ancestor_in(desktop_dir: Path) -> Optional[int]:
     """PID of a Desktop from this build's ``release`` tree that is one of OUR ancestors, else None.
 
     That Desktop is running this process (its backend's launch-time update tail, or a
-    `hermes update` it spawned). On Windows it holds the exe lock the promotion rename
+    `iskra update` it spawned). On Windows it holds the exe lock the promotion rename
     needs, and it cannot be stopped without killing this process first. Never raises."""
     try:
         import psutil
@@ -528,7 +528,7 @@ def _stop_desktop_processes_locking_build(desktop_dir: Path, *, also_posix: bool
     me = os.getpid()
     # Never stop a Desktop that is one of OUR ancestors, on any platform: this
     # process lives in its tree. A historical Desktop (v2026.7.1 Linux in-app
-    # update) runs `hermes update` as a child with piped stdout/stderr and owns
+    # update) runs `iskra update` as a child with piped stdout/stderr and owns
     # the post-update rebuild and relaunch. Killing it breaks those pipes (EPIPE
     # fails the update) and leaves nobody to relaunch. On Windows the same holds
     # for the launch-time tail a Desktop's own backend runs
@@ -891,7 +891,7 @@ def _desktop_macos_relaunchable_fixup(
                     f"  ✗ macOS signing identity {configured!r} did not produce a verified "
                     f"signature, and the installed app is publisher-signed (Team ID "
                     f"{target_sig['team']}); keeping it (no ad-hoc fallback). Fix the identity "
-                    "(e.g. `hermes desktop --setup-tcc-identity` or edit "
+                    "(e.g. `iskra desktop --setup-tcc-identity` or edit "
                     "desktop.macos_signing_identity in config.yaml) and update again."
                 )
                 return False
@@ -988,7 +988,7 @@ def _install_rebuilt_desktop_app(desktop_dir: Path, candidates: list[Path]) -> t
     """Copy the rebuilt macOS bundle into every stale or missing installed ``Hermes.app`` in
     *candidates* (``_installed_desktop_apps()``) (#52339).
 
-    ``hermes desktop --build-only`` (what ``hermes update`` runs) packages into
+    ``iskra desktop --build-only`` (what ``iskra update`` runs) packages into
     ``apps/desktop/release/`` only. Finder, the Dock and Spotlight launch the copy in
     ``/Applications`` (or ``~/Applications``), so without this step every update leaves the
     installed shell one build behind the backend it boots. The detached Desktop updater swaps
@@ -1028,7 +1028,7 @@ def _refresh_installed_desktop_apps(desktop_dir: Path) -> None:
     from hermes_cli.gui_uninstall import desktop_install_record
     from utils import atomic_json_write, read_json_or_empty
     # A copy that failed to reinstall stays recorded, so the next update retries it. Every
-    # `hermes desktop` launch lands here: write only when the set changed.
+    # `iskra desktop` launch lands here: write only when the set changed.
     apps = [str(app) for app in owned]
     if read_json_or_empty(desktop_install_record()).get("apps", []) == apps:
         return
@@ -1039,7 +1039,7 @@ def _refresh_installed_desktop_apps(desktop_dir: Path) -> None:
 
 
 def _update_owned_macos_bundles(candidates: list[Path]) -> list[Path]:
-    """The existing bundles in *candidates* that only ``hermes update`` keeps current (#52339).
+    """The existing bundles in *candidates* that only ``iskra update`` keeps current (#52339).
 
     Ownership comes from the bundle's own ``install-stamp.json``. ``updateMechanism: self`` is a
     bootstrap build (a local pack or the bootstrap download), and stamps older than the field
@@ -1090,7 +1090,7 @@ def _installed_desktop_apps() -> list[Path]:
 
 
 def _installed_desktop_launch_target(desktop_dir: Path, packaged_executable: Path) -> Path:
-    """The executable ``hermes desktop`` launches: the installed app once it IS the checkout build.
+    """The executable ``iskra desktop`` launches: the installed app once it IS the checkout build.
 
     Finder, the Dock and Spotlight open the installed ``Hermes.app``; launching the ``release/``
     bundle beside it ran the same app from a second path while the installed copy went stale
@@ -1133,7 +1133,7 @@ def _install_rebuilt_macos_bundles(
         if app.resolve() in running:
             problems.append(
                 f"{app} is running and was not refreshed; quit Hermes Desktop and run "
-                "`hermes update` again (or update from inside the app)")
+                "`iskra update` again (or update from inside the app)")
             continue
         if codesign:
             installed_sig = _macos_signature_summary(codesign, app)
@@ -1381,7 +1381,7 @@ def _register_linux_desktop_entry(defer: bool = False):
     """Install the XDG desktop entry for Hermes Desktop (Linux only, best-effort).
 
     ``Exec`` and ``Icon`` are absolute so the entry works outside a login shell.
-    ``hermes uninstall --gui`` removes it.
+    ``iskra uninstall --gui`` removes it.
 
     ``defer=True`` (app-grid launch) returns a ``DeferredDesktopEntryInstall`` that writes the
     entry only once the Electron window is on screen (#111906); ``None`` when nothing is
@@ -1476,10 +1476,10 @@ def build_prepared_desktop(desktop_dir: Path, *, source_mode: bool, pnpm: str, e
         # The Desktop running this build holds the exe lock the promotion rename needs,
         # and stopping it would kill this process first (#123499). Packing would only
         # produce a build that cannot be installed; leave the app as it is. Its content
-        # stamp stays stale, so `hermes desktop` run outside the app rebuilds it
+        # stamp stays stale, so `iskra desktop` run outside the app rebuilds it
         # (_desktop_build_needed), and the in-app update completes with desktop=True.
         print(f"  ⚠ Skipped rebuilding the desktop app: this update is running inside it (pid {ancestor}),")
-        print("    and Windows locks a running app's files. Quit Hermes Desktop and run `hermes desktop`")
+        print("    and Windows locks a running app's files. Quit Hermes Desktop and run `iskra desktop`")
         print("    from a terminal, or use Update now in Settings → About, to rebuild and reopen it.")
         return None
     build_label = "source build" if source_mode else "packaged app"
@@ -1690,7 +1690,7 @@ def _run_desktop_one_shot(args: argparse.Namespace, desktop_dir: Path, *, bundle
             with contextlib.suppress(NotBundledApp):
                 exe = resolve_bundle_layout(PROJECT_ROOT).launcher
         if exe is None:
-            print(f"✗ No packaged Hermes Desktop found under {desktop_dir / 'release'}; run `hermes desktop` first.")
+            print(f"✗ No packaged Hermes Desktop found under {desktop_dir / 'release'}; run `iskra desktop` first.")
         sys.exit(0 if exe is not None and install_profile(exe) else 1)
 
 
@@ -1720,7 +1720,7 @@ def cmd_gui(args: argparse.Namespace):
                 "  This Hermes came from Homebrew, which does not ship the desktop app's\n"
                 "  source tree, so it cannot be built from this install.\n"
                 "  Install the desktop app from https://hermes-agent.nousresearch.com,\n"
-                "  or run `hermes desktop` from a source checkout."
+                "  or run `iskra desktop` from a source checkout."
             )
         sys.exit(1)
 
@@ -1743,7 +1743,7 @@ def cmd_gui(args: argparse.Namespace):
 
     # The mutable preflight (freshness check → pnpm install → pack) mutates
     # checkout-scoped node_modules and apps/desktop/release. Serialize it
-    # across processes so a manual `hermes desktop` racing `hermes update`'s
+    # across processes so a manual `iskra desktop` racing `iskra update`'s
     # rebuild cannot corrupt either (#93940). The lock lives outside the
     # checkout, keyed by the resolved checkout path.
     from hermes_cli.desktop_build_lock import DesktopBuildLock
@@ -1846,7 +1846,7 @@ def cmd_gui(args: argparse.Namespace):
         launch_command.append("--local")
     # Out-of-band preview escape hatch (#97213): a fullscreened preview pane
     # owns all input, and Wayland has no xdotool/wmctrl to break out from a
-    # terminal. `hermes desktop --close-preview` rides the single-instance
+    # terminal. `iskra desktop --close-preview` rides the single-instance
     # argv so a second CLI invocation unlocks the running app.
     if getattr(args, "close_preview", False):
         launch_command.append("--close-preview")
@@ -1924,7 +1924,7 @@ def cmd_gui(args: argparse.Namespace):
 def _explicit_profile_args() -> list[str]:
     """``--profile <name>`` for Electron when ``-p``/``--profile`` was on argv.
 
-    Explicit flag only. A bare `hermes desktop` must not forward the sticky CLI
+    Explicit flag only. A bare `iskra desktop` must not forward the sticky CLI
     profile — Electron would persist it over the stored desktop one.
     """
     from hermes_cli.main import explicit_cli_profile

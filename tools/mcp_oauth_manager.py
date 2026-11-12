@@ -179,7 +179,7 @@ class HermesMCPOAuthProvider(HermesProviderMixin, *_SDK_BASES):
         is dead server-side: delete ``client.json`` (+ stale metadata) so the SDK re-runs DCR next flow.
         Conservative: acts ONLY on 400/401 at the discovered ``token_endpoint`` (the only request carrying our
         ``client_id``) with ``invalid_client`` in the body; pre-registered clients are never poisoned; any failure
-        is swallowed. The browser-side "Redirect URI Mismatch" case has no HTTP signal (``hermes mcp reauth``).
+        is swallowed. The browser-side "Redirect URI Mismatch" case has no HTTP signal (``iskra mcp reauth``).
 
         See #36767.
         """
@@ -190,7 +190,7 @@ class HermesMCPOAuthProvider(HermesProviderMixin, *_SDK_BASES):
             storage = self._hermes_storage()
             # A rejected CIMD URL would loop if re-presented (the server already fetched and refused
             # it): drop it so the retry takes DCR, and mark it on disk so the next process doesn't walk
-            # back into the same refusal (`hermes mcp login` clears the marker).
+            # back into the same refusal (`iskra mcp login` clears the marker).
             cimd_url = getattr(self.context, "client_metadata_url", None)
             if cimd_url and getattr(self.context.client_info, "client_id", None) == cimd_url:
                 logger.warning("MCP OAuth '%s': authorization server rejected our Client ID Metadata Document (%s) "
@@ -237,7 +237,7 @@ class HermesMCPOAuthProvider(HermesProviderMixin, *_SDK_BASES):
             f"server advertises no registration_endpoint), so the SDK's fallback would POST {expected} and fail "
             "(Google's hosted Gmail/Drive MCP servers and similar providers return 404 for it). Create an OAuth "
             "client for this provider and add it under config.yaml mcp_servers.<name>.oauth (client_id, "
-            f"client_secret), then run `hermes mcp login {name}`.")
+            f"client_secret), then run `iskra mcp login {name}`.")
 
     async def async_auth_flow(self, request):  # type: ignore[override]
         try:  # pre-flow hook: reload from disk if it changed (non-fatal on error)
@@ -355,13 +355,13 @@ class MCPOAuthManager:
         if get_dashboard_oauth_flow() is None and not _is_interactive() and not storage.has_cached_tokens():
             raise OAuthNonInteractiveError(
                 f"MCP OAuth for '{server_name}': non-interactive environment and no cached tokens found. "
-                f"Run `hermes mcp login {server_name}` interactively first to complete initial authorization.")
+                f"Run `iskra mcp login {server_name}` interactively first to complete initial authorization.")
         return _HERMES_PROVIDER_CLS(
             server_name=server_name, preregistered=bool(cfg.get("client_id")), server_url=entry.server_url,
             **build_provider_kwargs(cfg, storage, ssh_proxy_hint=False))
 
     def remove(self, server_name: str, *, hermes_home: str | Path | None = None) -> _ProviderEntry | None:
-        """Evict the provider from cache AND delete tokens from disk (``hermes mcp remove`` / forced re-auth)."""
+        """Evict the provider from cache AND delete tokens from disk (``iskra mcp remove`` / forced re-auth)."""
         entry = self.evict(server_name, hermes_home=hermes_home)
         from tools.mcp_oauth import remove_oauth_tokens
         remove_oauth_tokens(server_name, hermes_home=hermes_home)
@@ -404,7 +404,7 @@ class MCPOAuthManager:
                 # baseline: the file was written by this process's own first
                 # sign-in, and reloading on the next request would tear down the
                 # live HTTP MCP session. With no tokens in memory (started before
-                # an external `hermes mcp login`), fall through and reload.
+                # an external `iskra mcp login`), fall through and reload.
                 return False
             # `_initialized` is private SDK API but stable across the pinned versions (>=1.26.0).
             if hasattr(entry.provider, "_initialized"):

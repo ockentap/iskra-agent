@@ -198,7 +198,7 @@ _docker_orphan_reaper_lock = threading.Lock()
 def _maybe_reap_docker_orphans(container_config: dict[str, Any]) -> None:
     """Run the docker orphan reaper once per process, if enabled.
 
-    Sweeps Exited containers labeled ``hermes-agent=1`` for the current
+    Sweeps Exited containers labeled ``iskra-agent=1`` for the current
     profile — leftovers of Hermes processes that died without firing
     ``atexit`` (SIGKILL, OOM, closed terminal). Conservative: only containers
     older than ``2 × lifetime_seconds``, profile-scoped. Gates:
@@ -722,11 +722,11 @@ def _ensure_terminal_env_bridged() -> None:
     """Backfill TERMINAL_* env vars from config.yaml when no launcher did.
 
     CLI, gateway and TUI/dashboard PTY launches bridge ``terminal.*`` into env vars
-    at startup; processes that skip those paths (``hermes serve``, Desktop
+    at startup; processes that skip those paths (``iskra serve``, Desktop
     in-process agents, desktop cron ticker, ACP) would otherwise fall back to the
     local backend even when config selects docker — running on the host the user
     meant to sandbox. Explicit keys in the ``terminal`` section override matching
-    env values (possibly stale from ``hermes setup``); env values for omitted keys
+    env values (possibly stale from ``iskra setup``); env values for omitted keys
     are preserved. Without a terminal section an existing TERMINAL_ENV is kept and
     defaults are backfilled only when none is set. A per-turn terminal scope
     suppresses the bridge entirely: writing scope values into the process-global

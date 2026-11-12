@@ -1,4 +1,4 @@
-"""NixOS container mode: route a ``hermes`` invocation into the managed container (``main()``)."""
+"""NixOS container mode: route a ``iskra`` invocation into the managed container (``main()``)."""
 
 from __future__ import annotations
 

@@ -137,8 +137,8 @@ class UnscopedSecretError(RuntimeError):
         what = f"this profile's {secret_name}" if secret_name else "this profile's API key"
         super().__init__(
             f"Hermes could not read {what} (an internal profile-scoping bug on the multiplexed "
-            "gateway, not your configuration). Run `hermes gateway restart`; if it keeps happening, "
-            "report it with `hermes debug share`."
+            "gateway, not your configuration). Run `iskra gateway restart`; if it keeps happening, "
+            "report it with `iskra debug share`."
         )
         self.secret_name = secret_name
         self.developer_detail = developer_detail

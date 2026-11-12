@@ -1,4 +1,4 @@
-"""API connectivity probes for ``hermes doctor`` (split out of ``doctor.py``).
+"""API connectivity probes for ``iskra doctor`` (split out of ``doctor.py``).
 
 Every probe is a pure function: one HTTP/SDK call returning a ``ProbeResult`` with the row(s) to
 print and issue strings to append. No printing inside workers — the caller prints in submission order.

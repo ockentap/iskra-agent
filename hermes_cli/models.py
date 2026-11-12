@@ -828,7 +828,7 @@ def _provider_has_credentials(pid: str) -> bool:
 
 
 def list_available_providers() -> list[dict[str, str]]:
-    """``{id, label, aliases, authenticated}`` per listed provider (shared with ``hermes model`` / ``/model``)."""
+    """``{id, label, aliases, authenticated}`` per listed provider (shared with ``iskra model`` / ``/model``)."""
     from hermes_cli.models_catalog_static import listed_canonical_providers
     aliases_for: dict[str, list[str]] = {}
     for alias, canonical in _PROVIDER_ALIASES.items():
@@ -1440,7 +1440,7 @@ def _openai_catalog(normalized: str, force_refresh: bool) -> Optional[list[str]]
     base = _openai_discovery_base_url(normalized)
     # Custom OpenAI-compatible endpoints serve a small curated catalog — use it verbatim. Official
     # OpenAI hosts (canonical and data-residency regional) return 120+ embeddings/whisper/tts/…
-    # entries, so intersect with the curated agentic catalog so ``/model`` matches ``hermes model``.
+    # entries, so intersect with the curated agentic catalog so ``/model`` matches ``iskra model``.
     # Model not in live /v1/models — check the curated catalog before rejecting. Providers may omit models
     # from their live listing that are still valid (stale cache, partial rollout, gated previews). Use the
     # pure-catalog helper (no extra live fetch) so we only accept models Hermes actually ships. (#46850)
@@ -1587,7 +1587,7 @@ def _profile_live_catalog(normalized: str) -> Optional[list[str]]:
             logger.debug("external_process catalog fetch failed for %s: %s", normalized, exc)
             live = None
         # Same merge as setup (`_model_flow_plugin_provider`) so /model, the Desktop picker and
-        # `hermes model` offer one list: live ids plus any pinned id the probe omitted.
+        # `iskra model` offer one list: live ids plus any pinned id the probe omitted.
         return merge_profile_catalog(normalized, profile, list(live) if live else None)
     if not (profile.auth_type == "api_key" and profile.base_url):
         return list(profile.fallback_models) or None
@@ -2065,7 +2065,7 @@ def cached_provider_model_ids(
 
 def clear_provider_models_cache(provider: Optional[str] = None) -> None:
     """Drop one provider's cache entry, or wipe the whole cache (``provider=None``). Used by
-    ``/model --refresh`` and ``hermes model --refresh``."""
+    ``/model --refresh`` and ``iskra model --refresh``."""
     try:
         from hermes_cli.model_catalog import clear_fetch_backoff
         clear_fetch_backoff()  # a recovered catalog is fetched now, not after the offline backoff

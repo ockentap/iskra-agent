@@ -17,7 +17,7 @@ from pathlib import Path
 def owned_by_profile(definition: Path, profile_dir: Path) -> bool:
     """False (one-line notice) when *definition* pins another HERMES_HOME. Unit names derive from the
     profile name, and a scratch ``HOME``'s ``profiles/<name>`` resolves the ACCOUNT's real
-    ``hermes-gateway-<name>`` unit (the unit dir is account-anchored): delete/rename then disabled,
+    ``iskra-gateway-<name>`` unit (the unit dir is account-anchored): delete/rename then disabled,
     stopped and unlinked a live gateway of another install. Same owner rule as
     ``gateway_service_owner.definition_belongs_to_home``."""
     from hermes_cli.gateway_service_owner import _resolve, pinned_home

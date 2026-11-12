@@ -1796,7 +1796,7 @@ def _plugins_remove_desktop(rid, params):
 
 
 def _plugins_update(rid, params):
-    """The same update as the dashboard and ``hermes plugins update``: a catalog install re-pins to the
+    """The same update as the dashboard and ``iskra plugins update``: a catalog install re-pins to the
     current catalog SHA, a git install pulls. Every update is scanned. A refusal changes nothing and
     answers ``ok: false`` with what the client must show before retrying: ``consent_required`` +
     ``delta``/``delta_lines`` for a re-pin that widens the plugin (retry with ``accept_capabilities``), or
@@ -1823,7 +1823,7 @@ def _plugins_update(rid, params):
 
 
 def _plugins_remove(rid, params):
-    """Uninstall a user install (``<HERMES_HOME>/plugins/<name>``) — the same core as ``hermes plugins
+    """Uninstall a user install (``<HERMES_HOME>/plugins/<name>``) — the same core as ``iskra plugins
     remove`` and the dashboard; bundled plugins and paths outside the plugins dir are refused there."""
     name = (params.get("name") or "").strip()
     if not name:
@@ -1873,7 +1873,7 @@ def _portable_server_names(plugin_dir: Path, key: str) -> set[str]:
 
 
 def _plugins_update_all(rid, params):
-    """Check every installed plugin and update each one ``hermes plugins update`` would move. Nothing is
+    """Check every installed plugin and update each one ``iskra plugins update`` would move. Nothing is
     accepted on the user's behalf: a widened catalog pin or a caution scan of a git update comes back
     ``needs_review``."""
     _ensure_plugin_activation_listener()
@@ -1910,7 +1910,7 @@ _PLUGINS_ACTIONS = {"list": _plugins_list, "onboarding": _plugins_onboarding, "p
 
 @_scoped_rpc("plugins.manage", 5026, catch_resolve=False)
 def _(rid, params: dict) -> dict:
-    """TUI Plugins Hub backend (shares primitives with ``hermes plugins`` / the dashboard):
+    """TUI Plugins Hub backend (shares primitives with ``iskra plugins`` / the dashboard):
     ``list`` → {plugins, user_count, bundled_count}; ``toggle`` flips ``key``/``name`` per ``enable``;
     ``install`` git-clones ``identifier``/``repo`` or a curated ``catalog_name`` (``force``, ``enable``
     default True); ``inspect`` reports which halves that source ships, installing nothing; ``update`` re-pins a catalog install or pulls a git install (``force`` accepts a caution scan); ``remove`` deletes

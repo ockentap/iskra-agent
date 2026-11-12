@@ -113,9 +113,9 @@ def _running_interpreter_fallback() -> str:
 
 
 def resolve_exec_command(project_root: Optional[Path] = None) -> str:
-    """Build the absolute ``Exec=`` command line for ``hermes desktop``.
+    """Build the absolute ``Exec=`` command line for ``iskra desktop``.
 
-    Prefer the real ``hermes`` launcher; fall back to ``<python> -m hermes_cli.main desktop``.
+    Prefer the real ``iskra`` launcher; fall back to ``<python> -m hermes_cli.main desktop``.
     """
     from hermes_cli.relaunch import resolve_hermes_bin
 
@@ -134,7 +134,7 @@ def resolve_exec_command(project_root: Optional[Path] = None) -> str:
     argv = [interpreter, "-m", "hermes_cli.main", *_desktop_argv_tail(project_root)]
     if bin_path:
         resolved = Path(bin_path).resolve()
-        # A Python launcher whose shebang points OUTSIDE the venv (e.g. the repo's `hermes` script
+        # A Python launcher whose shebang points OUTSIDE the venv (e.g. the repo's `iskra` script
         # with `#!/usr/bin/env python3`) would die silently on the first third-party import under
         # Terminal=false — run it under the venv interpreter explicitly.
         prefix = [interpreter] if _needs_interpreter(resolved) else []
@@ -184,7 +184,7 @@ def _inside_checkout(candidate: str, checkout_root: Path, original_argv0: str) -
         path = Path(candidate).resolve()
     except OSError:
         return False
-    # Anything shipped in the tree (e.g. the repo `hermes` script) is checkout-internal. Compare
+    # Anything shipped in the tree (e.g. the repo `iskra` script) is checkout-internal. Compare
     # against BOTH the lexical and resolved roots: candidates resolve, so a symlinked home needs
     # the resolved comparison too.
     try:
@@ -235,7 +235,7 @@ def _resolve_hermes_bin_for_desktop_entry(
     checkout is a launch-context artifact, not a durable installed launcher — persisting it makes
     the entry depend on how the previous launch happened (a bootstrap loop). Skip such candidates
     and fall through to PATH, then to the installer's known wrapper locations. A candidate that
-    provably cannot serve ``hermes desktop`` (a code tree carrying ``hermes_cli`` but no desktop
+    provably cannot serve ``iskra desktop`` (a code tree carrying ``hermes_cli`` but no desktop
     app beside it — a managed runtime env's console script) is skipped the same way: its entry
     would only ever die with "Desktop GUI source not found". ``resolve_fn`` is injectable for tests.
 
@@ -260,7 +260,7 @@ def _resolve_hermes_bin_for_desktop_entry(
     primary = resolve_fn()
     # A managed-environment console script is outside the checkout but is not a durable desktop
     # launcher: its workspace has no apps/desktop (#122438). The same holds for any launcher
-    # that provably cannot serve `hermes desktop` (another install's managed env, #122485).
+    # that provably cannot serve `iskra desktop` (another install's managed env, #122485).
     # Fall through so the durable-wrapper probe below can still find a working one.
     if (
         primary
@@ -285,7 +285,7 @@ def _resolve_hermes_bin_for_desktop_entry(
         sys.argv[0] = original_argv0
 
     # A resolver miss (argv[0] is ``-c`` under ``python -m`` on a cold relaunch AND PATH has no
-    # ``hermes``) must NOT return None here: that skipped the durable-wrapper probe below and persisted
+    # ``iskra``) must NOT return None here: that skipped the durable-wrapper probe below and persisted
     # the module form, so the entry's bytes flipped on every alternating launch context — and
     # gnome-shell 50.x crashes when the entry changes while its ShellApp is STARTING (#110885).
     # ``primary is None`` implies ``rerouted is None`` (the rerun only hides argv[0]), so only the
@@ -421,7 +421,7 @@ def _launcher_tree(path: Path) -> Path:
 
 
 def _tree_desktop_state(tree: Path) -> Optional[bool]:
-    """``True`` when *tree* can serve ``hermes desktop``, ``False`` when it provably cannot, else ``None``.
+    """``True`` when *tree* can serve ``iskra desktop``, ``False`` when it provably cannot, else ``None``.
 
     ``False`` is reserved for a tree that IS a hermes code tree (carries ``hermes_cli``) yet has no
     desktop app beside it — the managed runtime env layout, whose launcher runs but dies with
@@ -505,7 +505,7 @@ def _known_wrapper_candidates():
     """Durable installed-launcher locations, most likely first.
 
     Mirrors the installer's ``get_command_link_dir()`` layouts: Termux (``$PREFIX/bin``), root FHS
-    (``/usr/local/bin``), and user (``~/.local/bin``). The wrapper is always named ``hermes``.
+    (``/usr/local/bin``), and user (``~/.local/bin``). The wrapper is always named ``iskra``.
     """
     candidates = []
     prefix = os.environ.get("PREFIX")
@@ -803,7 +803,7 @@ def install_desktop_entry(project_root: Path) -> Optional[Path]:
     into a hidden alias once the new entry exists, and only while launcher management is
     enabled — deleting it instead would silently kill existing taskbar pins (#124492).
     ``None`` on non-Linux platforms, when the write fails, or when the resolved ``Exec``
-    provably cannot serve ``hermes desktop`` — a convenience, never a reason to fail a launch.
+    provably cannot serve ``iskra desktop`` — a convenience, never a reason to fail a launch.
     """
     if not is_supported():
         return None

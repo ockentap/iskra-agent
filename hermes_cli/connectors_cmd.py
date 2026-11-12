@@ -1,4 +1,4 @@
-"""``hermes connectors``: list, connect, rename and remove hosted connector accounts."""
+"""``iskra connectors``: list, connect, rename and remove hosted connector accounts."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from typing import Any, Callable, NoReturn
 
 _POLL_SECONDS = 2.0
 _DONE_STATES = frozenset({"connected", "skipped", "failed", "expired", "not_connected"})
-_SIGN_IN = "Run `hermes auth upgrade` to sign in."
+_SIGN_IN = "Run `iskra auth upgrade` to sign in."
 
 
 class _CommandError(Exception):

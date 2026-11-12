@@ -204,7 +204,7 @@ class GatewayRuntimeInitMixin:
         # Checkpoint store pruning is a housekeeping chore (``_housekeeping_checkpoint_prune``), not a
         # constructor step: its ``git gc`` repacks the whole store (tens of seconds on a GB store) and
         # here it ran before the control socket, adapters and the code_sha stamp — so the first
-        # restart of the day (the ``hermes update`` one) looked hung and failed fleet verification.
+        # restart of the day (the ``iskra update`` one) looked hung and failed fleet verification.
 
     def _init_registries_and_clocks(self) -> None:
         """Pairing stores, hook registry, voice modes, background-task set, liveness and idle clocks."""

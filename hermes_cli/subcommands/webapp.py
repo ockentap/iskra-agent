@@ -1,4 +1,4 @@
-"""``hermes webapp``: open the Desktop workspace in a browser, served by the gateway."""
+"""``iskra webapp``: open the Desktop workspace in a browser, served by the gateway."""
 
 from __future__ import annotations
 

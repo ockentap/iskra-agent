@@ -25,7 +25,7 @@ class ManagedKeyError(ConfigWriteError):
 
 def _refuse_managed_keys(*key_paths: str) -> None:
     """Refuse the whole write when the managed scope pins any of these exact dotted leaves, with
-    the refusal ``hermes config set`` prints for the same key."""
+    the refusal ``iskra config set`` prints for the same key."""
     from hermes_cli import managed_scope
     from hermes_cli.config import _managed_source
     for key_path in key_paths:
@@ -222,7 +222,7 @@ def _set_model(rid, params, key, value, session):
         if parse_model_switch_args(str(value)).is_once:
             result = _apply_model_switch("", {"agent": None}, value, confirm_expensive_model=confirmed)
         else:
-            # One string for every client: the Ink TUI (dashboard /chat, `hermes --tui`) has no
+            # One string for every client: the Ink TUI (dashboard /chat, `iskra --tui`) has no
             # Settings; the dashboard has a Models page; only the Desktop has Settings -> Models.
             return _err(rid, 4001, "config.set model requires a live session; to change the "
                         "profile default run /setup, or use the Models page (dashboard) / "
@@ -604,7 +604,7 @@ def _(rid, params: dict) -> dict:
     from hermes_cli.config_backend import ConfigWriteError
     try:
         return handler(rid, params, key, value, session)
-    except ManagedKeyError as exc:  # administrator-pinned (`hermes config set` refuses it too): nothing saved
+    except ManagedKeyError as exc:  # administrator-pinned (`iskra config set` refuses it too): nothing saved
         return _err(rid, 4030, str(exc))
     except ConfigWriteError as exc:  # a locked key or a value the config backend refused: nothing saved
         return _err(rid, 4002, str(exc))

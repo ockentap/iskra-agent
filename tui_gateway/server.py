@@ -412,7 +412,7 @@ def _canonical_profile_request(name: str) -> str:
     """Canonicalize profile basenames emitted by older session-info payloads.
 
     ``Path(default_home).name`` was historically sent as a profile id. Those basenames are
-    installation details — unless a real named profile of that name exists (``hermes`` is a legal
+    installation details — unless a real named profile of that name exists (``iskra`` is a legal
     id), in which case it wins; other unknown names keep failing closed in ``_profile_home``.
     """
     if name.casefold() in {".hermes", "hermes"}:
@@ -609,7 +609,7 @@ _server_requests.bind_sinks(lambda frame: write_json(frame), lambda event, sid, 
 _live_transports: set[Transport] = set()
 _live_transports_lock = threading.Lock()
 # True only when real stdout IS the JSON-RPC client channel (``tui_gateway.entry.main``, the stdio TUI).
-# `hermes serve` / dashboard processes speak JSON-RPC over WS only: their stdout is captured into
+# `iskra serve` / dashboard processes speak JSON-RPC over WS only: their stdout is captured into
 # desktop.log, so a peer-less global broadcast (the change watcher keeps ticking after the last WS client
 # leaves) must be dropped there, not printed.
 _stdio_is_rpc_channel = False
@@ -1962,17 +1962,17 @@ _WORKER_BLOCKED_COMMANDS: frozenset[str] = frozenset({"snapshot", "snap"})
 
 # argv shapes that must not run headless in the gateway process → user hint.
 _CLI_EXEC_BLOCKED = {
-    ("setup",): "`hermes setup` needs a full terminal — run it outside the TUI",
-    ("gateway",): "`hermes gateway` is long-running — run it in another terminal",
-    ("sessions", "browse"): "`hermes sessions browse` is interactive — use /resume here, or run browse in another terminal",
-    ("config", "edit"): "`hermes config edit` needs $EDITOR in a real terminal",
+    ("setup",): "`iskra setup` needs a full terminal — run it outside the TUI",
+    ("gateway",): "`iskra gateway` is long-running — run it in another terminal",
+    ("sessions", "browse"): "`iskra sessions browse` is interactive — use /resume here, or run browse in another terminal",
+    ("config", "edit"): "`iskra config edit` needs $EDITOR in a real terminal",
 }
 
 
 def _cli_exec_blocked(argv: list[str]) -> str | None:
     """Return user hint if this argv must not run headless in the gateway process."""
     if not argv:
-        return "bare `hermes` is interactive — use `/hermes chat -q …` or run `hermes` in another terminal"
+        return "bare `iskra` is interactive — use `/hermes chat -q …` or run `iskra` in another terminal"
     head = tuple(a.lower() for a in argv[:2])
     return _CLI_EXEC_BLOCKED.get(head[:1]) or _CLI_EXEC_BLOCKED.get(head)
 

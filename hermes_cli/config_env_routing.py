@@ -1,7 +1,7 @@
-"""Which ``hermes config`` keys live in ``.env`` instead of ``config.yaml``, and their lifecycle.
+"""Which ``iskra config`` keys live in ``.env`` instead of ``config.yaml``, and their lifecycle.
 
 Platform setting keys such as ``FEISHU_HOME_CHANNEL`` had two writers: the platform setup flows and
-``/sethome`` persist them to ``.env`` through ``save_env_value``, while ``hermes config set`` only
+``/sethome`` persist them to ``.env`` through ``save_env_value``, while ``iskra config set`` only
 routed credential-shaped names there and wrote every other bare name to the top level of
 ``config.yaml``. The gateway bridges top-level scalars into the environment only when ``.env`` lacks
 the name and one-shot CLI readers never bridge, so the two copies diverged silently (#111848).
@@ -34,7 +34,7 @@ def is_registered_env_name(name: str) -> bool:
 
 
 def is_env_setting_key(key: str) -> bool:
-    """True for a bare (undotted) key ``hermes config`` stores in ``.env``: any ``UPPER_SNAKE`` name,
+    """True for a bare (undotted) key ``iskra config`` stores in ``.env``: any ``UPPER_SNAKE`` name,
     plus registered names typed in any case (``discord_home_channel``)."""
     if "." in key:
         return False
@@ -82,6 +82,6 @@ def read_env_setting(key: str) -> Optional[str]:
     if value is None:
         value = read_raw_config_readonly().get(key)
         if value is not None:
-            print(f"  (note: {key} is a stale top-level config.yaml copy; `hermes config set {key} <value>` "
-                  f"moves it to .env, `hermes config unset {key}` removes it)", file=sys.stderr)
+            print(f"  (note: {key} is a stale top-level config.yaml copy; `iskra config set {key} <value>` "
+                  f"moves it to .env, `iskra config unset {key}` removes it)", file=sys.stderr)
     return value

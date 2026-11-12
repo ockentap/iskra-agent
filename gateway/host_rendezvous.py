@@ -1,6 +1,6 @@
 """Host-wide singleton rendezvous: one lock + one record per ROLE per OS user.
 
-Multiplex-only (Teknium ruling): exactly ONE ``hermes serve`` and ONE ``hermes gateway run``
+Multiplex-only (Teknium ruling): exactly ONE ``iskra serve`` and ONE ``iskra gateway run``
 per host, each multiplexing every profile. The per-``HERMES_HOME`` gateway lock/PID files
 (``gateway.status``) cannot express that — N profiles are N homes, so N processes each take
 their own flock and none of them ever sees the others. This module adds the missing layer:
@@ -66,7 +66,7 @@ ROLE_GATEWAY = "gateway"
 ROLE_SERVE = "serve"
 #: A Desktop-owned pool child (loopback, random port, per-profile lifecycle). It is NOT a host
 #: owner — the attach/refuse ladder reads ``ROLE_SERVE`` only, so a supervised public dashboard
-#: never stands down behind it (#119824) — but ``hermes plugins install`` from a terminal still
+#: never stands down behind it (#119824) — but ``iskra plugins install`` from a terminal still
 #: has to reach the backend hosting the open chats (#119644), and this record + 0600 token is
 #: how it dials one on a Desktop-only box.
 ROLE_DESKTOP_SERVE = "desktop-serve"

@@ -426,7 +426,7 @@ def _resolve_api_key_provider_secret(provider_id: str, pconfig: ProviderConfig) 
 
 def is_rate_limited_auth_error(error: Exception) -> bool:
     """True when an :class:`AuthError` is upstream rate-limiting / quota: transient, and
-    re-authenticating cannot fix it, so callers should say "retry later", not ``hermes auth``."""
+    re-authenticating cannot fix it, so callers should say "retry later", not ``iskra auth``."""
     return (isinstance(error, AuthError) and not error.relogin_required
             and error.code == CODEX_RATE_LIMITED_CODE)
 
@@ -455,10 +455,10 @@ def format_auth_error(error: Exception) -> str:
         # Rate-limit / quota errors are not credential problems: never append "re-authenticate".
         return str(error)
     if error.relogin_required:
-        # Profile-aware: a bare `hermes model` from a named profile re-signs the ROOT store (#114012).
+        # Profile-aware: a bare `iskra model` from a named profile re-signs the ROOT store (#114012).
         from hermes_constants import profile_cli_selector
 
-        return f"{error} Run `hermes {profile_cli_selector()}model` to re-authenticate."
+        return f"{error} Run `iskra {profile_cli_selector()}model` to re-authenticate."
     if error.code in _ENTITLEMENT_ERROR_CODES:
         if error.provider == "nous":
             return _format_nous_entitlement_auth_error(error)
@@ -894,7 +894,7 @@ def _save_provider_state_to_source(
 
 
 def mark_provider_active_if_unset(provider_id: str) -> None:
-    """Set ``active_provider`` only when none is set yet: the first ``hermes auth add`` credential must
+    """Set ``active_provider`` only when none is set yet: the first ``iskra auth add`` credential must
     make its provider active (else setup reports "No inference provider configured"); later adds
     leave the user's choice untouched."""
     with _auth_store_lock():
@@ -935,7 +935,7 @@ def read_credential_pool(provider_id: Optional[str] = None) -> dict[str, Any]:
     """Return the persisted credential pool, or one provider slice.
 
     In profile mode the global-root ``auth.json`` is a read-only fallback applied per provider ONLY
-    when the profile has zero entries for it (``hermes auth add`` in the profile shadows global)."""
+    when the profile has zero entries for it (``iskra auth add`` in the profile shadows global)."""
     pool = _load_auth_store().get("credential_pool")
     pool = pool if isinstance(pool, dict) else {}
     global_pool = _load_global_auth_store().get("credential_pool")
@@ -1032,7 +1032,7 @@ def _merge_disk_cooldown_state(
     ``write_credential_pool`` persists an in-memory snapshot that may predate another process
     marking the same credential exhausted/dead; without this merge the later rewrite resurrects a
     rate-limited key as healthy and both processes resume hammering it. The mirror image is a
-    ``hermes auth reset`` that postdates the snapshot's cooldown (``status_cleared_at`` newer than
+    ``iskra auth reset`` that postdates the snapshot's cooldown (``status_cleared_at`` newer than
     its ``last_status_at``): the disk row wins there too, or a live session's next ordinary flush
     would write the reset cooldown straight back (#89415)."""
     if not isinstance(disk_entry, dict):
@@ -1089,7 +1089,7 @@ def write_credential_pool(
     Final disk-boundary sanitizer for borrowed credentials (callers may pass raw dicts). Entries on
     disk but missing from *entries* (added concurrently) are merged back unless in *removed_ids*,
     so a rotation/exhaustion rewrite never drops a concurrent credential. Entries in
-    *status_cleared_ids* were cleared deliberately (``hermes auth reset``) and skip the
+    *status_cleared_ids* were cleared deliberately (``iskra auth reset``) and skip the
     recency merge, which would otherwise read their cleared ``last_status_at`` (None ->
     epoch 0) as a stale snapshot and copy a still-binding cooldown back."""
     removed = {rid for rid in (removed_ids or ()) if rid}
@@ -1266,7 +1266,7 @@ _VERTEX_PROVIDER_IDS = ("vertex", "google-vertex", "vertex-ai", "gcp-vertex", "v
 def _env_secret(name: str) -> bool:
     """True when *name* resolves to a usable secret in the active profile scope.
 
-    Must not read raw ``os.getenv``: under ``hermes serve`` / Desktop multiplex the
+    Must not read raw ``os.getenv``: under ``iskra serve`` / Desktop multiplex the
     process environ is the *launch* profile, so a DeepSeek key pasted into another
     profile's ``.env`` would be invisible to ``explicit_only`` Settings → Model
     until a Bot-chat Refresh ran against that profile's own backend.
@@ -1358,7 +1358,7 @@ def is_provider_explicitly_configured(provider_id: str) -> bool:
 
 def clear_provider_auth(provider_id: Optional[str] = None) -> bool:
     """Clear auth state for a provider (the active one when *provider_id* is None). Used by
-    ``hermes logout``. Returns True if something was cleared."""
+    ``iskra logout``. Returns True if something was cleared."""
     with _auth_store_lock():
         auth_store = _load_auth_store()
         target = provider_id or auth_store.get("active_provider")
@@ -1488,7 +1488,7 @@ def _scoped_key_env_reader() -> Callable[[str], str]:
 
 def _openrouter_auto_detected(scoped_key_env: Callable[[str], str]) -> bool:
     """True when an OpenRouter credential exists via env key or the credential pool (a key added via
-    `hermes auth add openrouter` has no env var; without the pool check it is invisible to
+    `iskra auth add openrouter` has no env var; without the pool check it is invisible to
     auto-detection and requests go out with no Authorization header)."""
     if has_usable_secret(scoped_key_env("OPENROUTER_API_KEY")):
         return True
@@ -1498,9 +1498,9 @@ def _openrouter_auto_detected(scoped_key_env: Callable[[str], str]) -> bool:
     if has_usable_secret(legacy_key) and looks_like_openrouter_key(legacy_key):
         return True
     try:
-        # Auto-detect an OpenRouter credential added via `hermes auth add openrouter` (manual pool entry, no
+        # Auto-detect an OpenRouter credential added via `iskra auth add openrouter` (manual pool entry, no
         # env var). Without this, a key that only lives in the credential pool is invisible to
-        # auto-detection — the user sees `hermes auth list` showing the credential while requests go out
+        # auto-detection — the user sees `iskra auth list` showing the credential while requests go out
         # with no Authorization header ("HTTP 401: Missing Authentication header"). The env-var check above
         # only covers OPENROUTER_API_KEY and an sk-or- key in OPENAI_API_KEY. See issue #42130.
         from agent.credential_pool import load_pool as _load_pool
@@ -1534,7 +1534,7 @@ def _config_model_provider() -> tuple[Any, Optional[str]]:
     this is the safety net for the direct ``resolve_provider("auto")`` callers. A configured custom
     endpoint is explicit intent like any registry pin: without this rung the boot inventory
     (``free_tier_bootstrap``) read a llama.cpp/vLLM install as "nothing configured" and the
-    dashboard's Ink chat parked every session on Setup Required while ``hermes chat`` worked
+    dashboard's Ink chat parked every session on Setup Required while ``iskra chat`` worked
     (#108383)."""
     try:
         from hermes_cli.config import load_config
@@ -1695,8 +1695,8 @@ def resolve_provider(
         pass  # boto3 not installed
     from hermes_constants import display_hermes_home
     raise AuthError(
-        "Hermes is not connected to any AI provider yet. Run `hermes model` to pick one, type `/login` in chat, "
-        f"or add a key with `hermes auth add <provider>`. (Advanced: put an API key such as OPENROUTER_API_KEY in "
+        "Hermes is not connected to any AI provider yet. Run `iskra model` to pick one, type `/login` in chat, "
+        f"or add a key with `iskra auth add <provider>`. (Advanced: put an API key such as OPENROUTER_API_KEY in "
         f"{display_hermes_home()}/.env.)",
         code="no_provider_configured")
 
@@ -1933,7 +1933,7 @@ class OAuthProviderFlow:
     resolve_fn: str
     status_fn: str
     terminal_refresh_codes: frozenset[str] = frozenset()  # retrying the same refresh token cannot succeed
-    # ``hermes logout`` with no active provider falls back to config.yaml ``model.provider`` only
+    # ``iskra logout`` with no active provider falls back to config.yaml ``model.provider`` only
     # for providers whose credentials live in auth.json.
     logout_from_config: bool = False
 
@@ -2155,7 +2155,7 @@ def _get_azure_foundry_auth_status() -> dict[str, Any]:
     """Structural auth status for Azure Foundry.
 
     ``entra_id``: ``azure-identity`` importable — never invokes the Entra credential chain (keeps
-    CLI startup flat; ``hermes doctor`` runs the live probe). ``api_key`` (default): usable
+    CLI startup flat; ``iskra doctor`` runs the live probe). ``api_key`` (default): usable
     ``AZURE_FOUNDRY_API_KEY``."""
     info: dict[str, Any] = {"provider": "azure-foundry"}
     try:
@@ -2182,7 +2182,7 @@ def _get_azure_foundry_auth_status() -> dict[str, Any]:
                 credential_verified=False, logged_in=bool(installed),
                 hint=(
                     "azure-identity is installed; live credential validation "
-                    "is skipped here. Run `hermes doctor` to verify token acquisition."
+                    "is skipped here. Run `iskra doctor` to verify token acquisition."
                 ) if installed else (
                     "azure-identity not installed. From the Hermes environment, run: "
                     f"{install_hint('azure-identity')}. "
@@ -2420,4 +2420,4 @@ def logout_command(args) -> None:
     elif os.getenv("OPENROUTER_API_KEY"):
         print("Hermes will use OpenRouter for inference.")
     else:
-        print("Run `hermes model` or configure an API key to use Hermes.")
+        print("Run `iskra model` or configure an API key to use Hermes.")

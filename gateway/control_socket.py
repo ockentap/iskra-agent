@@ -87,7 +87,7 @@ def _private_directory(path: Path) -> bool:
 
 
 def _squat_proof_fallback(bind_path: Path) -> Path:
-    """Same ``hermes-gw-<hash>/control.sock`` leaf (what clients authenticate through the private
+    """Same ``iskra-gw-<hash>/control.sock`` leaf (what clients authenticate through the private
     pointer), under a fresh ``mkdtemp`` root no other user can predict or pre-create."""
     root = Path(tempfile.mkdtemp(prefix="hgw-", dir=bind_path.parent.parent))
     path = root / bind_path.parent.name / bind_path.name

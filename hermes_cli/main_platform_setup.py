@@ -27,7 +27,7 @@ def _yes_no(prompt: str) -> bool:
 
 
 def _whatsapp_choose_mode(get_env_value, save_env_value):
-    """Step 1 of ``hermes whatsapp``: ``"bot"`` / ``"self-chat"``, or None when cancelled."""
+    """Step 1 of ``iskra whatsapp``: ``"bot"`` / ``"self-chat"``, or None when cancelled."""
     current_mode = get_env_value("WHATSAPP_MODE") or ""
     if current_mode:
         mode_label = "separate bot number" if current_mode == "bot" else "personal number (self-chat)"
@@ -67,7 +67,7 @@ def _whatsapp_choose_mode(get_env_value, save_env_value):
 
 
 def _whatsapp_allowed_users(wa_mode: str, get_env_value, save_env_value) -> None:
-    """Step 3 of ``hermes whatsapp``: show / set WHATSAPP_ALLOWED_USERS."""
+    """Step 3 of ``iskra whatsapp``: show / set WHATSAPP_ALLOWED_USERS."""
     current_users = get_env_value("WHATSAPP_ALLOWED_USERS") or ""
     if current_users:
         print(f"✓ Allowed users: {current_users}")
@@ -116,7 +116,7 @@ def _whatsapp_bridge_dependencies_current(bridge_dir) -> bool:
 
 
 def _whatsapp_install_bridge(bridge_dir) -> bool:
-    """Step 4 of ``hermes whatsapp``: ``npm install`` the bridge when needed. False = stop."""
+    """Step 4 of ``iskra whatsapp``: ``npm install`` the bridge when needed. False = stop."""
     from hermes_constants import find_node_executable, with_hermes_node_path
     from utils import env_int
     if _whatsapp_bridge_dependencies_current(bridge_dir):
@@ -179,7 +179,7 @@ def cmd_whatsapp(args):
 
     # WHATSAPP_ENABLED=true is deliberately NOT written here: an aborted wizard (Ctrl+C, failed npm
     # install, missed QR scan) would leave .env claiming WhatsApp is ready with no creds.json, and
-    # every `hermes gateway` would pay a 30s bridge timeout + indefinite retries. Set only after
+    # every `iskra gateway` would pay a 30s bridge timeout + indefinite retries. Set only after
     # pairing succeeds; prior successful pairings stay enabled.
     print()
     if (get_env_value("WHATSAPP_ENABLED") or "").lower() == "true":
@@ -268,7 +268,7 @@ def cmd_whatsapp(args):
 
 def cmd_whatsapp_cloud(args):
     """Set up WhatsApp Business Cloud API (official Meta integration) — complementary to the
-    ``hermes whatsapp`` Baileys bridge wizard. See ``plugins/platforms/whatsapp_cloud/setup_wizard.py``."""
+    ``iskra whatsapp`` Baileys bridge wizard. See ``plugins/platforms/whatsapp_cloud/setup_wizard.py``."""
     from hermes_cli.main import _require_tty
     _require_tty("whatsapp-cloud")
     from plugins.platforms.whatsapp_cloud.setup_wizard import run_whatsapp_cloud_setup
@@ -276,7 +276,7 @@ def cmd_whatsapp_cloud(args):
 
 
 def cmd_slack(args):
-    """``hermes slack <subcommand>``; ``manifest`` prints or writes a Slack app manifest with
+    """``iskra slack <subcommand>``; ``manifest`` prints or writes a Slack app manifest with
     every gateway command registered as a first-class slash."""
     sub = getattr(args, "slack_command", None)
     if sub in {None, ""}:
@@ -286,7 +286,7 @@ def cmd_slack(args):
              "  manifest   Generate a Slack app manifest with every gateway\n"
              "             command registered as a native slash\n"
              "\n"
-             "Run `hermes slack manifest -h` for details.")
+             "Run `iskra slack manifest -h` for details.")
         return 1
 
     if sub == "manifest":

@@ -21,7 +21,7 @@ _env_configured = env_is_connected("SIGNAL_HTTP_URL", "SIGNAL_ACCOUNT")
 def _is_connected(config: PlatformConfig) -> bool:
     """URL + account from config/scoped env, else ``.env``: a plain CLI process never loads ``.env``
     into the environment, and the old static setup row read it, so a ``.env``-only profile stays
-    "configured" in ``hermes gateway setup``."""
+    "configured" in ``iskra gateway setup``."""
     return validate_signal_config(config) or _env_configured(config)
 
 

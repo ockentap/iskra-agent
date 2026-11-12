@@ -14,7 +14,7 @@ Contract (documented in website/docs/developer-guide/model-provider-plugin.md):
   natural token-endpoint shape) lands in ``entry.extra``; ``None``/empty = could not
   rotate and the pool benches the row like a failed refresh POST;
 * raising ``AuthError(..., relogin_required=True)`` (or a grant-dead OAuth code)
-  is terminal: the row goes DEAD with a WARNING naming ``hermes auth add``;
+  is terminal: the row goes DEAD with a WARNING naming ``iskra auth add``;
   any other exception is transient and only benches the row.
 """
 

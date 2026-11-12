@@ -158,9 +158,9 @@ def _sdk_unavailable_error(server_name: str) -> ImportError:
     if cause:
         return ImportError(f"MCP server '{server_name}' requires the 'mcp' Python SDK, but importing it "
                            f"failed ({cause}). It is retried on the next connect; if this persists, "
-                           "run `hermes pm repair`.")
+                           "run `iskra pm repair`.")
     return ImportError(f"MCP server '{server_name}' requires the 'mcp' Python SDK, but it is not "
-                       "installed. Run `hermes setup` to install MCP support, then retry.")
+                       "installed. Run `iskra setup` to install MCP support, then retry.")
 
 
 class MCPServerTransportMixin:

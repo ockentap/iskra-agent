@@ -120,7 +120,7 @@ def activate_plugin_now(name: str, *, in_process: bool = True) -> dict[str, Any]
     subscribers here — the TUI/Desktop server — see it), connect its MCP servers and hand them plus
     its skills to the open chats of this profile (:func:`load_and_go_live`), and nudge the running
     gateway to load it too over its control socket so live adapters re-wire their handlers. A caller
-    in another process (``hermes plugins install``) passes ``in_process=False``; the running Desktop /
+    in another process (``iskra plugins install``) passes ``in_process=False``; the running Desktop /
     dashboard backend is then asked to do the in-process half (:func:`notify_serve_backend`). Never raises.
 
     Returns ``{"gateway_reloaded": bool, "activation": summary | None, "restart_required": bool}``.
@@ -243,7 +243,7 @@ def _serve_backend_record():
 
 
 def notify_serve_backend(name: str, home: Path) -> Optional[dict[str, Any]]:
-    """Ask the running dashboard / Desktop backend (``hermes serve``, found through its host record) to
+    """Ask the running dashboard / Desktop backend (``iskra serve``, found through its host record) to
     run :func:`load_and_go_live` for ``name`` in ``home``. None when no backend answers. Never raises."""
     try:
         import json

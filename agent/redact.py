@@ -734,8 +734,8 @@ _URL_BARE_TOKEN_RE = re.compile(
 # JWTs always start with "eyJ" (base64 "{"); 1-, 2- and 3-part forms.
 _JWT_RE = re.compile(r"eyJ[A-Za-z0-9_-]{10,}(?:\.[A-Za-z0-9_=-]{4,}){0,2}")
 
-# Links ``hermes webapp`` prints that sign a browser in as the user: the gateway's browser credential
-# after ``hermes-session=`` and the one-use ticket of a ``/webapp/launch`` link. Both values are
+# Links ``iskra webapp`` prints that sign a browser in as the user: the gateway's browser credential
+# after ``iskra-session=`` and the one-use ticket of a ``/webapp/launch`` link. Both values are
 # URL-safe base64 (43 characters); the 20-character floor leaves placeholders and code (``${token}``).
 _WEBAPP_LINK_CREDENTIAL_RE = re.compile(
     r"((?<![A-Za-z0-9_-])hermes-session=|/webapp/launch#(?:[^\s#]*?&)?ticket=)[A-Za-z0-9_-]{20,}")
@@ -920,7 +920,7 @@ _DISPLAY_CONTROL_RE = re.compile(r"[\x00-\x1f\x7f\x80-\x9f\u200b-\u200f\u202a-\u
 
 def mask_secret(value: str, *, head: int = 4, tail: int = 4, floor: int = 12,
                 placeholder: str = "***", empty: str = "") -> str:
-    """Mask a secret for display (``hermes config`` / ``status`` / ``dump``):
+    """Mask a secret for display (``iskra config`` / ``status`` / ``dump``):
     ``sk-p...7890``; shorter than ``floor`` (after control-byte stripping) →
     ``placeholder``; falsy → ``empty``."""
     value = _DISPLAY_CONTROL_RE.sub("", value) if value else value
@@ -1645,7 +1645,7 @@ _ENV_DUMP_COMMANDS = frozenset({"env", "printenv", "set", "export", "declare"})
 
 # Commands that read file contents to stdout, plus the filter readers (``grep``/``awk``/``sed``)
 # the model reaches for on config files. A secret-bearing target (``.env`` per AGENTS.md,
-# a shell rc/profile, Hermes' own ``config.yaml`` where ``hermes mcp add --env`` writes
+# a shell rc/profile, Hermes' own ``config.yaml`` where ``iskra mcp add --env`` writes
 # tokens) is a credential dump, so the ENV/YAML assignment pass must run. Arbitrary
 # ``config.yaml`` / source files stay on the code_file path (``MAX_TOKENS: 100``).
 _FILE_READ_COMMANDS = frozenset({
@@ -1698,7 +1698,7 @@ def _command_segments(command: str) -> list[str]:
 def _is_under_hermes_home(path: str) -> bool:
     """True when an absolute ``config.yaml`` path sits under the active Hermes home or root.
 
-    The default home's basename is an installation detail — ``.hermes`` on POSIX, ``hermes``
+    The default home's basename is an installation detail — ``.hermes`` on POSIX, ``iskra``
     under ``AppData/Local`` on Windows — and a resolved path never spells ``$HERMES_HOME``,
     so the literal-segment test in ``_is_secret_file_arg`` cannot see a native Windows path.
     Compare against the resolved homes instead. Only reached for a ``config.yaml`` basename,

@@ -23,7 +23,7 @@ def _verdict_payload(result) -> dict:
         payload["endpoint"]["capabilities"] = sorted(result.endpoint.capabilities)
     # The code THIS client (and any gateway it starts) runs, resolved exactly like the owner's
     # ``endpoint.code_sha``: a client that sees them differ is attached to a gateway that
-    # outlived ``hermes update`` and must restart it rather than re-attach.
+    # outlived ``iskra update`` and must restart it rather than re-attach.
     from hermes_cli.version_info import get_code_identity
     payload["client_code_sha"] = get_code_identity().get("sha")
     return payload

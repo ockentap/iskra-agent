@@ -652,7 +652,7 @@ async def _standalone_send(pconfig, chat_id: str, message: str, *, thread_id: Op
 
 
 def interactive_setup() -> None:
-    """Configure BlueBubbles iMessage gateway (``hermes setup`` / ``hermes gateway setup``)."""
+    """Configure BlueBubbles iMessage gateway (``iskra setup`` / ``iskra gateway setup``)."""
     from hermes_cli.setup import _info, print_header, print_success, prompt, prompt_yes_no
     from hermes_cli.setup_platforms import _prompt_allowlist, _save_port, declines_reconfigure, save_prompted
     print_header("BlueBubbles (iMessage)")

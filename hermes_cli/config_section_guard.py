@@ -1,4 +1,4 @@
-"""Guard ``hermes config set`` against a single-segment key overwriting a whole config section.
+"""Guard ``iskra config set`` against a single-segment key overwriting a whole config section.
 
 Split out of :mod:`hermes_cli.config` (code-health size ratchet); ``set_config_value`` late-imports it.
 """

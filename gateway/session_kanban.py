@@ -253,7 +253,7 @@ def _worker_workspace(frame):
     route = frame.get('route') or session_id
     # The profile its in-process turns bind, so persistent Docker keys the container they and the
     # session's side agents use (#140665): a served secondary's name, which its routes carry
-    # (``agent:<name>:``); none for the launch home, whatever its name (``hermes -p beta gateway``
+    # (``agent:<name>:``); none for the launch home, whatever its name (``iskra -p beta gateway``
     # keys ``agent:main:``, and only the default profile runs the multiplexer).
     profile = served_profile_name(frame.get('home'))
     tokens = set_session_vars(session_key=route, session_id=session_id,

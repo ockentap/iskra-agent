@@ -1897,7 +1897,7 @@ async def _standalone_send(
 
 
 def interactive_setup() -> None:
-    """Interactive ``hermes gateway setup`` flow (lazy CLI imports keep the plugin importable elsewhere)."""
+    """Interactive ``iskra gateway setup`` flow (lazy CLI imports keep the plugin importable elsewhere)."""
     from hermes_cli.setup import (
         prompt, prompt_yes_no, save_env_value, get_env_value, print_header, print_info, print_warning, print_success,
     )

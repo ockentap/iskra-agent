@@ -545,7 +545,7 @@ def _billing_or_entitlement_message(
                 "at https://claude.ai/settings/usage",
                 switch,
                 # The exhaustion latch replays the stored error without a request.
-                "Retry with a fresh credential state: `hermes auth reset anthropic`. Until that "
+                "Retry with a fresh credential state: `iskra auth reset anthropic`. Until that "
                 "cooldown clears, this error can be replayed from cache without contacting the API.",
             ])
         return "\n".join([
@@ -772,7 +772,7 @@ def _refresh_bot_chat_tools(agent) -> None:
     """Rebuild ``agent.tools`` for a Bot Chat capability refresh through the builder that
     created the session, so the refreshed set is what a fresh desktop/TUI session gets
     (#124211). A canonical Bot Chat never forks, so its tools[] is otherwise a fossil of
-    session creation: ``hermes tools enable/disable`` writes ``platform_toolsets`` and the
+    session creation: ``iskra tools enable/disable`` writes ``platform_toolsets`` and the
     automatic between-turns refresh reuses the build-time selection. Only the desktop/TUI
     gateway keeps agents alive across turns; every other surface builds a fresh agent whose
     tools[] already reflects config. No prefix preservation: a disabled toolset must drop,
@@ -858,7 +858,7 @@ def _restore_or_build_system_prompt(agent, system_message, conversation_history)
             return
         refresh_epoch = stored_prompt_refresh_epoch(agent, session_row)
         if refresh_epoch:
-            # `hermes sessions refresh-prompts` ran after this prompt was built. Pin tools[] first
+            # `iskra sessions refresh-prompts` ran after this prompt was built. Pin tools[] first
             # (the refresh is about instructions; the frozen tool array stays), then rebuild once.
             _restore_pinned_tools(agent, session_row)
             rebuild_for_refresh(agent, system_message, conversation_history, refresh_epoch)

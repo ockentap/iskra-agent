@@ -1,6 +1,6 @@
 """Unattended plugin updates shared by every surface: the opt-in ``plugins.auto_apply`` switch, the
 one-click "update all" (Desktop, dashboard, ``/plugins update``), the one-updater-per-plugin lock,
-and the notice ``hermes update`` prints when it moved catalog pins.
+and the notice ``iskra update`` prints when it moved catalog pins.
 
 Sibling of :mod:`hermes_cli.plugins_cmd` (the facade is imported late, never at module level).
 """
@@ -35,7 +35,7 @@ def _holder(key: str) -> threading.local:
 @contextmanager
 def plugin_update_lock(target: Path) -> Iterator[None]:
     """Hold the one-updater lock for the plugin at *target*, across threads and processes (the
-    gateway's auto-apply tick, a terminal ``hermes plugins update``, Desktop and the dashboard).
+    gateway's auto-apply tick, a terminal ``iskra plugins update``, Desktop and the dashboard).
     A busy lock raises ``PluginOperationError`` after a short wait, so every caller reports it like
     any other refusal (nothing changed); reentrant per thread."""
     from hermes_cli.auth import _file_lock
@@ -55,7 +55,7 @@ def plugin_update_lock(target: Path) -> Iterator[None]:
 
 # ── installs the user held ────────────────────────────────────────────────────────────────────
 
-HELD_WITH_REF = "held with --ref (installed off the catalog pin); `hermes plugins update {name}` moves it"
+HELD_WITH_REF = "held with --ref (installed off the catalog pin); `iskra plugins update {name}` moves it"
 
 
 class HeldWithRef(Exception):
@@ -65,7 +65,7 @@ class HeldWithRef(Exception):
 
 def held_with_ref(record: Any) -> bool:
     """A catalog install the user put on a commit of their choosing (``install <name> --ref <sha>``:
-    ``pinned`` with an empty ``catalog.pin``). Only an explicit ``hermes plugins update <name>`` moves
+    ``pinned`` with an empty ``catalog.pin``). Only an explicit ``iskra plugins update <name>`` moves
     it: unattended paths would otherwise silently undo a deliberate rollback."""
     block = record.get("catalog") if isinstance(record, dict) else None
     return isinstance(block, dict) and record.get("pinned") is True and not block.get("pin")
@@ -157,7 +157,7 @@ def _apply_one(name: str) -> dict[str, str]:
 
 
 def update_all_unattended() -> dict[str, Any]:
-    """Check every installed plugin, then update each one ``hermes plugins update`` would move (same
+    """Check every installed plugin, then update each one ``iskra plugins update`` would move (same
     plan: catalog re-pins and tracked Git pulls; pinned, held and pip rows are skipped with why).
 
     Returns ``{"results": [{name, status, detail}], "skipped": [{name, reason}], "current": n}``;
@@ -191,7 +191,7 @@ def summary_lines(outcome: dict[str, Any]) -> list[str]:
     if not outcome["results"]:
         lines.append("  No plugin updates to apply.")
     if any(r["status"] == "needs_review" for r in outcome["results"]):
-        lines.append("  Review those with `hermes plugins update <name>` in a terminal.")
+        lines.append("  Review those with `iskra plugins update <name>` in a terminal.")
     if any(r["status"] == "updated" for r in outcome["results"]):
         lines.append("  Updated plugins were reloaded: MCP servers and skills are live now, Python tools load in new sessions.")
     return lines
@@ -202,9 +202,9 @@ def plugins_slash_action(parts: list[str]) -> list[str]:
     [on|off]`` for the classic CLI, and ``auto-update`` for the TUI's slash worker. The TUI sends
     ``/plugins update`` to ``plugins.manage update_all`` instead: the batch outlives the worker's 45 s."""
     if parts[0] == "update":
-        if len(parts) > 1:  # not `hermes plugins update <name>`: this form updates every plugin
+        if len(parts) > 1:  # not `iskra plugins update <name>`: this form updates every plugin
             return ["Usage: /plugins update (updates every plugin that has an update; "
-                    "update one with `hermes plugins update <name>` in a terminal)"]
+                    "update one with `iskra plugins update <name>` in a terminal)"]
         return ["Plugin updates:", *summary_lines(update_all_unattended())]
     arg = parts[1].lower() if len(parts) > 1 else ""
     if arg not in ("", "on", "off"):
@@ -218,7 +218,7 @@ def plugins_slash_action(parts: list[str]) -> list[str]:
             "updates load in new sessions)"]
 
 
-# ── after `hermes update` ─────────────────────────────────────────────────────────────────────
+# ── after `iskra update` ─────────────────────────────────────────────────────────────────────
 
 def catalog_pins_behind(home: Path) -> list[str]:
     """Catalog installs under *home* whose installed pin is not the in-tree catalog's pin. Offline:

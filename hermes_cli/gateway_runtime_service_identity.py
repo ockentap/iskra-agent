@@ -103,9 +103,9 @@ def _launch_module(argv: list[str], *, legacy: bool = True) -> tuple[str, list[s
 
 def verify_gateway_argv(argv: list[str], home: Path, *, wrapped: bool = False) -> None:
     """``wrapped``: a launcher wrapper (the osascript Local Network wrapper) was already stripped, so
-    only this root's installer forms count: no legacy ``python -m``, and a ``hermes`` launcher must be
+    only this root's installer forms count: no legacy ``python -m``, and a ``iskra`` launcher must be
     ``<root>/.hermes/bin/hermes`` (``_own_store_launcher``). The stderr-timestamp wrapper holds its inner
-    ``hermes`` to the same rule. A bare unwrapped ``hermes`` keeps verifying by name, as older
+    ``iskra`` to the same rule. A bare unwrapped ``iskra`` keeps verifying by name, as older
     systemd/schtasks/launchd definitions persisted it (binding those is a separate change)."""
     from gateway.status import looks_like_gateway_command_line
 

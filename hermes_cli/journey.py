@@ -1,4 +1,4 @@
-"""``hermes journey`` — what Hermes has learned, on a timeline."""
+"""``iskra journey`` — what Hermes has learned, on a timeline."""
 
 from __future__ import annotations
 

@@ -424,7 +424,7 @@ class BackupRequest(BaseModel):
 
 class ImportRequest(BaseModel):
     archive: str
-    # --force: the spawned `hermes import` has stdin=DEVNULL, so its "Continue? [y/N]" prompt would
+    # --force: the spawned `iskra import` has stdin=DEVNULL, so its "Continue? [y/N]" prompt would
     # hit EOF and abort; the dashboard confirms in its own modal.
     force: bool = False
 
@@ -470,7 +470,7 @@ class ProfileCreate(BaseModel):
     # The Desktop bot page's "Share keys & accounts" defaults (hermes_cli.profile_provision).
     mirror_credentials: bool = True
     share_auth: bool = True
-    # Installed async via `hermes -p <name> skills install` (skills_hub.SKILLS_DIR is import-time-bound,
+    # Installed async via `iskra -p <name> skills install` (skills_hub.SKILLS_DIR is import-time-bound,
     # so HERMES_HOME can't redirect it); PIDs go back for the UI to poll.
     hub_skills: list[str] = []
 

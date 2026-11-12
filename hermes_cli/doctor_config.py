@@ -72,7 +72,7 @@ def collect_relay_plugin_cutover_findings(raw_config: dict | None, env_map: dict
             if name not in effective_env and os.environ.get(name) is not None:
                 effective_env[name] = os.environ[name]
     if not str(effective_env.get(RELAY_PLUGINS_CONFIG_ENV, "")).strip():
-        findings += [(name, f"run `hermes migrate relay` to generate relay-plugins.toml and set {RELAY_PLUGINS_CONFIG_ENV}; "
+        findings += [(name, f"run `iskra migrate relay` to generate relay-plugins.toml and set {RELAY_PLUGINS_CONFIG_ENV}; "
                             "this legacy variable is now ignored and does not configure an exporter")
                      for name in configured_legacy_relay_env_vars(effective_env)]
     return findings
@@ -483,7 +483,7 @@ def _drift_max_iterations_ghost(f: Finding, should_fix: bool, config_path) -> No
     if cfg_max_turns is None or env_ghost is None or str(cfg_max_turns).strip() == str(env_ghost).strip():
         return
     check_warn(f"HERMES_MAX_ITERATIONS={env_ghost} in .env shadows agent.max_turns={cfg_max_turns} in config.yaml",
-               "(stale ghost from an earlier `hermes setup` run)")
+               "(stale ghost from an earlier `iskra setup` run)")
     if not should_fix:
         f.issues.append("Stale HERMES_MAX_ITERATIONS in .env shadows config.yaml — run 'hermes doctor --fix'")
     elif remove_env_value("HERMES_MAX_ITERATIONS"):

@@ -30,7 +30,7 @@ from hermes_cli.secret_prompt import masked_secret_prompt
 # Providers that support OAuth login in addition to API keys.
 _OAUTH_CAPABLE_PROVIDERS = {"anthropic", "nous", "openai-codex", "xai-oauth", "qwen-oauth", "minimax-oauth", "openrouter"}
 # ...and default to it when ``--type`` is omitted. OpenRouter stays API-key-first: the documented
-# ``hermes auth add openrouter --api-key sk-or-...`` must keep working with no ``--type``.
+# ``iskra auth add openrouter --api-key sk-or-...`` must keep working with no ``--type``.
 _OAUTH_DEFAULT_PROVIDERS = _OAUTH_CAPABLE_PROVIDERS - {"openrouter"}
 # Providers whose sibling CLI login Hermes may borrow (``auth.adopt_external_logins``).
 EXTERNAL_LOGIN_PROVIDERS = {"anthropic", "openai-codex"}
@@ -149,8 +149,8 @@ def _unknown_provider_exit(provider: str) -> SystemExit:
     close = difflib.get_close_matches(provider, known, n=3, cutoff=0.5)
     hint = f" Did you mean {', '.join(close)}?" if close else ""
     return SystemExit(
-        f"Unknown provider '{provider}'.{hint} Run `hermes auth` to see the provider list, or "
-        "`hermes model` to pick one interactively.")
+        f"Unknown provider '{provider}'.{hint} Run `iskra auth` to see the provider list, or "
+        "`iskra model` to pick one interactively.")
 
 
 def _display_source(source: str) -> str:
@@ -221,7 +221,7 @@ def _qwen_oauth_login(args) -> dict:
 
 @dataclass(frozen=True)
 class _OAuthAddSpec:
-    """Per-provider parameters for the generic ``hermes auth add <provider> --type oauth`` path."""
+    """Per-provider parameters for the generic ``iskra auth add <provider> --type oauth`` path."""
 
     login: Callable[[Any], dict]
     token: Callable[[dict], str]
@@ -308,7 +308,7 @@ def _ask(prompt: str, reader: Callable[[str], str] | None = None) -> str | None:
 
 
 def _add_nous_oauth_credential(args, provider: str) -> PooledCredential:
-    """``hermes auth add nous --type oauth``: shared-credential import, else device-code login."""
+    """``iskra auth add nous --type oauth``: shared-credential import, else device-code login."""
     custom_label = (getattr(args, "label", None) or "").strip() or None
     timeout = getattr(args, "timeout", None) or 15.0
 
@@ -328,7 +328,7 @@ def _add_nous_oauth_credential(args, provider: str) -> PooledCredential:
         return entry
 
     # Codex-style auto-import: a shared Nous credential at <hermes-root>/shared/nous_auth.json
-    # (written by any previous login) makes `hermes --profile <name> auth add nous --type oauth`
+    # (written by any previous login) makes `iskra --profile <name> auth add nous --type oauth`
     # a one-tap operation for multi-profile users.
     from hermes_cli.anon_auth import is_guest_state
 
@@ -433,7 +433,7 @@ def _add_credential(args, provider: str, pool, requested_type: str) -> PooledCre
 
     spec = _OAUTH_ADD_SPECS.get(provider)
     if spec is None:
-        raise SystemExit(f"`hermes auth add {provider}` is not implemented for auth type {requested_type} yet.")
+        raise SystemExit(f"`iskra auth add {provider}` is not implemented for auth type {requested_type} yet.")
 
     creds = spec.login(args)
     token = spec.token(creds)
@@ -473,14 +473,14 @@ def _warn_same_codex_account(token: str, existing: list[PooledCredential]) -> No
             print(f'warning: this login is the same OpenAI account as openai-codex credential #{position} '
                   f'("{sibling.label}"). Both logins share one token family, so OpenAI will revoke the older one '
                   "and you gain no extra quota. Log into a different account instead, or keep just one "
-                  f"(`hermes auth remove openai-codex {position}`).", file=sys.stderr)
+                  f"(`iskra auth remove openai-codex {position}`).", file=sys.stderr)
             return
 
 
 def _report_priority(provider: str, pool, moved, requested: int, verb: str, prep: str) -> None:
     """Print the effective priority and say why it differs from the request, if it does."""
     print(f'{verb} {provider} credential "{moved.label}" {prep} priority {moved.priority} '
-          f"(#{moved.priority + 1} in `hermes auth list {provider}`)")
+          f"(#{moved.priority + 1} in `iskra auth list {provider}`)")
     size = len(pool.entries())
     if moved.priority != requested:
         if requested < 0 or requested >= size:
@@ -496,7 +496,7 @@ def _report_priority(provider: str, pool, moved, requested: int, verb: str, prep
 
 
 def auth_priority_command(args) -> None:
-    """`hermes auth priority <provider> <target> <priority>`: reorder one pooled credential."""
+    """`iskra auth priority <provider> <target> <priority>`: reorder one pooled credential."""
     provider = _normalize_provider(getattr(args, "provider", ""))
     pool = load_pool(provider)
     index, matched, error = pool.resolve_target(getattr(args, "target", None))
@@ -621,7 +621,7 @@ def auth_reset_command(args) -> None:
 
 
 def auth_refresh_command(args) -> None:
-    """`hermes auth refresh <provider> [target]`: force one pooled OAuth entry to refresh.
+    """`iskra auth refresh <provider> [target]`: force one pooled OAuth entry to refresh.
 
     A successful refresh rotates the stored tokens and clears the entry's local
     exhaustion block, returning it to rotation before its persisted
@@ -641,7 +641,7 @@ def auth_refresh_command(args) -> None:
         if len(entries) != 1:
             raise SystemExit(
                 f"{provider} has {len(entries)} credentials; pass an index, entry id, or exact "
-                f"label (see `hermes auth list {provider}`).")
+                f"label (see `iskra auth list {provider}`).")
         index, matched = 1, entries[0]
     else:
         index, matched, error = pool.resolve_target(target)
@@ -657,7 +657,7 @@ def auth_refresh_command(args) -> None:
         raise SystemExit(
             f"nous credential #{index} ({matched.label}) is not a refreshable OAuth "
             "credential: only the device_code singleton supports refresh. "
-            "Reauthenticate with `hermes auth add nous --type oauth`.")
+            "Reauthenticate with `iskra auth add nous --type oauth`.")
     refreshed = pool.try_refresh_matching(credential_id=matched.id)
     if refreshed is None:
         after = next((e for e in pool.entries() if e.id == matched.id), None)
@@ -666,7 +666,7 @@ def auth_refresh_command(args) -> None:
                  else "the saved session is no longer valid")
         raise SystemExit(
             f"Could not renew the {label} sign-in for credential #{index} ({matched.label}); {state}. "
-            f"Sign in again with `hermes auth add {provider} --type oauth`.")
+            f"Sign in again with `iskra auth add {provider} --type oauth`.")
     status = refreshed.last_status or "ok"
     if status == "ok":
         print(f"Refreshed {provider} credential #{index} ({refreshed.label}); status: ok")
@@ -677,7 +677,7 @@ def auth_refresh_command(args) -> None:
 
 
 def _moved_auth_hint(action: str, provider: str) -> str:
-    """``hermes auth status|logout spotify`` after Spotify left core for its plugin's own command."""
+    """``iskra auth status|logout spotify`` after Spotify left core for its plugin's own command."""
     from hermes_cli.left_core_migration import moved_command_hint
     return moved_command_hint("hermes auth", provider, action)
 
@@ -685,7 +685,7 @@ def _moved_auth_hint(action: str, provider: str) -> str:
 def auth_status_command(args) -> None:
     provider = _normalize_provider(getattr(args, "provider", "") or "")
     if not provider:
-        raise SystemExit("Provider is required. Example: `hermes auth status nous`.")
+        raise SystemExit("Provider is required. Example: `iskra auth status nous`.")
     if dispatch_plugin_auth("status", args, provider):
         return
     if moved := _moved_auth_hint("status", provider):
@@ -789,7 +789,7 @@ def _print_azure_entra_status() -> None:
 
 
 def _interactive_auth() -> None:
-    """Interactive credential pool management when `hermes auth` is called bare."""
+    """Interactive credential pool management when `iskra auth` is called bare."""
     print("Credential Pool Status")
     print("=" * 50)
     auth_list_command(SimpleNamespace(provider=None))
@@ -906,7 +906,7 @@ def _interactive_strategy() -> None:
 
 
 def auth_upgrade_command(args) -> None:
-    """``hermes auth upgrade``: sign the free tier into a Nous account, keeping its connectors."""
+    """``iskra auth upgrade``: sign the free tier into a Nous account, keeping its connectors."""
     from hermes_cli.anon_auth import upgrade_guest
     code = upgrade_guest(args)
     if code:

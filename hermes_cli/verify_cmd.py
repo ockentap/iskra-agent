@@ -1,4 +1,4 @@
-"""``hermes verify`` — detect a project's run recipe and smoke-test it."""
+"""``iskra verify`` — detect a project's run recipe and smoke-test it."""
 
 from __future__ import annotations
 

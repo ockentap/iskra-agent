@@ -1,4 +1,4 @@
-"""Gateway fleet restart + post-update verification for ``hermes update``.
+"""Gateway fleet restart + post-update verification for ``iskra update``.
 
 Split out of ``hermes_cli/update_cmd.py``; every name is re-imported there so
 ``hermes_cli.update_cmd.<name>`` keeps resolving/monkeypatching. Origin helpers are
@@ -73,7 +73,7 @@ def _write_fleet_restart_pending_marker(*, expected_sha: str = "", runtimes: lis
     if runtimes == []:
         # An explicit empty inventory owes no restart (e.g. Desktop-hosted `serve` with no
         # gateway services). Arming the marker here leaves a breadcrumb nothing can discharge:
-        # a no-gateway host would then fail every later ``hermes update`` (#115311).
+        # a no-gateway host would then fail every later ``iskra update`` (#115311).
         return True
     from hermes_cli.update_cmd import _m
     from hermes_cli.update_host_obligation import arm_host_obligation
@@ -152,7 +152,7 @@ def _receipt_looks_unfinished(receipt: dict) -> bool:
 
     The command boundary stamps a ``stop_reason`` on every receipt, including clean
     ones (``completed at command boundary``, ``sys.exit(0)``); it must not make a
-    successful receipt look unfinished, or the next ``hermes update`` retriggers
+    successful receipt look unfinished, or the next ``iskra update`` retriggers
     ``fleet_restart_pending`` from pre-pull plan SHAs (#98022).
     """
     exit_code = receipt.get("exit_code")
@@ -486,7 +486,7 @@ def _update_owes_fleet_restart(*, receipt: dict | None = None, pending_manual: l
     if not _receipt_reports_stale_runtime(receipt):
         return False
     restarted_to = _receipt_restart_phase_completed(receipt)
-    # A fleet an operator has since restarted onto a moved checkout (``hermes gateway restart`` —
+    # A fleet an operator has since restarted onto a moved checkout (``iskra gateway restart`` —
     # the remedy this warning names) has nothing of the update left to owe either.
     if restarted_to and _live_fleet_covers_receipt(restarted_to, receipt, owed, accept_states=("current", "stale")):
         return False
@@ -496,10 +496,10 @@ def _update_owes_fleet_restart(*, receipt: dict | None = None, pending_manual: l
 def _warn_pending_fleet_restart(*, startup: bool = False) -> None:
     """Print the specific interrupted-update fleet-restart warning."""
     stream = sys.stderr if startup else sys.stdout
-    print("⚠ A previous `hermes update` pulled new code but did not restart running gateways.", file=stream)
+    print("⚠ A previous `iskra update` pulled new code but did not restart running gateways.", file=stream)
     print("  Gateways may still be serving pre-update modules (mixed sys.modules).", file=stream)
     if startup:
-        print("  Run `hermes update` or `hermes gateway restart`.", file=stream)
+        print("  Run `iskra update` or `iskra gateway restart`.", file=stream)
 
 
 def _warn_pending_fleet_restart_on_startup() -> None:
@@ -566,7 +566,7 @@ def _restart_systemd_gateway_units_best_effort(failed: list, listings) -> None:
     """Restart every hermes-gateway/serve unit ONCE PER LIVE HOST PROCESS.
 
     One host runs one multiplexing gateway, so leftover per-profile units
-    (``hermes-gateway-<profile>.service``) all point at the SAME live ``MainPID``; restarting
+    (``iskra-gateway-<profile>.service``) all point at the SAME live ``MainPID``; restarting
     each in turn restarts the host gateway N times — a self-inflicted N-fold outage triggered
     by one update. Units that share a live main PID are collapsed to one representative and the
     others are named as LEGACY units to migrate, never silently dropped.
@@ -642,7 +642,7 @@ def _restart_identity_sha() -> str:
 
     ``_current_checkout_sha()`` is ``None`` on every non-git install (zip, pip, Docker), and an
     empty stamp can never match, so the per-host restart-once guard would be inert exactly on the
-    installs it exists for: each profile's ``hermes update`` would re-kill the one shared
+    installs it exists for: each profile's ``iskra update`` would re-kill the one shared
     multiplexer. The obligation's own ``expected_sha`` — else the receipt's post-update identity —
     names the same pulled code.
     """
@@ -665,9 +665,9 @@ def _fleet_restart_skip_reason(plan) -> str | None:
 
     Every route (pulled, already-current, ZIP) now finishes through the same completion
     tail, so the guards the old catch-up path carried live here: one host runs ONE
-    multiplexing gateway, so a second profile's ``hermes update`` attaches to the restart the
+    multiplexing gateway, so a second profile's ``iskra update`` attaches to the restart the
     first one already stamped (#95294), and a fleet already serving the checkout code (a
-    no-op update, a manual ``hermes gateway restart`` seconds ago) is not re-killed (#117051).
+    no-op update, a manual ``iskra gateway restart`` seconds ago) is not re-killed (#117051).
 
     The second guard needs BOTH the pre-update plan and the live probe: the live matrix only
     lists gateways, so a planned ``serve`` still on pre-update code (or any runtime without a
@@ -710,8 +710,8 @@ def _systemctl_reset_and_restart(manage_cmd: list, svc_name: str, *, scope_cmd: 
 def _systemd_unit_owned_by_update(scope_cmd: list, svc_name: str) -> bool:
     """Gate a unit restart on the unit's home being one this update owns (#93349).
 
-    ``hermes-gateway*`` is an account-wide namespace: a second install's ``hermes update`` used
-    to drain and restart the account's real ``hermes-gateway.service`` because the unit was
+    ``iskra-gateway*`` is an account-wide namespace: a second install's ``iskra update`` used
+    to drain and restart the account's real ``iskra-gateway.service`` because the unit was
     listed, not because it ran the updated code. Foreign or unreadable ownership prints a notice
     and leaves the unit alone; it is not a failed restart.
     """
@@ -736,11 +736,11 @@ def _scoped_manual_gateway_pids(pids, *, keep=(), quiet: bool = False) -> list[i
 
 
 def _is_serve_or_dashboard_unit(unit: str) -> bool:
-    """``hermes-serve*``/``hermes-dashboard*`` (``.service``) by the same exact-or-hyphenated shape."""
+    """``iskra-serve*``/``iskra-dashboard*`` (``.service``) by the same exact-or-hyphenated shape."""
     return (
         unit == "hermes-serve.service"
         or unit.startswith("hermes-serve-")
-        # #125297: ``hermes-dashboard*`` units are systemd-supervised dashboard backends — the
+        # #125297: ``iskra-dashboard*`` units are systemd-supervised dashboard backends — the
         # same fleet this pass restarts. Leaving them out meant a successful update reported
         # the dashboard ``deferred`` (still on pre-update code) while nothing ever restarted it.
         or unit == "hermes-dashboard.service"
@@ -750,7 +750,7 @@ def _is_serve_or_dashboard_unit(unit: str) -> bool:
 
 def _is_hermes_gateway_unit(unit: str) -> bool:
     """Exact base unit or hyphenated profile family only: ``startswith("hermes-serve")``
-    would accept ``hermes-server.service``."""
+    would accept ``iskra-server.service``."""
     return (
         # list-units is already pattern-filtered, but keep the name gate so a stray non-gateway/serve line
         # cannot enter the restart path. See #83595.
@@ -785,10 +785,10 @@ def _for_each_systemd_gateway_unit(list_units_stdout: str, *, process_unit, on_u
 def _service_unit_supports_graceful_sigusr1_restart(svc_name: str) -> bool:
     """Whether *svc_name* wires SIGUSR1 to a graceful drain-then-restart.
 
-    Only ``hermes-gateway*`` runs ``gateway/run.py`` (the handler); SIGUSR1 would just
-    kill ``hermes-serve*`` and burn the drain budget, so those go straight to the blunt
+    Only ``iskra-gateway*`` runs ``gateway/run.py`` (the handler); SIGUSR1 would just
+    kill ``iskra-serve*`` and burn the drain budget, so those go straight to the blunt
     restart. Same exact/hyphenated shape as ``_for_each_systemd_gateway_unit`` so a
-    near-prefix unit like ``hermes-gatewayd`` is never signalled.
+    near-prefix unit like ``iskra-gatewayd`` is never signalled.
 
     See #83438.
     """
@@ -1045,7 +1045,7 @@ def _gateway_recovery_partition(plan, *, skip_profiles: set[str] | None = None) 
     ``(candidates, skipped)``: profile → supervisor for supervised gateways the fresh
     process may restart; every other inventoried runtime with an explicit reason so
     nothing vanishes silently. Skipped serve/dashboard is NOT unrecoverable: the fresh
-    child's ``hermes-serve*`` systemd pass enumerates units from systemd; leftovers are
+    child's ``iskra-serve*`` systemd pass enumerates units from systemd; leftovers are
     caught by :func:`_surviving_pre_update_serve_runtimes`.
     """
     skip_profiles = skip_profiles or set()
@@ -1306,13 +1306,13 @@ def _restart_one_systemd_gateway_unit(
             f"  ⚠ {svc_name} is a system service and restarting it needs root.\n"
             f"    Restart it manually to load the new version:\n"
             f"      sudo systemctl restart {svc_name}\n"
-            f"    To let `hermes update` restart it automatically, allow\n"
+            f"    To let `iskra update` restart it automatically, allow\n"
             f"    passwordless sudo for systemctl, or run updates with sudo."
         )
         return
 
     # Blunt restart — only when the graceful path failed (no SIGUSR1 wiring, drain over
-    # budget, restart-policy mismatch). Mirrors `hermes gateway restart` (`systemd_restart()`).
+    # budget, restart-policy mismatch). Mirrors `iskra gateway restart` (`systemd_restart()`).
     restart = _systemctl_reset_and_restart(_manage_cmd, svc_name, scope_cmd=scope_cmd)
     if restart.returncode != 0:
         failed_or_stale_units.append(svc_name)
@@ -1376,7 +1376,7 @@ def _restart_systemd_gateway_units(
             f"continuing with remaining gateways"
         )
 
-    # Enumerate every scope first: leftover per-profile units (``hermes-gateway-<profile>``)
+    # Enumerate every scope first: leftover per-profile units (``iskra-gateway-<profile>``)
     # all point at the SAME live MainPID on a multiplexed host, and restarting each in turn
     # is an N-fold outage from one update. Units sharing a live PID collapse to one restart;
     # the others are named as legacy units to migrate, never silently dropped.

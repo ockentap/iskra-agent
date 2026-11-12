@@ -274,7 +274,7 @@ class GatewayTurnPrepareMixin:
         if override and skey:
             model, runtime_kwargs = self._apply_session_model_override(skey, model, runtime_kwargs)
 
-        # Provider resolved but no model.default (`hermes auth add` without `hermes model`): use the
+        # Provider resolved but no model.default (`iskra auth add` without `iskra model`): use the
         # provider's first catalog model.
         if not model and runtime_kwargs.get("provider"):
             with suppress(Exception):

@@ -1317,7 +1317,7 @@ _WEIXIN_GROUP_NOTE = (
 
 
 def interactive_setup() -> None:
-    """``hermes gateway setup`` flow for Weixin / WeChat personal accounts (QR login via :func:`qr_login`).
+    """``iskra gateway setup`` flow for Weixin / WeChat personal accounts (QR login via :func:`qr_login`).
     Helpers resolve through the ``hermes_cli.gateway`` facade so the prompts/output match every other
     wizard and the facade seams tests patch keep intercepting."""
     from hermes_cli import gateway as gw
@@ -1336,7 +1336,7 @@ def interactive_setup() -> None:
         return
     if not check_weixin_requirements():
         gw.print_error("  Missing dependencies: Weixin needs aiohttp and cryptography.")
-        gw.print_info("  Install them, then rerun `hermes gateway setup`.")
+        gw.print_info("  Install them, then rerun `iskra gateway setup`.")
         return
     print()
     if not gw.prompt_yes_no("  Start QR login now?", True):
@@ -1378,7 +1378,7 @@ def interactive_setup() -> None:
         save_env_values(WEIXIN_DM_POLICY=policy, WEIXIN_ALLOW_ALL_USERS=allow_all, WEIXIN_ALLOWED_USERS="")
         (gw.print_success if level == "success" else gw.print_warning)(message)
         if access_idx == 0:
-            gw.print_info("  Unknown DM users can request access and you approve them with `hermes pairing approve`.")
+            gw.print_info("  Unknown DM users can request access and you approve them with `iskra pairing approve`.")
 
     print()
     gw._print_info_lines(*_WEIXIN_GROUP_NOTE)

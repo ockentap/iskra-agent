@@ -86,7 +86,7 @@ def mint_launch_ticket(state) -> str:
 def mint_printed_launch_ticket(state) -> str:
     """Ticket for a launch link the user opens by hand where nothing identifies the redeeming
     connection's owner (macOS, the BSDs, WSL): it spends without that check, as a window ticket does, so
-    ``hermes webapp`` prints it and never passes it to a browser launcher."""
+    ``iskra webapp`` prints it and never passes it to a browser launcher."""
     return _mint_handoff_ticket(state, LAUNCH_TICKET_TTL_SECONDS, launch=False)
 
 
@@ -138,7 +138,7 @@ def _peer_is_server_user(request: Request, platform: str = sys.platform) -> bool
     launcher's command line, which only its own user, SYSTEM and elevated administrators can read.
     Elsewhere (macOS, the BSDs) every local user can read the launcher's argv and nothing here
     identifies the connection's owner, so an argv-carried launch ticket cannot be redeemed; WSL
-    never mints one. Authenticated child-window tickets and the launch tickets ``hermes webapp``
+    never mints one. Authenticated child-window tickets and the launch tickets ``iskra webapp``
     prints for the user to open by hand (``mint_printed_launch_ticket``) do not use this launcher
     channel.
     """
@@ -228,7 +228,7 @@ SOCKET_TICKETS: dict[str, tuple[str, bool]] = {
 @router.post("/api/webapp/socket-ticket")
 async def issue_socket_ticket(request: Request, socket: str = "", profile: str | None = None):
     """The browser's one-use ticket for one dial of *socket* on this same origin: ``gateway`` for
-    ``/api/ws`` (also offered as the ``hermes-gateway-ticket.`` subprotocol), ``host-terminal`` for
+    ``/api/ws`` (also offered as the ``iskra-gateway-ticket.`` subprotocol), ``host-terminal`` for
     ``/api/host-terminal``, ``speak-stream`` and ``transcribe-stream`` for ``/api/audio/<name>``. The
     upgrade gate (``web_server_chat._consume_ws_ticket``) redeems it as this caller's login; it opens
     that socket and nothing else, so the browser mints one per dial. Minted locally: the server that

@@ -273,7 +273,7 @@ def _home_relative(p: Path) -> Path:
     return p if p.is_absolute() else get_hermes_home() / p
 
 
-# Never disableable: `hermes-agent` is the agent's own operating manual and the
+# Never disableable: `iskra-agent` is the agent's own operating manual and the
 # system prompt points at it unconditionally.
 ESSENTIAL_SKILLS: frozenset = frozenset({"hermes-agent"})
 
@@ -295,7 +295,7 @@ def get_disabled_skill_names(platform: str | None = None) -> set[str]:
 
 def parse_config_string_list(value) -> list[str]:
     """Normalize a config value that may hold a JSON-array string into a list.
-    ``hermes config set`` stores lists as quoted JSON/Python-literal strings;
+    ``iskra config set`` stores lists as quoted JSON/Python-literal strings;
     treating one as a single name would silently filter nothing. A scalar
     string still means one name.
 
@@ -618,7 +618,7 @@ def get_untrusted_project_skills_root() -> Optional[tuple[Path, int]]:
 # cached under HERMES_HOME, never inside the repo); "dangerous" excludes the
 # skill from index, list, view and slash commands ("caution" loads, as on the hub).
 
-# ── Project skill quarantine (scan-time injection defense) ──────────────── Trust (`hermes skills trust`)
+# ── Project skill quarantine (scan-time injection defense) ──────────────── Trust (`iskra skills trust`)
 # is a REPO-level decision made once; the repo's skill content keeps changing underneath it with every pull.
 # The hub install path runs skills_guard on install, but project skills are read straight from a checkout —
 # without this gate a `git pull` could inject a malicious skill into an already-trusted repo with no scan

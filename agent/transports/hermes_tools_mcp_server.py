@@ -14,7 +14,7 @@ if __name__ == "__main__":
     try:
         import hermes_bootstrap
     except ModuleNotFoundError:
-        pass  # a partial ``hermes update`` can leave the bootstrap unregistered
+        pass  # a partial ``iskra update`` can leave the bootstrap unregistered
 
 import inspect
 import json

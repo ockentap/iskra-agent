@@ -250,7 +250,7 @@ def _declared_requirements(manifest: Any) -> tuple[str, ...]:
 
 def hermes_fit_error(manifest: Any) -> Optional[str]:
     """Why this Hermes is not one the plugin accepts: ``requires_hermes``, then the plugin's own
-    requirement on ``hermes-agent``. PM's build leaves such a plugin out by the same gate
+    requirement on ``iskra-agent``. PM's build leaves such a plugin out by the same gate
     (``pm.workspace.hermes_fit_error``), so it is skipped here rather than imported without its
     dependencies, and loads again once Hermes fits."""
     from hermes_cli.plugins_manifest import requires_hermes_error
@@ -285,7 +285,7 @@ def installed_in_selected_environment(requirements: list[str]) -> bool:
     """Whether every one of *requirements* is in the dependency environment PM currently selects.
 
     Activation is a boot decision (``pm.environments.activate_dependencies``): a gateway or dashboard
-    that was running when ``hermes plugins enable`` committed a new generation keeps the old one. A
+    that was running when ``iskra plugins enable`` committed a new generation keeps the old one. A
     requirement it cannot import that the selected generation carries therefore needs a restart, not
     a repair. False when unknown."""
     try:
@@ -303,7 +303,7 @@ class PluginLoaderMixin:
         """Subscribe to "a discovery sweep loaded plugins this process did not have": fires from INSIDE
         :meth:`discover_and_load` (never emitted by an install RPC) with one
         ``{name, key, activated_now, deferred}`` summary per NEWLY loaded plugin — every plugin at boot,
-        just the newcomer after a mid-run ``hermes plugins install/enable``, Desktop / dashboard /
+        just the newcomer after a mid-run ``iskra plugins install/enable``, Desktop / dashboard /
         ``plugins.manage`` install-enable-update, a tool-triggered force re-discovery or the gateway's
         ``reload-plugins`` verb (all of which run ``discover_plugins(force=True)``; a non-forced call
         short-circuits on ``_discovered`` and never fires). See
@@ -352,7 +352,7 @@ class PluginLoaderMixin:
     def _register_deferred_platform(self, manifest: PluginManifest) -> None:
         """Register a lazy loader for a bundled platform: the adapter imports only when the
         ``platform_registry`` is first asked for it; a placeholder ``LoadedPlugin`` keeps it visible in
-        ``hermes plugins list`` until then."""
+        ``iskra plugins list`` until then."""
         from hermes_cli.plugins import LoadedPlugin
         lookup_key = manifest_key(manifest)
         loaded = LoadedPlugin(manifest=manifest, enabled=True, deferred=True)
@@ -426,13 +426,13 @@ class PluginLoaderMixin:
     def _register_deferred_platform_tools(self, manifest: PluginManifest, loaded: LoadedPlugin) -> None:
         """Register a deferred platform's *client* tools without its adapter. Deferring the plugin would
         otherwise defer its outbound tools too, so CLI/TUI processes (which never materialize platforms)
-        would miss them in ``hermes tools`` / ``platform_toolsets``. Opt-in is explicit via ``provides_tools``;
+        would miss them in ``iskra tools`` / ``platform_toolsets``. Opt-in is explicit via ``provides_tools``;
         tools live in a ``tools`` submodule so ``__init__`` stays import-light.
 
         A platform plugin can ship two independent things: an inbound adapter (heavy — it imports the
         platform SDK) and outbound client tools the agent calls like any other tool. Deferring the plugin
         defers both, so in a CLI/TUI process the client tools never register at all: ``resolve_toolset()``
-        returns ``[]``, the toolset is missing from the ``hermes tools`` checklist, and even an explicit
+        returns ``[]``, the toolset is missing from the ``iskra tools`` checklist, and even an explicit
         ``platform_toolsets`` entry is dropped because the key is unknown. The same tools work in
         gateway/web processes only because those materialize every platform at startup (issue #78050).
         Opting in is explicit: the manifest must declare ``provides_tools`` (the field the plugin list and
@@ -495,7 +495,7 @@ class PluginLoaderMixin:
                 registered,
             )
         except (Exception, SystemExit) as exc:
-            # Tools registered before the raise are live: credit them or `hermes plugins list` under-reports
+            # Tools registered before the raise are live: credit them or `iskra plugins list` under-reports
             # (and _load_plugin's later diff would miss them too). Never break discovery (the platform stays
             # deferred), but a broken tools.py IS the symptom, so warn — and say where it failed first.
             partial, total = _credit(), len(declared)
@@ -724,7 +724,7 @@ class PluginLoaderMixin:
         def _keys(kind: str) -> list[str]:
             return [r.key for r in registrations if r.kind == kind]
 
-        # Discovery-time tools predate registration_start; credit them back or `hermes plugins list`
+        # Discovery-time tools predate registration_start; credit them back or `iskra plugins list`
         # under-reports once the deferred adapter materializes.
         predeclared = [t for t in self._predeclared_tools.pop(plugin_key, []) if t in self._plugin_tool_names]
         loaded.tools_registered = predeclared + [k for k in _keys("tool") if k not in predeclared]

@@ -1,4 +1,4 @@
-"""Dispatcher and maintenance verbs for ``hermes kanban``: ``dispatch``,
+"""Dispatcher and maintenance verbs for ``iskra kanban``: ``dispatch``,
 ``daemon`` (deprecated standalone loop), ``tail``/``watch`` event streaming,
 ``gc`` and ``repair``.
 """
@@ -228,8 +228,8 @@ def _cmd_daemon(args: argparse.Namespace) -> int:
                 print(
                     f"[{_fmt_ts(now)}] WARN dispatcher stuck: ready queue non-empty for "
                     f"{health_state['bad_ticks']} consecutive ticks but 0 workers spawned "
-                    f"successfully.{held} Check profile health (venv, PATH, credentials) and `hermes "
-                    f"kanban list --status ready` / `hermes kanban list --status blocked` for "
+                    f"successfully.{held} Check profile health (venv, PATH, credentials) and `iskra "
+                    f"kanban list --status ready` / `iskra kanban list --status blocked` for "
                     f"recent spawn_failed tasks.",
                     file=sys.stderr, flush=True,
                 )

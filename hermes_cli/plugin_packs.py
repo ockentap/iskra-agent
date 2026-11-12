@@ -296,7 +296,7 @@ def render_pack_review(console, pack: PluginPack, resolved: list[ResolvedPackPlu
     if pack.skills:
         console.print(
             "[yellow]Pack lists skills (NOT auto-installed yet):[/yellow] " + ", ".join(pack.skills))
-        console.print("[dim]Install them manually, e.g. `hermes skills install <id>`.[/dim]")
+        console.print("[dim]Install them manually, e.g. `iskra skills install <id>`.[/dim]")
     console.print(
         "\n[dim]Installing a pack runs third-party code × "
         f"{len(resolved)} plugins. Each plugin's declared capabilities still "
@@ -487,7 +487,7 @@ def export_pack(*, enabled_only: bool = False, pack_name: str = "my-hermes-pack"
 
     doc: dict[str, Any] = {
         "name": pack_name,
-        "description": "Exported by `hermes plugins pack export`.",
+        "description": "Exported by `iskra plugins pack export`.",
         "version": "1.0.0",
         "plugins": entries,
     }
@@ -515,7 +515,7 @@ def _load_and_review(console, source: str):
 
 
 def cmd_pack_show(source: str) -> None:
-    """``hermes plugins pack show <path-or-url>`` — dry-run review."""
+    """``iskra plugins pack show <path-or-url>`` — dry-run review."""
     from hermes_cli.plugins_cmd import _console
     console = _console()
     _pack, resolved = _load_and_review(console, source)
@@ -524,11 +524,11 @@ def cmd_pack_show(source: str) -> None:
         console.print(
             f"\n[yellow]{len(unresolved)} entr{'y' if len(unresolved) == 1 else 'ies'} "
             "could not be resolved — install would skip them and exit non-zero.[/yellow]")
-    console.print("\n[dim]Dry run only. Install with `hermes plugins pack install ...`.[/dim]")
+    console.print("\n[dim]Dry run only. Install with `iskra plugins pack install ...`.[/dim]")
 
 
 def cmd_pack_install(source: str, *, force: bool = False) -> None:
-    """``hermes plugins pack install <path-or-url>``: mandatory review screen -> one pack-level
+    """``iskra plugins pack install <path-or-url>``: mandatory review screen -> one pack-level
     consent -> pinned fan-out installs -> per-plugin capability consent. Exit 1 if any failed."""
     from hermes_cli.plugins_cmd import _ask_yes, _console, _fail, _is_tty
     console = _console()
@@ -556,7 +556,7 @@ def cmd_pack_install(source: str, *, force: bool = False) -> None:
 
 
 def cmd_pack_export(*, enabled_only: bool = False, name: str = "my-hermes-pack") -> None:
-    """``hermes plugins pack export [--enabled-only]`` — pack YAML on stdout."""
+    """``iskra plugins pack export [--enabled-only]`` — pack YAML on stdout."""
     from rich.console import Console
     console = Console(stderr=True)
     try:
@@ -570,7 +570,7 @@ def cmd_pack_export(*, enabled_only: bool = False, name: str = "my-hermes-pack")
 
 
 def pack_command(args) -> None:
-    """Dispatch ``hermes plugins pack <action>``."""
+    """Dispatch ``iskra plugins pack <action>``."""
     handler = _PACK_ACTIONS.get(getattr(args, "pack_action", None))
     if handler is None:
         from hermes_cli.plugins_cmd import _console, _fail

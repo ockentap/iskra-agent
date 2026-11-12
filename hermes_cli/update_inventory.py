@@ -2,7 +2,7 @@
 
 One read-only pass answering, BEFORE any mutation: which Hermes runtimes run on this machine, how
 each is deployed, which ones this update touches, and how each restarts. Every collector is a
-side-effect-free probe, so ``hermes update --plan`` is safe on a live fleet.
+side-effect-free probe, so ``iskra update --plan`` is safe on a live fleet.
 """
 
 from __future__ import annotations
@@ -210,7 +210,7 @@ def _collect_gateway_runtimes(plan: UpdatePlan, profile_homes: list, seen: set[i
             else:
                 # Verified identity, not bare PID existence: a ``stopped`` record whose PID was recycled
                 # by an unrelated process fabricated a phantom gateway the restart phase could never
-                # touch, so `hermes update` exited partial (#109680).
+                # touch, so `iskra update` exited partial (#109680).
                 pid = live_gateway_pid_for_home(home)
                 if pid is None or pid in seen:
                     continue
@@ -264,7 +264,7 @@ def _systemd_owner_for_ledger_pid(pid: int) -> tuple[str, str | None] | None:
 
     A unit-launched backend sets neither ``HERMES_SPAWN`` nor ``HERMES_PARENT_PID``, so the spawner
     probe reads ``manual-serve`` and the update tells the user to "ask the owner to relaunch
-    `hermes dashboard`" for a process systemd owns (#141021). Ownership is the unit's MainPID, not
+    `iskra dashboard`" for a process systemd owns (#141021). Ownership is the unit's MainPID, not
     cgroup membership (a hand-started dashboard inside some unrelated unit's cgroup is still manual);
     ``None`` off Linux, when unreadable, or when no unit owns it."""
     with suppress(Exception):
@@ -288,7 +288,7 @@ def _is_desktop_ssh_ledger_entry(entry: dict) -> bool:
 
 def _collect_ledger_runtimes(plan: UpdatePlan, seen: set[int]) -> None:
     """Serve/dashboard backends from the spawn ledger — runtimes the gateway collectors can never see
-    (a manual `hermes serve --host <ip>` for a remote Desktop, a long-lived `hermes dashboard`).
+    (a manual `iskra serve --host <ip>` for a remote Desktop, a long-lived `iskra dashboard`).
     ledger_entries() live-verifies (pid, create_time) so PID reuse never fabricates a row. Desktop-
     supervised backends (spawner still alive) restart via the Desktop's own respawn, not ours.
     A backend owned by a loaded launchd job is classified ``launchd`` (kickstart restart, never a
@@ -374,10 +374,10 @@ def print_update_plan(plan: UpdatePlan) -> None:
 
 
 def _serve_unit_matches_profile(profile: str, unit: object) -> bool:
-    """Does *unit* name a ``hermes-serve*``/``hermes-dashboard*`` unit for *profile*? (OWN vocabulary;
-    the gateway's ``hermes-gateway*`` names never cover serve/dashboard runtimes.)
+    """Does *unit* name a ``iskra-serve*``/``iskra-dashboard*`` unit for *profile*? (OWN vocabulary;
+    the gateway's ``iskra-gateway*`` names never cover serve/dashboard runtimes.)
 
-    Exact names only — ``work`` must not claim ``hermes-serve-workbench`` — and a scope prefix
+    Exact names only — ``work`` must not claim ``iskra-serve-workbench`` — and a scope prefix
     (``user/hermes-serve``) is tolerated because the restart phase records scope-qualified identities in
     some lists. See #100479.
     """
@@ -389,9 +389,9 @@ def _serve_unit_matches_profile(profile: str, unit: object) -> bool:
 def _gateway_service_matches_profile(profile: str, service: object) -> bool:
     """Match an exact gateway service/label (systemd/launchd/s6 shapes) to a profile.
 
-    Never substring-match: ``foo`` must not claim ``hermes-gateway-foobar.service``.
+    Never substring-match: ``foo`` must not claim ``iskra-gateway-foobar.service``.
     Launchd labels are ``ai.hermes.gateway`` / ``ai.hermes.gateway-<profile>`` — they do
-    not contain the substring ``hermes-gateway``, so a successful macOS kickstart must
+    not contain the substring ``iskra-gateway``, so a successful macOS kickstart must
     still credit the planned default gateway. A scope prefix (``user/hermes-gateway``,
     ``gui/501/ai.hermes.gateway``) is stripped the same way serve units are.
     """
@@ -456,7 +456,7 @@ def match_runtime_outcomes(
     record at all while the fleet row still proves its successor runs the new code.
 
     See #91277.
-    They never borrow the gateway's outcome: ``relaunched_profiles`` and ``hermes-gateway*`` name a
+    They never borrow the gateway's outcome: ``relaunched_profiles`` and ``iskra-gateway*`` name a
     different process that shares the profile, nothing more. See #100479.
 
     ``external_gateway_pids``: gateway pids the post-restart fleet probe verified as serving a
@@ -574,7 +574,7 @@ def report_unaccounted_runtimes(outcomes: list[dict[str, Any]]) -> bool:
         print()
         print("  ⚠ Manual serve restarts deferred to their owner (reminders retained until the old processes exit):")
         for o in manual:
-            print(f"    • {o['kind']} [{o['profile']}] pid {o['pid']}: relaunch `hermes serve` / `hermes dashboard`, or reconnect Desktop for an SSH backend")
+            print(f"    • {o['kind']} [{o['profile']}] pid {o['pid']}: relaunch `iskra serve` / `iskra dashboard`, or reconnect Desktop for an SSH backend")
     deferred = [o for o in outcomes if o.get("outcome") == "deferred" and o.get("mechanism") != "respawn-argv"]
     if deferred:
         # Surfaced but not escalated: the updater has no authority over these, so holding
@@ -616,7 +616,7 @@ def report_unaccounted_runtimes(outcomes: list[dict[str, Any]]) -> bool:
         if any(o.get("kind") in _SERVE_KINDS and not o.get("systemd_unit") for o in missed):
             if sys.platform == "linux":
                 print("      systemctl --user restart hermes-serve.service   # unit-managed serve")
-            print("      relaunch `hermes serve` / `hermes dashboard`")
+            print("      relaunch `iskra serve` / `iskra dashboard`")
     return True
 
 

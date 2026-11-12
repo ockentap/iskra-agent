@@ -13,7 +13,7 @@ facts this branch already ships:
 
 A sealed tree (no ``.git``) belongs to a steward: only the steward removes
 or replaces its code. The refusal messages below always leave the user a
-working next step for their data (``hermes uninstall --data`` / the
+working next step for their data (``iskra uninstall --data`` / the
 desktop app's Settings -> About page).
 """
 
@@ -31,7 +31,7 @@ STEWARD_DOCKER = "docker"
 STEWARD_NIX = "nix"
 STEWARD_APT_TERMUX = "apt-termux"
 
-# What `hermes update` says in a sealed tree, per steward — the refusal
+# What `iskra update` says in a sealed tree, per steward — the refusal
 # table shared by the update admission gate. The fallback covers stewards
 # this build does not know (a newer package-manager value read by older
 # code).
@@ -63,7 +63,7 @@ STEWARD_UPDATE_MESSAGES = {
 SOURCE_ON_TERMUX_UPDATE_MESSAGE = (
     "✗ This Hermes is a source checkout running under Termux.\n"
     "\n"
-    "Source installs are not supported on Termux — `hermes update` would\n"
+    "Source installs are not supported on Termux — `iskra update` would\n"
     "build Python packages on the device. Switch to the APT package:\n"
     "  pkg install hermes-agent"
 )
@@ -73,7 +73,7 @@ SOURCE_ON_TERMUX_UPDATE_COMMAND = "pkg install hermes-agent"
 _STEWARD_UPDATE_FALLBACK = (
     "✗ This Hermes install is managed by {steward}.\n"
     "\n"
-    "The tree has no git checkout, so `hermes update` cannot update it.\n"
+    "The tree has no git checkout, so `iskra update` cannot update it.\n"
     "Update it with the tool that installed it."
 )
 
@@ -158,7 +158,7 @@ _STEWARD_UNINSTALL_FALLBACK = (
 
 
 def steward_update_message(steward: str) -> str:
-    """The `hermes update` refusal text for a sealed tree."""
+    """The `iskra update` refusal text for a sealed tree."""
     message = STEWARD_UPDATE_MESSAGES.get(steward)
     if message is not None:
         return message

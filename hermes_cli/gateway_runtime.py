@@ -33,7 +33,7 @@ class GatewayEndpoint:
     # default multiplexer's root when the profile is served by it.
     control_home: str | None = None
     # Commit the owner BOOTED from (its ``identify`` ``code_sha``); None when it cannot name one.
-    # A gateway that outlived ``hermes update`` keeps serving old code, so an attaching client
+    # A gateway that outlived ``iskra update`` keeps serving old code, so an attaching client
     # compares this with its own checkout and restarts the owner instead of re-attaching it.
     code_sha: str | None = None
 
@@ -185,7 +185,7 @@ def _standalone_multiplexer_reason(root: Path) -> str | None:
     A held root lock ordinarily means that a named profile should wait for its
     multiplexer.  A host which published a guard refusal is different: it is a
     standalone gateway and can never add the named profile during that boot. Read
-    with the same liveness rules as ``hermes gateway status``'s standalone box.
+    with the same liveness rules as ``iskra gateway status``'s standalone box.
     """
     from hermes_cli.gateway_multiplex_mode import recorded_standalone_reason
     reason = recorded_standalone_reason(root / "gateway_state.json")
@@ -395,7 +395,7 @@ _RETIRING = frozenset({"idle_exit", "replaced"})
 
 def _observe_replacing_stale(home: Path, deadline: float, replaced: set[Path]) -> GatewayDiscovery:
     """Discovery, except that a gateway an older Hermes left on this home is stopped once (like
-    ``hermes gateway stop``) and reported as retiring; a refusal keeps ``incompatible`` + its remedy."""
+    ``iskra gateway stop``) and reported as retiring; a refusal keeps ``incompatible`` + its remedy."""
     from hermes_cli.gateway_runtime_service import remaining
     observed = discover_gateway_endpoint(home, timeout=remaining(deadline))
     if observed.state != "incompatible" or observed.reason_code != "runtime_protocol":
@@ -421,7 +421,7 @@ def ensure_gateway_runtime(profile_home: str | Path, *, timeout: float | None = 
 
     Never installs anything. The one owner it replaces is a gateway an older Hermes left running on
     this install's own home (``incompatible``/``runtime_protocol``, the upgrade case): it is stopped
-    the way ``hermes gateway stop`` stops it, once, and the current one started like any absent
+    the way ``iskra gateway stop`` stops it, once, and the current one started like any absent
     owner. Another install's or a newer Hermes's gateway stays refused, with the reason in ``detail``
     (``hermes_cli.gateway_runtime_replace``).
 

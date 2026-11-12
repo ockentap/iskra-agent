@@ -1,5 +1,5 @@
 """Configuration management for Hermes Agent: config.yaml / .env loading, saving,
-validation, migration, and the ``hermes config`` command."""
+validation, migration, and the ``iskra config`` command."""
 
 # Stale-module bridge — must run before ANY import below can bind a root-level symbol.
 # A pre-handoff updater purges only package prefixes after the pull, so a root module
@@ -267,7 +267,7 @@ def detect_install_method(project_root: Optional[Path] = None) -> str:
     ``$HERMES_HOME/.install_method`` -> managed marker -> /nix/store path -> .git dir -> unknown.
     The stamp lives next to the code because HERMES_HOME is shared data: a container and a host
     install can bind-mount the same home, so a home-scoped ``docker`` stamp would make the host
-    ``hermes update`` refuse to run. A legacy ``docker`` value is therefore ignored unless we are
+    ``iskra update`` refuse to run. A legacy ``docker`` value is therefore ignored unless we are
     really inside a container, and being in a container alone never implies 'docker'.
 
     Source installers clone a git checkout and publish ``install-stamp.json``;
@@ -350,7 +350,7 @@ def recommended_update_command() -> str:
 # forks. The published image excludes ``.git``, so the git update path can never succeed there
 # and the generic "reinstall via install.sh" fallback would install a NEW host-side Hermes.
 _DOCKER_UPDATE_MESSAGE = """\
-✗ ``hermes update`` doesn't apply inside the Docker container.
+✗ ``iskra update`` doesn't apply inside the Docker container.
 
 Hermes Agent runs as a published image (nousresearch/hermes-agent), not a
 git checkout — the container has no working tree to pull into.  Update by
@@ -380,7 +380,7 @@ Notes:
 
 
 def format_docker_update_message() -> str:
-    """Return the user-facing message for ``hermes update`` inside Docker."""
+    """Return the user-facing message for ``iskra update`` inside Docker."""
     return _DOCKER_UPDATE_MESSAGE
 
 
@@ -461,8 +461,8 @@ def require_parseable_user_config(*, ignore_user_config: bool = False) -> None:
     where = _yaml_error_location(parse_error)
     message = (
         f"Hermes stopped because your settings file ({config_path}) has a formatting error"
-        f"{f' at {where}' if where else ''}. Fix it with `hermes config edit` and check with "
-        "`hermes config check`, or add --ignore-user-config to run once with default settings.")
+        f"{f' at {where}' if where else ''}. Fix it with `iskra config edit` and check with "
+        "`iskra config check`, or add --ignore-user-config to run once with default settings.")
     if backup_path is not None:
         message += f" A copy of the broken file is at {backup_path}."
     message += f" Details: {_yaml_error_details(parse_error)}"
@@ -512,7 +512,7 @@ def seed_config_file(config_path: Path, template: Optional[Path] = None) -> bool
     """Create a missing config.yaml the way the installers do: copy cli-config.yaml.example (the display keys
     there are commented out), else write stripped DEFAULT_CONFIG. Never DEFAULT_CONFIG verbatim -- the gateway
     merges no defaults, so every written display key becomes a global that beats each platform's own default
-    (#121230). Shared by ``hermes config edit`` and ``hermes doctor --fix`` so the seeders cannot drift.
+    (#121230). Shared by ``iskra config edit`` and ``iskra doctor --fix`` so the seeders cannot drift.
     Returns True when the template was copied (the fallback, like save_config, writes get_config_path())."""
     template = template or get_project_root() / "cli-config.yaml.example"
     config_path.parent.mkdir(parents=True, exist_ok=True)
@@ -648,7 +648,7 @@ def _split_key_path(key: str) -> list[str]:
     """Split a dotted config-key path, honoring backslash-escaped dots (``a\\.b`` -> ``a.b``).
     Backslashes before any other character are preserved verbatim.
 
-    ``hermes config set`` uses ``.`` as the nesting separator, so a key that itself contains a literal dot
+    ``iskra config set`` uses ``.`` as the nesting separator, so a key that itself contains a literal dot
     (e.g. provider names like ``qwen3.5-397b-wafer``) was silently split into bogus nested segments
     (#84064).
     """
@@ -873,7 +873,7 @@ _ENV_CONFIG_KEYS = frozenset({
 
 
 def _is_env_config_key(key: str) -> bool:
-    """Return whether `hermes config set` routes this credential-shaped key to .env through the
+    """Return whether `iskra config set` routes this credential-shaped key to .env through the
     provider credential lifecycle. Non-secret env settings (``*_HOME_CHANNEL``, ``*_ALLOWED_USERS``)
     are ``config_env_routing.is_env_setting_key`` and take the plain ``.env`` path."""
     if "." in key:
@@ -930,7 +930,7 @@ def get_missing_skill_config_vars() -> list[dict[str, Any]]:
     try:
         all_vars = discover_all_skill_config_vars()
     except Exception as e:
-        # A malformed SKILL.md must never break `hermes update`; this prompting is a nicety.
+        # A malformed SKILL.md must never break `iskra update`; this prompting is a nicety.
         logger.debug("discover_all_skill_config_vars failed: %s", e)
         return []
     if not all_vars:
@@ -2031,7 +2031,7 @@ def _last_known_good_fallback(config_path: Path, path_key: str, cache_sig, exc: 
     lkg = _LAST_EXPANDED_CONFIG_BY_PATH.get(path_key)
     fallback = "last-known-good"
     if lkg is None:
-        # Fresh process (CLI restart, `hermes config get`): nothing loaded yet in this process, so
+        # Fresh process (CLI restart, `iskra config get`): nothing loaded yet in this process, so
         # fall back to the newest byte-exact copy the last successful parse left in backups/config/.
         # It holds the raw file (``${VAR}`` templates intact), so it goes through the same
         # canonicalize -> expand -> managed-overlay pipeline as a normal load.
@@ -2792,8 +2792,8 @@ def edit_config():
     if not supports_file_tooling():
         # Exits 1 (unlike the managed refusal above, which every managed_error caller shares):
         # a script must not read this refusal as a successful edit.
-        _exit_invalid("`hermes config edit` opens the local config file, and this config backend has none. "
-                      "Use `hermes config set <key> <value>` instead.")
+        _exit_invalid("`iskra config edit` opens the local config file, and this config backend has none. "
+                      "Use `iskra config set <key> <value>` instead.")
     config_path = get_config_path()
     if not config_path.exists():  # config-reader: ok — file tooling, gated on supports_file_tooling()
         seed_config_file(config_path)
@@ -3005,7 +3005,7 @@ _SCALAR_WORDS = {
 
 
 def _coerce_config_set_value(key: str, value: str) -> Any:
-    """Auto-coerce a ``hermes config set`` string to bool/None/int/float/list/dict.
+    """Auto-coerce a ``iskra config set`` string to bool/None/int/float/list/dict.
     String-typed settings (per ``DEFAULT_CONFIG``) are preserved verbatim so enum members such as
     ``approvals.mode="off"`` never become booleans. List/mapping literals are parsed so
     isinstance-gated readers see real structures; the trigger is conservative.
@@ -3105,7 +3105,7 @@ def _redirect_platform_display_key(key: str) -> tuple[str, Optional[str]]:
     Only known display settings (``OVERRIDEABLE_KEYS``) are redirected. Returns ``(key, note)``;
     the gateway import is guarded so the CLI works where the gateway package is unavailable.
 
-    Before #71047 a write such as ``hermes config set platforms.telegram.streaming false`` landed on a key
+    Before #71047 a write such as ``iskra config set platforms.telegram.streaming false`` landed on a key
     the gateway never reads: ``config get`` echoed the new value back while the runtime kept the old
     ``display.platforms`` one — a silent no-op that looks like a duplicated key to the user.
 
@@ -3313,10 +3313,10 @@ def set_config_value(key: str, value: str, force: bool = False):
             _route_notice = color(
                 f"⚠ model.base_url ({user_config['model'].get('base_url')}) was set under {_old_provider} and "
                 f"still applies to {value} — requests go there. If it is not {value}'s endpoint: "
-                "`hermes config unset model.base_url` (and model.api_mode).", Colors.YELLOW)
+                "`iskra config unset model.base_url` (and model.api_mode).", Colors.YELLOW)
     # api_base -> base_url alias at set-time too (mirrors _normalize_root_model_keys).
     if key.strip().lower() in ("model.api_base", "api_base"):
-        # Normalize the api_base → base_url alias at set-time too (issue #8919), so a fresh `hermes config
+        # Normalize the api_base → base_url alias at set-time too (issue #8919), so a fresh `iskra config
         # set model.api_base ...` lands on the canonical key the runtime resolver actually reads, instead of
         # being silently ignored.
         user_config = _normalize_root_model_keys(user_config)
@@ -3808,7 +3808,7 @@ def platform_manifest_secret_scan(home: Optional[Path] = None) -> tuple[frozense
 
 def _inject_platform_plugin_env_vars() -> frozenset[str] | None:
     """Populate OPTIONAL_ENV_VARS from platform plugin manifests (bundled AND user-installed) so
-    Teams / IRC / Google Chat and third-party platforms are configurable in the ``hermes config`` /
+    Teams / IRC / Google Chat and third-party platforms are configurable in the ``iskra config`` /
     Desktop Gateway form without the core knowing they exist. Failures are swallowed so a
     malformed plugin.yaml can't break CLI import. Returns the bundled manifests' secret names, or
     None when a bundled manifest could not be read (the policy then re-reads strictly).

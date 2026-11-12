@@ -298,7 +298,7 @@ def record_api_key_saved(env_var: Any, value: Any, previous: Any, surface: str, 
         logger.debug("API key setup not recorded", exc_info=True)
 
 
-# ---- CLI flows (`hermes setup`, `hermes model`, first-run chat) ------------------------------
+# ---- CLI flows (`iskra setup`, `iskra model`, first-run chat) ------------------------------
 
 _cli = threading.local()
 
@@ -333,7 +333,7 @@ def _model_route() -> tuple[Any, ...]:
 
 @contextlib.contextmanager
 def provider_setup_surface(surface: str) -> Iterator[None]:
-    """Name the surface whose provider picker runs inside (``hermes model``, the setup wizard, the
+    """Name the surface whose provider picker runs inside (``iskra model``, the setup wizard, the
     first-run chat prompt). The picker is shared, so only these entry points know which one it is."""
     previous = getattr(_cli, "surface", None)
     _cli.surface = surface

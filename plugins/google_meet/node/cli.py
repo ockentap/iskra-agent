@@ -1,4 +1,4 @@
-"""`hermes meet node ...` subcommand tree, wired under the ``hermes meet`` parser."""
+"""`iskra meet node ...` subcommand tree, wired under the ``iskra meet`` parser."""
 
 from __future__ import annotations
 
@@ -92,7 +92,7 @@ _COMMANDS = {
 
 
 def node_command(args: argparse.Namespace) -> int:
-    """Dispatch for ``hermes meet node ...``; returns a process exit code."""
+    """Dispatch for ``iskra meet node ...``; returns a process exit code."""
     cmd = getattr(args, "node_cmd", None)
     handler = _COMMANDS.get(cmd or "")
     if handler is None:

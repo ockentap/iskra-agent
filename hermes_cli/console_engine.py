@@ -151,7 +151,7 @@ def _clean_summary(text: str | None) -> str:
     if not text or text is argparse.SUPPRESS:
         return ""
     summary = " ".join(str(text).split())
-    return "" if summary.startswith("Run `hermes ") else summary
+    return "" if summary.startswith("Run `iskra ") else summary
 
 
 def _choice_help(action: argparse._SubParsersAction, name: str) -> str:
@@ -345,8 +345,8 @@ def _register_command_family(
             return _dispatch(surface, root, fixed, args, namespace_update)
 
         engine.register(
-            full_path, usage, summaries.get(full_path) or f"Run `hermes {usage}`.", handler,
-            mutating=mutating, confirmation=f"Run `hermes {usage}`?")
+            full_path, usage, summaries.get(full_path) or f"Run `iskra {usage}`.", handler,
+            mutating=mutating, confirmation=f"Run `iskra {usage}`?")
 
 
 _BLOCKED_TOP = frozenset(
@@ -478,7 +478,7 @@ class HermesConsoleEngine:
         if first.startswith("-"):
             return f"{first} is not available in Hermes Console."
         if first in _BLOCKED_TOP:
-            return f"`hermes {first}` is not available in Hermes Console."
+            return f"`iskra {first}` is not available in Hermes Console."
         return _BLOCKED_PAIRS.get(tuple(tokens[:2]), "")
 
     def _cap_output(self, output: str) -> str:
@@ -829,7 +829,7 @@ _BUILTIN_COMMANDS = (
 
 def run_console_repl(
     *, stdin=None, stdout=None, stderr=None, interactive: bool | None = None) -> int:
-    """Run the local ``hermes console`` REPL."""
+    """Run the local ``iskra console`` REPL."""
     stdin, stdout, stderr = stdin or sys.stdin, stdout or sys.stdout, stderr or sys.stderr
     if interactive is None:
         interactive = bool(getattr(stdin, "isatty", lambda: False)())

@@ -126,7 +126,7 @@ def _restart_notify_payload(event: MessageEvent) -> dict:
 
 
 def _spawn_detached_update(hermes_cmd, output_path, exit_code_path) -> None:
-    """Spawn ``hermes update --gateway`` detached so it survives the gateway restart it may trigger.
+    """Spawn ``iskra update --gateway`` detached so it survives the gateway restart it may trigger.
     setsid is portable (works where ``systemd-run --user`` lacks a D-Bus session); ``--gateway``
     enables file-based IPC so interactive prompts are forwarded; PYTHONUNBUFFERED lets the gateway
     stream output live.  Windows has no setsid: an inline helper runs the updater as a module under
@@ -139,7 +139,7 @@ def _spawn_detached_update(hermes_cmd, output_path, exit_code_path) -> None:
         subprocess.Popen(
             [sys.executable, "-c", _WINDOWS_UPDATE_HELPER, str(output_path), str(exit_code_path),
              sys.executable, "-m", "hermes_cli.main", "update", "--gateway"],
-            # detached-spawn: ok — /update runs `hermes update`, which must outlive the gateway it restarts
+            # detached-spawn: ok — /update runs `iskra update`, which must outlive the gateway it restarts
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, **windows_detach_popen_kwargs())
         return
     hermes_cmd_str = " ".join(shlex.quote(part) for part in hermes_cmd)
@@ -155,7 +155,7 @@ def _spawn_detached_update(hermes_cmd, output_path, exit_code_path) -> None:
     # calls os.setsid() in the child.
     setsid_bin = shutil.which("setsid")
     argv = [setsid_bin, "bash", "-c", update_cmd] if setsid_bin else ["bash", "-c", update_cmd]
-    # detached-spawn: ok — /update runs `hermes update`, which must outlive the gateway it restarts
+    # detached-spawn: ok — /update runs `iskra update`, which must outlive the gateway it restarts
     subprocess.Popen(argv, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
 
 
@@ -942,7 +942,7 @@ class GatewaySlashCommandsMixin(
             return t("gateway.skills.unknown_subcommand")
 
         # Chat bubbles can't hold a full skill diff — truncate and point at the pending JSON file
-        # (NOT `hermes skills diff <name>`, which diffs a bundled skill against its stock version).
+        # (NOT `iskra skills diff <name>`, which diffs a bundled skill against its stock version).
         if sub == "diff" and len(out) > 3000:
             pending_id = args[1] if len(args) > 1 else "<id>"
             out = out[:3000] + t("gateway.skills.diff_truncated", pending_id=pending_id)
@@ -1272,7 +1272,7 @@ class GatewaySlashCommandsMixin(
         return await self._deliver_approval_confirmation(event, confirmation_text, "deny")
 
     async def _handle_curator_command(self, event: MessageEvent) -> str:
-        """Handle /curator — the ``hermes curator`` handler set (status by default), as main's CLI ran
+        """Handle /curator — the ``iskra curator`` handler set (status by default), as main's CLI ran
         it in-process; its printed report is the reply. Runs in the executor with the session's
         context so the profile's skills tree and curator state are the ones read and written."""
         import io
@@ -1295,7 +1295,7 @@ class GatewaySlashCommandsMixin(
 
     async def _handle_debug_command(self, event: MessageEvent) -> str:
         """Handle /debug — upload ONLY the summary (system info + log tails), never full logs, to
-        protect privacy; ``hermes debug share`` from the CLI does full uploads."""
+        protect privacy; ``iskra debug share`` from the CLI does full uploads."""
         from hermes_cli.debug import (_GATEWAY_PRIVACY_NOTICE, _best_effort_sweep_expired_pastes,
                                       _capture_dump, _is_dpaste_url, _schedule_auto_delete,
                                       collect_debug_report, upload_to_pastebin)
@@ -1341,7 +1341,7 @@ class GatewaySlashCommandsMixin(
         return await self._run_in_executor_with_context(_collect_and_upload)
 
     async def _handle_update_command(self, event: MessageEvent) -> str:
-        """Handle /update — spawn ``hermes update`` detached (``setsid``) so it survives the gateway
+        """Handle /update — spawn ``iskra update`` detached (``setsid``) so it survives the gateway
         restart it may trigger; marker files let this or the next gateway process notify the user."""
         import json
         from gateway.approval_actor import opener_authority
@@ -1365,7 +1365,7 @@ class GatewaySlashCommandsMixin(
 
         # Not a git-managed install (docker/nix/desktop-app/source): refuse
         # with the steward's own update mechanism instead of git-pulling a
-        # tree `hermes update` does not own.
+        # tree `iskra update` does not own.
         try:
             from hermes_cli.config import (
                 detect_install_method,

@@ -25,13 +25,13 @@ covers both and an abort can strand either one (#92145):
 
 - **gateway profiles**, relaunched through the existing per-profile
   ``hermes_cli.main -p <profile> gateway restart`` command; and
-- **``hermes-serve*`` systemd units**, restarted directly through
-  ``systemctl``.  ``hermes serve`` is not a gateway profile and has no
+- **``iskra-serve*`` systemd units**, restarted directly through
+  ``systemctl``.  ``iskra serve`` is not a gateway profile and has no
   per-profile relaunch command, but it is the runtime that hosts
   ``tui_gateway.server``: the process the original report saw answering every
   chat turn with an ``ImportError`` for a symbol that existed on disk.  The
   unit family is enumerated from systemd itself rather than from the update
-  inventory, so a manually launched or Desktop-owned ``hermes serve`` — which
+  inventory, so a manually launched or Desktop-owned ``iskra serve`` — which
   has no relaunch authority — can never enter this path.
 
 Serve-unit identity is always ``<scope>/<unit>`` (``user/hermes-serve``,
@@ -290,8 +290,8 @@ def _listed_serve_units(scope: list[str], *, run: Callable[..., Any]) -> list[st
         )
         if result is None:
             continue
-        # The glob is a systemd pattern, not a name gate (`hermes-serve*` also matches
-        # `hermes-server.service`): require the exact base unit or the profile family.
+        # The glob is a systemd pattern, not a name gate (`iskra-serve*` also matches
+        # `iskra-server.service`): require the exact base unit or the profile family.
         for line in (getattr(result, "stdout", "") or "").splitlines():
             parts = line.split()
             if parts and _UNIT_RE.fullmatch(parts[0]) and parts[0] not in units:
@@ -361,10 +361,10 @@ def _normalized_skips(skip_units: Iterable[Any]) -> tuple[set[tuple[str, str]], 
 def restart_serve_units(
     *, skip_units: Iterable[Any] = (), run: Callable[..., Any] = subprocess.run, sleep: Callable[[float], Any] = time.sleep
 ) -> dict[str, list[str]]:
-    """Restart every active ``hermes-serve*``/``hermes-dashboard*`` systemd unit from this process.
+    """Restart every active ``iskra-serve*``/``iskra-dashboard*`` systemd unit from this process.
 
     Units are enumerated from systemd, never from the update inventory, so a manually launched or
-    Desktop-owned ``hermes serve`` (no unit) structurally cannot be touched here.
+    Desktop-owned ``iskra serve`` (no unit) structurally cannot be touched here.
     """
     skipped_qualified, skipped_legacy = _normalized_skips(skip_units)
     # (scope, base unit) -> replaced?  The same unit name in the user and the system
@@ -452,7 +452,7 @@ def _parse_payload(stream) -> tuple[list[str], dict[str, str], bool, list[str]]:
             raise ValueError("recovery serve_units skip list is invalid")
         for entry in raw_skip:
             # A skip entry names one already-settled process. The qualified shape carries the systemd
-            # scope (`hermes-serve.service` can exist in BOTH managers; settling one says nothing about
+            # scope (`iskra-serve.service` can exist in BOTH managers; settling one says nothing about
             # the other). A bare string is the legacy shape a pre-update interpreter can still send,
             # read as scope-agnostic by `restart_serve_units`.
             if isinstance(entry, dict):

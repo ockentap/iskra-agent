@@ -42,7 +42,7 @@ LOCAL_NATIVE_AUDIO_FORMATS = {".wav", ".aiff", ".aif"}
 MAX_FILE_SIZE = 25 * 1024 * 1024  # 25 MB
 
 # Per-provider model catalogs keyed by ``stt.<provider>`` section, default first. This one table
-# feeds the `hermes tools` picker, the dashboard selects and the auto-correction sets below.
+# feeds the `iskra tools` picker, the dashboard selects and the auto-correction sets below.
 # DeepInfra has no static list: its picker reads the live catalog.
 STT_MODEL_CATALOG = {
     "local": ["base", "tiny", "small", "medium", "large-v3", "turbo"],

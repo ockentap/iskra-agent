@@ -1,10 +1,10 @@
-"""Refusals that keep ``hermes gateway`` lifecycle verbs off gateways they must not take down.
+"""Refusals that keep ``iskra gateway`` lifecycle verbs off gateways they must not take down.
 
 Two rules, one per failure that took a production gateway down:
 
 * **Foreign service definition.** A systemd unit / launchd plist pins the ``HERMES_HOME`` its gateway
   runs on. A lifecycle verb (start/stop/restart/uninstall) on a definition pinning ANOTHER home acts on
-  another install's gateway: a ``HOME=<scratch>`` probe resolved the bare ``hermes-gateway`` name and ran
+  another install's gateway: a ``HOME=<scratch>`` probe resolved the bare ``iskra-gateway`` name and ran
   ``systemctl --user stop`` on the account's real unit. Install/refresh already refused to WRITE such a
   definition (``gateway_service_owner``); the same module now refuses to OPERATE one:
   ``refuse_foreign_systemd_unit`` (salvaged from #141908, checked before any home sync) and

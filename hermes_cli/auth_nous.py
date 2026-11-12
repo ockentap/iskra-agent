@@ -350,7 +350,7 @@ _nous_shared_lock_holder = threading.local()
 def _nous_shared_auth_dir() -> Path:
     """Directory of the shared Nous token store: ``HERMES_SHARED_AUTH_DIR`` or ``<root>/shared/``.
 
-    Outside any named profile so all profiles share it (``hermes --profile X auth add nous --type
+    Outside any named profile so all profiles share it (``iskra --profile X auth add nous --type
     oauth`` one-tap imports it). Written on login AND every runtime refresh so the refresh_token
     stays current across profiles; a stale token just falls back to device-code.
     """
@@ -755,7 +755,7 @@ def _refresh_access_token(
             "~/.hermes/auth.json) called POST /api/oauth/token with Hermes's "
             "refresh token without persisting the rotated token back.\n"
             "Nous refresh tokens are single-use — only Hermes may call the "
-            "refresh endpoint. For health checks, use `hermes auth status` "
+            "refresh endpoint. For health checks, use `iskra auth status` "
             "instead.\n"
             "Re-authenticate with: hermes auth add nous")
         relogin = True
@@ -1414,7 +1414,7 @@ def _pool_first_oauth_status(
     on_pool_miss: Optional[Callable[[], Optional[dict[str, Any]]]] = None) -> dict[str, Any]:
     """Status snapshot for a store-backed OAuth provider (Codex, xAI).
 
-    Pool first (where `hermes auth` / `hermes model` store device_code tokens), then
+    Pool first (where `iskra auth` / `iskra model` store device_code tokens), then
     *on_pool_miss* for a pool-derived degraded status, then the legacy state via *resolve*.
 
     The pool read is an observation (``peek``), not a lease: ``select()`` refreshes an expiring
@@ -1530,7 +1530,7 @@ def _nous_device_code_login(
             print(format_auth_error(exc))
             print(f"  Subscribe here: {portal_url}/billing")
             print()
-            print("After subscribing, run `hermes model` again to finish setup.")
+            print("After subscribing, run `iskra model` again to finish setup.")
             raise SystemExit(1)
         raise
 
@@ -1631,7 +1631,7 @@ def _pick_nous_model_after_login(
             else union_with_portal_paid_recommendations)
         model_ids, pricing = union(model_ids, pricing, _portal)
         if not free_tier:
-            # Paid users also see every model on sale right now (same rule as `hermes model`).
+            # Paid users also see every model on sale right now (same rule as `iskra model`).
             model_ids = union_with_nous_on_sale_models(model_ids, pricing)
         _before_policy = model_ids
         model_ids = restrict_to_nous_policy(model_ids, _policy_allowed, rescue_empty=True)
@@ -1759,7 +1759,7 @@ def _login_nous(args, pconfig: ProviderConfig) -> None:
             _restore_active_provider(prior_active_provider)
             print()
             print("No provider change. Nous credentials saved for future use.")
-            print("  Run `hermes model` again to switch to Nous Portal.")
+            print("  Run `iskra model` again to switch to Nous Portal.")
             return
         config_path = _update_config_for_provider(
             "nous", inference_base_url, default_model=selected_model)

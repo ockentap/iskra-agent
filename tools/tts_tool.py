@@ -180,7 +180,7 @@ _BUILTIN_DISPATCH: dict[str, tuple] = {
     "xai": (None, "xAI TTS", "_generate_xai_tts", None),
     "mistral": (lambda: _importable(_import_mistral_client), "Mistral Voxtral TTS", "_generate_mistral_tts",
                 "Mistral provider selected but 'mistralai' package not installed. "
-                "Run `hermes setup` to install Mistral support."),
+                "Run `iskra setup` to install Mistral support."),
     "gemini": (None, "Google Gemini TTS", "_generate_gemini_tts", None),
     "neutts": (lambda: _check_neutts_available(), "NeuTTS (local)", "_generate_neutts",
                "NeuTTS provider selected but neutts is not installed. "

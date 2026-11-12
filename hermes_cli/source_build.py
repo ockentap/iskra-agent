@@ -257,7 +257,7 @@ def build_update_products(project_root: Path, *, desktop: bool, after_dependenci
             after_dependencies()
         desktop_reason = failures[-1][0] if failures else ""
         if desktop and (desktop_skipped or _headless_linux()):
-            print("  ⓘ If this host never runs the desktop app, `hermes uninstall --gui` removes it "
+            print("  ⓘ If this host never runs the desktop app, `iskra uninstall --gui` removes it "
                   "and future updates stop building it.")
         if prepared:
             # An update that changed no TUI/web input reuses the receipted output, as the
@@ -311,9 +311,9 @@ def build_update_products(project_root: Path, *, desktop: bool, after_dependenci
 def _rebuild_served_webapp(project_root: Path, publish_stage) -> None:
     """The Webapp bundle (``apps/desktop/dist-webapp``), when a home sharing this install serves it
     (``webapp.enabled``): its gateway serves the bundle as built, so one older than the updated
-    backend would talk to it with an outdated contract. Built with the function ``hermes webapp``
+    backend would talk to it with an outdated contract. Built with the function ``iskra webapp``
     uses, which reuses a current bundle. A failed build leaves the previous bundle on disk, marked
-    out of date: its gateways report the Webapp unavailable until ``hermes webapp`` rebuilds it."""
+    out of date: its gateways report the Webapp unavailable until ``iskra webapp`` rebuilds it."""
     from gateway.webapp_listener import webapp_settings
     from hermes_cli.webapp import mark_webapp_stale, prepare_webapp_renderer
     from pm.plugins_state import dependency_homes
@@ -326,7 +326,7 @@ def _rebuild_served_webapp(project_root: Path, publish_stage) -> None:
     except BaseException:
         try:
             if mark_webapp_stale(project_root):
-                print("  ⓘ The Webapp stays unavailable until `hermes webapp` rebuilds it.")
+                print("  ⓘ The Webapp stays unavailable until `iskra webapp` rebuilds it.")
         except OSError as exc:
             print(f"  ⚠ Could not mark the Webapp out of date: {exc}")
         raise
@@ -346,7 +346,7 @@ def _build_desktop_product(project_root: Path, env: dict, publish_stage) -> None
         publish_stage("Building the desktop app")
         # The desktop build mutates checkout-scoped node_modules and
         # apps/desktop/release; serialize it against a concurrent manual
-        # `hermes desktop` (#93940). The update path waits rather than exits:
+        # `iskra desktop` (#93940). The update path waits rather than exits:
         # the in-flight build it queues behind produces the same fresh tree
         # this update needs.
         from hermes_cli.desktop_build_lock import DesktopBuildLock

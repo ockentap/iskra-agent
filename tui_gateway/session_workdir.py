@@ -407,7 +407,7 @@ def _heal_dead_cwd(cwd: str) -> str:
 def _session_is_local_backend(session: dict | None) -> bool:
     """Whether THIS session's cwd can be stat'ed / git-probed here. A session bound to a named ssh profile never can,
     whatever the launch process runs (one multiplexed gateway serves many profiles), and a per-profile gateway
-    (``hermes -p x``) may set ``terminal.backend: ssh`` in config without ``TERMINAL_ENV``: an env-only check would
+    (``iskra -p x``) may set ``terminal.backend: ssh`` in config without ``TERMINAL_ENV``: an env-only check would
     heal a live remote cwd to its nearest host ancestor (``/home``) and persist that."""
     if session and session.get("profile_home") and _bound_terminal_backend(session["profile_home"]) != "local":
         return False

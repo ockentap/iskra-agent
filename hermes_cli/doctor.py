@@ -1,4 +1,4 @@
-"""``hermes doctor`` — diagnose (and with --fix, repair) a Hermes install.
+"""``iskra doctor`` — diagnose (and with --fix, repair) a Hermes install.
 
 ``run_doctor`` walks ``DOCTOR_CHECKS`` in order; each check prints its own rows and returns a ``Finding``.
 Check bodies live in the ``doctor_*`` siblings.
@@ -134,7 +134,7 @@ DOCTOR_CHECKS = (
 
 
 def _ack_advisory(ack_target: str) -> None:
-    """`hermes doctor --ack <id>`: persist the ack and return without running diagnostics."""
+    """`iskra doctor --ack <id>`: persist the ack and return without running diagnostics."""
     from hermes_cli.security_advisories import ADVISORIES, ack_advisory
     valid_ids = {a.id for a in ADVISORIES}
     if ack_target not in valid_ids:
@@ -144,8 +144,8 @@ def _ack_advisory(ack_target: str) -> None:
         print(color(f"  ✓ Acknowledged advisory {ack_target}. It will no longer trigger startup banners.", Colors.GREEN))
     else:
         print(color(f"  ✗ Could not save the acknowledgement for {ack_target}. Make sure {_DHH}/config.yaml is "
-                    f"writable (`hermes config path` prints the exact file), then re-run "
-                    f"`hermes doctor --ack {ack_target}`.", Colors.RED))
+                    f"writable (`iskra config path` prints the exact file), then re-run "
+                    f"`iskra doctor --ack {ack_target}`.", Colors.RED))
         sys.exit(1)
 
 

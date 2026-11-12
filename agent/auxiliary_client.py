@@ -183,7 +183,7 @@ def _openai_http_client_kwargs(base_url: Optional[str], *, async_mode: bool = Fa
             logger.warning(
                 "agent.process_bootstrap.build_keepalive_http_client is "
                 "unavailable — mixed/stale install detected (#64333). Falling "
-                "back to the SDK default HTTP client. Run `hermes update` (or "
+                "back to the SDK default HTTP client. Run `iskra update` (or "
                 "reinstall the Desktop app) to resync the runtime.")
         client = None
     return {"http_client": client} if client is not None else {}
@@ -2891,7 +2891,7 @@ def _validate_base_url(base_url: str) -> None:
     except ValueError as exc:
         raise RuntimeError(
             f"Malformed custom endpoint URL: {candidate!r}. "
-            "Run `hermes setup` or `hermes model` and enter a valid http(s) base URL."
+            "Run `iskra setup` or `iskra model` and enter a valid http(s) base URL."
         ) from exc
 
 
@@ -4368,7 +4368,7 @@ def _try_main_fallback_chain(
 
 def _warn_stale_openai_base_url(runtime_provider: str) -> None:
     """Warn once when OPENAI_BASE_URL is set but config.yaml names a non-custom provider (a stale
-    ~/.hermes/.env value after `hermes model` poisons routing)."""
+    ~/.hermes/.env value after `iskra model` poisons routing)."""
     global _stale_base_url_warned
     if _stale_base_url_warned:
         return
@@ -4469,7 +4469,7 @@ def _discovery_chain_allowed(main_provider: str, task: Optional[str] = None) -> 
         return True
     logger.warning(
         "Auxiliary %s: main provider %s is unavailable and no fallback_chain / fallback_providers is "
-        "configured — refusing to guess another logged-in provider. Re-authenticate (`hermes model`) "
+        "configured — refusing to guess another logged-in provider. Re-authenticate (`iskra model`) "
         "or declare a fallback.", task or "call", main_provider)
     return False
 

@@ -47,7 +47,7 @@ def readiness_failure(exc) -> dict:
 def runtime_has_credentials(runtime) -> bool:
     """Whether a resolved runtime carries a credential a request can use: a usable secret, a key
     callable, an SDK/keyless placeholder (``aws-sdk``, ``no-key-required``) or an external-process
-    ``command``. The one predicate session readiness and ``hermes fallback check`` share."""
+    ``command``. The one predicate session readiness and ``iskra fallback check`` share."""
     from hermes_cli.auth import has_usable_secret
     api_key = runtime.get('api_key')
     if callable(api_key) or runtime.get('command'):

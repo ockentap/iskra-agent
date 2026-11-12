@@ -6,8 +6,8 @@ Node ids (from ``agent.learning_graph``): skills â†’ the skill name; memories â†
 first; ``fingerprint`` = digest of the card's text, so the entry the user clicked is
 still nameable once the list has shifted). Ids from an older graph carry no
 fingerprint and resolve by position alone.
-Shared by CLI ``hermes journey``, the TUI ``/journey`` overlay and the desktop.
-Deleting a skill *archives* it (``hermes curator restore`` recovers it);
+Shared by CLI ``iskra journey``, the TUI ``/journey`` overlay and the desktop.
+Deleting a skill *archives* it (``iskra curator restore`` recovers it);
 deleting a memory rewrites its file under the memory tool's lock.
 """
 

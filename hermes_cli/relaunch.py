@@ -1,5 +1,5 @@
 """Unified self-relaunch for Hermes CLI: preserves inherited flags (--tui, --dev, --profile, --model…)
-across process replacement so ``hermes sessions browse`` / post-setup relaunch keep the user's mode."""
+across process replacement so ``iskra sessions browse`` / post-setup relaunch keep the user's mode."""
 
 import os
 import pathlib
@@ -129,7 +129,7 @@ def relaunch(
         except KeyboardInterrupt:
             sys.exit(130)
         except OSError as exc:
-            # Raw ``[Errno 8] Exec format error`` is cryptic; usual causes are ``hermes`` not on
+            # Raw ``[Errno 8] Exec format error`` is cryptic; usual causes are ``iskra`` not on
             # PATH yet (install hasn't propagated User PATH into this shell) or a stale shim.
             print(
                 f"\nHermes relaunch failed: {exc}\n"

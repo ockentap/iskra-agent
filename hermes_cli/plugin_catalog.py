@@ -319,7 +319,7 @@ def _live_cache_path() -> Path:
 def invalidate_live_cache_for_home(home: Path) -> None:
     """Best-effort removal of the cached live catalog under *home* (any profile's home).
 
-    ``hermes update`` drops it for every profile after the checkout changes: a snapshot fetched
+    ``iskra update`` drops it for every profile after the checkout changes: a snapshot fetched
     before the bump would otherwise out-vote the newer in-tree catalog (pins the update just
     changed, entries it just added) for the rest of :data:`LIVE_CATALOG_TTL_SECONDS` (#119340).
     The next :func:`fetch_live_catalog` re-fetches the published doc, or falls back to the
@@ -399,7 +399,7 @@ def in_tree_catalog_time() -> Optional[float]:
     """Commit time (epoch) of the last change to this checkout's ``plugin-catalog/``, or ``None`` when
     the install is not a git checkout (a release/pip install cannot be newer than the published doc).
     On a git checkout whose path history is unreadable without network — the treeless ``tree:0`` layout
-    ``hermes update`` produces — the newest checked-out catalog file's mtime stands in for it, so a
+    ``iskra update`` produces — the newest checked-out catalog file's mtime stands in for it, so a
     freshly updated checkout still outranks a doc fetched before the bump. Resolved once per process."""
     global _in_tree_catalog_time
     if _in_tree_catalog_time != -1.0:
@@ -422,7 +422,7 @@ def in_tree_catalog_time() -> Optional[float]:
         if resolved is None:
             # "History unreadable without network" must not collapse into "not a git checkout":
             # ``None`` feeds the frozen-copy rule that defers to the live doc, which would let a
-            # cache fetched before ``hermes update`` re-pin the old sha on exactly the installs
+            # cache fetched before ``iskra update`` re-pin the old sha on exactly the installs
             # that just bumped it. A treeless clone still has its checked-out files — only the
             # historical trees are missing — and their mtime dates the checkout that wrote them.
             resolved = _catalog_worktree_mtime()
@@ -472,7 +472,7 @@ def _prefer_in_tree_entry(tree: PluginCatalogEntry, live: PluginCatalogEntry, tr
 
 def load_catalog_live() -> list[PluginCatalogEntry]:
     """Entries from the live (or cached) catalog, else the in-tree catalog. When both name an entry at
-    different pins the NEWER source supplies it — right after ``hermes update`` bumps an in-tree pin,
+    different pins the NEWER source supplies it — right after ``iskra update`` bumps an in-tree pin,
     a cache fetched before the bump must not re-install the old one (see :func:`_prefer_in_tree_entry`)."""
     data = fetch_live_catalog()
     if data is None:

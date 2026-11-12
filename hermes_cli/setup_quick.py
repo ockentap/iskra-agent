@@ -1,4 +1,4 @@
-"""Streamlined setup flows: the Nous Portal one-shot (`hermes portal`), first-time quick setup,
+"""Streamlined setup flows: the Nous Portal one-shot (`iskra portal`), first-time quick setup,
 Blank Slate setup and the `--quick` missing-items pass. Names from setup.py are imported lazily
 per function so test patches on ``hermes_cli.setup`` take effect."""
 
@@ -37,7 +37,7 @@ def _reload_config_into(config: dict, *, dict_only: bool = False) -> None:
 
 def _run_nous_flow(config: dict, *, context: str, cancel_exc: tuple, cancel_lines: tuple, print_error) -> bool:
     """Run ``_model_flow_nous`` (login, model pick, provider switch, Tool Gateway opt-in) — the
-    single source of truth shared with ``hermes model``. False when cancelled or failed (the
+    single source of truth shared with ``iskra model``. False when cancelled or failed (the
     message is already printed)."""
     from hermes_cli.setup import _info
     try:
@@ -55,7 +55,7 @@ def _run_nous_flow(config: dict, *, context: str, cancel_exc: tuple, cancel_line
 
 
 def _run_portal_one_shot(config: dict) -> None:
-    """One-shot Nous Portal setup (``hermes setup --portal`` / ``hermes portal``)."""
+    """One-shot Nous Portal setup (``iskra setup --portal`` / ``iskra portal``)."""
     from hermes_cli.setup import _info, _print_banner, _record_setup_completed, print_error, print_info, print_success
     _print_banner("│     ☤ Hermes Setup — Nous Portal (one-shot)             │")
     _info(None, "  One subscription, 300+ models, plus the Tool Gateway:",
@@ -71,8 +71,8 @@ def _run_portal_one_shot(config: dict) -> None:
         for line in rest:
             print_info(f"  {line}")
 
-    if not _run_nous_flow(config, context="`hermes portal`", cancel_exc=(KeyboardInterrupt, EOFError, SystemExit),
-                          cancel_lines=(None, "  Setup cancelled.", "  You can retry later with `hermes portal`."),
+    if not _run_nous_flow(config, context="`iskra portal`", cancel_exc=(KeyboardInterrupt, EOFError, SystemExit),
+                          cancel_lines=(None, "  Setup cancelled.", "  You can retry later with `iskra portal`."),
                           print_error=_on_error):
         return
 
@@ -81,7 +81,7 @@ def _run_portal_one_shot(config: dict) -> None:
         _reload_config_into(config, dict_only=True)
     print()
     print_success("Portal setup complete.")
-    _info("  Run `hermes portal info` to inspect routing.", "  Run `hermes` to start chatting.")
+    _info("  Run `iskra portal info` to inspect routing.", "  Run `iskra` to start chatting.")
     _record_setup_completed(config)
 
 
@@ -203,7 +203,7 @@ def _print_macos_fda_tip() -> None:
 
 def _blank_slate_minimal_toolsets(config: dict):
     """Write the minimal toolset state for a Blank Slate install: only ``file``, ``terminal``,
-    ``vision`` (``read_file`` can't read images) and ``skills`` (the seeded ``hermes-agent`` skill
+    ``vision`` (``read_file`` can't read images) and ``skills`` (the seeded ``iskra-agent`` skill
     needs ``skill_view``) stay on. Two layers enforce it: ``platform_toolsets["cli"]`` (explicit,
     so defaults aren't re-expanded) and ``agent.disabled_toolsets`` (hard-suppression applied last
     in ``_get_platform_tools``, overriding the recovery that would re-add e.g. ``kanban``)."""
@@ -241,7 +241,7 @@ def _blank_slate_minimal_toolsets(config: dict):
 
 
 def _blank_slate_minimize_config(config: dict):
-    """Turn OFF every optional config feature; all opt back in via ``hermes setup agent``."""
+    """Turn OFF every optional config feature; all opt back in via ``iskra setup agent``."""
     config.setdefault("agent", {})["max_turns"] = 90
     config.setdefault("compression", {})["enabled"] = False
     mem = config.setdefault("memory", {})
@@ -281,7 +281,7 @@ def _run_blank_slate_setup(config: dict, hermes_home, is_existing: bool):
           "Forced on: Provider & Model, File Operations, Terminal, Vision, Skills.",
           "Everything else (web, browser, code exec, memory,",
           "delegation, cron, plugins, MCP, …) starts disabled. The",
-          "essential `hermes-agent` skill is always kept so the agent",
+          "essential `iskra-agent` skill is always kept so the agent",
           "can help you drive and configure Hermes itself.", None)
 
     # Step 1: Provider & Model (REQUIRED — the agent cannot run without it)
@@ -312,7 +312,7 @@ def _run_blank_slate_setup(config: dict, hermes_home, is_existing: bool):
         _blank_slate_walkthrough(config, hermes_home)
         return
     save_config(config)
-    # Blank Slate means no bundled skills; record the opt-out so future `hermes update` runs
+    # Blank Slate means no bundled skills; record the opt-out so future `iskra update` runs
     # don't re-inject them.
     _set_bundled_skills_opt_out(True, "skill opt-out")
     _blank_slate_done(config, hermes_home, "  Enable tools:        hermes tools", "  Enable plugins:      hermes plugins",
@@ -334,10 +334,10 @@ def _blank_slate_walkthrough(config: dict, hermes_home):
         print_success(f"Seeded {copied} bundled skills.")
 
     def _opted_out(_result) -> None:
-        _info("No skills seeded (except the essential `hermes-agent`",
+        _info("No skills seeded (except the essential `iskra-agent`",
               "skill). A .no-bundled-skills marker keeps future",
-              "`hermes update` runs from re-injecting them. Opt back in any",
-              "time with `hermes skills opt-in --sync`.")
+              "`iskra update` runs from re-injecting them. Opt back in any",
+              "time with `iskra skills opt-in --sync`.")
 
     # Seeding first clears any stale opt-out marker; declining sets it (essential skills still seed).
     _set_bundled_skills_opt_out(
@@ -358,16 +358,16 @@ def _blank_slate_walkthrough(config: dict, hermes_home):
             logger.debug("blank-slate tools_command error: %s", exc)
             print_warning(f"Tool selector encountered an error: {exc}")
     else:
-        print_info("Keeping the minimal toolset. Add tools later with `hermes tools`.")
+        print_info("Keeping the minimal toolset. Add tools later with `iskra tools`.")
 
     # Built-in plugins and MCP servers (off unless chosen)
     for header, question, yes_msg, no_msg in (
         ("Plugins", "Review and enable built-in plugins now?",
-         "Manage plugins with `hermes plugins list` / `hermes plugins install`.",
-         "No plugins enabled. Add later with `hermes plugins`."),
+         "Manage plugins with `iskra plugins list` / `iskra plugins install`.",
+         "No plugins enabled. Add later with `iskra plugins`."),
         ("MCP Servers", "Add an MCP server now?",
-         "Add servers with `hermes mcp add <name> --url ... | --command ...`.",
-         "No MCP servers configured. Add later with `hermes mcp add`."),
+         "Add servers with `iskra mcp add <name> --url ... | --command ...`.",
+         "No MCP servers configured. Add later with `iskra mcp add`."),
     ):
         print_header(header, gap=True)
         print_info(yes_msg if prompt_yes_no(question, default=False) else no_msg)

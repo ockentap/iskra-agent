@@ -1,4 +1,4 @@
-"""CLI subcommand: ``hermes pets <subcommand>``."""
+"""CLI subcommand: ``iskra pets <subcommand>``."""
 
 from __future__ import annotations
 

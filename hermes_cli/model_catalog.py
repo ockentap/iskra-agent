@@ -378,7 +378,7 @@ def get_default_model_from_cache(provider: str) -> str | None:
 
 def seed_cache_from_checkout(project_root: Path | str) -> bool:
     """Overwrite the disk cache with the checkout's ``website/static/api/model-catalog.json``.
-    After ``hermes update`` that file IS the newest catalog, so the picker stays current even when
+    After ``iskra update`` that file IS the newest catalog, so the picker stays current even when
     the remote fetch is bot-gated. Validated, then written via the same atomic writer."""
     src = Path(project_root) / "website" / "static" / "api" / "model-catalog.json"
     try:
@@ -396,7 +396,7 @@ def seed_cache_from_checkout(project_root: Path | str) -> bool:
 
 
 def reset_cache() -> None:
-    """Clear the in-process cache and fetch-failure backoff. Used by tests and ``hermes model --refresh``."""
+    """Clear the in-process cache and fetch-failure backoff. Used by tests and ``iskra model --refresh``."""
     global _catalog_cache, _catalog_cache_source_mtime, _catalog_cache_source_path
     with _fetch_retry_lock:
         _fetch_retry_after.clear()

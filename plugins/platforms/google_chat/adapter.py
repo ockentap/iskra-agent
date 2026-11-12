@@ -1657,7 +1657,7 @@ Full guide: website/docs/user-guide/messaging/google_chat.md
 
 
 def interactive_setup() -> None:
-    """``hermes setup`` wizard: print GCP instructions, prompt for env vars, persist to ``~/.hermes/.env``."""
+    """``iskra setup`` wizard: print GCP instructions, prompt for env vars, persist to ``~/.hermes/.env``."""
     from hermes_cli.cli_output import print_info, print_success, print_warning, prompt, prompt_yes_no
     from hermes_cli.config import get_env_value, save_env_value
     from hermes_cli.setup_platforms import declines_reconfigure
@@ -1724,7 +1724,7 @@ async def _standalone_send(
     media_files: Optional[list[str]] = None, force_document: bool = False,
 ) -> dict[str, Any]:
     """POST one Chat message via REST without the SDK (``send_message_tool`` when the
-    gateway runner is not in-process, e.g. ``hermes cron``). Needs SA credentials and a
+    gateway runner is not in-process, e.g. ``iskra cron``). Needs SA credentials and a
     validated space name; ``media_files`` / ``force_document`` are signature parity only."""
     if not chat_id:
         return _standalone_error("chat_id (space resource) is required")
@@ -1792,7 +1792,7 @@ def register(ctx) -> None:
         validate_config=_validate_config,
         is_connected=_is_connected,
         required_env=["GOOGLE_CHAT_SERVICE_ACCOUNT_JSON"],
-        install_hint="Run `hermes setup` to install Google Chat support.",
+        install_hint="Run `iskra setup` to install Google Chat support.",
         setup_fn=interactive_setup,
         env_enablement_fn=_env_enablement,
         cron_deliver_env_var="GOOGLE_CHAT_HOME_CHANNEL",

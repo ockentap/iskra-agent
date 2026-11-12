@@ -1,9 +1,9 @@
-"""``display.language`` validation for ``hermes config set`` — pluggable languages.
+"""``display.language`` validation for ``iskra config set`` — pluggable languages.
 
 The accepted set is ``agent.i18n.supported_languages()``: bundled catalogs ∪ the profile's overlay dir
-∪ every loaded plugin language pack. Packs only exist after discovery, and ``hermes config`` never
+∪ every loaded plugin language pack. Packs only exist after discovery, and ``iskra config`` never
 imports ``model_tools`` (the usual discovery trigger), so this runs ``discover_plugins()`` first —
-otherwise ``hermes config set display.language pl`` would refuse the very pack the user just installed.
+otherwise ``iskra config set display.language pl`` would refuse the very pack the user just installed.
 """
 
 from __future__ import annotations

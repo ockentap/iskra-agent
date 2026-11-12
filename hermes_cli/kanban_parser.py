@@ -1,4 +1,4 @@
-"""Argparse tree for ``hermes kanban …`` (``build_parser``).
+"""Argparse tree for ``iskra kanban …`` (``build_parser``).
 
 The subcommand tree is declared as data — one ``_cmd(...)`` record per
 subcommand holding its ``add_parser`` kwargs and an ordered tuple of
@@ -140,13 +140,13 @@ _BOARD_SPECS = [
         _arg("--switch", action="store_true", help="Switch to the imported board afterwards"),
         _json_flag(),
     ], help="Import a board archive as a new board", description=(
-        "Import a .tar.gz produced by `hermes kanban boards export`. The board always lands as a "
+        "Import a .tar.gz produced by `iskra kanban boards export`. The board always lands as a "
         "NEW board — the slug gains a numeric suffix if it is already taken — so an import can "
         "never overwrite or merge into a board you already have."
     )),
 ]
 
-# Top-level ``hermes kanban <action>`` records, in ``--help`` order.
+# Top-level ``iskra kanban <action>`` records, in ``--help`` order.
 _SPECS = [
     _cmd("init", help="Create kanban.db if missing (idempotent)"),
     _cmd("boards", children=("boards_action", _BOARD_SPECS),
@@ -173,7 +173,7 @@ _SPECS = [
         _arg("--project",
              help="Link to a project (id or slug). Anchors the task's "
                   "worktree under the project's primary repo with a "
-                  "deterministic branch. See `hermes project list`."),
+                  "deterministic branch. See `iskra project list`."),
         _TENANT,
         _PRIORITY,
         _arg("--triage", action="store_true",
@@ -377,7 +377,7 @@ _SPECS = [
         # Escape hatch for hosts that truly cannot run the gateway; hidden from
         # --help so nobody casually keeps the double-dispatcher pattern alive.
         _arg("--force", action="store_true", help=argparse.SUPPRESS),
-    ], help="DEPRECATED — dispatcher now runs in the gateway. Use `hermes gateway start`."),
+    ], help="DEPRECATED — dispatcher now runs in the gateway. Use `iskra gateway start`."),
     _cmd("watch", [
         _arg("--assignee", help="Only show events for tasks assigned to this profile"),
         _arg("--tenant", help="Only show events from tasks in this tenant"),
@@ -469,8 +469,8 @@ def build_parser(parent_subparsers: argparse._SubParsersAction) -> argparse.Argu
     # file, then "default" (kanban_db.get_current_board()).
     kanban_parser.add_argument("--board", default=None, metavar="<slug>",
                                help="Board slug to operate on. Defaults to the current board (set "
-                                    "via `hermes kanban boards switch <slug>` or the "
-                                    "HERMES_KANBAN_BOARD env var). Use `hermes kanban boards "
+                                    "via `iskra kanban boards switch <slug>` or the "
+                                    "HERMES_KANBAN_BOARD env var). Use `iskra kanban boards "
                                     "list` to see all boards.")
     _add_commands(kanban_parser.add_subparsers(dest="kanban_action"), _SPECS)
     kanban_parser.set_defaults(_kanban_parser=kanban_parser)

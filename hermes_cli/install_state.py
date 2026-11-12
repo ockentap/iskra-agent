@@ -3,7 +3,7 @@
 The desktop's welcome trial goes only to a first install, once per OS user, so ``onboarding.start``
 asks this before it claims one. The answer is about the OS user, not the active profile: it looks at
 every Hermes root the machine names (default roots, channel and package roots, the roots gateway
-services and the ``hermes`` launcher point at) and at a marker file no Hermes setting can move.
+services and the ``iskra`` launcher point at) and at a marker file no Hermes setting can move.
 
 This is product gating, not security: the inference API's limits stop abuse. So it reads only small
 known files, never scans the disk, never writes into a Hermes root, and treats doubt as "used".
@@ -299,7 +299,7 @@ def _is_this_account(account: str) -> bool:
 
 
 def _launcher_root() -> Iterable[Path]:
-    """The root that owns the ``hermes`` on PATH: its launcher execs that root's ``tools/`` Python."""
+    """The root that owns the ``iskra`` on PATH: its launcher execs that root's ``tools/`` Python."""
     from hermes_cli._launchers import _launcher_python
     from hermes_platform.resolver import locate_command
 

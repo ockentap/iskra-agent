@@ -25,7 +25,7 @@ def finite_clarify_reply():
 
 
 def unattended_turn():
-    # `hermes -z`: nobody can answer a prompt, so the classic one-shot contract auto-approves
+    # `iskra -z`: nobody can answer a prompt, so the classic one-shot contract auto-approves
     # (legacy oneshot.py set HERMES_YOLO_MODE). `-q` stays single-query (approvals.single_query_mode).
     return _unattended_turn.get()
 
@@ -57,7 +57,7 @@ def admit_finite(params, *, submitter=None):
 
 
 def _may_run_unattended(connection, ref):
-    """``hermes -z`` parity: main auto-approved only inside the one-shot's own process. Over the wire that
+    """``iskra -z`` parity: main auto-approved only inside the one-shot's own process. Over the wire that
     is the private local bootstrap ticket (no dashboard / remote identity), the session's creator (no
     operator attach) and a CLI-surface session (never a Desktop, TUI, ACP or Bot Chat others watch)."""
     from gateway.session_policy import policy_for_source

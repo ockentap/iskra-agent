@@ -30,7 +30,7 @@ def migrate_profile_identity(old_name: str, new_name: str) -> bool:
     """Retry the durable identity migration of a rename that already completed.
 
     ``rename_profile`` runs the migration itself; this is the standalone retry behind
-    ``hermes profile migrate-identity <old> <new>`` for when that attempt failed. The rename
+    ``iskra profile migrate-identity <old> <new>`` for when that attempt failed. The rename
     cannot simply be repeated — ``profiles/<old>`` is gone — and the identity to migrate is read
     from rows/metadata that still name the old profile or old absolute workdir, so only the new
     profile has to exist here.

@@ -3,8 +3,8 @@
 After an upgrade the old daemon keeps answering the home's control socket, but its ``identify`` has
 no ``runtime_protocol`` (it predates the session-authority runtime). Every client of this version
 ensures through :func:`hermes_cli.gateway_runtime.ensure_gateway_runtime` (the TUI bootstrap,
-Desktop's ``hermes gateway ensure``, ``hermes chat``), so ensure replaces that owner once, exactly as
-``hermes gateway stop`` would stop it (a planned-stop marker in the owner's home, then SIGTERM; a
+Desktop's ``iskra gateway ensure``, ``iskra chat``), so ensure replaces that owner once, exactly as
+``iskra gateway stop`` would stop it (a planned-stop marker in the owner's home, then SIGTERM; a
 bounded wait; a start-time-guarded force kill), and then starts the current one the normal way.
 
 Refused, never stopped:
@@ -88,7 +88,7 @@ def _verified_owner(control: Path, payload: dict) -> tuple[int, Any] | str:
 
 
 def _write_planned_stop(control: Path, pid: int, start_time: Any) -> None:
-    """The marker ``hermes gateway stop`` writes, in the OWNER's home (it reads its own), so the old
+    """The marker ``iskra gateway stop`` writes, in the OWNER's home (it reads its own), so the old
     gateway exits as a planned stop: clean exit, ``stopped`` persisted, no supervisor revival."""
     from gateway.status import _PLANNED_STOP_MARKER_FILENAME, _utc_now_iso, _write_marker
     _write_marker(control / _PLANNED_STOP_MARKER_FILENAME, {

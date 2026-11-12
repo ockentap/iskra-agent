@@ -6,7 +6,7 @@ from hermes_cli.proxy.adapters.base import UpstreamAdapter
 from hermes_cli.proxy.adapters.nous_portal import NousPortalAdapter
 from hermes_cli.proxy.adapters.xai import XAIGrokAdapter
 
-# Keyed by the ``hermes proxy start --provider <name>`` value.
+# Keyed by the ``iskra proxy start --provider <name>`` value.
 ADAPTERS: dict[str, type[UpstreamAdapter]] = {"nous": NousPortalAdapter, "xai": XAIGrokAdapter}
 
 

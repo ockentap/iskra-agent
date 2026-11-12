@@ -255,7 +255,7 @@ _OVERRIDE_DENIED_MSG = (
 
 # ---- check_fn TTL cache ----------------------------------------------------
 # check_fns probe external state (Docker, Modal SDK, playwright) that changes on human
-# timescales, so results are cached ~30 s: env-var flips via ``hermes tools`` still land
+# timescales, so results are cached ~30 s: env-var flips via ``iskra tools`` still land
 # within a turn or two. Transient-failure suppression: a flapping probe (``docker version``
 # timing out under load) would silently strip a whole toolset from the agent being built —
 # most visibly a subagent reporting "Tool read_file does not exist" — so a failure within a
@@ -566,7 +566,7 @@ def _memo_check(fn: Callable, memo: dict[Callable, bool]) -> bool:
 
 
 def invalidate_check_fn_cache() -> None:
-    """Drop all cached ``check_fn`` results (after config changes like ``hermes tools enable``)."""
+    """Drop all cached ``check_fn`` results (after config changes like ``iskra tools enable``)."""
     global _check_fn_epoch
     with _check_fn_cache_lock:
         _check_fn_epoch += 1
@@ -1033,7 +1033,7 @@ class ToolRegistry:
 
     def get_definitions(self, tool_names: set[str], quiet: bool = False) -> list[dict]:
         """OpenAI-format schemas for the requested tools whose ``check_fn`` passes (or is
-        absent). Probes use the ~30 s TTL cache so ``hermes tools enable`` lands quickly."""
+        absent). Probes use the ~30 s TTL cache so ``iskra tools enable`` lands quickly."""
         result = []
         check_results: dict[Callable, bool] = {}
         entries_by_name = {entry.name: entry for entry in self._snapshot_entries()}

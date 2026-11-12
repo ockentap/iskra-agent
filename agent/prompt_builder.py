@@ -93,7 +93,7 @@ def _scan_context_content(content: str, filename: str, *, user_authored: bool = 
     supply it — so a user who *documents* "ignore previous instructions" in their security guidance
     must not lose their whole identity file to a one-line log entry (#112570). Project-dir files
     (repo AGENTS.md / .cursorrules / .hermes.md) arrive with the checkout and keep blocking, and so does
-    a SOUL.md owned by a profile distribution (``hermes profile install <git-url>`` copies it in unscanned;
+    a SOUL.md owned by a profile distribution (``iskra profile install <git-url>`` copies it in unscanned;
     ``load_soul_md`` passes ``user_authored=False`` when ``distribution.yaml`` owns the file).
     """
     # A leading UTF-8 BOM is a Windows-editor artifact, not an injection.
@@ -176,7 +176,7 @@ HERMES_AGENT_HELP_GUIDANCE = (
     "For help with Hermes Agent itself — configuring, setting up, using, extending, or troubleshooting it — "
     "or to understand your own features, tools, or capabilities, the documentation at "
     "https://hermes-agent.nousresearch.com/docs is your "
-    "authoritative reference and always holds the latest, most up-to-date information. The `hermes-agent` "
+    "authoritative reference and always holds the latest, most up-to-date information. The `iskra-agent` "
     "skill has the actual commands and proven workflows — load it with skill_view(name='hermes-agent') "
     "before configuring, modifying, or troubleshooting Hermes so you don't guess or invent workarounds."
 )
@@ -325,11 +325,11 @@ KANBAN_GUIDANCE = (
     "- **Created cards.** List ids in `kanban_complete(created_cards=[...])` ONLY when captured from a successful "
     "`kanban_create` return — never invent or paste ids; the kernel rejects the completion on any phantom id.\n"
     "- **Orchestrating: discover profiles first.** The dispatcher SILENTLY drops a card with an unknown assignee (it "
-    "sits in `ready` forever). Ground every assignee in a real profile (`hermes profile list`, or ask the user), and "
+    "sits in `ready` forever). Ground every assignee in a real profile (`iskra profile list`, or ask the user), and "
     "express dependencies via `parents=[...]` on `kanban_create`, not prose.\n"
     "\n"
     "## Do NOT\n\n"
-    "- Do not shell out to `hermes kanban <verb>` for board operations. Use the `kanban_*` tools — they work across "
+    "- Do not shell out to `iskra kanban <verb>` for board operations. Use the `kanban_*` tools — they work across "
     "all terminal backends.\n"
     "- Do not complete a task you didn't actually finish. Block it.\n"
     "- Do not call `clarify` to ask questions. You are running headless — there is no live user to answer. The call "
@@ -1550,7 +1550,7 @@ def load_soul_md(context_length: Optional[int] = None, home_override: Path | Non
             content = strip_legacy_protocol(content).strip()
         if not content:
             return None
-        # `hermes profile install <git-url>` / `profile update` plant a third-party SOUL.md into a
+        # `iskra profile install <git-url>` / `profile update` plant a third-party SOUL.md into a
         # distribution profile (hermes_cli/profile_distribution.py, DEFAULT_DIST_OWNED) with no scan and no
         # approval gate, so it is NOT the user's own file: when distribution.yaml owns SOUL.md (a manifest
         # with no `distribution_owned` list owns the whole payload) a scanner hit keeps BLOCKING.

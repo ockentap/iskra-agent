@@ -267,4 +267,4 @@ def _print_cua_platform_notes(is_windows: bool, is_linux: bool, *, fresh_install
                     else "    Grant macOS permissions if not done yet:")
         _print_info("      System Settings > Privacy & Security > Accessibility")
         _print_info("      System Settings > Privacy & Security > Screen Recording")
-        _print_info("    Allow CuaDriver.app; run `hermes computer-use permissions grant` for guidance.")
+        _print_info("    Allow CuaDriver.app; run `iskra computer-use permissions grant` for guidance.")

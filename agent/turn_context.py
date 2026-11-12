@@ -1225,7 +1225,7 @@ def build_turn_context(
     from agent.bot_chain import on_turn_start as _bot_chain_turn_start
     _bot_chain_turn_start(agent, turn_author, persist_user_display_kind, persist_user_message or user_message)
 
-    # Tag log records on this thread with the session ID for ``hermes logs``; bind the
+    # Tag log records on this thread with the session ID for ``iskra logs``; bind the
     # skill write-origin ContextVar; restore the primary runtime after a fallback turn.
     # NOTE: the DB session row is created later, AFTER the system prompt is restored/built (see
     # _ensure_db_session() below the system-prompt block). Creating it here — before _cached_system_prompt
@@ -1302,7 +1302,7 @@ def build_turn_context(
         )
 
     # System prompt is cached per session for prefix caching. A warm agent (kept across turns)
-    # first adopts any `hermes sessions refresh-prompts` request recorded since it set its prompt.
+    # first adopts any `iskra sessions refresh-prompts` request recorded since it set its prompt.
     refresh_warm_prompt(agent, system_message, conversation_history)
     if agent._cached_system_prompt is None:
         restore_or_build_system_prompt(agent, system_message, conversation_history)

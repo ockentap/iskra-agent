@@ -1,4 +1,4 @@
-"""``hermes fallback check`` — readiness of every fallback-chain entry without an agent session (#63852).
+"""``iskra fallback check`` — readiness of every fallback-chain entry without an agent session (#63852).
 
 Static mode resolves each entry with the switch's own kwargs; ``--live`` sends one request on the
 client the swap builds. The live request never goes through ``call_llm``: its recovery ladder would
@@ -311,7 +311,7 @@ def _print_table(results: list[EntryCheck], *, live: bool) -> None:
 
 
 def cmd_fallback_check(args) -> None:
-    """``hermes fallback check [--live] [--json]``; exits 1 when any entry is not ready."""
+    """``iskra fallback check [--live] [--json]``; exits 1 when any entry is not ready."""
     from hermes_cli.config import load_config_readonly
     from hermes_cli.fallback_config import get_fallback_chain
     from hermes_cli.profiles import get_active_profile_name

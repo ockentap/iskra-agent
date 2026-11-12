@@ -1,6 +1,6 @@
 """Is there ONE live host gateway, and does it already serve this profile?
 
-Multiplex-only (Teknium ruling): exactly one MULTIPLEXING ``hermes gateway run`` per host, serving
+Multiplex-only (Teknium ruling): exactly one MULTIPLEXING ``iskra gateway run`` per host, serving
 every profile; standalone per-profile gateways coexist until that migration is forced (#109417).
 The lifecycle verbs therefore answer a different question than they used to — not "does THIS home
 hold a ``gateway.pid``?" but "is the host process live, and is this profile in its served set?" —
@@ -281,7 +281,7 @@ def attach_message(gateway: HostGateway, profile: str) -> str:
         f"✓ The host gateway already serves profile '{profile}' — nothing to start.\n"
         f"  {gateway.describe()}\n"
         f"  One gateway per host serves every profile; manage it with "
-        f"`hermes -p {gateway.profile_label} gateway restart`.")
+        f"`iskra -p {gateway.profile_label} gateway restart`.")
 
 
 def _unknown_served_message(gateway: HostGateway, profile: str) -> str:

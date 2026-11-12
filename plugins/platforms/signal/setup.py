@@ -1,4 +1,4 @@
-"""Interactive ``hermes gateway setup`` wizard for Signal. Helpers resolve late through the
+"""Interactive ``iskra gateway setup`` wizard for Signal. Helpers resolve late through the
 ``hermes_cli.gateway`` facade so the plugin stays importable outside the CLI and the seams tests
 patch there keep intercepting."""
 
@@ -20,7 +20,7 @@ def _signal_line_input(prompt_text: str) -> str | None:
 
 
 def interactive_setup() -> None:
-    """``hermes gateway setup`` flow for Signal (registered as the plugin's ``setup_fn``)."""
+    """``iskra gateway setup`` flow for Signal (registered as the plugin's ``setup_fn``)."""
     _gw().print_setup_header("📡 Signal")
 
     existing_url = _gw().get_env_value("SIGNAL_HTTP_URL")

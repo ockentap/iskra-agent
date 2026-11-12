@@ -1,5 +1,5 @@
 """Cloud peer access: ``/api/peer/...`` carries another Hermes agent's API calls to this agent's
-gateway api_server on loopback, so ``hermes peer`` can reach a hosted agent without its key.
+gateway api_server on loopback, so ``iskra peer`` can reach a hosted agent without its key.
 
 The bearer is a short-lived pass minted for this one agent, verified before this route runs
 (``hermes_cli.dashboard_auth.peer_pass``). Each path in :data:`_ROUTES` needs one permission; a path
@@ -33,7 +33,7 @@ from hermes_cli.dashboard_auth.request_utils import client_ip
 _log = logging.getLogger(__name__)
 router = APIRouter()
 
-#: Messaging: everything ``hermes peer`` sends today, plus run events and the streaming chat turn,
+#: Messaging: everything ``iskra peer`` sends today, plus run events and the streaming chat turn,
 #: in the agent's Bot Chat only. Each turn runs with the agent's tools, terminal included.
 MESSAGE = "agents:message"
 #: Control: what a user controls through the agent's API, in any session. Includes messaging.
@@ -61,7 +61,7 @@ _ROUTES: dict[tuple[str, str], str] = {
 _METHODS = sorted({method for method, _ in _ROUTES})
 #: The routes whose turns the api_server credits to the body's ``author`` (memory attribution).
 _TURNS = frozenset({("POST", "api/sessions/*/chat"), ("POST", "api/sessions/*/chat/stream"), ("POST", "v1/runs")})
-#: The body fields a messaging pass may send where this route reads the body: what ``hermes peer``
+#: The body fields a messaging pass may send where this route reads the body: what ``iskra peer``
 #: sends (the api_server's own Bot Chat create also takes only ``title`` and ``source``). The
 #: api_server takes more there, which change more than the turn's own message: a model, kept for
 #: every later caller with ``require_model_lock``; a system prompt; a history; a stored response
@@ -124,7 +124,7 @@ def _parse(scope) -> Optional[tuple[Optional[str], list[str]]]:
 def _upstream(profile: Optional[str]) -> Optional[tuple[str, str]]:
     """``(loopback base URL, API_SERVER_KEY)`` of the gateway api_server serving *profile* (None: the
     profile this dashboard serves), or None when this host has no such profile. The prefix reads as
-    the api_server reads it: the default profile's handle ``hermes`` is the default profile unless a
+    the api_server reads it: the default profile's handle ``iskra`` is the default profile unless a
     profile has that name. Reads config and .env files: call it off the event loop."""
     from hermes_cli import profiles
     from hermes_cli import web_server_cron as cron
@@ -186,7 +186,7 @@ async def _json_object(request: Request) -> tuple[Optional[dict], Optional[JSONR
 
 
 def _control_only_parts(method: str, template: str, body: dict) -> list[str]:
-    """What in a body only a control pass may send: fields ``hermes peer`` never sends, and a turn
+    """What in a body only a control pass may send: fields ``iskra peer`` never sends, and a turn
     whose message is not plain text (a list ``input`` stands in for the history, and list content
     skips the hand-off to a Desktop holding the Bot Chat)."""
     parts = sorted(set(body) - _MESSAGING_FIELDS[(method, template)])

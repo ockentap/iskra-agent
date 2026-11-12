@@ -230,7 +230,7 @@ def drop_undone_rows(export: dict[str, Any]) -> dict[str, Any]:
 def load_save_snapshot(db: Any, session_id: str, fmt: str) -> Optional[dict[str, Any]]:
     """The stored session a ``/save <fmt>`` writes, or None when it has no row. A JSON snapshot loads every
     stored row in memory, so it is refused past ``sessions.max_export_messages`` (raises
-    ``SessionExportTooLargeError``), like ``hermes sessions export``."""
+    ``SessionExportTooLargeError``), like ``iskra sessions export``."""
     transcript = fmt in SAVE_TRANSCRIPT_FORMATS
     if not transcript:
         db.assert_export_safe(session_id)

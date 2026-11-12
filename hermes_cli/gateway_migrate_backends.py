@@ -1,20 +1,20 @@
-"""``hermes gateway migrate --backends``: a report, changing no service, of the serve/dashboard
+"""``iskra gateway migrate --backends``: a report, changing no service, of the serve/dashboard
 background services on this machine and their current ownership.
 
-Hermes never installs a ``hermes serve`` / ``hermes dashboard`` service itself, so every one found
+Hermes never installs a ``iskra serve`` / ``iskra dashboard`` service itself, so every one found
 here was set up by someone else: a systemd unit copied from the docs, a hand-written launchd plist,
-the Nix ``hermes-backend`` unit (NixOS and Home Manager), the Docker image's s6 ``dashboard``
+the Nix ``iskra-backend`` unit (NixOS and Home Manager), the Docker image's s6 ``dashboard``
 longrun or the Compose ``dashboard`` sidecar, a Desktop SSH ``serve`` backend, or a process started
 by hand. The report says which supervisor owns each backend, by what the process runs and which
-unit's ``MainPID`` it is, never by unit name (Nix calls it ``hermes-backend``).
+unit's ``MainPID`` it is, never by unit name (Nix calls it ``iskra-backend``).
 
 The report itself never stops, restarts or kills anything, never edits or writes a service file,
 unit, plist or ledger, and opens no network connection: it only runs ``ps``, reads ``/proc`` and
 plists, and issues ``systemctl show`` / ``list-unit-files`` / ``launchctl print`` queries. The spawn
 ledger is deliberately not read, because reading a corrupt ledger quarantines (renames) it.
 
-Normal Hermes startup still runs first, exactly as for any other ``hermes`` command (e.g.
-``hermes gateway migrate --dry-run``): it creates the ``HERMES_HOME`` layout and a default
+Normal Hermes startup still runs first, exactly as for any other ``iskra`` command (e.g.
+``iskra gateway migrate --dry-run``): it creates the ``HERMES_HOME`` layout and a default
 ``SOUL.md`` when missing, records the install under ``HERMES_HOME/installs/<id>/``, opens
 ``logs/agent.log`` / ``logs/errors.log`` and prunes ``cache/scratch``.
 """
@@ -280,7 +280,7 @@ def _finish(item: BackendItem, own_home: str) -> BackendItem:
     if item.hermes_home:
         item.this_home = _normalized_home_for_compare(item.hermes_home) == _normalized_home_for_compare(own_home)
     if item.supervisor in ("systemd", "nix-systemd") and item.unit and not _is_serve_or_dashboard_unit(item.unit):
-        item.notes.append("`hermes update`'s systemd unit pass matches only hermes-gateway*/hermes-serve*/"
+        item.notes.append("`iskra update`'s systemd unit pass matches only hermes-gateway*/hermes-serve*/"
                           f"hermes-dashboard* names, so it does not list {item.unit}.")
     if item.state == "disabled":
         item.notes.append("The unit is disabled: it does not start at boot.")
@@ -349,7 +349,7 @@ def format_report(items: list[BackendItem]) -> list[str]:
 
 
 def cmd_backends_report(args) -> None:
-    """``hermes gateway migrate --backends [--dry-run] [--json]``. Exits 0 on valid arguments, even when a scan fails."""
+    """``iskra gateway migrate --backends [--dry-run] [--json]``. Exits 0 on valid arguments, even when a scan fails."""
     if getattr(args, "yes", False) or getattr(args, "multiplex", False):
         print("✗ --backends is a read-only report; it cannot be combined with --yes or --multiplex.",
               file=sys.stderr)

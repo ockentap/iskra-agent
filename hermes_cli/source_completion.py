@@ -54,13 +54,13 @@ def complete_source_checkout(
     root = Path(root)
     # This tail is the last mutating step of an install or update, and its product
     # builds run for minutes. A gateway restarted while it runs (launchd KeepAlive,
-    # a service manager, a second `hermes` launch) reaches the same tail through
-    # venv_sync, and `hermes update` runs its own: two completions then build the
+    # a service manager, a second `iskra` launch) reaches the same tail through
+    # venv_sync, and `iskra update` runs its own: two completions then build the
     # same output directories concurrently and race on install-stamp.json (#123376).
     # Claim the shared update lock so stacked completions serialize. A tail whose
     # orchestrator already holds the lock (venv_sync's interrupted-update finish,
     # the updater's completion child) runs under its parent's claim, exactly as
-    # `hermes update` does under the desktop handoff pid. The CHECKOUT lock is acquired, not
+    # `iskra update` does under the desktop handoff pid. The CHECKOUT lock is acquired, not
     # sampled (R2): a completion from another home must not build a checkout an update owns;
     # one inside the update's tree joins the lock it inherited.
     lock = UpdateLock(install_root=root)
@@ -185,7 +185,7 @@ def main(argv: list[str] | None = None) -> int:
         activate_dependencies(root)
         if args.finish_update:
             # A source update that never reached its own completion -- a
-            # pre-handoff release cannot flip during `hermes update`, so its
+            # pre-handoff release cannot flip during `iskra update`, so its
             # update ends with the tree at HEAD and nothing built -- lands here
             # on the next ordinary startup. Same tail as an install, so the two
             # states cannot drift apart. Only owed TAIL work keeps it pending: an

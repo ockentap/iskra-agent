@@ -8,16 +8,16 @@ from typing import Any, Optional
 
 from gateway.session_context import get_session_env
 
-# Sources that label the human conversation an interactive UI transport hosts. A finite ``hermes chat -q`` /
+# Sources that label the human conversation an interactive UI transport hosts. A finite ``iskra chat -q`` /
 # one-shot child spawned from such a session inherits HERMES_SESSION_SOURCE (the terminal tool bridges the
 # session env into child processes) but is NOT that conversation: labelling it ``tui``/``desktop`` lists it
-# in the TUI/WebUI pickers as a resumable chat and lets ``hermes -c`` in the TUI continue it (#112550).
+# in the TUI/WebUI pickers as a resumable chat and lets ``iskra -c`` in the TUI continue it (#112550).
 # Automation sources (tool, a2a, ...) are inherited on purpose; a Kanban worker's descendants drop its
 # gateway-only ``kanban`` label (delegation_context.scrub_kanban_env).
 UI_TRANSPORT_SOURCES = frozenset({"tui", "desktop"})
 
-# Finite non-interactive CLI runs (``hermes chat -q``/``--oneshot``, ``hermes -z``) get their own source so human
-# pickers hide them without title/cwd heuristics; ``hermes -c`` still treats them as CLI history.
+# Finite non-interactive CLI runs (``iskra chat -q``/``--oneshot``, ``iskra -z``) get their own source so human
+# pickers hide them without title/cwd heuristics; ``iskra -c`` still treats them as CLI history.
 ONESHOT_SOURCE = "oneshot"
 CLI_FAMILY_SOURCES = frozenset({"cli", ONESHOT_SOURCE})
 
@@ -64,7 +64,7 @@ def is_attended(agent: Any) -> bool:
     platform = getattr(agent, "platform", None)
     if not platform or platform == "subagent":
         return False
-    # A gateway-admitted ``hermes chat -q`` / ``-z`` turn carries its one-shot fact on the admission,
+    # A gateway-admitted ``iskra chat -q`` / ``-z`` turn carries its one-shot fact on the admission,
     # not in HERMES_SINGLE_QUERY_SESSION (the daemon never had that env).
     from gateway.session_finite import finite_turn_required
     if finite_turn_required() is True:

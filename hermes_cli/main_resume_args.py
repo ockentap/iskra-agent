@@ -1,4 +1,4 @@
-"""``hermes chat`` resume-argument steps split out of ``hermes_cli.main``: ``--resume @claude/@codex``
+"""``iskra chat`` resume-argument steps split out of ``hermes_cli.main``: ``--resume @claude/@codex``
 imports, and recreating a removed ``--tui -w`` worktree a resumed session needs (N8)."""
 
 import os

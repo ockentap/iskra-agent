@@ -13,7 +13,7 @@ from utils import base_url_host_matches
 
 
 def _single_query_clarify_callback(questions: list) -> dict:
-    """Headless clarify answer for ``hermes chat -q``.
+    """Headless clarify answer for ``iskra chat -q``.
 
     A -q turn never builds the prompt_toolkit app, so the interactive clarify modal
     can never be painted or answered — the CLI callback would poll until
@@ -270,7 +270,7 @@ class CLIAgentSetupMixin:
             try:
                 # target_model: the ladder's model-keyed rungs (Zen/Go api_mode, per-model
                 # api_mode) must see the model this CLI will actually send, not config's `default`,
-                # or `hermes -m mimo-v2.5 --provider opencode-go` resolves an api_mode/base_url the
+                # or `iskra -m mimo-v2.5 --provider opencode-go` resolves an api_mode/base_url the
                 # sent model cannot use (#112600).
                 runtime = resolve_runtime_provider(
                     requested=self.requested_provider, explicit_api_key=self._explicit_api_key,
@@ -329,14 +329,14 @@ class CLIAgentSetupMixin:
         self.base_url = base_url
 
         # A custom_provider entry's explicit `model` wins when the CLI model is unset or
-        # is just the provider slug/display name (`hermes chat --model <provider-name>`
+        # is just the provider slug/display name (`iskra chat --model <provider-name>`
         # would otherwise send the provider name as the model string -> 400).
         runtime_model = runtime.get("model")
         if runtime_model and isinstance(runtime_model, str) and (
             not self.model or self.model == self.provider or self.model == runtime.get("name")):
             self.model = runtime_model
 
-        # Still empty (e.g. `hermes auth add` without `hermes model`): fall back to the
+        # Still empty (e.g. `iskra auth add` without `iskra model`): fall back to the
         # provider's first catalog model so the API doesn't reject an empty model.
         if not self.model and resolved_provider:
             try:
@@ -472,7 +472,7 @@ class CLIAgentSetupMixin:
 
     def _offer_first_run_setup(self) -> bool:
         """Offer the provider picker when no provider is configured at all (interactive
-        startup, TTY). Runs the same flow as ``hermes model`` so onboarding has a single
+        startup, TTY). Runs the same flow as ``iskra model`` so onboarding has a single
         source of truth. True when a provider was configured."""
         from cli import _cprint, logger
         _cprint("")

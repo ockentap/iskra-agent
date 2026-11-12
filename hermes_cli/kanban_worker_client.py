@@ -15,7 +15,7 @@ import sys
 import time
 from typing import Optional
 
-# A worker that loses its owner (a dropped socket, a restart, `hermes update` draining it or a new
+# A worker that loses its owner (a dropped socket, a restart, `iskra update` draining it or a new
 # owner still starting) waits for it instead of exiting: the condition is the host's, not the card's,
 # and a failed exit here spends the card's failure budget and lets the owner end the turn. Asking
 # again is safe: ``kanban.run`` is idempotent per attempt and ``prompt.receipt`` is a read.
@@ -73,7 +73,7 @@ async def run(params, board_db):
         try:
             # Never into a restart's after-turn wait: it cut this socket so the turn's submitter
             # waits for the NEXT owner, and a worker polling its receipt inside the wait keeps the
-            # turn it waits on alive, holding `hermes update` until restart_after_turn_timeout.
+            # turn it waits on alive, holding `iskra update` until restart_after_turn_timeout.
             with outside_restart_wait():
                 async with connect_gateway() as client:
                     # kanban.run subscribes this socket to the card's session, but only receipts

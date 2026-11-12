@@ -5,7 +5,7 @@ nothing new; each repeat is a full model turn. After ``_PROMOTE_AFTER`` consecut
 with no new output, this promotes the session to ``notify_on_complete`` (wiring gateway delivery when
 the process was started silently) and tells the model to stop checking: the exit arrives as a message.
 
-Only where a completion can actually reach this agent: one-shot runners (``hermes -z``), cron, Kanban
+Only where a completion can actually reach this agent: one-shot runners (``iskra -z``), cron, Kanban
 workers, stateless HTTP sessions, delegated subagents, profiles whose effective
 ``display.background_process_notifications`` is ``off``, and callers that do not own the process's
 completion (another session's process, a subagent's un-handed-off process) keep the old result, since
@@ -74,7 +74,7 @@ def _count_unchanged(session) -> int:
 def _can_deliver_completion() -> bool:
     """Whether a completion notice for this session can reach the agent that is waiting.
 
-    Finite turns (non-interactive ``hermes chat -q`` / ``-z``, as ``delegate_task`` decides inline execution) end
+    Finite turns (non-interactive ``iskra chat -q`` / ``-z``, as ``delegate_task`` decides inline execution) end
     the run when the turn ends, so a promised notice would never arrive."""
     from agent.delegation_context import is_delegated_child_context
     from gateway.session_context import async_delivery_supported, get_session_env
@@ -132,7 +132,7 @@ def _claim_notify_if_running(registry, session) -> bool:
 def _promote(registry, session) -> None:
     """Wire completion delivery for a process just claimed by ``_claim_notify_if_running``.
 
-    CLI, TUI/Desktop and ``hermes chat -q`` drain ``completion_queue``, which the exit path fills
+    CLI, TUI/Desktop and ``iskra chat -q`` drain ``completion_queue``, which the exit path fills
     whenever the flag is set. The messaging gateway delivers only through a per-process watcher, so a
     process started silently also needs the chat routing stamped and a watcher armed."""
     from tools.terminal_tool_background import _register_completion_watcher, _stamp_gateway_routing

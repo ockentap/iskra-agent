@@ -58,18 +58,18 @@ def _foreign_db_holder_pids(db_path: Path) -> Optional[list[int]]:
 
 # --- Exclusion rules ---
 
-# Where ``hermes backup --quick`` / ``/snapshot`` / the pre-update safety net write state
+# Where ``iskra backup --quick`` / ``/snapshot`` / the pre-update safety net write state
 # snapshots (see ``create_quick_snapshot``); defined here because the exclusion set needs it.
 _QUICK_SNAPSHOTS_DIR = "state-snapshots"
 
 
 def _snapshot_recovery_hint() -> str:
-    """How to restore a state snapshot. There is no `hermes snapshot` subcommand — only the /snapshot
-    slash command inside a `hermes` session (hermes_cli/commands.py)."""
-    return ("To restore a newer snapshot, start `hermes` in a terminal and run `/snapshot list`, then "
+    """How to restore a state snapshot. There is no `iskra snapshot` subcommand — only the /snapshot
+    slash command inside a `iskra` session (hermes_cli/commands.py)."""
+    return ("To restore a newer snapshot, start `iskra` in a terminal and run `/snapshot list`, then "
             "`/snapshot restore <id>` (CLI only).")
 
-# Directory names to skip (matched against each path component). ``hermes-agent`` only matches at
+# Directory names to skip (matched against each path component). ``iskra-agent`` only matches at
 # the root (``_should_exclude``) so skill dirs like ``skills/.../hermes-agent/`` survive. The
 # dependency/cache entries matter: one plugin venv or pip/uv cache under HERMES_HOME walked
 # file-by-file balloons a backup to hundreds of thousands of entries ("backup stuck for days").
@@ -144,7 +144,7 @@ _EXCLUDED_PREFIXES = (
     f"state.db{RETIRED_GENERATION_DIR_SUFFIX}",
 )
 
-# Files ``hermes import`` must never overwrite, matched by basename so root and named profiles are
+# Files ``iskra import`` must never overwrite, matched by basename so root and named profiles are
 # both covered. They hold runtime state namespaced to the SOURCE machine: ``gateway_state.json``
 # drives the container-boot reconciler (a foreign value leaves the gateway stuck "starting" and
 # disconnected from the Nous portal); PID/lock/registry files reference source PIDs. Mirrors
@@ -321,7 +321,7 @@ def _should_exclude(rel_path: Path) -> bool:
     parts = rel_path.parts
     if _in_excluded_root_dir(rel_path):
         return True
-    # ``hermes-agent`` only matches at the root level; nested same-named dirs are preserved.
+    # ``iskra-agent`` only matches at the root level; nested same-named dirs are preserved.
     if any(p in _EXCLUDED_DIRS and (p != "hermes-agent" or p == parts[0]) for p in parts):
         return True
     name = rel_path.name
@@ -332,8 +332,8 @@ def _iter_backup_files(hermes_root: Path, out_path: Path, skipped_dirs: Optional
     """Yield ``(abs_path, rel_path)`` for every file a full backup should hold.
 
     The one owner of the walk policy (directory pruning so os.walk never descends a multi-GB
-    excluded tree, the root-only ``hermes-agent`` carve-out, root runtime trees, per-file rules),
-    shared by ``hermes backup`` and the pre-update path so they can never drift.
+    excluded tree, the root-only ``iskra-agent`` carve-out, root runtime trees, per-file rules),
+    shared by ``iskra backup`` and the pre-update path so they can never drift.
     """
     for dirpath, dirnames, filenames in os.walk(hermes_root, followlinks=False):
         rel_dir = Path(dirpath).relative_to(hermes_root)
@@ -402,7 +402,7 @@ def is_zeroed_sqlite_file(path: Path, *, probe_bytes: int = 100, force: bool = F
 _SQLITE_HEADER = b"SQLite format 3\0"
 
 # Above this size ``PRAGMA integrity_check`` (walks every b-tree page — minutes of pegged CPU on a
-# 30 GB state.db, reading as a hung ``hermes update``) is replaced by the O(1) header+schema probe.
+# 30 GB state.db, reading as a hung ``iskra update``) is replaced by the O(1) header+schema probe.
 # Default ceiling above which ``PRAGMA integrity_check`` is skipped in favour of the (O(1)) header +
 # structural probe. Sessions databases in the tens of GB are normal for heavy users, so the size-unbounded
 # check is never an acceptable default on the update path. See #70553.
@@ -598,7 +598,7 @@ def run_backup(args) -> bool:
     the caller turns False into exit status 1 so a cron/systemd timer never publishes a "successful"
     archive that is missing state.db. Hard failures keep raising ``SystemExit``.
     """
-    require_file_tooling("`hermes backup`")
+    require_file_tooling("`iskra backup`")
     hermes_root = get_default_hermes_root()
 
     if not hermes_root.is_dir():
@@ -735,7 +735,7 @@ def _import_member_rel(member: str, prefix: str) -> tuple[str, bool]:
 
 def run_import(args) -> Optional[int]:
     """Restore a Hermes backup; return 1 on damaged archives or incomplete restores."""
-    require_file_tooling("`hermes import`")
+    require_file_tooling("`iskra import`")
     zip_path = Path(args.zipfile).expanduser().resolve()
 
     if not zip_path.is_file():
@@ -1101,7 +1101,7 @@ def _revive_gateway_after_import(hermes_root: Path) -> None:
 # Critical state files (relative to HERMES_HOME) for quick snapshots; everything else is
 # regeneratable or managed separately (skills, repo, sessions/). Entries may be files OR
 # directories (recursive); missing entries are skipped. Pairing data lives in platform JSON blobs
-# outside state.db, so it is listed explicitly — ``hermes update`` snapshots this set (#15733).
+# outside state.db, so it is listed explicitly — ``iskra update`` snapshots this set (#15733).
 _QUICK_STATE_FILES = (
     "state.db", "config.yaml", ".env", "auth.json", "cron/jobs.json", "cron/executions.db",
     "gateway_state.json", "channel_directory.json", "channel_aliases.json", "processes.json",
@@ -1212,15 +1212,15 @@ def create_pre_update_backup(
     hermes_home: Optional[Path] = None, keep: int = _PRE_UPDATE_DEFAULT_KEEP) -> Optional[Path]:
     """Full zip backup to ``backups/pre-update-<timestamp>.zip``, auto-pruned; ``None`` if nothing
     was found, the backup failed, or it was incomplete (salvage kept as ``*.incomplete.zip``).
-    Never raises — ``hermes update`` continues anyway."""
+    Never raises — ``iskra update`` continues anyway."""
     return _create_prefixed_full_backup(hermes_home, _PRE_UPDATE_PREFIX, max(keep, 1), "pre-update", "backup")
 
 
 def create_pre_migration_backup(
     hermes_home: Optional[Path] = None, keep: int = _PRE_MIGRATION_DEFAULT_KEEP) -> Optional[Path]:
     """Full zip backup to ``backups/pre-migration-<timestamp>.zip`` before a plugin's agent import
-    (``hermes import-agent openclaw``), so its name and signature are API; same dir as update backups
-    so ``hermes import`` finds it. ``None`` if nothing was found, the write failed, or it was
+    (``iskra import-agent openclaw``), so its name and signature are API; same dir as update backups
+    so ``iskra import`` finds it. ``None`` if nothing was found, the write failed, or it was
     incomplete (salvage kept as ``*.incomplete.zip``). Never raises."""
     return _create_prefixed_full_backup(
         hermes_home, _PRE_MIGRATION_PREFIX, max(keep, 0), "pre-migration", "pre-migration backup")
@@ -1262,10 +1262,10 @@ def _create_quick_snapshot_locked(
         max_file_size: When set, individual files larger than this many bytes
             are skipped (with a printed warning) instead of copied. Used by
             the pre-update safety snapshot so a multi-GB ``state.db`` can
-            never stall ``hermes update`` or silently eat disk — the small
+            never stall ``iskra update`` or silently eat disk — the small
             pairing/cron/config files the snapshot exists to protect are
             always captured. ``None`` (default) copies everything, which
-            preserves manual ``/snapshot`` and ``hermes backup --quick``
+            preserves manual ``/snapshot`` and ``iskra backup --quick``
             behavior.
 
     Returns:
@@ -1679,7 +1679,7 @@ def restore_cron_jobs_if_emptied(
     snapshot_id: str,
     hermes_home: Optional[Path] = None,
 ) -> Optional[dict[str, Any]]:
-    """Safety net for silent cron-job loss across ``hermes update``.
+    """Safety net for silent cron-job loss across ``iskra update``.
 
     Config-version migrations have been observed to leave ``cron/jobs.json``
     valid-but-empty after an update, silently dropping every scheduled job
@@ -1848,7 +1848,7 @@ def restore_config_model_settings_if_rewritten(
     snapshot_id: str,
     hermes_home: Optional[Path] = None,
 ) -> Optional[dict[str, Any]]:
-    """Safety net for silent config.yaml model/MoA loss across ``hermes update``.
+    """Safety net for silent config.yaml model/MoA loss across ``iskra update``.
 
     Desktop update/repair cycles have been observed to rewrite user-set
     ``model.provider``/``model.default`` and drop the ``moa:`` section

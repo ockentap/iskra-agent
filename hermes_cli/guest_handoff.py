@@ -2,7 +2,7 @@
 
 The account service moves a free-tier identity's connected apps (and its preview cohort) into a
 signed-in account with one call, ``POST /api/anonymous/claim {"token": "<anon_...>"}``, authorized by
-the account's own ``hermes-cli`` Bearer token. Hermes never asks first: the move just happens after
+the account's own ``iskra-cli`` Bearer token. Hermes never asks first: the move just happens after
 the account is saved, and the result (the account email, what moved, what needs reconnecting) is
 shown afterwards. Two halves:
 
@@ -11,7 +11,7 @@ shown afterwards. Two halves:
   Nous state replaces a guest. It writes a pending record and does no network. Records sit beside
   the shared Nous store, keyed by a hash of the ``anon_`` credential.
 - :func:`drain` makes one attempt per due record, outside every lock: each sign-in surface calls it
-  after its save, and the retry worker, ``hermes auth status`` and ``hermes auth upgrade`` call it
+  after its save, and the retry worker, ``iskra auth status`` and ``iskra auth upgrade`` call it
   for a move a transient error left retrying.
 
 User copy never says guest / anonymous / claim.
@@ -46,7 +46,7 @@ _FORCE_REFRESH_SKEW = 10**9
 _CLAIMED, _GONE, _RETRY, _FAIL = "claimed", "gone", "retry", "fail"
 # A plain reason per final code; any other code shows only the generic sentence, never the code.
 _FAILURE_COPY = {
-    "client_not_allowed": "This sign-in can't receive them. Sign in again with `hermes auth add nous`.",
+    "client_not_allowed": "This sign-in can't receive them. Sign in again with `iskra auth add nous`.",
     "account_locked": "This Nous account is locked.",
 }
 # The service's refusal codes; anything unlisted retries (``_classify``).
@@ -350,7 +350,7 @@ def wire_status(status: dict[str, Any]) -> dict[str, Any]:
 
 
 def status_lines(status: dict[str, Any]) -> list[str]:
-    """User copy for a non-idle handoff (``hermes auth status nous``)."""
+    """User copy for a non-idle handoff (``iskra auth status nous``)."""
     lines = result_lines(status)
     kind = status.get("connectors_kind")
     moved_some = kind in ("moved", "swapped") and status.get("moved_toolkits")

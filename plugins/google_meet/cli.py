@@ -1,4 +1,4 @@
-"""CLI commands for the google_meet plugin (``hermes meet <subcommand>``).
+"""CLI commands for the google_meet plugin (``iskra meet <subcommand>``).
 
   setup / install — preflight and install prerequisites
   auth            — open a browser to sign into Google, save storage state
@@ -34,7 +34,7 @@ def _auth_state_path() -> Path:
     return Path(get_hermes_home()) / "workspace" / "meetings" / "auth.json"
 
 
-# ``hermes meet <sub>`` in help order.
+# ``iskra meet <sub>`` in help order.
 _SUBCOMMAND_HELP = (
     ("setup", "Preflight: playwright, chromium, auth"),
     ("install", "Install prerequisites (Python dependencies, Chromium, platform audio tools)"),
@@ -48,7 +48,7 @@ _SUBCOMMAND_HELP = (
 
 
 def register_cli(subparser: argparse.ArgumentParser) -> None:
-    """Build the ``hermes meet`` argparse tree (called at plugin load time)."""
+    """Build the ``iskra meet`` argparse tree (called at plugin load time)."""
     subs = subparser.add_subparsers(dest="meet_command")
     p = {name: subs.add_parser(name, help=help_) for name, help_ in _SUBCOMMAND_HELP}
     p["install"].add_argument("--realtime", action="store_true",

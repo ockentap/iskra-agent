@@ -436,7 +436,7 @@ class GatewayChatView:
         self.pending = snapshot.get('pending', [])
         self.model = str((snapshot.get('info') or {}).get('model') or self.model).split('/')[-1]
         if not self.finite:
-            # Bare `hermes -c` in this terminal continues the session it is now on, as the
+            # Bare `iskra -c` in this terminal continues the session it is now on, as the
             # in-process CLI re-wrote its breadcrumb on every session switch.
             from hermes_cli.terminal_breadcrumbs import write_breadcrumb
             await asyncio.to_thread(write_breadcrumb, self.session_id)
@@ -541,7 +541,7 @@ class GatewayChatView:
         if oneshot and self.unknown_admissions():
             # A new admission would queue behind the unknown row and never run; refuse BEFORE
             # submitting so nothing is left queued for the next interactive resume to find.
-            return self._detach(f"Your message was not sent. To continue, run `hermes sessions discard "
+            return self._detach(f"Your message was not sent. To continue, run `iskra sessions discard "
                                 f"{self.session_id} --yes`, or resume this session in an interactive chat "
                                 "and /discard the paused turn there; then send it again.")
         renderer = asyncio.create_task(self.render())

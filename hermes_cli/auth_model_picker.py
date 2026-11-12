@@ -385,7 +385,7 @@ def _prompt_model_selection(
             return None
 
 
-_model_choice_saves = 0  # bumped per saved pick; `hermes model` reads it to know a pick landed
+_model_choice_saves = 0  # bumped per saved pick; `iskra model` reads it to know a pick landed
 
 
 def model_choice_save_count() -> int:

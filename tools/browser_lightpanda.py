@@ -357,7 +357,7 @@ def lightpanda_engine_status() -> tuple[bool, str]:
 
     ``(False, "")`` when the engine isn't lightpanda; else the reason names the setting shadowing it, in
     session-creation precedence, with config-only gates (no network I/O) for ``/browser status`` and
-    ``hermes doctor``."""
+    ``iskra doctor``."""
     if not using_lightpanda_engine():
         return False, ""
     from tools.browser_session_cdp import get_cdp_override_raw

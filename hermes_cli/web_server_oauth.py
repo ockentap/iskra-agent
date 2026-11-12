@@ -139,7 +139,7 @@ _OAUTH_PROVIDER_CATALOG: tuple[dict[str, Any], ...] = (
     # Anthropic / Claude entries sit at the bottom. Deliberately flow == "external": an
     # in-dashboard Connect button would let a scriptable HTTP endpoint mint Claude Pro/Max
     # subscription tokens outside Anthropic's own client, against its OAuth usage policies.
-    # Login works via the terminal (`hermes auth add anthropic`) or a plain API key.
+    # Login works via the terminal (`iskra auth add anthropic`) or a plain API key.
     {"id": "anthropic", "name": "Anthropic Account", "flow": "external", "cli_command": "hermes auth add anthropic",
      "docs_url": "https://docs.claude.com/en/api/getting-started", "status_fn": _anthropic_oauth_status},
     {"id": "claude-code", "name": "Anthropic OAuth: Required Extra Usage Credits to Use Subscription",
@@ -252,7 +252,7 @@ def _nous_sign_in_poller(session_id: str, sess: dict[str, Any]) -> None:
 def _minimax_poller(session_id: str, sess: dict[str, Any]) -> None:
     """MiniMax poller: PKCE-style ``code_verifier`` + ``user_code`` instead of Nous's
     ``device_code``. Builds the same auth_state as the CLI's ``_minimax_oauth_login`` and persists
-    via ``_minimax_save_auth_state`` so the system ends up as after ``hermes auth add minimax-oauth``.
+    via ``_minimax_save_auth_state`` so the system ends up as after ``iskra auth add minimax-oauth``.
     Region is fixed to "global" here; cn-region operators use the CLI's ``--region cn``."""
     from hermes_cli.web_server_profiles import _profile_scope
     from hermes_cli.auth import (
@@ -329,7 +329,7 @@ def _xai_device_poller(session_id: str, sess: dict[str, Any]) -> None:
             tokens, discovery=discovery, auth_mode="oauth_device_code", set_active=False,
             last_refresh=datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         )
-        # Mirror `hermes auth add xai-oauth`: first credential may become active; never overwrite.
+        # Mirror `iskra auth add xai-oauth`: first credential may become active; never overwrite.
         mark_provider_active_if_unset("xai-oauth")
         # The singleton write is the source of truth (the pool load seeds it as the canonical
         # ``device_code`` entry). Do NOT add a parallel ``manual:dashboard_*`` pool entry — it

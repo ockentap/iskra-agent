@@ -163,6 +163,25 @@ LITERAL_RULES: list[Rule] = [
 REGEX_RULES: list[RegexRule] = [
     RegexRule("hermes_cli/**/*.py", r'prog="hermes(?=[ "]?)', 'prog="iskra',
               name="cli: argparse prog names"),
+    # Copy that tells the user which command to run. Only backticked command
+    # forms are touched: `hermes <sub>`, `hermes`, `hermes-agent`. Module
+    # references such as `hermes_cli` keep their underscore and never match.
+    RegexRule("agent/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="copy: agent command hints"),
+    RegexRule("hermes_cli/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="copy: cli command hints"),
+    RegexRule("gateway/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="copy: gateway command hints"),
+    RegexRule("tools/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="copy: tools command hints"),
+    RegexRule("cron/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="copy: cron command hints"),
+    RegexRule("tui_gateway/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="copy: tui command hints"),
+    RegexRule("acp_adapter/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="copy: acp command hints"),
+    RegexRule("plugins/**/*.py", r"`hermes(?=[ `\-])", "`iskra",
+              name="copy: plugin command hints"),
 ]
 
 
@@ -253,10 +272,10 @@ def run(apply: bool) -> int:
                     _write(path, new_text)
         if hits:
             report.append((APPLIED, rule.label(), f"{hits} occurrence(s)"))
-        elif any('prog="iskra' in _read(p) for p in files):
+        elif any(rule.replacement in _read(p) for p in files):
             report.append((OK, rule.label(), ""))
         else:
-            report.append((DRIFT, rule.label(), "no prog= found"))
+            report.append((DRIFT, rule.label(), "no upstream text found"))
 
     status_path = ROOT / "hermes_cli/status.py"
     if status_path.exists():

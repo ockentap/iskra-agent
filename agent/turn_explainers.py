@@ -257,9 +257,9 @@ class TurnExplainersMixin:
             from hermes_constants import display_hermes_home, profile_cli_selector
             from hermes_state_errors import STORAGE_RECOVERY_DOCS_URL
 
-            # Copy-pasteable, so pin every `hermes` command to the profile whose store failed:
+            # Copy-pasteable, so pin every `iskra` command to the profile whose store failed:
             # a multi-profile backend (Desktop serve) hosts sessions whose state.db is NOT the
-            # process default, and a bare `hermes` follows active_profile (#105887).
+            # process default, and a bare `iskra` follows active_profile (#105887).
             fill: dict[str, str] = {
                 "home": display_hermes_home(), "profile_arg": profile_cli_selector(),
                 "recovery_docs": STORAGE_RECOVERY_DOCS_URL, "db_path": "", "backups_dir": "",

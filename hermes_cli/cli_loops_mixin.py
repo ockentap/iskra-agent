@@ -291,7 +291,7 @@ class CLILoopsMixin:
                     print(line)
             return
         try:
-            # Discover from disk (bundled + user) like `hermes plugins list`, so
+            # Discover from disk (bundled + user) like `iskra plugins list`, so
             # installed-but-not-enabled plugins show up; the plugin manager only knows
             # *loaded* plugins and made fresh installs look like "nothing installed".
             from hermes_cli.plugins_cmd import (
@@ -301,7 +301,7 @@ class CLILoopsMixin:
             disabled = _get_disabled_set()
 
             # `/plugins` is a quick glance: user plugins only, bundled ones summarized
-            # on one line (full catalog behind `hermes plugins list`).
+            # on one line (full catalog behind `iskra plugins list`).
             user_entries = [e for e in entries if e[3] != "bundled"]
             bundled_count = len(entries) - len(user_entries)
             if not user_entries:

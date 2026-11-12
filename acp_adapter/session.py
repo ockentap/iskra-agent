@@ -586,7 +586,7 @@ class SessionManager:
         try:
             agent = AIAgent(**kwargs)
         except Exception as exc:
-            # The bare-AIAgent fallback dies with "No LLM provider configured. Run `hermes setup`" on a
+            # The bare-AIAgent fallback dies with "No LLM provider configured. Run `iskra setup`" on a
             # machine that is configured and was working a call earlier; the swallowed resolution
             # failure (revoked OAuth, disabled provider, ...) is the actionable error (#91090).
             if resolve_error is not None:

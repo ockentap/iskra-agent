@@ -901,7 +901,7 @@ class CLIModelSwitchMixin:
                 self._close_model_picker()
                 return
             provider_data = providers[selected]
-            # Curated list (same as `hermes model` / gateway pickers); live catalog only when
+            # Curated list (same as `iskra model` / gateway pickers); live catalog only when
             # it is empty (user-defined endpoints, per-resource providers such as azure-foundry).
             # Disk-cached like the gateway pickers: the live probe can walk several api-version
             # fallbacks with a 6 s timeout each, which must not block the REPL on every select.

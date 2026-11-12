@@ -101,7 +101,7 @@ MirroredValue = bool | Literal["shared"]
 
 @dataclass(frozen=True)
 class ProfileCreateReceipt:
-    """What ``hermes profile create`` prints about a new profile, read on the machine (and in the
+    """What ``iskra profile create`` prints about a new profile, read on the machine (and in the
     profile scope) that made it: built after a local create, or sent by the gateway that made it
     (``profiles.create`` with ``report``). The contract uses this type itself; a stdlib dataclass, so a
     local create never loads pydantic. A client treats a receipt missing a field, or with a wrong type,
@@ -177,7 +177,7 @@ class ProfileCreateReceipt:
 
 
 #: What a create refuses with: a bad request, nothing made. Every surface maps these to its "refused"
-#: answer (``profiles.create`` 4062, ``hermes profile create``'s ``Error:``, ``POST /api/profiles`` 400);
+#: answer (``profiles.create`` 4062, ``iskra profile create``'s ``Error:``, ``POST /api/profiles`` 400);
 #: a subclass travels as the nearest of these (``refusal``), so a ``JSONDecodeError`` from a broken
 #: source config stays a refusal.
 CREATE_REFUSALS: tuple[type[Exception], ...] = (FileExistsError, FileNotFoundError, ValueError)
@@ -262,7 +262,7 @@ def provision_profile(request: ProfileCreateRequest) -> ProvisionResult:
             # tokens); the copy reads the default profile's for those providers instead.
             result.warnings.append(
                 f"subscription logins not carried over ({', '.join(kept_root)}): the profile uses the default "
-                f"profile's; run `hermes -p {request.name} auth add <provider>` to sign it in separately")
+                f"profile's; run `iskra -p {request.name} auth add <provider>` to sign it in separately")
     if request.model and request.provider:
         result.model_set = step("model", lambda: _pin_model(path, request, result), default=False)
     elif request.mirror_credentials:
@@ -282,7 +282,7 @@ def provision_profile(request: ProfileCreateRequest) -> ProvisionResult:
 
 def write_alias(name: str) -> tuple[Optional[Path], Optional[str]]:
     """``(wrapper path, collision)`` for the ``~/.local/bin/<name>`` wrapper: written on this machine,
-    with this process's PATH and ``hermes``. Exactly one is set unless the write itself failed."""
+    with this process's PATH and ``iskra``. Exactly one is set unless the write itself failed."""
     from hermes_cli.profiles import check_alias_collision, create_wrapper_script
     collision = check_alias_collision(name)
     if collision:
@@ -381,7 +381,7 @@ def write_profile_mcp_servers(profile_dir: Path, servers: list) -> int:
                 name, entry, bearer_token = normalize_mcp_server_create(server)
             except ValueError as exc:
                 display_name = (server.name or "").strip() or "<unnamed>"
-                # The dashboard's logger: hermes_logging routes it to gui.log / `hermes logs --component gui`.
+                # The dashboard's logger: hermes_logging routes it to gui.log / `iskra logs --component gui`.
                 logging.getLogger("hermes_cli.web_server").warning(
                     "Profile-create: skipping MCP server '%s': %s", display_name, exc)
                 continue

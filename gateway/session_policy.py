@@ -80,7 +80,7 @@ SELECTION_KEYS = ('default', 'provider', 'base_url', 'api_mode', 'selection_prof
 BYPASS_FIELDS = ('safe_mode', 'ignore_user_config')
 _ACTIVE_POLICY: ContextVar = ContextVar('local_session_policy', default=None)
 _TURN_PROFILE: ContextVar = ContextVar('follow_profile_read', default=None)  # (policy, live) for a turn
-# Creation label -> agent surface. ``tool`` (third-party integrations, ``hermes chat --source tool``) and
+# Creation label -> agent surface. ``tool`` (third-party integrations, ``iskra chat --source tool``) and
 # ``oneshot`` (finite ``chat -q`` / ``-z`` runs) run as the CLI but keep their own stored label, so human
 # pickers hide them (INTERNAL_LISTING_SOURCES).
 SURFACES = {'cli': 'cli', 'tui': 'tui', 'gui': 'desktop', 'acp': 'acp', 'tool': 'cli', 'oneshot': 'cli'}
@@ -319,7 +319,7 @@ class LocalSessionPolicy:
 
     @property
     def yolo(self):
-        """`hermes chat --yolo`: this session's dangerous-command approvals are bypassed, exactly the
+        """`iskra chat --yolo`: this session's dangerous-command approvals are bypassed, exactly the
         scope `/yolo` gives a messaging chat; never the process-wide HERMES_YOLO_MODE."""
         return json.loads(self.request_json).get('yolo', False)
 
@@ -342,7 +342,7 @@ class LocalSessionPolicy:
 
     @property
     def verbose(self):
-        """`hermes chat -v`: the session's agent runs with quiet_mode off, so its status lines reach the
+        """`iskra chat -v`: the session's agent runs with quiet_mode off, so its status lines reach the
         viewer (``agent.print``) as main's in-process verbose agent printed them."""
         return json.loads(self.request_json).get('verbose', False)
 
@@ -1179,7 +1179,7 @@ def bind_turn_workspace(policy, task_id):
 
     The client's cwd (or ``--in DIR``) is frozen into the policy at admission, but the terminal tool
     mounts ``resolve_task_overrides(task_id)['cwd']`` into a per-session Docker container. Before the
-    one-gateway runtime each ``hermes chat`` was its own process with its own ``TERMINAL_CWD``; now the
+    one-gateway runtime each ``iskra chat`` was its own process with its own ``TERMINAL_CWD``; now the
     turn runs here, so register it under the turn's own task id (inside the turn's routed scope, which
     qualifies the key). Docker mounting the host cwd only: the local backend already runs in the
     policy's ``TERMINAL_CWD``, and ssh and the other sandboxes keep their own cwd. Re-registered only

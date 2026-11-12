@@ -9,8 +9,8 @@ fix (an Enter pressed during startup could save it unseen), so that profile is a
 the reason, and any response (Esc or dismiss included) settles it for good. A collect-only answer
 from before the offer dropped that choice stays decided: nothing is sent, and it is not asked again.
 Desktop paints the offer as a composer strip (``consent-strip.tsx`` over the ``shared_metrics.*``
-RPCs). The terminal asks at the end of every ``hermes setup`` flow and, for a profile that never
-answered, once before an interactive ``hermes`` / ``hermes --tui`` chat (which also covers the
+RPCs). The terminal asks at the end of every ``iskra setup`` flow and, for a profile that never
+answered, once before an interactive ``iskra`` / ``iskra --tui`` chat (which also covers the
 dashboard's Chat tab, a PTY-hosted TUI). The messaging gateway never asks: a chat participant is
 not the install owner.
 """
@@ -135,20 +135,20 @@ def offer_consent(config: dict | None = None, *, reask: bool = False) -> bool:
     )
     if idx < 0 and reask:
         save_consent(False, False, config)
-        print_info("Kept \"No thanks\". Change it any time with `hermes setup telemetry`.")
+        print_info("Kept \"No thanks\". Change it any time with `iskra setup telemetry`.")
         return True
     if idx < 0:
-        print_info("Not answered; Hermes will ask again. Decide any time with `hermes setup telemetry`.")
+        print_info("Not answered; Hermes will ask again. Decide any time with `iskra setup telemetry`.")
         return False
     _, enabled, send = OFFER_CHOICES[idx]
     save_consent(enabled, send, config)
     outcome = "sent to Nous once a day" if send else "off"
-    print_success(f"Shared metrics {outcome}. Change it any time with `hermes setup telemetry`.")
+    print_success(f"Shared metrics {outcome}. Change it any time with `iskra setup telemetry`.")
     return True
 
 
 def offer_consent_if_undecided(config: dict | None = None) -> None:
-    """The end-of-setup offer: every ``hermes setup`` flow funnels through the setup-completed
+    """The end-of-setup offer: every ``iskra setup`` flow funnels through the setup-completed
     record, so this one call covers Quick, Full, Blank Slate, Portal and ``--quick``."""
     from hermes_cli.config import is_managed
     from hermes_cli.setup import is_noninteractive

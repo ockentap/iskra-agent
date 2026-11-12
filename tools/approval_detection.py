@@ -583,7 +583,7 @@ DANGEROUS_PATTERNS = [
     (r'\b(?:rg|sort|ag|man)\b[^;|&\n]*(?<!\S)--(?:pre|hostname-bin|compress-program|pager|html)(?:\{|[*?\[])',
      "dynamic shell word may expand to arbitrary program execution flag"),
     # Gateway lifecycle: stopping/restarting the gateway kills all running agents. Global flags
-    # between `hermes` and `gateway` (`hermes -p ade gateway restart`) are allowed so a profile flag can't slip past.
+    # between `iskra` and `gateway` (`iskra -p ade gateway restart`) are allowed so a profile flag can't slip past.
     (r'\bhermes\s+' + _GLOBAL_FLAGS + r'gateway\s+(stop|restart)\b', "stop/restart hermes gateway (kills running agents)"),
     (r'\bhermes\s+update\b', "hermes update (restarts gateway, kills running agents)"),
     # Docker/Podman daemon redirect — global flags or env that point the CLI at a DIFFERENT (often remote) daemon:

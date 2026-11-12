@@ -1,4 +1,4 @@
-"""CLI handlers for the ``hermes proxy`` subcommand."""
+"""CLI handlers for the ``iskra proxy`` subcommand."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ def _err(msg: str) -> None:
 def cmd_proxy_start(args: Any) -> int:
     """Run the proxy server in the foreground."""
     if not AIOHTTP_AVAILABLE:
-        _err("hermes proxy requires aiohttp. Run `hermes setup` to install it.")
+        _err("hermes proxy requires aiohttp. Run `iskra setup` to install it.")
         return 1
     provider = getattr(args, "provider", None) or "nous"
     try:
@@ -93,7 +93,7 @@ _SUBCOMMANDS = {
 
 
 def cmd_proxy(args: Any) -> int:
-    """Dispatch ``hermes proxy <subcommand>``; no/unknown subcommand prints the short help."""
+    """Dispatch ``iskra proxy <subcommand>``; no/unknown subcommand prints the short help."""
     handler = _SUBCOMMANDS.get(getattr(args, "proxy_command", None))
     if handler is not None:
         return handler(args)

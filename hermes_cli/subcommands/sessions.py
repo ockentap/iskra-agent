@@ -1,4 +1,4 @@
-"""``hermes sessions`` subcommand parser."""
+"""``iskra sessions`` subcommand parser."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ def _flag(parser, *names, help, **kw):
 
 
 def cmd_sessions_lazy(args, **kwargs):
-    """``hermes sessions`` handler; sessions_cmd imports only when the subcommand runs."""
+    """``iskra sessions`` handler; sessions_cmd imports only when the subcommand runs."""
     from hermes_cli.sessions_cmd import cmd_sessions
 
     return cmd_sessions(args, **kwargs)

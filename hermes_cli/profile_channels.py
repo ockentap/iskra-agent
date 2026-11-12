@@ -1,7 +1,7 @@
 """Messaging-channel settings a profile clone must NOT inherit.
 
 A ``--clone``d profile that keeps the source's bot tokens, allowlists and platform state makes two
-gateways fight over one bot (standalone) or blocks ``hermes gateway migrate --multiplex`` with a
+gateways fight over one bot (standalone) or blocks ``iskra gateway migrate --multiplex`` with a
 duplicate-credential finding per platform.
 
 The inventory is OWNERSHIP-based and evaluated in the SOURCE profile's plugin scope: every adapter
@@ -523,7 +523,7 @@ def _config_platform_tokens(config_path: Path) -> dict[str, str]:
 def shared_channel_credentials(profile_dir: Path, source_dir: Path) -> list[str]:
     """Platforms whose CONNECTING credential (bot token / app id / account) in ``profile_dir`` is
     byte-identical to ``source_dir``'s — the bots that will collide. Pure file reads: no secret
-    manager, no gateway config load, so ``hermes profile list`` can afford it per profile."""
+    manager, no gateway config load, so ``iskra profile list`` can afford it per profile."""
     wanted = credential_env_keys()
     mine = _env_values(profile_dir / ".env", wanted)
     theirs = _env_values(source_dir / ".env", wanted)
@@ -539,7 +539,7 @@ def shared_credential_warning(profile: str, platforms: list[str], source: str = 
         f"⚠ Profile '{profile}' shares its {', '.join(platforms)} credential with {source}: the bot can "
         f"only belong to one profile. Give '{profile}' its own bot (hermes -p {profile} setup, or the "
         f"dashboard Messaging page) or remove the token from '{profile}'; a multiplexed gateway parks "
-        f"the duplicate and `hermes gateway migrate --multiplex` refuses until it is gone."
+        f"the duplicate and `iskra gateway migrate --multiplex` refuses until it is gone."
     )
 
 

@@ -4967,7 +4967,7 @@ class DiscordAdapter(DiscordAuthorizationMixin, DiscordMediaMixin, DiscordThread
         """Numeric IDs from connect-time username resolution.
         The env mirror of ``_allowed_user_ids`` doesn't survive the per-turn .env hot-reload, so the
         gateway authz layer unions these in. Only IDs resolved from username entries: numeric entries
-        are read live from the reloaded env, so one removed there (``hermes pairing revoke``, a hand
+        are read live from the reloaded env, so one removed there (``iskra pairing revoke``, a hand
         edit) must not stay authorized from this connect-time snapshot until restart."""
         return set(self._username_resolved_ids)
 
@@ -5739,7 +5739,7 @@ class DiscordAdapter(DiscordAuthorizationMixin, DiscordMediaMixin, DiscordThread
         self, chat_id: str, prompt: str, default: str = "", session_key: str = "",
         metadata: Optional[dict[str, Any]] = None,
     ) -> SendResult:
-        """Yes/No prompt for the gateway ``/update`` watcher when ``hermes update --gateway`` needs input."""
+        """Yes/No prompt for the gateway ``/update`` watcher when ``iskra update --gateway`` needs input."""
         def _build(_channel):
             default_hint = t("platform.discord.prompt.default_hint", default=default) if default else ""
             update_title = t("platform.discord.prompt.update_title")
@@ -6418,7 +6418,7 @@ def _define_discord_view_classes() -> None:
             await self._resolve(interaction, "cancel", discord.Color.greyple(), "platform.discord.slash_confirm.resolved_cancel")
 
     class UpdatePromptView(_HermesView):
-        """Yes/No buttons for ``hermes update`` prompts; the answer is written to
+        """Yes/No buttons for ``iskra update`` prompts; the answer is written to
         ``.update_response`` for the detached update process to pick up."""
 
         is_update_prompt = True  # opener_refusal binds it to the /update sender
@@ -6826,7 +6826,7 @@ if DISCORD_AVAILABLE:
 
 # ── Standalone (out-of-process) sender ────────────────────────────────────────
 # Used by ``tools/send_message_tool._send_via_adapter`` when no live DiscordAdapter is in this
-# process (e.g. standalone ``hermes cron``); same forum/thread/multipart logic via Discord REST.
+# process (e.g. standalone ``iskra cron``); same forum/thread/multipart logic via Discord REST.
 
 # Process-local channel-type probe cache: avoids re-probing every send when the directory cache misses.
 _DISCORD_CHANNEL_TYPE_PROBE_CACHE: dict[str, bool] = {}
@@ -7244,7 +7244,7 @@ def register(ctx) -> None:
         ensure_deps_fn=check_discord_requirements,
         is_connected=_is_connected,
         required_env=["DISCORD_BOT_TOKEN"],
-        install_hint="Run `hermes setup` to install Discord support.",
+        install_hint="Run `iskra setup` to install Discord support.",
         setup_fn=interactive_setup,
         # YAML→env config bridge — owns the translation of ``config.yaml`` ``discord:`` keys
         # (require_mention, free_response_channels, auto_thread, free_response_auto_thread,

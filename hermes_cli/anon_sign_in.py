@@ -23,7 +23,7 @@ UPGRADE_SERVICE_BUSY = ("Signing in couldn't finish because the Nous service is 
 UPGRADE_SERVICE_UNREACHABLE = ("The Nous service couldn't be reached to finish signing you in. "
                                "Check your internet connection and try again. Your session is still here.")
 
-UPGRADE_NO_DEFAULT_TERMINAL = "No default model is set yet; run `hermes model` to pick one."
+UPGRADE_NO_DEFAULT_TERMINAL = "No default model is set yet; run `iskra model` to pick one."
 UPGRADE_NO_DEFAULT_CHAT = "No default model is set yet; run /model to pick one."
 UPGRADE_WAITING = "Waiting for sign-in..."
 UPGRADE_WAITING_UP_TO = "Waiting for sign-in, up to {minutes}."
@@ -50,7 +50,7 @@ def format_wait_line(expires_in: int) -> str:
 #
 # One sign-in composition (:func:`run_sign_in`) yields these; every surface is a renderer over them.
 # Each state carries its own user copy, so no renderer ever maps a reason to a string: ``.copy`` is
-# the in-chat form (never a raw exception, a URL or a ``hermes`` verb) and ``.copy_terminal`` the
+# the in-chat form (never a raw exception, a URL or a ``iskra`` verb) and ``.copy_terminal`` the
 # form a top-level terminal command prints.
 
 

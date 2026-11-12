@@ -10,7 +10,7 @@ Design notes:
 - Follows the repo's "default frictionless, 0600 files OK" policy: the key
   file and vault file are created 0600 under ``<HERMES_HOME>/vault/``.
   ``vault.key_storage: keychain`` (opt-in) keeps the key in the OS keychain
-  instead (agent/vault_keychain.py); ``hermes vault key migrate`` moves it.
+  instead (agent/vault_keychain.py); ``iskra vault key migrate`` moves it.
 - Ported design (opaque-handle vault fill) from Merit-Systems/OpenInstinct
   (MIT): lib/manager/server/secret-store.ts + vault services.
 - Three item kinds: ``login`` (password-only secret), ``payment`` (card fields) and
@@ -43,7 +43,7 @@ VAULT_KINDS = ("login", "payment", "address")
 LOGIN_IDENTIFIER_TYPES = ("email", "phone", "username")
 
 # Canonical secret-payload fields per non-login kind. Each maps to the WHATWG autocomplete token the
-# browser fill targets (agent/vault_login_classifier.py); the Desktop Add dialog and `hermes vault add`
+# browser fill targets (agent/vault_login_classifier.py); the Desktop Add dialog and `iskra vault add`
 # both write these names, so the fill never has to guess a user's ad-hoc field naming.
 PAYMENT_FIELDS = {
     "card_number": "cc-number", "cardholder_name": "cc-name", "exp_month": "cc-exp-month",
@@ -239,7 +239,7 @@ class VaultStore:
     @contextmanager
     def _locked(self):
         """Serialize read-modify-write cycles across threads AND processes: the Desktop gateway, a CLI
-        `hermes vault add` and a TUI slash worker all write the same ``vault.json.enc``; two unlocked
+        `iskra vault add` and a TUI slash worker all write the same ``vault.json.enc``; two unlocked
         writers would drop each other's items."""
         with _LOCK:
             self._ensure_dir()
@@ -300,16 +300,16 @@ class VaultStore:
 
     def _missing_key_message(self, why: str) -> str:
         return (f"The vault key could not be found ({why}). vault.json.enc in {self._base} was left untouched. "
-                "If this profile came from another machine, run `hermes vault key migrate --to file` there and "
+                "If this profile came from another machine, run `iskra vault key migrate --to file` there and "
                 "copy its vault.key next to vault.json.enc; if the keychain entry was deleted, restore it from a "
-                "keychain backup. `hermes vault key` shows where the key is expected. To start over instead, "
+                "keychain backup. `iskra vault key` shows where the key is expected. To start over instead, "
                 "delete vault.json.enc (its saved items are lost).")
 
     def _conflicting_key_message(self) -> str:
         # Never overwrite or delete the other copy here: it may be the only key that opens the vault.
         return (f"{self._key_path} does not decrypt vault.json.enc, so the key was not moved and nothing "
                 "was deleted. If the vault's key is in the OS keychain, move this vault.key aside and run "
-                "`hermes vault key` again.")
+                "`iskra vault key` again.")
 
     def _create_key(self) -> bytes:
         from cryptography.fernet import Fernet
@@ -358,7 +358,7 @@ class VaultStore:
         except kc.KeychainUnavailable as exc:
             raise VaultError(
                 f"its key is in the OS keychain, which this session cannot use ({exc}). Clone from a session "
-                "that can reach the keychain, or run `hermes vault key migrate --to file` on the source first.") from exc
+                "that can reach the keychain, or run `iskra vault key migrate --to file` on the source first.") from exc
         try:
             kc.write_ref(self._keyref_path, mine)
         except OSError:
@@ -409,7 +409,7 @@ class VaultStore:
     # -- key storage ---------------------------------------------------------
 
     def key_location(self) -> dict[str, Any]:
-        """Where this vault's key lives (never the key itself), for ``hermes vault key``."""
+        """Where this vault's key lives (never the key itself), for ``iskra vault key``."""
         from agent import vault_keychain as kc
 
         ref = kc.read_ref(self._keyref_path)

@@ -47,7 +47,7 @@ class GatewaySessionAgentMixin:
         if policy:
             return policy.ignore_rules
         platforms_cfg = (self._ctx.user_config.get("gateway") or {}).get("platforms") or {}
-        # ``hermes gateway setup`` writes ``gateway.platforms`` as a LIST of enabled platform names,
+        # ``iskra gateway setup`` writes ``gateway.platforms`` as a LIST of enabled platform names,
         # not a dict; treat any non-dict shape as "no per-platform overrides" rather than crashing.
         if not isinstance(platforms_cfg, dict):
             return False

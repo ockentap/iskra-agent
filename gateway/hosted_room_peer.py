@@ -315,7 +315,7 @@ def served_room_link_endpoint(target_profile: str) -> dict[str, Any]:
     listener's ``/p/<profile>`` mirror, so every lender call runs in that profile's request scope
     and its grant (``target_profile``) never answers on another profile's route. The root config's
     listener is inherited only by a multiplexed gateway, whose shared listener serves the mirror: a
-    single-profile ``hermes -p <profile> gateway run`` is its own process, and the root gateway
+    single-profile ``iskra -p <profile> gateway run`` is its own process, and the root gateway
     neither serves that profile nor holds its grant secret."""
     if target_profile == "default":
         return local_room_link_endpoint()

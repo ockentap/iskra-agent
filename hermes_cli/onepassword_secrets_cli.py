@@ -1,4 +1,4 @@
-"""CLI handlers for ``hermes secrets onepassword ...``.
+"""CLI handlers for ``iskra secrets onepassword ...``.
 
 Unlike Bitwarden, the ``op`` binary is NOT auto-installed: 1Password publishes the CLI through OS
 package managers and signed installers, so Hermes expects an already-installed, already-
@@ -282,7 +282,7 @@ def cmd_token(args: argparse.Namespace) -> int:
         save=save_env_value, env_path=get_env_path, clear_caches=op_src.clear_caches,
         disabled_note=None if op_cfg.get("enabled") else (
             "[yellow]Note: the 1Password integration is currently disabled — "
-            "run `hermes secrets onepassword setup` to turn it on.[/yellow]"
+            "run `iskra secrets onepassword setup` to turn it on.[/yellow]"
         ),
     )
 
@@ -297,7 +297,7 @@ def cmd_sync(args: argparse.Namespace) -> int:
     if not references:
         console.print(
             "[yellow]No op:// references configured.  Add one with "
-            "`hermes secrets onepassword set ENV_VAR \"op://…\"`.[/yellow]"
+            "`iskra secrets onepassword set ENV_VAR \"op://…\"`.[/yellow]"
         )
         return 0
 

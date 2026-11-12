@@ -93,7 +93,7 @@ def _effective_provider_label() -> str:
 
 
 def _estop_status_line():
-    """One-line pause banner for `hermes status`, or None when not paused."""
+    """One-line pause banner for `iskra status`, or None when not paused."""
     try:
         from agent.estop import get_state
     except ImportError:
@@ -102,7 +102,7 @@ def _estop_status_line():
     if state is None:
         return None
     reason = state.get("reason")
-    return f"⏸️  PAUSED (global emergency stop{f' — reason: {reason}' if reason else ''}; `hermes resume` to lift)"
+    return f"⏸️  PAUSED (global emergency stop{f' — reason: {reason}' if reason else ''}; `iskra resume` to lift)"
 
 
 # --- Data tables driving the per-section renderers -------------------------
@@ -178,7 +178,7 @@ def _render_terminal(ctx):
         _kv("Processes:", "live processes do not survive cleanup, snapshots, or sandbox recreation")
     else:
         # Plugin-registered terminal backends: show availability via the provider's doctor rows
-        # (fail-soft — never break `hermes status`).
+        # (fail-soft — never break `iskra status`).
         try:
             from hermes_cli.plugins import discover_plugins
             discover_plugins()
@@ -391,7 +391,7 @@ def _summary_row(label: str, probe, empty: str) -> None:
 
 
 def _render_summary(ctx):
-    """Default ``hermes status``: one line per component; ``--full`` prints every section."""
+    """Default ``iskra status``: one line per component; ``--full`` prints every section."""
     _render_header(ctx)
     print()
     _load_ctx_config(ctx)
@@ -409,7 +409,7 @@ def _render_summary(ctx):
     print()
 
 
-# Print order of `hermes status`; each renderer takes the shared _StatusContext.
+# Print order of `iskra status`; each renderer takes the shared _StatusContext.
 _SECTIONS = (
     _render_header, _render_environment, _render_api_keys, _render_auth_providers, _render_nous_gateway,
     _render_apikey_providers, _render_terminal, _render_platforms, _render_gateway, _render_cron,

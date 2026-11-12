@@ -405,7 +405,7 @@ def _is_aws_sdk(pconfig) -> bool:
 
 def _live_or_curated_ids(slug: str, curated: dict, *fallback_keys: str, merge_models_dev: bool = True,
                          non_blocking: bool = False) -> list:
-    """``cached_provider_model_ids`` (the SAME disk-cached list ``hermes model`` builds), falling
+    """``cached_provider_model_ids`` (the SAME disk-cached list ``iskra model`` builds), falling
     back to the curated list (merged with models.dev for preferred providers) when live is empty.
     ``non_blocking`` (GUI read path) reads the disk cache only — a provider that is slow or down
     contributes its curated list instead of stalling the whole picker (#114215)."""

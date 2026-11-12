@@ -66,7 +66,7 @@ def _start_legacy_parent_watchdog(parent_pid: int, *, poll_s: float = 2.0, grace
 
 def _prepare_slash_worker_runtime() -> None:
     """Start bounded MCP discovery before HermesCLI snapshots tools: each slash_worker child is its
-    own process — the parent ``hermes serve`` discovery thread does not populate this registry.
+    own process — the parent ``iskra serve`` discovery thread does not populate this registry.
 
     See #61891.
     """

@@ -23,12 +23,12 @@ _POLICY = ("model", "provider", "reasoning", "toolsets", "max_turns", "base_url"
            "yolo", "safe_mode", "ignore_user_config", "skills", "checkpoints", "accept_hooks", "pass_session_id")
 # Where each refused option lives now; the refusal names it so the user is not left guessing.
 _RELOCATED = {
-    "image": "`hermes --tui` or the Desktop app to attach the image",
-    "worktree": "`hermes --tui -w`",
-    "w": "`hermes --tui -w`",
+    "image": "`iskra --tui` or the Desktop app to attach the image",
+    "worktree": "`iskra --tui -w`",
+    "w": "`iskra --tui -w`",
     "no_restore_cwd": "`--in <dir>` (the gateway keeps the session's frozen cwd)",
     "run_budget": "`agent.run_budget_seconds` in config.yaml",
-    "verbose": "`hermes logs --follow`, or `hermes chat --tui -v`",
+    "verbose": "`iskra logs --follow`, or `iskra chat --tui -v`",
     "compact": "`display.compact: true` in config.yaml",
     "create-if-missing without -c <name>": "`-c <name> --create-if-missing`",
 }
@@ -155,8 +155,8 @@ async def _resume_latest(client, args):
     except GatewayClientError as exc:
         if str(exc) != "not_found":
             raise
-        raise GatewayClientError("No previous CLI session to continue. Start a new one with `hermes`, "
-                                 "or list sessions with `hermes sessions list`.") from None
+        raise GatewayClientError("No previous CLI session to continue. Start a new one with `iskra`, "
+                                 "or list sessions with `iskra sessions list`.") from None
 
 
 async def run_gateway_chat(args, emitter=None):

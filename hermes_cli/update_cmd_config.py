@@ -1,4 +1,4 @@
-"""Post-``hermes update`` config-schema migration for the active profile and every sibling.
+"""Post-``iskra update`` config-schema migration for the active profile and every sibling.
 Names are re-imported by ``update_cmd`` (``hermes_cli.update_cmd.<name>`` resolves/monkeypatches);
 origin helpers are imported lazily."""
 
@@ -39,12 +39,12 @@ def _migrate_sibling_profile_configs(notes: dict[str, list[str]] | None = None,
     ``{name: failed_step}`` for each sibling whose ladder stopped. The tuple shape stays for old updaters.
 
     91277 Phase 2 (fleet-wide config migration; #20438/#54926/#79048): the shared checkout serves every
-    profile, but ``hermes update`` historically migrated only the active profile's config — siblings drifted
+    profile, but ``iskra update`` historically migrated only the active profile's config — siblings drifted
     versions until their gateway hit a config the new code couldn't read.
 
     Enumeration matches pre-update snapshots (#66140): default lives at
     ``_get_default_hermes_home()``, not under ``profiles/``, so a named-profile
-    ``hermes update`` still migrates it.
+    ``iskra update`` still migrates it.
     """
     from hermes_cli.config import check_config_version, get_missing_config_fields, migrate_config
     migrated: list[tuple[str, int, int]] = []
@@ -277,7 +277,7 @@ def _check_and_apply_config_migration(
         # Raised only after the independent sibling sweep and snapshot recovery, so the update
         # receipt records a ``config_migration`` follow-up naming every reason.
         raise RuntimeError(f"config migration {'; '.join(owed)}; "
-                           "run `hermes config migrate` to retry the remaining steps") from owed_cause
+                           "run `iskra config migrate` to retry the remaining steps") from owed_cause
 
 
 # {profile: snapshot_id} from this run's pre-update backup, consumed by the per-profile

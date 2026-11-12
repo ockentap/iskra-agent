@@ -109,7 +109,7 @@ def _try_lazy_install_stt() -> bool:
             "Lazy install of faster-whisper failed: %s. "
             "When the message names a restart, this process selected its dependency generation at "
             "boot and a new one cannot take effect in-flight; otherwise the Hermes process user "
-            "may not be able to write to the dependency environment. Run `hermes tools` as the "
+            "may not be able to write to the dependency environment. Run `iskra tools` as the "
             "Hermes installation owner and select Local Whisper under Speech-to-Text.",
             exc)
     return False

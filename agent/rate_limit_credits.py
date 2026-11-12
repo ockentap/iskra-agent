@@ -139,7 +139,7 @@ class RateLimitCreditsMixin:
         except Exception:
             logger.debug("Plan snapshot sync failed", exc_info=True)
         if dev:
-            # HERMES_DEV_CREDITS streams each capture to agent.log (`hermes logs -f`, grep 'credits ▸').
+            # HERMES_DEV_CREDITS streams each capture to agent.log (`iskra logs -f`, grep 'credits ▸').
             spent = self.get_credits_spent_micros()
             logger.info(
                 "credits ▸ remaining=%d (%s) · paid=%s · denom=%s · used=%s · Δspent=%s · age=%s%s",

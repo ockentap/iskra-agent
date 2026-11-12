@@ -112,7 +112,7 @@ TASK_END_REASONS = frozenset({
     "system_aborted", "timed_out", "unknown", "user_cancelled",
 })
 TASK_TERMINATIONS = frozenset({"none", "system_aborted", "timed_out", "unknown", "user_cancelled"})
-# ``one_shot``: a finite CLI run (``hermes -z``, ``hermes chat -q`` off a TTY, ``-Q``, ``--oneshot``) that
+# ``one_shot``: a finite CLI run (``iskra -z``, ``iskra chat -q`` off a TTY, ``-Q``, ``--oneshot``) that
 # answers one prompt and exits — a person's shell line or their script, never the REPL.
 TASK_ENTRYPOINTS = frozenset({
     "api", "background", "batch", "delegated", "gateway_message", "interactive", "one_shot", "other",
@@ -385,9 +385,9 @@ PROCESS_EXIT_MARK = PROCESS_EXIT_METRIC = "hermes.process.exit"
 UPDATE_KINDS = frozenset({"cli", "desktop"})
 UPDATE_OUTCOMES = frozenset({"failed", "noop", "refused", "success"})
 # ``partial``: committed, but interrupted after the commit point or the user's changes stay parked
-# (only `hermes update` receipts; the Desktop RPC keeps UPDATE_OUTCOMES).
+# (only `iskra update` receipts; the Desktop RPC keeps UPDATE_OUTCOMES).
 UPDATE_RUN_OUTCOMES = UPDATE_OUTCOMES | {"partial"}
-# `hermes update` pipeline stages, in pipeline order (the receipt's stage marks use these names).
+# `iskra update` pipeline stages, in pipeline order (the receipt's stage marks use these names).
 UPDATE_STAGE_ORDER = ("plan", "snapshot", "apply", "deps", "build", "restart", "verify")
 UPDATE_STAGES = frozenset(UPDATE_STAGE_ORDER)
 # Desktop's packaged updaters (electron-updater, App Installer, Store) fail at their own steps.
@@ -490,7 +490,7 @@ EXTENSION_REGISTRY_IDS = frozenset({
     "browse-sh", "clawhub", "github", "hermes-index", "lobehub", "official", "skills-sh", "url", "well-known",
 })
 EXTENSION_REGISTRIES = EXTENSION_REGISTRY_IDS | frozenset({"none", "other", "unresolved"})
-# Why a `hermes update` run failed or was refused, derived from the FINAL receipt only
+# Why a `iskra update` run failed or was refused, derived from the FINAL receipt only
 # (shared_metrics_update.update_failure_class); ``none`` unless outcome is failed/refused/partial.
 UPDATE_FAILURE_CLASSES = frozenset({
     "aborted_before_apply",  # fallback: exited before the checkout moved with no reason recorded

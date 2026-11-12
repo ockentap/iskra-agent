@@ -406,7 +406,7 @@ def _open_session_db_at_path(db_path: Path, *, read_only: bool):
         from hermes_state_errors import is_malformed_db_error
         if isinstance(exc, sqlite3.DatabaseError) and is_malformed_db_error(exc):
             # Same structured 503 the analytics routers publish (``corrupt_store_as_status``): a
-            # corrupt image names the repair (`hermes doctor`), never a generic "schema unavailable".
+            # corrupt image names the repair (`iskra doctor`), never a generic "schema unavailable".
             from hermes_cli.web_routers._common import corrupt_store_status
             raise corrupt_store_status(db_path, exc) from exc
         if isinstance(exc, sqlite3.OperationalError) and is_transient_sqlite_error(exc):
@@ -414,7 +414,7 @@ def _open_session_db_at_path(db_path: Path, *, read_only: bool):
         else:
             detail = (
                 "Session store schema is unavailable or corrupt. Start or restart this profile's "
-                "gateway to reconcile it; if it persists, run `hermes doctor` for diagnosis. "
+                "gateway to reconcile it; if it persists, run `iskra doctor` for diagnosis. "
                 "Browsing does not repair the store.")
         raise HTTPException(status_code=503, detail=detail) from exc
 

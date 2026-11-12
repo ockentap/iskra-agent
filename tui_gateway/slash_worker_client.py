@@ -70,7 +70,7 @@ class _SlashWorker:
         # The worker runs the agent → needs provider credentials; tier-1 secrets (gateway/GitHub/
         # infra) are still stripped. A served profile's worker gets THAT profile's home + secrets and
         # none of the launch profile's .env / TERMINAL_* residue, exactly what a standalone
-        # `hermes -p X` would load itself. The launch profile is a profile too: once the process hosts
+        # `iskra -p X` would load itself. The launch profile is a profile too: once the process hosts
         # a second home (multiplex flipped), its worker must name its own home or the fail-closed
         # no-target/no-scope path raises UnscopedSecretError (#115427).
         env = _prepend_tool_paths(served_profile_child_env(

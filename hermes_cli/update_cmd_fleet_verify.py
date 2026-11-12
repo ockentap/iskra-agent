@@ -1,4 +1,4 @@
-"""Post-restart fleet verification for ``hermes update`` (``update_cmd_fleet`` sibling).
+"""Post-restart fleet verification for ``iskra update`` (``update_cmd_fleet`` sibling).
 
 After the restart phase: compare every live gateway's stamped code against the checkout, reconcile
 the pre-update plan against what the restart did, keep the restart owed (a ``gateway_restart``
@@ -130,7 +130,7 @@ def _live_gateway_pids_from_fleet(fleet_rows: list) -> dict:
 
 
 def _gateway_unit_runs_one_of(unit: str, pids: set) -> bool:
-    """Every scope that has ``hermes-gateway*`` *unit* loaded runs it as one of *pids*.
+    """Every scope that has ``iskra-gateway*`` *unit* loaded runs it as one of *pids*.
 
     The restart bookkeeping keeps bare unit names, so it cannot say which scope failed: a loaded twin
     in the other scope that is not proven keeps the failure. Anything unreadable proves nothing.
@@ -238,7 +238,7 @@ def _named_gateways_still_owed() -> bool:
 
 
 def _is_serve_unit(name: object) -> bool:
-    """A serve/dashboard unit by the fleet loop's own name gate (``hermes-serve*``/``hermes-dashboard*``,
+    """A serve/dashboard unit by the fleet loop's own name gate (``iskra-serve*``/``iskra-dashboard*``,
     bare or ``.service``). Anything else it records as failed (gateway units, launchd labels,
     listing-failure markers) is gateway evidence."""
     from hermes_cli.update_cmd_fleet import _is_serve_or_dashboard_unit
@@ -269,7 +269,7 @@ def _split_unaccounted(outcomes) -> tuple[bool, set]:
 # part below starts with it and the gateway part always comes first (#141071).
 SERVE_ONLY_REASON_PREFIX = "serve/dashboard "
 _GATEWAY_OWED_REASON = "gateways may still run pre-update code or were stopped without a successor"
-_GATEWAY_RECOVERY = "; recover with `hermes gateway restart`"
+_GATEWAY_RECOVERY = "; recover with `iskra gateway restart`"
 
 
 def _owed_restart_reason(restart, stopped, *, gateway_owed: bool, stale_serves: set, down_serves: set) -> str:
@@ -277,7 +277,7 @@ def _owed_restart_reason(restart, stopped, *, gateway_owed: bool, stale_serves: 
 
     The step id stays ``gateway_restart`` (Desktop hand-offs parse it); only the text changes. A run
     whose gateways all verified current but whose dashboard unit could not be restarted must not tell
-    the user to run `hermes gateway restart`, which never touches that unit."""
+    the user to run `iskra gateway restart`, which never touches that unit."""
     parts = []
     if gateway_owed:
         parts.append(
@@ -292,7 +292,7 @@ def _owed_restart_reason(restart, stopped, *, gateway_owed: bool, stale_serves: 
     if down_serves:
         parts.append(
             f"{SERVE_ONLY_REASON_PREFIX}process(es) {', '.join(map(str, sorted(down_serves)))} were stopped during the"
-            " update and not brought back; relaunch `hermes serve` / `hermes dashboard`")
+            " update and not brought back; relaunch `iskra serve` / `iskra dashboard`")
     if stale_serves - down_serves:
         parts.append(
             f"{SERVE_ONLY_REASON_PREFIX}process(es) {', '.join(map(str, sorted(stale_serves - down_serves)))} still run"
@@ -333,12 +333,12 @@ def _verify_fleet_after_update(restart, *, _pre_update_plan, _windows_gateway_re
     _stale_serves_owed: set = set()
 
     # Success-path twin of the abort-recovery probe: the restart phase only touches
-    # units, so a unit-less `hermes serve` keeps stale sys.modules. Runs AFTER
+    # units, so a unit-less `iskra serve` keeps stale sys.modules. Runs AFTER
     # dashboard cleanup so a respawned manual dashboard isn't a survivor. Rows feed
     # reconciliation (survivor → owed restart); ``None`` = probe failed, stays fail-closed.
     # Check if any pre-update serve/dashboard runtimes survived on pre-update code generations (#100479).
     # This is the SUCCESS-path twin of the abort-recovery probe above: the restart phase only restarts
-    # units, so an sshd-spawned `serve --isolated` or a manual `hermes serve` (no unit) is left running its
+    # units, so an sshd-spawned `serve --isolated` or a manual `iskra serve` (no unit) is left running its
     # pre-update sys.modules graph — and its cron ticker keeps firing agent jobs that ImportError on every
     # symbol added in the pulled range. The rows also feed the plan-vs-execution reconciliation below, so a
     # survivor is escalated (an owed gateway_restart follow-up) instead of merely printed.
@@ -466,7 +466,7 @@ def _verify_fleet_after_update(restart, *, _pre_update_plan, _windows_gateway_re
     if restart.incomplete:
         # Code is committed (contract C3): a gateway that may still run stale modules is a
         # follow-up, never a failed update. The fleet obligation stays armed, every CLI start
-        # warns about it, and the next `hermes update` retries the restart.
+        # warns about it, and the next `iskra update` retries the restart.
         from hermes_cli.update_receipt import record_followup
         stopped = sorted(getattr(restart, "stopped_unmapped_pids", None) or ())
         record_followup("gateway_restart", _owed_restart_reason(
@@ -500,4 +500,4 @@ def _verify_fleet_after_update(restart, *, _pre_update_plan, _windows_gateway_re
         maybe_auto_migrate_after_update()
     except (Exception, SystemExit) as exc:  # health: allow BLE001 -- a SystemExit here must not fail a committed update
         logger.warning('Multiplex auto-migration after update failed: %s', exc)
-        print(f"  ⚠ Gateway multiplex migration did not finish: {exc} (run `hermes gateway migrate` later)")
+        print(f"  ⚠ Gateway multiplex migration did not finish: {exc} (run `iskra gateway migrate` later)")

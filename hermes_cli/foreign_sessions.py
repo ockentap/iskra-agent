@@ -232,7 +232,7 @@ def _list_sessions(source: str, root: Optional[Path]) -> list[ForeignSession]:
 def import_foreign_session(source: str, path) -> str:
     """Import one foreign session through the gateway's ``session.mutate import`` (the gateway is the
     only state.db writer, #106742); returns the new Hermes session id. The row lands as an ordinary
-    ``cli`` session bound to this importer, so ``hermes --resume`` continues it writable.
+    ``cli`` session bound to this importer, so ``iskra --resume`` continues it writable.
 
     Raises ``ValueError`` on unknown source or a session with no usable conversation turns, and
     ``GatewayClientError`` (a ``ValueError``) when the gateway refuses the import."""
@@ -306,7 +306,7 @@ def pick_foreign_session(source: Optional[str] = None, *, limit: int = 25) -> Op
 
 
 def run_sessions_import(args) -> Optional[str]:
-    """`hermes sessions import` entry point. Returns new session id or None."""
+    """`iskra sessions import` entry point. Returns new session id or None."""
     source = getattr(args, "from_source", None)
     path = getattr(args, "path", None)
     if path:

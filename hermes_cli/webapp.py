@@ -17,7 +17,7 @@ import subprocess
 # Serialize renderer publication with Dashboard builds in this checkout.
 _LOCK_NAME = ".web_ui_build.lock"
 _LOCK_WAIT_SECONDS = 30 * 60
-# Written into the bundle when `hermes update` could not rebuild it, so the gateways serving it report
+# Written into the bundle when `iskra update` could not rebuild it, so the gateways serving it report
 # the Webapp unavailable instead of serving it against the updated backend. Publishing a build
 # replaces the whole folder, and the receipt's output hash covers this file, so a marked bundle is
 # never reused as current.
@@ -99,7 +99,7 @@ def prepare_webapp_renderer(
     """Return a verified browser renderer, serializing concurrent builds.
 
     ``explicit`` (a requested build) may install dependencies even when lazy
-    installs are disabled, like ``hermes desktop --build-only``.
+    installs are disabled, like ``iskra desktop --build-only``.
     """
     from hermes_cli.source_build import build_source_webapp, source_build_env, source_product_current
     from hermes_cli.steward import is_bundled_payload
@@ -123,7 +123,7 @@ def prepare_webapp_renderer(
         print(f"→ Using the desktop app's Webapp renderer: {dist}")
         return dist
     if skip_build:
-        # Reuse takes no build lock, like `hermes dashboard --skip-build`: the
+        # Reuse takes no build lock, like `iskra dashboard --skip-build`: the
         # lock lives in the install root, which a read-only install cannot write.
         if not (dist / "index.html").is_file():
             raise WebappBuildError(

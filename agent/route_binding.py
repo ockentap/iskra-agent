@@ -27,7 +27,7 @@ class RouteEntryClient(NamedTuple):
 
 def resolve_route_entry_client(entry: dict[str, Any], provider: str, model: str, *,
                                raw_codex: bool = True) -> RouteEntryClient:
-    """The client :func:`bind_route_entry` binds for ``entry``, shared with ``hermes fallback check
+    """The client :func:`bind_route_entry` binds for ``entry``, shared with ``iskra fallback check
     --live`` so a readiness probe talks to exactly what the swap would. ``raw_codex=False`` returns
     the chat-completions adapter for Codex/Responses providers."""
     from agent.auxiliary_client import resolve_provider_client

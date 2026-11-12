@@ -1,4 +1,4 @@
-"""Git worktree isolation for ``hermes -w`` sessions: create, classify, prune.
+"""Git worktree isolation for ``iskra -w`` sessions: create, classify, prune.
 
 Every git call goes through ``_git``/``_git_out``/``_git_quiet`` (UTF-8 text, captured,
 bounded timeout). Classification helpers fail SAFE toward "preserve". ``cli`` re-exports
@@ -124,7 +124,7 @@ def _cleanup_failed_worktree_add(repo_root: str, wt_path: Path, branch_name: str
 
 _PACK_SPRAWL_THRESHOLD = 15
 _REPACK_TIMEOUT = 1800
-# One repack attempt per clone per interval, box-wide. Every ``hermes -w`` launch on a shared clone
+# One repack attempt per clone per interval, box-wide. Every ``iskra -w`` launch on a shared clone
 # used to start its own ``git repack -a`` of the whole store; on a multi-agent box that stacked 50+
 # concurrent multi-GB repacks (each too slow under the others to ever finish inside the timeout).
 _REPACK_MIN_INTERVAL = 6 * 3600
@@ -379,7 +379,7 @@ def _setup_worktree(repo_root: str | None = None, sync_base: bool = True,
     """Create an isolated git worktree -> ``{path, branch, repo_root, base}``, or None on failure.
 
     *sync_base* branches from the fetched remote tip (``_resolve_worktree_base``), else local
-    HEAD. *name* replaces the random ``hermes-<id>``; named trees lack the ``hermes-`` prefix so
+    HEAD. *name* replaces the random ``iskra-<id>``; named trees lack the ``iskra-`` prefix so
     the pruner ages them on its slower schedule. *retain_db* (``-w``, ``--tui -w``) records the tree
     for resume and names the profile store in the lock. A ``--tui -w`` tree outlives its launcher
     while a session there can resume in it; a classic ``-w`` row's cwd is the repo root, so its
@@ -759,8 +759,8 @@ def _worktree_branch_pushed_exact(
         return False
 
 
-# ``hermes pid=<pid>`` (``/worktree new``), ``hermes pid=<pid> db=<state.db>`` (``-w`` / ``--tui -w`` launch)
-# and ``hermes session=<id> db=<state.db>`` (re-lock when the TUI exits). Read raw from the admin
+# ``iskra pid=<pid>`` (``/worktree new``), ``iskra pid=<pid> db=<state.db>`` (``-w`` / ``--tui -w`` launch)
+# and ``iskra session=<id> db=<state.db>`` (re-lock when the TUI exits). Read raw from the admin
 # dir: plain ``list --porcelain`` C-quotes a reason holding a backslash, a quote, a control or a
 # non-ASCII byte (every Windows path), and the ``db=`` path would never parse.
 _HERMES_LOCK_RE = re.compile(r"hermes (?:pid=(\d+)|session=\S+)(?: db=(.+))?", re.DOTALL)
@@ -921,13 +921,13 @@ def _worktree_lock_is_live(repo_root: str, worktree_path: str, timeout: int = 10
     """Lock state: ``"live"`` (owning pid runs / a resumable session works in the tree),
     ``"dead"`` (pid and sessions gone / non-hermes reason), None (unlocked).
 
-    A Hermes tree locks with reason ``hermes pid=<pid>``; ``worktree remove --force`` refuses
+    A Hermes tree locks with reason ``iskra pid=<pid>``; ``worktree remove --force`` refuses
     locked trees, so a crashed session's lock would keep its tree forever. A ``-w`` tree
     also names its profile's ``state.db`` from creation, so a ``--tui -w`` launcher killed with
     its terminal (SIGHUP skips the exit re-lock) still keeps the tree while a resumable session's
     row cwd is inside it. A classic ``-w`` row's cwd is the repo root: its tree is only recorded,
     and a reaped clean one is recreated on resume. Fails SAFE toward "live", including a
-    ``hermes`` reason this version cannot parse.
+    ``iskra`` reason this version cannot parse.
     """
     try:
         found, reason = _worktree_lock_reason(repo_root, worktree_path, timeout)
@@ -956,13 +956,13 @@ def _worktree_lock_is_live(repo_root: str, worktree_path: str, timeout: int = 10
     return "dead" if pid is not None else "live"  # a session lock without its store: unverifiable
 
 
-# Trees Hermes names itself (``hermes -w`` sessions, subagent isolation) age on the base tier.
+# Trees Hermes names itself (``iskra -w`` sessions, subagent isolation) age on the base tier.
 _AUTO_TREE_PREFIXES = ("hermes-", "subagent-")
 
 
 def prune_tier_hours(name: str, max_age_hours: float) -> float:
     """Idle hours before a tree may be reclaimed: *max_age_hours* for Hermes-made trees
-    (``hermes-*``, ``subagent-*``), 3x for deliberately named ones."""
+    (``iskra-*``, ``subagent-*``), 3x for deliberately named ones."""
     return max_age_hours if name.startswith(_AUTO_TREE_PREFIXES) else max_age_hours * 3
 
 
@@ -1195,7 +1195,7 @@ def _prune_stale_worktree_trees(repo_root: str, max_age_hours: int) -> None:
 
     if preserved_stale:
         logger.warning("Preserving %d worktree(s) older than 7 days with unmerged work "
-                       "(run `hermes worktree prune` to review and reclaim): %s",
+                       "(run `iskra worktree prune` to review and reclaim): %s",
                        len(preserved_stale), ", ".join(sorted(preserved_stale)))
 
     _prune_orphaned_branches(repo_root, protect=kept_branches)
@@ -1210,8 +1210,8 @@ def _warn_worktree_footprint(repo_root: str) -> None:
         count, size_mb = worktrees_summary(repo_root, size_below_count=10)
         if count >= 10 or (size_mb or 0) >= 5120:
             size_txt = f" ({size_mb / 1024:.1f}GB)" if size_mb else ""
-            logger.warning(".worktrees/ holds %d tree(s)%s — run `hermes worktree list` "
-                           "to audit and `hermes worktree prune` to reclaim safely.", count, size_txt)
+            logger.warning(".worktrees/ holds %d tree(s)%s — run `iskra worktree list` "
+                           "to audit and `iskra worktree prune` to reclaim safely.", count, size_txt)
     except Exception:
         logger.debug("worktree summary failed", exc_info=True)
 

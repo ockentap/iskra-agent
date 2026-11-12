@@ -903,7 +903,7 @@ class CLISessionMixin:
         return ""
 
     def _write_terminal_breadcrumb(self) -> None:
-        """Record this terminal's live session for bare ``hermes -c``. Called whenever
+        """Record this terminal's live session for bare ``iskra -c``. Called whenever
         ``self.session_id`` is (re)assigned so a later bare ``-c`` in THIS terminal resumes
         this conversation's live tip. Best-effort; no-op without a terminal identity."""
         with contextlib.suppress(Exception):

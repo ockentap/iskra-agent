@@ -1,4 +1,4 @@
-"""Post-setup install hooks and installed-state predicates for `hermes tools` provider rows."""
+"""Post-setup install hooks and installed-state predicates for `iskra tools` provider rows."""
 
 from __future__ import annotations
 
@@ -158,7 +158,7 @@ def _post_setup_xai_grok() -> None:
         "    How do you want xAI to authenticate?", default=0,
         choices=["Sign in with xAI Grok OAuth (SuperGrok / Premium+) — browser login",
                  "Paste an xAI API key (console.x.ai)",
-                 "Skip — configure later via `hermes auth add xai-oauth`"])
+                 "Skip — configure later via `iskra auth add xai-oauth`"])
     if idx == 0:
         if _run_xai_oauth_login_from_setup():
             _print_success("    Logged in — xAI will use these OAuth credentials")
@@ -275,7 +275,7 @@ def valid_post_setup_keys() -> set[str]:
 
 
 def run_post_setup_command(args) -> int:
-    """``hermes tools post-setup <key>`` — non-interactive runner the dashboard spawns so the GUI can drive
+    """``iskra tools post-setup <key>`` — non-interactive runner the dashboard spawns so the GUI can drive
     backend setup without re-implementing install logic. Exit code: 0 ok, 2 unknown key."""
     key = getattr(args, "post_setup_key", None)
     if not key:

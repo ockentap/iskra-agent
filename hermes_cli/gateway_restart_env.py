@@ -39,7 +39,7 @@ def _launch_bot_token_names() -> set[str]:
     """Messaging-adapter secrets (bot tokens, app secrets) the LAUNCH profile supplied: its ``.env``,
     any dotenv this process loaded, its secret sources. Those are the root bot's identity and must not
     follow a sibling (#135792). A provider key, a proxy, or a token the user's SHELL exported is not
-    the launch profile's: a manual ``hermes -p X gateway run`` from that shell has it too, so it stays."""
+    the launch profile's: a manual ``iskra -p X gateway run`` from that shell has it too, so it stays."""
     from agent.secret_scope import load_env_file
     from hermes_cli.env_loader import launch_dotenv_keys, source_supplied_names
     from hermes_constants import get_routing_process_hermes_home
@@ -61,7 +61,7 @@ def profile_gateway_restart_env(home: Optional[str]) -> Optional[dict[str, str]]
     (its ``.env``, loaded dotenvs, secret sources, bridged ``TERMINAL_*``, authorization gates:
     ``strip_launch_profile_env``) and, under a service manager, every adapter secret; then the target
     profile's own secrets on top. A key only the user's shell exported survives: a blanket credential
-    scrub dropped it, and the sibling came back from ``hermes update`` unable to call its model.
+    scrub dropped it, and the sibling came back from ``iskra update`` unable to call its model.
 
     A gateway respawned on the launcher's OWN named profile keeps the launcher's environment (an
     exported bot token may be its only credential): None.

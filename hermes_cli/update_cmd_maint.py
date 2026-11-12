@@ -1,4 +1,4 @@
-"""Post-update maintenance for ``hermes update``: pre-update backup snapshot, state-db verify/restore, curator/FTS notices, FHS path guard, completion summary.
+"""Post-update maintenance for ``iskra update``: pre-update backup snapshot, state-db verify/restore, curator/FTS notices, FHS path guard, completion summary.
 
 Split out of ``update_cmd.py``, which re-imports every name so ``hermes_cli.update_cmd.<name>``
 still resolves/monkeypatches. Origin helpers are imported lazily per function (no cycle;
@@ -50,7 +50,7 @@ def _sqlite_partial_completion_lines(sqlite_version: str) -> list[str]:
         f"⚠ Update partially complete — your Python's SQLite ({sqlite_version}) has a known "
         "corruption bug. Hermes works, but sessions could be damaged.",
         f"  Fix: run the installer again ({_REINSTALL_ONE_LINER[bool(_m()._is_windows())]}) "
-        "which installs a safe Python, then run `hermes doctor` to confirm.",
+        "which installs a safe Python, then run `iskra doctor` to confirm.",
     ]
 
 
@@ -167,7 +167,7 @@ def _print_fts_optimize_available_notice() -> None:
         print()
         print("◆ Session database optimization incomplete")
         print(
-            "  A previous `hermes sessions optimize-storage` run was "
+            "  A previous `iskra sessions optimize-storage` run was "
             "interrupted. Search still works; re-run the command to resume "
             "and finish reclaiming disk:"
         )
@@ -425,7 +425,7 @@ def _restore_state_db_from_snapshot(state_path: Path, snap_state: Path) -> bool:
         print("  ✗ Auto-restore refused or failed; state.db was not restored.")
         print("    Stop the owning runtime and close database handles before retrying.")
         print("    If the canonical runtime epoch is unreadable, do not restore in place:")
-        print("    use `hermes sessions recover --source <snapshot> --output <separate-path>`")
+        print("    use `iskra sessions recover --source <snapshot> --output <separate-path>`")
         print("    to salvage transcripts into a separate output.")
         return False
     restored = verify_sqlite_integrity(state_path, check_header=True, run_pragma=True)
@@ -568,7 +568,7 @@ def _ensure_fhs_path_guard() -> None:
             # already parked the unit in a failed state (transient CHDIR / OOM / filesystem race after our
             # drain + exit-75), a plain `systemctl restart` can wedge against the RestartSec backoff and
             # leave the unit dead. Clearing the failed state first makes the restart idempotent. Mirrors the
-            # recovery path in `hermes gateway restart` (`systemd_restart()`) as of PR #20949.
+            # recovery path in `iskra gateway restart` (`systemd_restart()`) as of PR #20949.
             capture_output=True,
             text=True, encoding="utf-8", errors="replace",
             timeout=10,
@@ -705,7 +705,7 @@ def _run_quick_snapshots() -> Optional[str]:
 
 
 def _run_full_backup() -> None:
-    """Zip HERMES_HOME under ``backups/`` (restorable via ``hermes import``). Never raises."""
+    """Zip HERMES_HOME under ``backups/`` (restorable via ``iskra import``). Never raises."""
     try:
         from hermes_cli.backup import create_pre_update_backup
     except Exception as exc:
@@ -758,7 +758,7 @@ def _run_pre_update_backup(args) -> Optional[str]:
 
     ``off`` — nothing. ``quick`` (default) — snapshot of critical small files under
     ``state-snapshots/``, files over 1 GiB skipped so a bloated state.db can't stall the update.
-    ``full`` — quick snapshot PLUS a zip of HERMES_HOME under ``backups/`` (``hermes import``).
+    ``full`` — quick snapshot PLUS a zip of HERMES_HOME under ``backups/`` (``iskra import``).
 
     Explicit user opt-out is honored fully. See #34600.
     """
@@ -823,7 +823,7 @@ def _sweep_bytecode_after_update(branch: str) -> None:
         _m()._refresh_bootstrap_cache_scripts(branch)
     except Exception as exc:  # health: allow BLE001 -- refreshed again by the next update
         record_followup("bootstrap_scripts", str(exc) or type(exc).__name__,
-                        retry="the next `hermes update` refreshes them")
+                        retry="the next `iskra update` refreshes them")
 
 
 def _profile_skill_sync_status(r) -> str:
@@ -879,7 +879,7 @@ def _refresh_cua_driver_after_update() -> None:
         # The scheduled task targets a versioned binary. Selecting a new pin
         # without re-registering leaves it stale; registration requires UAC.
         print("\n→ Windows cua-driver refresh deferred (autostart registration requires UAC).")
-        print("  Run `hermes computer-use install --upgrade` in an interactive terminal.")
+        print("  Run `iskra computer-use install --upgrade` in an interactive terminal.")
         return
     print("\n→ Preparing pinned cua-driver (Computer Use)...")
     if sys.platform == "darwin":
@@ -896,7 +896,7 @@ def _install_default_tools_after_update() -> None:
     cua-driver). browser_exec's engine (browser-harness) is a venv dependency.
 
     Runs at the end of both the installers (via the source completion) and
-    ``hermes update``: a source update re-syncs only the venv, so a tool that became
+    ``iskra update``: a source update re-syncs only the venv, so a tool that became
     a default after this install was created would never arrive otherwise. Declined
     packages stay declined (pm/defaults.py). A failed download warns and never fails.
     """
@@ -913,7 +913,7 @@ def _install_default_tools_after_update() -> None:
     for name in default_packages(Lockfile(lockfile_path()).names()):
         if pm.installed_package(name) is not None:
             continue
-        print(f"\n→ Installing {name} (default tool; opt out with `hermes pm install --without {name}`)...")
+        print(f"\n→ Installing {name} (default tool; opt out with `iskra pm install --without {name}`)...")
         try:
             pm.ensure(name, explicit=True)
         except (pm.InstallError, OSError) as exc:

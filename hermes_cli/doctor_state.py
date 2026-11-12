@@ -678,8 +678,8 @@ def _check_plugins_in_both_lists(should_fix: bool, f: Finding) -> None:
     for name in both:
         check_warn(f"{name} will not load", "(plugins.disabled wins)")
         f.manual_issues.append(f"Plugin '{name}' is in both plugins.enabled and plugins.disabled, so it is off. "
-                               f"Turn it on with `hermes plugins enable {name}` (a memory provider also needs "
-                               f"memory.provider set), or keep it off with `hermes plugins disable {name}`")
+                               f"Turn it on with `iskra plugins enable {name}` (a memory provider also needs "
+                               f"memory.provider set), or keep it off with `iskra plugins disable {name}`")
 
 
 @doctor_check("")  # best-effort: profile enumeration must never break doctor
@@ -712,7 +712,7 @@ def _check_profiles(should_fix: bool, f: Finding) -> None:
                     fix = f"hermes profile alias {alias} --remove" if PROFILE_ID_RE.match(alias) else f"delete {wrapper}"
                     check_warn(f"Orphan alias: {alias} → profile '{_m.group(1)}' no longer exists", f"(remove with: {fix})")
     # Same helper as the multiplex migration preflight, so doctor names the duplicates that make
-    # `hermes gateway migrate --multiplex` refuse (and made pre-multiplex standalone gateways race).
+    # `iskra gateway migrate --multiplex` refuse (and made pre-multiplex standalone gateways race).
     from hermes_cli.gateway_migrate import duplicate_credential_findings
     for line in duplicate_credential_findings():
         check_warn("Duplicate platform credential across profiles", f"({line})")

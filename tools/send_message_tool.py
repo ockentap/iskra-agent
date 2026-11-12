@@ -27,7 +27,7 @@ _SLACK_USER_ID_RE = re.compile(r"^\s*(U[A-Z0-9]{8,})\s*$")
 
 # NOTE: ``send_message`` is intentionally NOT registered as an agent-callable model tool
 # (the agent must not fire cross-platform messages on its own); cron delivery, the
-# ``hermes send`` CLI, the kanban notifier and the opt-in MCP server import the helpers.
+# ``iskra send`` CLI, the kanban notifier and the opt-in MCP server import the helpers.
 
 
 def prepare_send_message_platforms() -> None:
@@ -207,9 +207,9 @@ def _handle_send(args):
     if not target or not message:
         return tool_error("Both 'target' and 'message' are required when action='send'")
     # Lone surrogates reach the outbound body via surrogateescape-decoded argv
-    # (`hermes send` MESSAGE) and crash the UTF-8 marshal inside platform SDK
+    # (`iskra send` MESSAGE) and crash the UTF-8 marshal inside platform SDK
     # request bodies (feishu/lark, #113799). Every send_message caller (model tool
-    # call, `hermes send`, dashboard console) enters here, so scrub once before the
+    # call, `iskra send`, dashboard console) enters here, so scrub once before the
     # media extraction, the session mirror and the platform sender see the text.
     # Model output delivered by the gateway/cron is already scrubbed upstream
     # (``agent/turn_finalizer.py::finalize_turn``, ``gateway/run.py``).

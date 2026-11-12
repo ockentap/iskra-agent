@@ -1,4 +1,4 @@
-"""``hermes webapp``: open the browser-hosted Desktop that the gateway serves.
+"""``iskra webapp``: open the browser-hosted Desktop that the gateway serves.
 
 The gateway serves the Webapp on its own listener when its home's config sets ``webapp.enabled``
 (``gateway.webapp_listener``). This command builds the bundle when it is stale, starts the gateway that
@@ -154,7 +154,7 @@ def _profile_choice(home: Path, target: Path) -> dict:
 
 
 def _rerun_command(*flags: str) -> str:
-    """``hermes webapp *flags*`` for the profile this run used: ``-p`` re-homed only this process, so a
+    """``iskra webapp *flags*`` for the profile this run used: ``-p`` re-homed only this process, so a
     bare rerun gets the sticky profile, and the command keeps ``-p <name>`` when that names another one."""
     import shlex
     from hermes_cli.main import explicit_cli_profile

@@ -108,7 +108,7 @@ class _StderrTee:
 
 def _write_stderr_log_header(server_name: str) -> None:
     """Session marker so operators can find each server's output in the shared log; it leads with the
-    same stamp as every server line (``_StderrTee``) so ``hermes logs mcp --since`` can filter it."""
+    same stamp as every server line (``_StderrTee``) so ``iskra logs mcp --since`` can filter it."""
     fh = _get_mcp_stderr_log()
     try:
         fh.write(f"\n{timestamp()} ===== starting MCP server '{server_name}' =====\n")
@@ -297,7 +297,7 @@ def _managed_launcher(command: str) -> Optional[tuple[str, list[str]]]:
         dirs = [d for d in with_hermes_node_path({"PATH": ""})["PATH"].split(os.pathsep) if d]
     executable = shutil.which(command, path=os.pathsep.join(dirs)) if dirs else None
     if executable is None:
-        raise RuntimeError(f"Hermes-managed {command} is not installed; run `hermes pm install {package}`")
+        raise RuntimeError(f"Hermes-managed {command} is not installed; run `iskra pm install {package}`")
     return executable, dirs
 
 

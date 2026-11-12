@@ -122,7 +122,7 @@ def installable() -> bool:
     """Whether :func:`install_command` could actually succeed on this host.
 
     False on an unprivileged process with no ``sudo`` to reach for, which is exactly the published Docker
-    image: services drop to the ``hermes`` user and no ``sudo`` binary is installed. The packages can only
+    image: services drop to the ``iskra`` user and no ``sudo`` binary is installed. The packages can only
     arrive in the image there, so :func:`start` says that instead of printing a sudo line the user has no
     way to run. ``status()`` still reports ``install_command`` for the pane; surfacing this there needs a
     wire-contract change and is deliberately out of scope.
@@ -801,7 +801,7 @@ def _spawn_and_wait(sd: Path, wait_seconds: float) -> DesktopStatus:
             "HERMES_BD_CONFIG_HOME": str(sd / "xdg"),
             "HERMES_BD_GEOMETRY": geometry(),
             # The launcher's idle self-stop runs tools.bot_desktop.idle_watch through the install's stable
-            # command (the ``hermes --run-module`` launcher on a store install, which follows Python pin changes
+            # command (the ``iskra --run-module`` launcher on a store install, which follows Python pin changes
             # and picks the current dependency generation at every run; this interpreter elsewhere), in this
             # home, first once the screen could be due (nothing is idle at start). The screen outlives updates,
             # so the inherited PYTHONPATH generation is never pinned, and on a store install neither is this

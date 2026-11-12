@@ -91,7 +91,7 @@ _BOOTSTRAPS = (
     ("entry", re.compile(r"import os, re, sys\s.*\bfrom\s+(?P<target>[\w.]+)\s+import\s+(?P<func>\w+)\b.*\bsys\.exit\(\s*(?P=func)\(\)\s*\)", re.DOTALL)),
     # scripts/build/launchers.py::posix_launcher (the bundled/Docker payload's bin/hermes). Spelled out
     # statement by statement: a ``.*`` would span a carrier's source plus the launcher argv it carries.
-    # Only the ``hermes`` entry: the same shape importing any other module is someone else's program.
+    # Only the ``iskra`` entry: the same shape importing any other module is someone else's program.
     ("module", re.compile(
         rf"import os, site, sys;\s*sys\.argv\[0\]\s*=\s*{_Q}[\w.-]+{_Q};\s*"
         rf"site\.addsitedir\(os\.environ\[{_Q}HERMES_SITE{_Q}\]\);"

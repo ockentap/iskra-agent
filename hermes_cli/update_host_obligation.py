@@ -1,9 +1,9 @@
-"""Host-scoped update→restart obligation for ``hermes update``.
+"""Host-scoped update→restart obligation for ``iskra update``.
 
-Multiplex-only (Teknium ruling): exactly ONE ``hermes gateway run`` per host serves every
+Multiplex-only (Teknium ruling): exactly ONE ``iskra gateway run`` per host serves every
 profile, so "this pull still owes the fleet a restart" is a property of the HOST, not of one
 profile's ``HERMES_HOME``. The legacy ``$HERMES_HOME/fleet_restart_pending`` marker was
-per-home: ``hermes -p coder update`` armed and cleared coder's copy while restarting the
+per-home: ``iskra -p coder update`` armed and cleared coder's copy while restarting the
 SHARED process, and every other profile's CLI could neither see nor discharge that obligation
 — it simply armed its own and re-killed the same host process.
 
@@ -15,7 +15,7 @@ every profile's CLI, and cleared once.
 
 The same "one host process, not one per profile" identity is what
 :func:`collapse_units_to_host_processes` applies to enumerated systemd units: leftover
-per-profile ``hermes-gateway-<p>.service`` units on a multiplexed host all point at the same
+per-profile ``iskra-gateway-<p>.service`` units on a multiplexed host all point at the same
 live ``MainPID``, so restarting each one restarts the host process N times.
 """
 
@@ -136,7 +136,7 @@ def arm_host_obligation(
 ) -> bool:
     """Arm the host record, else ``marker`` (the arming profile's per-home breadcrumb). Never raises.
 
-    The one fallback for every arm (``hermes update``'s commit point, a historical updater's
+    The one fallback for every arm (``iskra update``'s commit point, a historical updater's
     takeover). An unwritable host state dir (``HERMES_GATEWAY_LOCK_DIR`` on a read-only mount, a
     container UID that does not own ``$HOME``) must never disarm the obligation (#117275), but the
     marker is visible to the arming profile only: it settles the debt only on an install PROVEN to
@@ -168,7 +168,7 @@ def arm_host_obligation(
                  host_obligation_path(), hidden)
     # ASCII: a historical updater's takeover may print through a legacy console code page.
     print("  Warning: could not record the pending gateway-restart obligation where every profile sees it "
-          "(state dir not writable) - restart gateways with `hermes gateway restart` if this update is "
+          "(state dir not writable) - restart gateways with `iskra gateway restart` if this update is "
           "interrupted.", file=sys.stderr)
     return False
 
@@ -438,7 +438,7 @@ def host_restart_already_completed(sha: Optional[str]) -> bool:
     """True when THIS host obligation was already restarted onto ``sha``.
 
     The guard that makes the catch-up restart idempotent per host: a second profile running
-    ``hermes update`` must attach to the first restart's outcome, never kill the shared
+    ``iskra update`` must attach to the first restart's outcome, never kill the shared
     multiplexer again.
     """
     record = read_host_obligation()

@@ -530,7 +530,7 @@ def _refuse_store_ancestor_replacement(dest: Path, rel_parts: tuple[str, ...]) -
 def _merges_per_root(src: Path, rel_parts: tuple[str, ...]) -> bool:
     """An owned top-level dir, or an owned container (``skills/research/``, see
     ``_is_container``), is merged per authored root instead of replaced whole, so skills the installer
-    added to it (``hermes skills install`` and agent-created skills land in
+    added to it (``iskra skills install`` and agent-created skills land in
     ``skills/<category>/``) survive. The pre-write symlink guard and the copy loop both
     use this, so the guard covers exactly what the copy merges. An ancestor of a credential
     store (``platforms`` of ``platforms/pairing``) is merged too, so replacing it whole can
@@ -622,7 +622,7 @@ def install_distribution(
         if plan.existing and not force:
             raise DistributionError(
                 f"Profile '{plan.manifest.name}' already exists at {plan.target_dir}. "
-                "Use `hermes profile update` to upgrade in place, or pass --force to overwrite."
+                "Use `iskra profile update` to upgrade in place, or pass --force to overwrite."
             )
 
         # Fresh install (or --force): config.yaml comes from the distribution. Roots the
@@ -653,12 +653,12 @@ def update_distribution(profile_name: str, force_config: bool = False) -> Instal
     if existing_manifest is None:
         raise DistributionError(
             f"Profile '{canon}' is not a distribution (no {MANIFEST_FILENAME}). "
-            "Only profiles installed via `hermes profile install` can be updated."
+            "Only profiles installed via `iskra profile install` can be updated."
         )
     if not existing_manifest.source:
         raise DistributionError(
             f"Profile '{canon}' has no recorded source.  Re-install with "
-            "`hermes profile install <source> --name {canon} --force`."
+            "`iskra profile install <source> --name {canon} --force`."
         )
     with tempfile.TemporaryDirectory(prefix="hermes_dist_update_") as tmp:
         plan = plan_install(existing_manifest.source, Path(tmp), override_name=canon)

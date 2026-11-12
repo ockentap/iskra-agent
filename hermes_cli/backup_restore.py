@@ -2,7 +2,7 @@
 
 Owns the restore side of ``hermes_cli.backup``: the page-copy SQLite restore
 (``_safe_restore_db`` plus the foreign-holder scan) and the zip-member publish
-helpers used by ``hermes import`` and ``/snapshot restore``.  Backup
+helpers used by ``iskra import`` and ``/snapshot restore``.  Backup
 *creation* (``run_backup``, full-zip writing) stays in ``hermes_cli.backup``,
 which composes these helpers.
 """
@@ -202,7 +202,7 @@ def _restore_destination_epoch(dst: Path) -> int:
     except (OSError, sqlite3.Error, ValueError) as exc:
         raise OSError(
             f"Cannot read the canonical runtime epoch at {dst}; refusing in-place restore. "
-            "Use `hermes sessions recover --source <snapshot> --output <separate-path>` "
+            "Use `iskra sessions recover --source <snapshot> --output <separate-path>` "
             "to salvage transcripts into a separate output."
         ) from exc
 
@@ -453,7 +453,7 @@ def _extract_member_atomically(
     ``open(target, "wb")`` truncates the user's existing file to zero *before*
     any replacement bytes exist.  A Ctrl-C, an ENOSPC, a corrupt member, or a
     crash between the truncate and the write therefore leaves that file empty
-    with nothing behind it — during ``hermes import``, which is the
+    with nothing behind it — during ``iskra import``, which is the
     disaster-recovery path a user reaches for *because* they already lost
     something.  Staging into the target's own directory and publishing with a
     rename means the target only ever moves from its old contents to the
@@ -500,7 +500,7 @@ def _extract_member_atomically(
         # ``_preserve_file_mode`` returns ``stat.S_IMODE``, i.e. all twelve
         # bits, and the content replacing this file comes from the archive.
         # Carrying the elevated bits across would let archive-controlled bytes
-        # take over an existing setuid/setgid file, so ``hermes import`` would
+        # take over an existing setuid/setgid file, so ``iskra import`` would
         # hand whoever produced the zip the identity that file runs as.  Nothing
         # constrains that to Hermes' own state either: the ``_external/`` branch
         # of ``run_import`` publishes members anywhere under ``$HOME``.  The
@@ -601,7 +601,7 @@ def _import_db_member_exclusive(
     describes the database that was just unlinked.  Nothing fails, so nothing
     is reported — the sessions simply are not there afterwards (issue #100960).
 
-    ``hermes import`` is the disaster-recovery path, so that failure mode lands
+    ``iskra import`` is the disaster-recovery path, so that failure mode lands
     on users who have already lost something once.  Route the member through
     the same ``_safe_restore_db`` page copy that ``/snapshot restore`` has used
     since #65942: the live inode is preserved, every open connection converges

@@ -70,7 +70,7 @@ def _install_kittentts_deps() -> bool:
 
 def _xai_oauth_logged_in_for_setup() -> bool:
     """True iff xAI Grok OAuth credentials are stored locally, so TTS/STT setup can skip the
-    API-key prompt for users who logged in via ``hermes model`` -> xAI Grok OAuth."""
+    API-key prompt for users who logged in via ``iskra model`` -> xAI Grok OAuth."""
     try:
         from hermes_cli.auth import get_xai_oauth_auth_status
         return bool(get_xai_oauth_auth_status().get("logged_in"))

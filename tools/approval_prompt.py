@@ -349,7 +349,7 @@ def request_elicitation_consent(message: str, description: str, *,
             return "cancel"  # nobody answered (timeout / prompt withdrawn) — not a user refusal
         return _remembered_consent(session_key, decision.get("choice"), remember_key, "decline")
 
-    # Nobody can answer a -q, cron or unattended-platform worker. A `hermes chat -q` turn still has the CLI's
+    # Nobody can answer a -q, cron or unattended-platform worker. A `iskra chat -q` turn still has the CLI's
     # panel callback registered, which would wait the full approval timeout before failing closed.
     if _ctx._no_user_can_answer():
         logger.info("Elicitation consent (%s) declined: no user can answer in this session", surface)

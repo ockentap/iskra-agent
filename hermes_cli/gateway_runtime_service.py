@@ -47,7 +47,7 @@ def service_suffix(home: Path) -> str:
     Same rule as ``hermes_cli.gateway._profile_suffix``: only the platform-native
     default home owns the bare unit name; ``<root>/profiles/<name>`` yields the
     profile name; any other root (Docker, a temp harness) yields a path hash so a
-    custom root can never resolve to the production ``hermes-gateway`` unit.
+    custom root can never resolve to the production ``iskra-gateway`` unit.
     """
     from hermes_constants import account_default_hermes_home
     from hermes_cli.gateway import _profile_name_from_home
@@ -244,7 +244,7 @@ def _windows_task_name(home: Path) -> str:
 def refresh_ready_owner_launcher(home: Path, observed) -> None:
     """Repair a ready owner's logon launcher (``refresh_dead_launcher``). Ensure returns a ready owner
     before discovery, yet one can run on the new payload while its launcher still names the deleted
-    interpreter: started by ``hermes gateway start``, or the old payload removed once it outlived it."""
+    interpreter: started by ``iskra gateway start``, or the old payload removed once it outlived it."""
     if observed.state != "ready" or sys.platform != "win32":
         return
     from hermes_cli.gateway_runtime import control_home_for
@@ -284,7 +284,7 @@ def _windows(home: Path, deadline: float) -> ExistingService | None:
         return ExistingService("windows", ("schtasks.exe", "/Run", "/TN", name))
     # A Startup-folder entry (the fallback when Scheduled Task install was declined/blocked) is login
     # persistence only, with no start verb or identity to verify. Starting a stopped owner is the
-    # same detached direct spawn manual `hermes gateway start` uses beside it; the unmanaged path
+    # same detached direct spawn manual `iskra gateway start` uses beside it; the unmanaged path
     # pins the explicit home and refuses a job-bound (no-breakaway) child, and the runtime lock
     # plus host attach arbitrate against the entry firing again at the next login.
     return None

@@ -2,7 +2,7 @@
 
 The Desktop resolves the OS proxy (PAC included) and gives it to the update's
 git, urllib, npm and uv children as HTTPS_PROXY/HTTP_PROXY with an extended
-NO_PROXY (apps/desktop/electron/updater/system-proxy-env.ts). ``hermes update``
+NO_PROXY (apps/desktop/electron/updater/system-proxy-env.ts). ``iskra update``
 then restarts gateways and backends that inherit that env; for them it is not
 the user's setting, and every host the PAC sends direct (LAN model servers,
 internal names) would go through the proxy. ``HERMES_UPDATE_SYSTEM_PROXY`` names
@@ -46,7 +46,7 @@ def restore_user_proxy_env(environ: MutableMapping[str, str] | None = None) -> N
 
 
 def prefer_dotenv_proxy_env(environ: MutableMapping[str, str] | None = None) -> None:
-    """In ``hermes update``, after its ``.env`` load: the user's ``.env`` proxy beats the system one.
+    """In ``iskra update``, after its ``.env`` load: the user's ``.env`` proxy beats the system one.
 
     The Desktop injects every case variant (``HTTPS_PROXY`` and ``https_proxy``) but the ``.env``
     load replaces only the spelling the file uses, and urllib and curl prefer the lower-case one, so

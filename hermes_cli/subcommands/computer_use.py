@@ -1,4 +1,4 @@
-"""``hermes computer-use`` subcommand parser."""
+"""``iskra computer-use`` subcommand parser."""
 
 from __future__ import annotations
 
@@ -46,7 +46,7 @@ def _cu_status(args) -> int:
     contract = _cua_driver_contract_status(path)
     version = _cua_version_summary(contract.get("version") or "")
     # Name the override here too. Without it the operator is told to repair an
-    # install that `hermes computer-use install` will (correctly) refuse to touch,
+    # install that `iskra computer-use install` will (correctly) refuse to touch,
     # with nothing pointing at the env var that actually selected the binary.
     origin = " [custom binary from HERMES_CUA_DRIVER_CMD]" if override else ""
     print(f"cua-driver: installed at {path}{origin}" + (f" ({version})" if version else ""))
@@ -129,13 +129,13 @@ def build_computer_use_parser(subparsers) -> None:
         description="Install or check the cua-driver binary used by the\n"
             "`computer_use` toolset. Supported on macOS, Windows, and\n"
             "Linux.\n\n"
-            "Use `hermes computer-use install` to prepare the pinned\n"
+            "Use `iskra computer-use install` to prepare the pinned\n"
             "cua-driver package and host integration. This is equivalent to the\n"
-            "post-setup hook that `hermes tools` runs when you first\n"
+            "post-setup hook that `iskra tools` runs when you first\n"
             "enable the Computer Use toolset, and is a stable target\n"
             "for re-running the install if it didn't fire (e.g. when\n"
             "toggling the toolset on a returning-user setup).\n\n"
-            "Use `hermes computer-use doctor` to run cua-driver's\n"
+            "Use `iskra computer-use doctor` to run cua-driver's\n"
             "`health_report` MCP tool and surface its check matrix\n"
             "(TCC, bundle identity, version, platform support, ...)\n"
             "in human-readable form.")

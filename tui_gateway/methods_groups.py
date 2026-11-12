@@ -335,7 +335,7 @@ def _(rid, params: dict, service) -> dict:
     member_id = str(params.get("member_id") or "")
 
     def owe() -> None:
-        # Owed at the URL this handler probes (``hermes serve`` takes the caller's URL, as it always
+        # Owed at the URL this handler probes (``iskra serve`` takes the caller's URL, as it always
         # has), so a grant it was handed is never forgotten while it could still pass.
         service.owe_grant_revoke(room_id=room_id, member_id=member_id, target_url=target_url, grant=grant)
     from tui_gateway.hosted_room_service import route_publication_lock

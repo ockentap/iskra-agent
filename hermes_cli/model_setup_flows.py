@@ -1,4 +1,4 @@
-"""Per-provider model-selection wizard flows for ``hermes setup`` / ``hermes model``.
+"""Per-provider model-selection wizard flows for ``iskra setup`` / ``iskra model``.
 
 main / config / auth / models helpers are imported lazily inside bodies: avoids the main.py import
 cycle and lets tests patch ``hermes_cli.config.load_config`` etc. at call time. The shared skeleton
@@ -108,7 +108,7 @@ def _model_flow_moa(config, current_model=""):
     moa = normalize_moa_config(config.get("moa") if isinstance(config, dict) else {})
     presets = moa.get("presets") or {}
     if not presets:
-        print("No MoA presets configured. Run `hermes moa configure <name>` first.")
+        print("No MoA presets configured. Run `iskra moa configure <name>` first.")
         return
 
     names = list(presets.keys())
@@ -374,7 +374,7 @@ def _model_flow_openai_codex(config, current_model=""):
         PROVIDER_REGISTRY["openai-codex"], recheck=lambda: get_codex_auth_status().get("logged_in")):
         return
 
-    # Prefer the credential pool (where `hermes auth` stores device_code tokens),
+    # Prefer the credential pool (where `iskra auth` stores device_code tokens),
     # fall back to legacy provider state.
     # Token and route base travel together (#121486): a pooled gateway key must never be sent to
     # the chatgpt.com default by the catalog probe.
@@ -410,7 +410,7 @@ def _model_flow_xai_oauth(_config, current_model="", *, args=None):
         return
 
     # ``resolve_xai_oauth_runtime_credentials`` only reads the auth.json singleton, but
-    # credentials may live only in the pool (``hermes auth add xai-oauth``) — fall back to
+    # credentials may live only in the pool (``iskra auth add xai-oauth``) — fall back to
     # the default base URL so the picker still completes.
     base_url = DEFAULT_XAI_OAUTH_BASE_URL
     with contextlib.suppress(Exception):
@@ -983,7 +983,7 @@ def _plugin_flow_oauth(provider_id: str, profile) -> tuple[str, str] | None:
     if not status.get("logged_in"):
         missing = plugin_missing_auth_handler_error(provider_id, "add")
         _say(f"  ⚠ Not signed in to {profile.display_name or provider_id}.",
-             f"  {missing.code if missing else status.get('hint') or f'Run `hermes auth add {provider_id}` to sign in.'}")
+             f"  {missing.code if missing else status.get('hint') or f'Run `iskra auth add {provider_id}` to sign in.'}")
         return None
     from agent.credential_pool import load_pool
     entry = load_pool(provider_id).select()
@@ -999,7 +999,7 @@ _PLUGIN_FLOW_CREDENTIALS = {
 
 
 def _profile_model_setup_flow(provider_id: str):
-    """``flow(config, current_model, args)`` for a registered profile that owns its ``hermes model``
+    """``flow(config, current_model, args)`` for a registered profile that owns its ``iskra model``
     step (``ProviderProfile.model_setup_flow``), else None."""
     from providers import get_provider_profile
     profile = get_provider_profile(provider_id)
@@ -1028,7 +1028,7 @@ def _plugin_flow_live_rows(profile, api_key: str, base_url: str) -> tuple[list[s
 
 
 def _model_flow_plugin_provider(config, provider_id, current_model=""):
-    """Generic ``hermes model`` flow for a registered plugin profile: credential step by auth_type,
+    """Generic ``iskra model`` flow for a registered plugin profile: credential step by auth_type,
     catalog via ``merge_profile_catalog`` (live ``fetch_models()`` ⊕ ``fallback_models``), persist."""
     from hermes_cli.auth_plugin_providers import plugin_profile
     from hermes_cli.models import merge_profile_catalog

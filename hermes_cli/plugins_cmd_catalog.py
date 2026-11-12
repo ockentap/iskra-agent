@@ -1,4 +1,4 @@
-"""``hermes plugins`` catalog surface: resolution, provenance sidecar, search/browse/info/validate,
+"""``iskra plugins`` catalog surface: resolution, provenance sidecar, search/browse/info/validate,
 catalog-aware update, plus the dashboard/TUI-facing catalog payload helpers.
 
 Sibling of :mod:`hermes_cli.plugins_cmd` (the installer core, enable/disable state and console helpers
@@ -59,7 +59,7 @@ def resolve_catalog_name(identifier: str, console) -> PluginCatalogEntry:
     if entry is None:
         _fail(console, (
             f"[red]Error:[/red] '{identifier}' is not in the Hermes plugin catalog and is not a Git URL or "
-            "owner/repo shorthand. Browse entries with `hermes plugins search`."))
+            "owner/repo shorthand. Browse entries with `iskra plugins search`."))
         raise SystemExit(1)  # _fail exits; keeps type-checkers honest
     return entry
 
@@ -365,8 +365,8 @@ def refuse_if_installed_removed(name: str, plugin_dir) -> None:
     if removed is not None:
         raise PluginOperationError(
             f"Plugin '{name}' was removed from the Hermes plugin catalog: "
-            f"{removed.reason or 'no reason recorded'}. Remove it with `hermes plugins remove {name}`, "
-            "or reinstall with `hermes plugins install <source> --force --allow-removed` if you trust it.")
+            f"{removed.reason or 'no reason recorded'}. Remove it with `iskra plugins remove {name}`, "
+            "or reinstall with `iskra plugins install <source> --force --allow-removed` if you trust it.")
 
 
 _PRESERVE_SKIP = ("__pycache__", ".git", CATALOG_SIDECAR)
@@ -664,7 +664,7 @@ def repin_catalog_plugin(
     if entry is None:
         raise PluginOperationError(
             f"Plugin '{catalog_name}' is no longer in the catalog — it may have been removed. "
-            "See `hermes plugins info` and the removed blocklist.")
+            "See `iskra plugins info` and the removed blocklist.")
     refuse_if_installed_removed(catalog_name, target)
     if at_catalog_pin(sidecar, entry.sha):
         return RepinResult(entry.sha, False, target.name, [])
@@ -760,7 +760,7 @@ def cmd_update_catalog(name: str, target: Path, sidecar: dict, console, *, inter
             console.print(f"    {line}")
         if not interactive or not _is_tty():
             console.print("  [yellow]Non-interactive session: update NOT applied (fail closed). "
-                          "Re-run `hermes plugins update` in a terminal to review and confirm.[/yellow]")
+                          "Re-run `iskra plugins update` in a terminal to review and confirm.[/yellow]")
             return False
         return _ask_yes("  Apply this update? [y/N]: ")
 
@@ -782,7 +782,7 @@ def cmd_update_catalog(name: str, target: Path, sidecar: dict, console, *, inter
                 else:
                     console.print(
                         f"[yellow]Plugin {result.installed_name} has new capabilities; review them with "
-                        f"`hermes plugins capabilities {result.installed_name}`.[/yellow]")
+                        f"`iskra plugins capabilities {result.installed_name}`.[/yellow]")
     return result.changed
 
 
@@ -924,7 +924,7 @@ def cmd_validate(path: str, as_json: bool = False, install_deps: bool = False) -
 def installed_catalog_state(installed: dict[str, dict[str, Any]]) -> dict[str, Any]:
     """Catalog entries merged with local state for the dashboard. *installed* maps every alias (name
     and registry key) of a discovered plugin to ``{"dir", "runtime_status"}``. A catalog name rarely
-    equals the manifest name (``hermes-plugin-x`` vs ``x``), so installs are matched through the
+    equals the manifest name (``iskra-plugin-x`` vs ``x``), so installs are matched through the
     sidecar's ``catalog_name`` first and by name only as a fallback."""
     by_catalog_name: dict[str, dict[str, Any]] = {}
     for local in installed.values():

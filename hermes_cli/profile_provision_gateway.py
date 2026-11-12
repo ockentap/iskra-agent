@@ -1,4 +1,4 @@
-"""``hermes profile create`` through the running gateway: one ``profiles.create`` RPC, one receipt.
+"""``iskra profile create`` through the running gateway: one ``profiles.create`` RPC, one receipt.
 
 The CLI asks the gateway that serves its profile to make the profile (``HERMES_TUI_GATEWAY_URL``, the dial
 ``connect_gateway`` honours for every client, names a remote one), so a terminal attached to a gateway
@@ -45,7 +45,7 @@ class GatewayCreateError(RuntimeError):
 
 
 def _wire(request: ProfileCreateRequest, profile: Optional[str]) -> dict[str, Any]:
-    # ``no_alias`` always: the wrapper belongs to the terminal's machine, PATH and ``hermes``
+    # ``no_alias`` always: the wrapper belongs to the terminal's machine, PATH and ``iskra``
     # (written here when the profile landed in this machine's profiles directory). ``profile``: a URL's
     # connection carries no profile-bound ticket, so the terminal's profile is named (Desktop's routing).
     wire = {"name": request.name, "description": request.description, "clone_from": request.clone_from,
@@ -141,7 +141,7 @@ def create_through_gateway(request: ProfileCreateRequest) -> Optional[ProfileCre
         return None
     from hermes_cli.gateway_client import GatewayRPCError, NOT_SENT, connect_gateway
     machine = " on the gateway's machine" if remote else ""
-    unknown = f"{where} may have created '{request.name}'; check `hermes profile list`{machine} before retrying"
+    unknown = f"{where} may have created '{request.name}'; check `iskra profile list`{machine} before retrying"
     local = _local_profile_dir(request.name)
     was_profile = _is_profile(local)
     # A discovered owner serves this home. A URL's gateway is this home's owner only if it reports the

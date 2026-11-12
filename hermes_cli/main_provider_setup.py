@@ -662,7 +662,7 @@ def _offer_reasoning_after_pick(model_before: str, saves_before: int) -> None:
 
 
 def _prompt_main_reasoning_effort(model: str, provider: str) -> None:
-    """The effort step every ``hermes model`` flow shares: after a main-model pick, offer the
+    """The effort step every ``iskra model`` flow shares: after a main-model pick, offer the
     model's supported levels (a profile may declare a per-model set via ``setup_reasoning_efforts``;
     everything else gets the full ladder) and persist ``agent.reasoning_effort``. Skipped when the catalog says the route has
     no reasoning control; "Skip" leaves the current value alone."""
@@ -700,7 +700,7 @@ def _main_model_reasoning_efforts(model: str, provider: str) -> Optional[list[st
 
 
 def _prompt_api_key(pconfig, existing_key: str, provider_id: str = "", existing_source: str = "") -> tuple:
-    """API-key entry for ``hermes setup`` / ``hermes model``: first-time entry, or [K]eep / [R]eplace /
+    """API-key entry for ``iskra setup`` / ``iskra model``: first-time entry, or [K]eep / [R]eplace /
     [C]lear when a key exists (a malformed paste is recoverable without editing ``.env``).
     Returns ``(resolved_key, abort)``; ``abort=True`` means the caller must ``return`` at once."""
     from hermes_cli.auth import LMSTUDIO_NOAUTH_PLACEHOLDER
@@ -754,7 +754,7 @@ def _prompt_api_key(pconfig, existing_key: str, provider_id: str = "", existing_
         return new_key, False
     if choice.startswith("c") and not pool_backed:
         save_env_value(key_env, "")
-        print(f"  API key cleared.  Re-run `hermes setup` to configure {pconfig.name} again.")
+        print(f"  API key cleared.  Re-run `iskra setup` to configure {pconfig.name} again.")
         return "", True
     # Keep (default, or any other input)
     print()
@@ -906,7 +906,7 @@ def _named_custom_provider_map(cfg) -> dict[str, dict[str, str]]:
 
 def _build_provider_picker_rows(config: dict, active: str, provider_labels: dict[str, str],
                                 custom_provider_map: dict[str, dict[str, str]]) -> tuple[list[tuple[str, str, list[str]]], int]:
-    """Rows for the ``hermes model`` provider picker plus the pre-selected index. Canonical providers
+    """Rows for the ``iskra model`` provider picker plus the pre-selected index. Canonical providers
     fold into display groups (PROVIDER_GROUPS): a group row's ``members`` drive a sub-picker, leaf
     rows have ``members == []``; saved custom providers and trailing actions stay flat. Honors
     ``model_catalog.excluded_providers`` (slug or alias, case-insensitive) like the gateway/TUI."""

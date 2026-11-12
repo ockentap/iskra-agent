@@ -1,4 +1,4 @@
-"""``hermes logs`` — view and filter Hermes log files.
+"""``iskra logs`` — view and filter Hermes log files.
 
 Supports tailing, following, session filtering, level filtering,
 component filtering, and relative time ranges.  All log files live
@@ -38,11 +38,11 @@ LOG_FILES = {
     "gateway": "gateway.log",
     "gui": "gui.log",
     "desktop": "desktop.log",
-    # Full stdout/stderr mirror of the last `hermes update` runs (written by
+    # Full stdout/stderr mirror of the last `iskra update` runs (written by
     # hermes_cli.main's _UpdateOutputStream; append-only across runs). When a
     # Desktop-driven update fails at the Electron rebuild the ONLY artifacts
     # holding the root cause are this file and the hand-off log below, so
-    # `hermes logs list` (a directory scan) showing them without readable
+    # `iskra logs list` (a directory scan) showing them without readable
     # keys was an inconsistency of its own.
     "update": "update.log",
     # Desktop-driven update hand-off (scripts/desktop-update/windows.ps1 +
@@ -54,7 +54,7 @@ LOG_FILES = {
     "mcp": "mcp-stderr.log",
 }
 
-# Written to the ROOT home whatever profile is active: ``hermes update`` mutates the checkout every
+# Written to the ROOT home whatever profile is active: ``iskra update`` mutates the checkout every
 # profile shares, and its mirror (main_dashboard) + the Desktop hand-off scripts write <root>/logs.
 ROOT_HOME_LOGS = frozenset({"update", "handoff"})
 

@@ -1,4 +1,4 @@
-"""``hermes completion`` subcommand parser."""
+"""``iskra completion`` subcommand parser."""
 
 from __future__ import annotations
 

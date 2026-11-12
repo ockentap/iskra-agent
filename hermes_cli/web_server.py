@@ -47,7 +47,7 @@ try:
     from fastapi.responses import JSONResponse
 except ImportError:
     # First try lazy-installing the dashboard extras. Only the user actually
-    # running `hermes dashboard` needs fastapi+uvicorn; lazy install keeps
+    # running `iskra dashboard` needs fastapi+uvicorn; lazy install keeps
     # them out of every other install path. After install, re-import.
     try:
         from pm import ensure_import
@@ -96,7 +96,7 @@ def _gateway_owns_cron(name: str, home) -> bool:
 def _start_desktop_cron_ticker(stop_event: threading.Event, interval: int = 60) -> None:
     """Tick the cron scheduler from inside the desktop dashboard backend.
 
-    The desktop spawns a ``hermes dashboard`` backend, not a gateway, so without
+    The desktop spawns a ``iskra dashboard`` backend, not a gateway, so without
     this a cron created in the app would never fire (no live adapters; delivery
     falls back to the per-platform send path). The primary backend outlives the
     per-profile pool (reaped after ~10 idle minutes), so it ticks EVERY local
@@ -696,7 +696,7 @@ _LAST_GATEWAY_RESTART: Optional[tuple[float, subprocess.Popen, tuple[str, ...]]]
 
 
 def _spawn_gateway_restart(profile: Optional[str] = None, *, interrupt: bool = False) -> tuple[subprocess.Popen, bool]:
-    """Spawn ``hermes gateway restart``, reusing an in-flight or recent restart.
+    """Spawn ``iskra gateway restart``, reusing an in-flight or recent restart.
 
     Concurrent children race each other on the kill-and-start path, so a live
     child is reused; requests within ``GATEWAY_RESTART_COOLDOWN_SECONDS`` for the
@@ -929,7 +929,7 @@ def _no_auth_provider_message(host: str) -> str:
         "    (hash with: python -c \"from "
         "plugins.dashboard_auth.basic import hash_password; "
         "print(hash_password('your-password'))\")\n"
-        "  • OAuth: run `hermes dashboard register` (Nous Portal) or "
+        "  • OAuth: run `iskra dashboard register` (Nous Portal) or "
         "install a DashboardAuthProvider plugin.\n"
         "  • Deployment token: provision HERMES_DASHBOARD_SESSION_TOKEN "
         "(a literal token, or 'file:<path>' naming a secret-manager-decrypted "
@@ -957,7 +957,7 @@ def _no_auth_provider_message(host: str) -> str:
                 "plugins.disabled but dashboard.basic_auth is "
                 "configured.\n"
                 "Remove 'basic' from plugins.disabled (or run "
-                "`hermes plugins enable basic`), then restart the "
+                "`iskra plugins enable basic`), then restart the "
                 "dashboard.\n\n"
             ) + fix_hint
     except Exception:
@@ -1150,7 +1150,7 @@ def _publish_host_rendezvous(host: str, port: int) -> None:
     # Desktop shell) are loopback, random-port and per-profile. Recording one as the HOST owner
     # made a later independently supervised `dashboard --host 0.0.0.0 --port N` refuse behind
     # the private child on every restart (#119824): the attach/refuse ladder reads ROLE_SERVE
-    # only. They still publish under their own role so `hermes plugins install` from a terminal
+    # only. They still publish under their own role so `iskra plugins install` from a terminal
     # can reach the backend hosting the open chats on a Desktop-only box (#119644).
     from gateway import host_rendezvous as hr
 
@@ -1235,7 +1235,7 @@ def _on_server_started(
     # ledger + spawner provably dead); anything alive or unprovable is untouched.
     _best_effort("orphan MCP helper reap", _reap_mcp_helpers)
 
-    # No-op for standalone `hermes serve` (no HERMES_PARENT_PID).
+    # No-op for standalone `iskra serve` (no HERMES_PARENT_PID).
     _start_parent_death_watchdog()
     # SSH-isolated backends are detached from any parent on purpose (#91668); their liveness signal
     # is "does a client still hold a WebSocket" (#101626).
@@ -1265,13 +1265,13 @@ def _on_server_started(
 
     actual_port = _read_bound_port(server, fallback=port)
     app.state.bound_port = actual_port
-    # Published by /api/host/identity: an attaching `hermes dashboard` must never be routed to a
+    # Published by /api/host/identity: an attaching `iskra dashboard` must never be routed to a
     # headless backend (a URL with no UI behind it).
     app.state.serves_spa = not headless
 
     # Positive process identity in the machine spawn ledger (+ Windows
     # kill-on-close job). Registered AFTER the bind so the entry carries the
-    # ACTUAL port — what lets `hermes update` relaunch a manually-started serve
+    # ACTUAL port — what lets `iskra update` relaunch a manually-started serve
     # on its real endpoint (#63206).
     def _register_identity() -> None:
         from hermes_cli.process_identity import attach_self_to_kill_on_close_job, register_self
@@ -1284,7 +1284,7 @@ def _on_server_started(
 
     _best_effort("process-identity registration", _register_identity)
 
-    # Host rendezvous (multiplex-only): the host lock + record that let a SECOND `hermes serve`
+    # Host rendezvous (multiplex-only): the host lock + record that let a SECOND `iskra serve`
     # for any profile find this process and attach instead of binding a second port. Published
     # after the bind so the record carries the real port, and beside — not instead of — the
     # spawn-ledger entry above, which Desktop's attach ladder reads.

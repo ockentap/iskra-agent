@@ -1,4 +1,4 @@
-"""Read-only presentation: ``hermes plugins list``, ``show`` and ``compat``.
+"""Read-only presentation: ``iskra plugins list``, ``show`` and ``compat``.
 
 Sibling of :mod:`hermes_cli.plugins_cmd` (the facade re-exports the names other modules use and is
 imported late here, never at module level).
@@ -18,7 +18,7 @@ def _pc():
 
 
 def _filter_plugin_entries(entries: list, args: Any, enabled: set, disabled: set) -> list:
-    """Apply ``hermes plugins list`` CLI filters."""
+    """Apply ``iskra plugins list`` CLI filters."""
     filtered = entries
     if getattr(args, "no_bundled", False) or getattr(args, "user", False):
         filtered = [entry for entry in filtered if entry[3] != "bundled"]

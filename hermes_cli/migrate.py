@@ -1,7 +1,7 @@
-"""CLI handlers for ``hermes migrate ...``.
+"""CLI handlers for ``iskra migrate ...``.
 
-``hermes migrate`` (bare) and ``hermes migrate <agent>`` move a user over from another agent through
-the agent-importers plugin; ``hermes migrate xai`` diagnoses and (with --apply) rewrites references to
+``iskra migrate`` (bare) and ``iskra migrate <agent>`` move a user over from another agent through
+the agent-importers plugin; ``iskra migrate xai`` diagnoses and (with --apply) rewrites references to
 xAI models retired on May 15, 2026.
 """
 from __future__ import annotations
@@ -15,7 +15,7 @@ from hermes_cli.config import load_config
 
 
 def cmd_migrate(args: Any) -> int:
-    """Dispatcher for ``hermes migrate <subtype>``."""
+    """Dispatcher for ``iskra migrate <subtype>``."""
     if getattr(args, "migrate_type", None) == "xai":
         return cmd_migrate_xai(args)
     if getattr(args, "migrate_type", None) is None:
@@ -27,13 +27,13 @@ def cmd_migrate(args: Any) -> int:
     return 2
 
 
-# ``hermes migrate <agent>`` flags forwarded to ``hermes import-agent <agent>``, as (dest, flag).
+# ``iskra migrate <agent>`` flags forwarded to ``iskra import-agent <agent>``, as (dest, flag).
 _AGENT_IMPORT_FLAGS = (("dry_run", "--dry-run"), ("overwrite", "--overwrite"), ("yes", "--yes"),
                        ("activate_routines", "--activate-routines"), ("migrate_secrets", "--migrate-secrets"))
 
 
 def cmd_migrate_agent(args: Any) -> int:
-    """``hermes migrate <agent>``: install the agent-importers plugin when missing, then run its
+    """``iskra migrate <agent>``: install the agent-importers plugin when missing, then run its
     import for that agent with the flags given here."""
     from hermes_cli.config import get_hermes_home
     from hermes_cli.setup_agent_import import migrate_from_agents
@@ -81,7 +81,7 @@ def cmd_migrate_xai(args: Any) -> int:
     if not apply:
         print(color("Dry-run mode — no changes written.", Colors.DIM))
         print(color(
-            "Re-run with `hermes migrate xai --apply` to rewrite "
+            "Re-run with `iskra migrate xai --apply` to rewrite "
             f"{config_path} in-place (backup created automatically).",
             Colors.DIM))
         return 0
@@ -104,7 +104,7 @@ def cmd_migrate_xai(args: Any) -> int:
         f"  {color('✓', Colors.GREEN)} Updated {len(result.issues_resolved)} "
         f"slot(s) in {result.file_path}")
     print()
-    print(color("Run `hermes doctor` to confirm no retired xAI models remain.", Colors.DIM))
+    print(color("Run `iskra doctor` to confirm no retired xAI models remain.", Colors.DIM))
     return 0
 
 

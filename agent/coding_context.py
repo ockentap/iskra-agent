@@ -568,7 +568,7 @@ def build_coding_workspace_block(cwd: Optional[str | Path] = None) -> str:
         # Linked worktree: say so (branches/stashes are shared state) but do NOT expose
         # the primary tree path — a second absolute path makes the model run commands
         # in the wrong directory. Derived from the session's own cwd, so every surface
-        # opened in a worktree (``hermes -w``, Ink, Desktop, ACP) gets the same guidance.
+        # opened in a worktree (``iskra -w``, Ink, Desktop, ACP) gets the same guidance.
         git_dir, common_dir = _git(root, "rev-parse", "--git-dir"), _git(root, "rev-parse", "--git-common-dir")
         if git_dir and common_dir and Path(git_dir).resolve() != Path(common_dir).resolve():
             on_branch = f" on branch {head}" if head and head != "(detached)" else ""

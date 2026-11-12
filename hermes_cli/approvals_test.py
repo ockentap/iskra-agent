@@ -1,4 +1,4 @@
-"""``hermes approvals test`` — dry-run approval verdict for a command.
+"""``iskra approvals test`` — dry-run approval verdict for a command.
 
 Answers "what would the approval system do with this command?" WITHOUT running it, prompting anyone,
 or persisting anything. It composes the REAL runtime evaluators from ``tools.approval`` in the same
@@ -130,7 +130,7 @@ def _render_text(verdict: dict) -> None:
 
 
 def approvals_test_command(args) -> int:
-    """Handle ``hermes approvals test <command...>``. Returns the exit code."""
+    """Handle ``iskra approvals test <command...>``. Returns the exit code."""
     words = list(getattr(args, "command_words", None) or [])
     # argparse REMAINDER keeps a leading "--" separator; it is not part of the command.
     if words and words[0] == "--":

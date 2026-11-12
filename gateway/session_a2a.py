@@ -115,7 +115,7 @@ async def forward(connection, params):
         ref = restore_local_session(authority, sid)
     else:
         # Historical `a2a-{agent}-{slug}` titles discarded peer/tenant identity and collapsed
-        # context characters, and those `hermes chat --source a2a` rows stored no origin, so a
+        # context characters, and those `iskra chat --source a2a` rows stored no origin, so a
         # titled row never proves it belongs to this exact conversation. Never adopt or retitle
         # it (that would hand one peer another's history), and never refuse every peer whose
         # slug collides: start this identity's own canonical session and leave the old row be.

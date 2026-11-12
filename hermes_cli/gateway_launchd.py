@@ -257,12 +257,12 @@ def launchd_program_arguments(command: list[str], stdout_log: Path, stderr_log: 
 
 def _timestamped_stderr_gateway_command(error_log: Path, *, external_supervisor: bool = False) -> list[str]:
     """Wrap gateway run so raw stderr lines are timestamped before file write. ``external_supervisor``
-    (launchd ProgramArguments only) adds ``--external-supervisor`` so ``hermes update`` hands back to
+    (launchd ProgramArguments only) adds ``--external-supervisor`` so ``iskra update`` hands back to
     launchd, and drops ``--replace``: KeepAlive respawns would re-arm takeover, so two profiles sharing
     a token would kill each other forever.
 
     ``external_supervisor=True`` is for launchd ProgramArguments only: the inner ``gateway run`` must carry
-    ``--external-supervisor`` so ``hermes update`` sees the flag on the live grandchild argv and hands the
+    ``--external-supervisor`` so ``iskra update`` sees the flag on the live grandchild argv and hands the
     process back to launchd instead of starting a detached watcher (#86893 / #87005). The detached nohup
     fallback stays unmarked.
     Supervised starts also drop ``--replace`` (issue #79048): a launchd service is respawned by KeepAlive,
@@ -691,7 +691,7 @@ def launchd_install(force: bool = False, *, start_now: bool = True, force_unit_p
 
     if not load:
         # A job left loaded but idle (a parked clean exit) keeps its old definition, and that is
-        # what `hermes gateway start` would kickstart instead of loading this plist.
+        # what `iskra gateway start` would kickstart instead of loading this plist.
         subprocess.run(
             ["launchctl", "bootout", f"{_gw()._launchd_domain()}/{label}"],
             check=False, timeout=90, **_gw()._CAPTURE_TEXT)
@@ -803,7 +803,7 @@ def launchd_stop():
     gateway_service_owner.refuse_foreign_launchd_plist("stop")
     target = f"{_launchd_domain()}/{get_launchd_label()}"
     _gw()._mark_planned_stop()
-    # bootout unloads the definition so KeepAlive doesn't respawn; `hermes gateway start` re-bootstraps.
+    # bootout unloads the definition so KeepAlive doesn't respawn; `iskra gateway start` re-bootstraps.
     try:
         # Captured: an already-unloaded job (3/113/125) is handled below, so launchctl's own
         # "Boot-out failed: 3" must not print around the ✓ line; e.stderr stays on the raised error.
@@ -858,7 +858,7 @@ def launchd_restart():
             return
         if pid is not None and _gw().probe_gateway_loop_liveness(pid) == _gw().GATEWAY_LOOP_WEDGED:
             # Event loop provably dead: it can't process a graceful shutdown, so a full drain wait
-            # only stalls the restart (and `hermes update`). Bounded SIGTERM → SIGKILL, ~10s.
+            # only stalls the restart (and `iskra update`). Bounded SIGTERM → SIGKILL, ~10s.
             print(f"⚠ Gateway PID {pid} event loop is unresponsive — " "skipping drain and forcing a bounded stop...")
             _gw()._escalate_wedged_gateway(pid)
             pid = None

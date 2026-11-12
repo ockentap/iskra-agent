@@ -1,4 +1,4 @@
-"""``hermes doctor`` subcommand parser."""
+"""``iskra doctor`` subcommand parser."""
 
 from __future__ import annotations
 
@@ -20,6 +20,6 @@ def build_doctor_parser(subparsers, *, cmd_doctor: Callable) -> None:
     doctor_parser.add_argument(
         "--ack", metavar="ADVISORY_ID", default=None,
         help="Acknowledge a security advisory by ID and exit. After ack, the "
-            "advisory will no longer trigger startup banners. Run `hermes "
+            "advisory will no longer trigger startup banners. Run `iskra "
             "doctor` first to see active advisories and their IDs.")
     doctor_parser.set_defaults(func=cmd_doctor)

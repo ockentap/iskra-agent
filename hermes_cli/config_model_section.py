@@ -18,7 +18,7 @@ def _normalize_root_model_keys(config: dict[str, Any]) -> dict[str, Any]:
     sees a nested dict, and the id is canonicalized to ``default``.
 
     Also aliases ``api_base`` → ``base_url`` (issue #8919). ``api_base`` is the intuitive name OpenAI-SDK /
-    LiteLLM users reach for, and ``hermes config set`` blindly accepts any dotted key — so
+    LiteLLM users reach for, and ``iskra config set`` blindly accepts any dotted key — so
     ``model.api_base`` got written, confirmed, and then silently ignored by the runtime resolver (which
     reads only ``model.base_url``), causing requests to fall back to OpenRouter. We migrate the alias to the
     canonical key (fallback-only — never override an explicit ``base_url``) and drop the alias so it can't
@@ -27,7 +27,7 @@ def _normalize_root_model_keys(config: dict[str, Any]) -> dict[str, Any]:
     ~14 other readers select the chat model via ``model.default``; ``model.model`` was already aliased
     inline at some sites but ``model.name`` was not, so a custom-provider config like ``model: {name: <id>,
     provider: <custom>}`` resolved to an empty model and the API request went out with ``model=`` (HTTP 400
-    from OpenAI-compatible backends) — while display paths (``hermes status``/``dump``) read ``name`` and
+    from OpenAI-compatible backends) — while display paths (``iskra status``/``dump``) read ``name`` and
     *showed* the model, making the failure silent. Normalizing here (the single load/save chokepoint) means
     every reader, present and future, sees a populated ``default`` and the stale alias is migrated out of
     config.yaml on the next save. Precedence: ``default`` > ``model`` > ``name`` (never overrides an

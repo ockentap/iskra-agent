@@ -255,8 +255,8 @@ def _load_config_basic_auth_section() -> dict:
 # these (nor a space), and everyone who copied the same line would share the same key.
 _UNEXPANDED_SHELL_MARKERS = ("$(", "`", "openssl rand")
 
-# The error above only reaches the log files, not the console of ``hermes serve`` /
-# ``hermes dashboard``; one stderr line per process makes it visible there too.
+# The error above only reaches the log files, not the console of ``iskra serve`` /
+# ``iskra dashboard``; one stderr line per process makes it visible there too.
 _shell_text_secret_reported = False
 
 

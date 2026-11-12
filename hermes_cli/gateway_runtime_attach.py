@@ -1,6 +1,6 @@
 """One client attach: find (or start) the profile's owner, then mint its single-use session ticket.
 
-Shared by ``hermes gateway attach`` (any local client) and Ink's ``ui-tui/scripts/gateway_bootstrap.py``.
+Shared by ``iskra gateway attach`` (any local client) and Ink's ``ui-tui/scripts/gateway_bootstrap.py``.
 The ticket is a credential for the one process that dials: never log it, never put it in a repr.
 """
 from __future__ import annotations
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from hermes_cli.gateway_runtime import GatewayDiscovery
 
 # Launch policy travels in session.create, not into daemon-wide defaults. That includes the Kanban
-# board `hermes --tui` pins at launch (_pin_kanban_board_env): a daemon started from here would
+# board `iskra --tui` pins at launch (_pin_kanban_board_env): a daemon started from here would
 # otherwise resolve every later chat's, Desktop window's and cron job's board to this terminal's
 # launch-time board instead of the profile's `kanban/current`.
 CLIENT_LAUNCH_ENV = (
@@ -70,7 +70,7 @@ def attach_gateway(home: str | Path, *, start: bool, recover: bool = False, time
 
     ``start`` ensures the owner (a client's first launch); otherwise this only discovers it, except
     ``recover``, which re-ensures whenever the owner is not ready: crashed, ended by its idle exit,
-    stopped with ``hermes gateway stop``, or an older Hermes's gateway (ensure replaces that one). A
+    stopped with ``iskra gateway stop``, or an older Hermes's gateway (ensure replaces that one). A
     restart's after-turn wait is attachable as it is (#139041). ``timeout`` bounds an ensure; a
     discovery waits at most ``DISCOVER_TIMEOUT`` of it. A daemon this starts ends itself once idle.
     A failed mint (control socket I/O, a refused or changed grant) raises ``TicketUnavailable``.

@@ -1,4 +1,4 @@
-"""Out-of-process Telegram send (``hermes send``, the ``send_message`` tool, standalone cron delivery):
+"""Out-of-process Telegram send (``iskra send``, the ``send_message`` tool, standalone cron delivery):
 a one-shot Bot API client built like the gateway adapter's, with the adapter's formatting, chunking,
 notification mode, rich-message fast-path, albums and fallbacks. Wired as the plugin's
 ``standalone_sender_fn``; core reaches it only through the platform registry.

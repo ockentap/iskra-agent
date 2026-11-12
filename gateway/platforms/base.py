@@ -463,11 +463,11 @@ GATEWAY_SECRET_CAPTURE_UNSUPPORTED_MESSAGE = (
 
 # One sentence for every "you may not press/run this" refusal on every platform (slash commands,
 # approval buttons, pickers, prompts). ``{platform}`` is the ``Platform.value`` for the
-# ``hermes pairing approve`` command (hermes_cli/subcommands/pairing.py) that lets the owner fix it.
+# ``iskra pairing approve`` command (hermes_cli/subcommands/pairing.py) that lets the owner fix it.
 # Kept under 200 chars: Telegram's answerCallbackQuery truncates longer text.
 UNAUTHORIZED_ACTION_NOTICE = (
     "This bot is private and you're not on its allowed list. If you own it, run "
-    "`hermes pairing approve {platform} <request-id>` on the host (`hermes pairing list` shows the id).")
+    "`iskra pairing approve {platform} <request-id>` on the host (`iskra pairing list` shows the id).")
 
 
 def unauthorized_action_notice(platform: Any) -> str:
@@ -1008,7 +1008,7 @@ def _translate_docker_container_media_path(
     """
     if not candidate.as_posix().startswith("/"):  # POSIX even on Windows gateways (not is_absolute)
         return None
-    # In-process gateways (Desktop, `hermes serve`) may not have bridged terminal.* config into
+    # In-process gateways (Desktop, `iskra serve`) may not have bridged terminal.* config into
     # TERMINAL_* env yet; the bridge is idempotent.
     with contextlib.suppress(Exception):
         from tools.terminal_tool import _ensure_terminal_env_bridged
@@ -1844,7 +1844,7 @@ class BasePlatformAdapter(_SessionModelSettingsMixin, ABC):
     interactive_resume: bool = True
     # Port-binding adapter that answers ``/p/<profile>/...`` for every served profile on the default
     # listener under ``gateway.multiplex_profiles``. Declared per adapter (not in a central list) so
-    # ``hermes gateway migrate`` can tell "URL changes" from "this profile would be skipped" as new
+    # ``iskra gateway migrate`` can tell "URL changes" from "this profile would be skipped" as new
     # HTTP-inbound adapters gain the prefix.
     serves_profile_prefix: bool = False
     # Back-reference to the running ``GatewayRunner`` (set by gateway/run.py); ``build_source``

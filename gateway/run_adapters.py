@@ -296,7 +296,7 @@ class GatewayAdapterLifecycleMixin(GatewaySecondaryReconnectMixin):
     def _on_all_adapters_down(self) -> str:
         """Normalized ``GatewayConfig.on_all_adapters_down``: ``"exit"`` (default — a supervising
         service manager restarts the process) or ``"stay_alive"`` (launchers with no supervisor,
-        e.g. the desktop app's direct ``hermes serve`` child, where a failure exit only severs the
+        e.g. the desktop app's direct ``iskra serve`` child, where a failure exit only severs the
         UI's websockets and drops in-flight assistant messages; #118080)."""
         value = getattr(getattr(self, "config", None), "on_all_adapters_down", None)
         return value if value in ON_ALL_ADAPTERS_DOWN_POLICIES else "exit"
@@ -771,7 +771,7 @@ class GatewayAdapterLifecycleMixin(GatewaySecondaryReconnectMixin):
         logger.warning(
             "%s has been failing/reconnecting continuously for %.1f hours (%d attempts) — flagging "
             "NEEDS_ATTENTION. Retries continue, but this usually means a permanent problem (revoked "
-            "credentials, missing intents, broken sidecar). Check `hermes status` / `/platform list`.",
+            "credentials, missing intents, broken sidecar). Check `iskra status` / `/platform list`.",
             status_key or platform.value, queued_for / 3600.0, info.get("attempts", 0),
         )
         self._update_platform_runtime_status(
@@ -993,7 +993,7 @@ class GatewayAdapterLifecycleMixin(GatewaySecondaryReconnectMixin):
         from gateway.run_profile_reconcile import profile_serve_signature
         if not self._multiplex_on():
             # Runtime-status publication re-stamps the previous writer's record in place, so a multiplexer's
-            # ``served_profiles`` would outlive it into this single-profile run and `hermes -p X ...`
+            # ``served_profiles`` would outlive it into this single-profile run and `iskra -p X ...`
             # would keep refusing (exit 78) / reporting "served" for profiles nobody serves.
             with _log_suppressed(logging.DEBUG, "could not clear served_profiles", exc_info=True):
                 from gateway.status import publish_runtime_status
@@ -1065,7 +1065,7 @@ class GatewayAdapterLifecycleMixin(GatewaySecondaryReconnectMixin):
 
     def _record_served_profiles(self, active: str, profile_homes) -> None:
         """Record the served set (eligible for routing/HTTP prefixes/cron/runtime scope — broader
-        than "has a connected adapter") for `hermes status`; seed per-profile PairingStores."""
+        than "has a connected adapter") for `iskra status`; seed per-profile PairingStores."""
         with _log_suppressed(logging.DEBUG, "could not record served_profiles", exc_info=True):
             from gateway.status import publish_runtime_status
             from gateway.pairing import PairingStore
@@ -1223,7 +1223,7 @@ class GatewayAdapterLifecycleMixin(GatewaySecondaryReconnectMixin):
 
     def _note_unserved_secondary_platform(self, profile_name: str, platform: Platform) -> None:
         """Report unpaired WhatsApp or secondary-only Relay. Log the reason and remedy and stamp a
-        ``<profile>:<platform>`` status entry so ``hermes gateway status --profile X`` and the
+        ``<profile>:<platform>`` status entry so ``iskra gateway status --profile X`` and the
         dashboard show *why* the channel is dead instead of nothing at all.
 
         A shared-ingress platform the default profile runs is not unserved: the secondary is reached

@@ -69,7 +69,7 @@ def _resolve_gateway_exit_verdict(runner, signal_initiated_shutdown: bool) -> bo
     return True
 
 # Windows has no bash/setsid chain: a tiny detached Python watcher waits for the gateway PID to
-# exit (bounded), then spawns ``hermes gateway restart``.
+# exit (bounded), then spawns ``iskra gateway restart``.
 _WINDOWS_RESTART_WATCHER = """
 import os, subprocess, sys, time
 from hermes_cli._subprocess_compat import windows_detach_flags_without_breakaway
@@ -784,7 +784,7 @@ class GatewayShutdownMixin(GatewaySessionEndMixin):
         )
         logger.warning(
             "%s paused after %d consecutive failures (%s) — fix the underlying issue then run `/platform "
-            "resume %s` to retry, or `hermes gateway restart` to restart the gateway.",
+            "resume %s` to retry, or `iskra gateway restart` to restart the gateway.",
             platform.value, info.get("attempts", 0), info["pause_reason"], platform.value,
         )
 
@@ -1424,7 +1424,7 @@ class GatewayShutdownMixin(GatewaySessionEndMixin):
         # Console python under CREATE_NO_WINDOW: nothing flashes. NOT pythonw.exe — a console-less
         # watcher makes every console-subsystem descendant allocate a visible conhost (#54220/#56747).
         # The watcher runs sys.executable (console python) under the CREATE_NO_WINDOW detach kwargs below:
-        # it owns one hidden console, inherited by the `hermes gateway restart` child, so nothing flashes.
+        # it owns one hidden console, inherited by the `iskra gateway restart` child, so nothing flashes.
         # See #54220, #56747.
         from hermes_cli._launchers import runtime_command
         watcher_argv = runtime_command(project_root,
@@ -1568,7 +1568,7 @@ class GatewayShutdownMixin(GatewaySessionEndMixin):
 
     def _describe_active_work(self) -> list:
         """One dict per in-flight work unit the restart wait is holding for, so an observer
-        (``hermes update``, ``hermes gateway status``) can name it instead of printing a bare count.
+        (``iskra update``, ``iskra gateway status``) can name it instead of printing a bare count.
 
         ``kind`` ∈ ``chat`` (session turn), ``cron`` (job id + external worker pid when the run was handed to a
         restart-safe scope), ``managed`` (session + worker pid when a worker holds it), ``api`` / ``deferred``

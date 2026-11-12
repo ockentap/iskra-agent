@@ -149,7 +149,7 @@ def find_provider_dir(name: str) -> Optional[Path]:
     """Provider name -> directory: bundled, user, project, then a pip entry point's
     package dir. The entry-point case matters because ``config_schema.py`` and
     ``cli.py`` are read from disk, not imported; without a directory a pip-installed
-    provider silently loses its dashboard panel and ``hermes <provider>`` commands."""
+    provider silently loses its dashboard panel and ``iskra <provider>`` commands."""
     bundled = _MEMORY_PLUGINS_DIR / name
     if bundled.is_dir() and (bundled / "__init__.py").exists():
         return bundled
@@ -227,7 +227,7 @@ def load_memory_provider(name: str, *, register_skills: Optional[bool] = None) -
         logger.debug("Memory provider '%s' not found in bundled, user plugins, or entry points", name)
         return None
     if provider_dir is not None and _explicitly_disabled(name, provider_dir):
-        # The Plugins hub / `hermes plugins disable` (or an update that could not install it) park a
+        # The Plugins hub / `iskra plugins disable` (or an update that could not install it) park a
         # user-installed provider in ``plugins.disabled``; the loader must honour it or "disabled" is a lie.
         logger.warning("%s", parked_provider_notice(name))
         return None
@@ -248,7 +248,7 @@ def load_memory_provider(name: str, *, register_skills: Optional[bool] = None) -
 def import_memory_provider_module(name: Optional[str] = None) -> bool:
     """Import the provider's module (default: the configured ``memory.provider``) WITHOUT
     constructing a provider — the later ``load_memory_provider`` then hits ``sys.modules``
-    instead of a fresh native extension load. Exists so ``hermes acp`` can pay the heavy
+    instead of a fresh native extension load. Exists so ``iskra acp`` can pay the heavy
     import (numpy / ML stack) on the main thread before any other thread starts: on Windows
     a first-time native import racing another thread's import chain deadlocked
     ``session/new`` (#58083). False when no provider is configured, the provider is
@@ -531,7 +531,7 @@ def _get_active_memory_provider() -> Optional[str]:
 
 
 def active_memory_provider_commands() -> set[str]:
-    """The ``hermes <name>`` command the active memory provider registers, as a set: empty when none is
+    """The ``iskra <name>`` command the active memory provider registers, as a set: empty when none is
     selected or it ships no ``cli.py`` (the file :func:`discover_plugin_cli_commands` imports).
     Never raises (config read errors count as no provider)."""
     name = _get_active_memory_provider()
@@ -552,7 +552,7 @@ def parked_provider_notice(name: str) -> Optional[str]:
     why = (f" An update turned it off ({recorded.get('reason')}) and a later update retries it."
            if isinstance(recorded, dict) and recorded.get("reason") else "")
     return (f"⚠ Memory provider '{name}' is turned off: plugins.disabled lists it, so external memory is off "
-            f"(built-in memory still works).{why} Turn it back on with `hermes plugins enable {name}`.")
+            f"(built-in memory still works).{why} Turn it back on with `iskra plugins enable {name}`.")
 
 
 def _explicitly_disabled(name: str, provider_dir: Path) -> bool:

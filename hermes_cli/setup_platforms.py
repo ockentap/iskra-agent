@@ -1,4 +1,4 @@
-"""Messaging-platform setup wizards (Telegram, webhooks) and the ``hermes setup
+"""Messaging-platform setup wizards (Telegram, webhooks) and the ``iskra setup
 gateway`` flow. setup.py re-exports the public names, and tests monkeypatch prompt/print/env
 helpers on hermes_cli.setup, so those are imported lazily per function."""
 

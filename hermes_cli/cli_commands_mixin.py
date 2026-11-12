@@ -979,7 +979,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
     # ---- /worktree ------------------------------------------------------------------------
     def _handle_worktree_command(self, cmd_original: str) -> None:
         """Handle /worktree [new [name]|list|prune [--dry-run]] — isolated git worktrees.
-        ``new`` moves this session into the tree (as ``hermes -w``: kept on exit only with
+        ``new`` moves this session into the tree (as ``iskra -w``: kept on exit only with
         unpushed commits); ``prune`` never deletes tracked changes, unique commits, or in-use trees."""
         import cli as _cli
         parts = cmd_original.split(None, 2)
@@ -1051,7 +1051,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
         wt_info = _cli._setup_worktree(repo_root=repo_root, sync_base=sync_base, name=rest or None)
         if not wt_info:
             return  # _setup_worktree already printed the failure
-        # Same keep-if-unpushed cleanup as `hermes -w`. Only one tree is "active" per process;
+        # Same keep-if-unpushed cleanup as `iskra -w`. Only one tree is "active" per process;
         # an earlier one keeps its own atexit registration (explicit info arg).
         atexit.register(_cli._cleanup_worktree, wt_info)
         from hermes_cli.cli_commands_worktree import enter_new_worktree
@@ -1229,7 +1229,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
             self._pending_agent_seed = seed
 
     def _handle_curator_command(self, cmd: str):
-        """Handle /curator — delegates to hermes_cli.curator so the CLI and the `hermes curator`
+        """Handle /curator — delegates to hermes_cli.curator so the CLI and the `iskra curator`
         subcommand share the same handler set."""
         tokens = shlex.split(cmd)[1:] if cmd else []
         try:
@@ -1554,7 +1554,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
 
     # ---- /bundles, /browser ---------------------------------------------------------------
     def _handle_bundles_command(self, cmd: str) -> None:
-        """In-session ``/bundles`` — show installed skill bundles (``hermes bundles list`` rendered
+        """In-session ``/bundles`` — show installed skill bundles (``iskra bundles list`` rendered
         inside the running CLI). Bundles are loaded via ``/<bundle-name>``."""
         from cli import ChatConsole, _BOLD, _RST, _accent_hex
         from hermes_cli.slash_exec import CommandContext, execute_command
@@ -1607,7 +1607,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
     def _handle_heartbeat_command(self, cmd: str) -> None:
         """Dispatch /heartbeat: set / status / pause / resume / clear. ``/heartbeat every 10m <prompt>``
         sets the session's one recurring instruction, injected as a normal user turn when due.
-        Session-scoped and in-process — use `hermes cron` for durable schedules."""
+        Session-scoped and in-process — use `iskra cron` for durable schedules."""
         from hermes_cli.heartbeat import format_interval
         arg = _command_arg(cmd)
         lower = arg.lower()
@@ -2107,7 +2107,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
             lines=200, expire=7, local=local, nous="nous" in words and not local, yes=True))
 
     def _handle_update_command(self) -> bool:
-        """Handle /update — exit the session and relaunch as ``hermes update``. Returns True when
+        """Handle /update — exit the session and relaunch as ``iskra update``. Returns True when
         confirmed (the caller exits the app; the relaunch runs on the main thread after
         prompt_toolkit restores terminal modes), False when cancelled."""
         from hermes_cli.config import is_managed, format_managed_message

@@ -1,9 +1,9 @@
-"""``hermes peer`` — bot-to-bot DMs across machines/gateways.
+"""``iskra peer`` — bot-to-bot DMs across machines/gateways.
 
 A *peer* is another Hermes gateway running the ``api_server`` platform; its stock
 API is the transport (no new server surface). ``dm`` resolves the remote canonical
 "Bot Chat" session (creating it when missing) and runs ONE synchronous turn — the
-cross-machine twin of ``hermes -p <bot> chat --in ~ -c "Bot Chat"``. ``run``/``status``
+cross-machine twin of ``iskra -p <bot> chat --in ~ -c "Bot Chat"``. ``run``/``status``
 /``stop`` do the same turn through the async Runs API. Peer labels/URLs live in
 config.yaml (``bot_peers``); the key lives in ``~/.hermes/.env`` as
 ``HERMES_PEER_<NAME>_KEY``. ``<peer>/<profile>`` targets the ``/p/<profile>/`` mirror.
@@ -79,7 +79,7 @@ def _request(
     if headers:
         request_headers.update(headers)
     req = urllib.request.Request(url, data=data, method=method, headers=request_headers)
-    # The peer URL is user-registered (``hermes peer add``); a redirect to a
+    # The peer URL is user-registered (``iskra peer add``); a redirect to a
     # different origin must not carry the Authorization: Bearer key with it —
     # a compromised/MITM'd peer could otherwise harvest it. open_credentialed_url
     # strips non-safelisted headers across a cross-origin redirect.
@@ -118,9 +118,9 @@ def _peer_lacks_profile(exc: Exception) -> bool:
 def _resolve_base(peer: dict, profile: str | None, key: str, peer_name: str = "") -> str:
     """The mirror a target addresses. Bot Mode shows a peer's default profile as @hermes
     (#118076); an upgraded peer aliases ``/p/hermes`` to its default itself, unless it has a real
-    pre-reservation profile named ``hermes``, which keeps the handle. The client never reroutes on
+    pre-reservation profile named ``iskra``, which keeps the handle. The client never reroutes on
     its own: an older peer answers the same generic 404 for "no such profile" and for a real
-    ``hermes`` profile it does not serve (parked, standalone), so guessing ``/p/default`` there
+    ``iskra`` profile it does not serve (parked, standalone), so guessing ``/p/default`` there
     delivers into the wrong agent. That ambiguous answer becomes an error naming the explicit
     ``<peer>/default`` address instead."""
     base = _base_url(peer, profile)
@@ -427,7 +427,7 @@ def _peer_dm(args, message: str, peer_name: str, profile: str | None, base: str,
     # the turn stays in the peer's own transcript, the sending agent never
     # sees NO_REPLY/[SILENT] as a real reply. Same rule as the gateway's live
     # Bot Chat completion, the Desktop bot_relay.deliver RPC and the one-shot
-    # local `hermes chat -Q` transport (tools/bot_mode_dm.py) — this is the
+    # local `iskra chat -Q` transport (tools/bot_mode_dm.py) — this is the
     # 4th Bot Mode delivery door and was missing the same check.
     from gateway.response_filters import is_intentional_silence_response, strip_trailing_silence_marker
     reply = "" if is_intentional_silence_response(reply) else strip_trailing_silence_marker(reply)

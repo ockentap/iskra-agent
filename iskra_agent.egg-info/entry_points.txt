@@ -1,0 +1,4 @@
+[console_scripts]
+iskra = hermes_cli.main:main
+iskra-acp = acp_adapter.entry:main
+iskra-agent = agent.legacy_cli:main

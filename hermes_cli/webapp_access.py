@@ -105,7 +105,7 @@ def sign_in_client(home) -> Optional[tuple[str, str]]:
 def registered_lan_origin(home: Path, port: int) -> Optional[str]:
     """``http://<LAN address>:<port>`` when Web Access last registered Nous sign-in for *home*'s
     Webapp on the LAN at that address and *port*, and the address is still this machine's; else None.
-    Sign-in returns only to the callback the Portal has, so ``hermes webapp`` opens this address."""
+    Sign-in returns only to the callback the Portal has, so ``iskra webapp`` opens this address."""
     try:
         parts = urlsplit(_registration(home)["callback"])
         recorded_port = parts.port
@@ -120,7 +120,7 @@ def registered_lan_origin(home: Path, port: int) -> Optional[str]:
 
 def _register_nous_sign_in(callback_url: str) -> None:
     """Register Web Access's own portal client with *callback_url*, or update it in place, as
-    ``hermes dashboard register --redirect-uri`` does for the dashboard's. It never sends the
+    ``iskra dashboard register --redirect-uri`` does for the dashboard's. It never sends the
     dashboard's client id and writes nothing to ``.env``: the Portal may replace a client's redirect
     URI on every registration. The same callback for the same client and Portal is never posted
     twice, so a start with nothing changed asks the Portal nothing."""
@@ -295,7 +295,7 @@ def _port_free(host: str, port: int) -> bool:
 
 
 def build_bundle() -> None:
-    """Build the Webapp bundle the gateway serves, with the function ``hermes webapp`` uses (it
+    """Build the Webapp bundle the gateway serves, with the function ``iskra webapp`` uses (it
     reuses a current bundle), so Start never turns on a Webapp with nothing to serve."""
     from hermes_cli.config import get_project_root
     from hermes_cli.webapp import WebappBuildError, prepare_webapp_renderer
@@ -362,7 +362,7 @@ def _gateway_state(home: Path) -> dict:
 
 def _mode(settings) -> Optional[str]:
     """Who the configured Webapp serves: ``public`` (its own URL pins the callback and Host),
-    ``lan`` (a wildcard bind), ``local`` (a loopback bind, as ``hermes webapp`` sets it up), or None
+    ``lan`` (a wildcard bind), ``local`` (a loopback bind, as ``iskra webapp`` sets it up), or None
     when it is off."""
     from gateway.webapp_listener import _is_wildcard
 

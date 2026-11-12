@@ -139,7 +139,7 @@ def _durable_completed_update_action_id(lines: list[str]) -> Optional[str]:
 
 
 def _latest_spawned_update_action_id(lines: list[str]) -> Optional[str]:
-    """Action id named by the latest ``hermes-update started`` header of THIS dashboard's log."""
+    """Action id named by the latest ``iskra-update started`` header of THIS dashboard's log."""
     for line in reversed(lines):
         if line.startswith("=== hermes-update started "):
             match = _UPDATE_ACTION_STARTED_RE.fullmatch(line.strip())
@@ -159,7 +159,7 @@ def _persisted_action_id(log_dir: Path, name: str) -> Optional[str]:
 
 @router.post("/api/gateway/restart")
 async def restart_gateway(profile: Optional[str] = None):
-    """Kick off a ``hermes gateway restart --interrupt`` in the background: the user-commanded force
+    """Kick off a ``iskra gateway restart --interrupt`` in the background: the user-commanded force
     path that supersedes a drain (D6, 19b26244046), so live sessions do not refuse it."""
     with http_failure("Failed to spawn gateway restart", 500, "Failed to restart gateway"):
         proc, _reused = _spawn_gateway_restart(profile, interrupt=True)
@@ -176,7 +176,7 @@ async def gateway_migrate_plan():
 
 @router.post("/api/gateway/migrate")
 async def gateway_migrate():
-    """Run ``hermes gateway migrate --multiplex --yes`` detached; the CLI re-runs the preflight and
+    """Run ``iskra gateway migrate --multiplex --yes`` detached; the CLI re-runs the preflight and
     refuses (exit 1 into the action log) when blocked, so the UI should gate on the plan first."""
     from hermes_cli.web_server_gateway import _spawn_hermes_action
     with http_failure("Failed to spawn gateway migrate", 500, "Failed to start gateway migration"):
@@ -240,7 +240,7 @@ def _update_refused(error: str, message: str, update_command: str) -> dict[str, 
 
 @router.post("/api/hermes/update")
 async def update_hermes():
-    """Kick off ``hermes update`` in the background."""
+    """Kick off ``iskra update`` in the background."""
     if is_commit_build(_server_path("PROJECT_ROOT")):
         return _update_refused("commit-build", COMMIT_BUILD_UPDATE_MESSAGE, "")
 
@@ -396,7 +396,7 @@ async def get_action_status(name: str, lines: int = 200):
     durable_update_action_id = None
     update_receipt_summary = action_receipt_summary = None
     if name == "hermes-update":
-        # ``hermes update`` mirrors to the ROOT home's update.log (main_dashboard), never this
+        # ``iskra update`` mirrors to the ROOT home's update.log (main_dashboard), never this
         # dashboard's profile home: read it where it is written.
         from hermes_cli.logs import log_file_path
 
@@ -455,11 +455,11 @@ def _read_latest_receipt() -> Optional[dict[str, Any]]:
 
 def _latest_update_receipt_summary(action_id: Optional[str] = None) -> Optional[dict[str, Any]]:
     """Compact summary of dashboard action ``action_id``'s receipt when one exists, else of the
-    latest receipt (written by EVERY ``hermes update`` run, incl. refused/failed), or None; never
+    latest receipt (written by EVERY ``iskra update`` run, incl. refused/failed), or None; never
     raises. Steps/skips stay in the full endpoint. ``action_id`` names the writer so a client
     never credits another action's run.
 
-    Phase-1 bullet 3 (#91277): the receipt (written by EVERY ``hermes update`` run since #91283, including
+    Phase-1 bullet 3 (#91277): the receipt (written by EVERY ``iskra update`` run since #91283, including
     refused and failed ones, with a ``latest.json`` pointer) is the durable success signal the Desktop and
     dashboard should read instead of inferring outcomes from liveness probes across the update's stop/start
     gap (#81193, #87359).
@@ -499,5 +499,5 @@ async def get_update_receipt():
     """
     receipt = _read_latest_receipt()
     if not receipt:
-        raise HTTPException(status_code=404, detail="No update receipt found (no `hermes update` run recorded).")
+        raise HTTPException(status_code=404, detail="No update receipt found (no `iskra update` run recorded).")
     return {"receipt": receipt, "summary": _latest_update_receipt_summary()}

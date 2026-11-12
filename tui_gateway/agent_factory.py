@@ -5,7 +5,7 @@ from __future__ import annotations
 from .method_ctx import bind_module
 
 def _env_model_seed() -> str:
-    """The launch-scoped model seed (``hermes --tui -m``, hosted provisioning); "" when unset."""
+    """The launch-scoped model seed (``iskra --tui -m``, hosted provisioning); "" when unset."""
     return (os.environ.get("HERMES_MODEL", "") or os.environ.get("HERMES_INFERENCE_MODEL", "")).strip()
 
 
@@ -28,7 +28,7 @@ def _resolve_model() -> str:
 
 def _resolve_session_platform() -> str:
     """``HERMES_DESKTOP=1`` without ``HERMES_DESKTOP_TERMINAL`` → "desktop" (chat panel; the agent then
-    suggests TUI-only slash commands), else "tui" (embedded terminal pane or standalone ``hermes --tui``)."""
+    suggests TUI-only slash commands), else "tui" (embedded terminal pane or standalone ``iskra --tui``)."""
     desktop = is_truthy_value(os.environ.get("HERMES_DESKTOP"))
     return "desktop" if desktop and not is_truthy_value(os.environ.get("HERMES_DESKTOP_TERMINAL")) else "tui"
 
@@ -448,7 +448,7 @@ def _load_disabled_toolsets() -> list[str] | None:
 
     The classic CLI (``cli_init_mixin``) and the messaging gateway both forward this list to
     AIAgent, where ``get_tool_definitions`` strips the named toolsets even out of composite
-    defaults like ``hermes-cli`` (#17309). The desktop/TUI gateway historically dropped it, so
+    defaults like ``iskra-cli`` (#17309). The desktop/TUI gateway historically dropped it, so
     e.g. ``disabled_toolsets: [browser]`` silently had no effect on Desktop — the only consumer
     was ``_get_platform_tools``'s name-level subtraction, which can't reach inside a composite
     default toolset (#44499).
@@ -622,7 +622,7 @@ def _startup_system_prompt(cfg: dict, task_id: str) -> str:
     if missing_skills:
         if not loaded_skills:
             raise ValueError(format_missing_skills(missing_skills))
-        logger.warning("Skipping %s. Continuing with: %s. List available skills with `hermes skills list`.",
+        logger.warning("Skipping %s. Continuing with: %s. List available skills with `iskra skills list`.",
                        format_missing_skills(missing_skills), ", ".join(loaded_skills))
     if skills_prompt:
         system_prompt = "\n\n".join(part for part in (system_prompt, skills_prompt) if part).strip()

@@ -1,4 +1,4 @@
-"""Keep a checkout's commit-graph fresh: the ``hermes -w`` pass and every ``hermes update``.
+"""Keep a checkout's commit-graph fresh: the ``iskra -w`` pass and every ``iskra update``.
 
 Generation numbers in the commit-graph keep ``git tag --merged HEAD`` (the version lookup) and
 ancestry checks off a full history walk: on hermes-agent a graph two months behind cost 0.33 s
@@ -199,7 +199,7 @@ def refresh_commit_graph(repo_root: str, git_dir: Path) -> None:
     if _commit_graph_disabled(repo_root):
         logger.info("core.commitGraph=false in %s; not writing a commit-graph", repo_root)
         return
-    # Object-store debris only: ``hermes -w`` runs this in whatever repo it was launched from, where
+    # Object-store debris only: ``iskra -w`` runs this in whatever repo it was launched from, where
     # index.lock / HEAD.lock belong to the user's own git.
     clear_stale_object_store_locks(git_dir)
     clear_stale_tmp_packs(git_dir)
@@ -260,7 +260,7 @@ def refresh_in_child(repo_root: str, git_dir: str, log_file: str) -> None:
 def spawn_commit_graph_refresh(repo_root: Path) -> bool:
     """Start the bounded commit-graph refresh in a detached child when it is due; never waits.
 
-    ``hermes update`` is the one regular git pass an install checkout gets (``hermes -w`` is
+    ``iskra update`` is the one regular git pass an install checkout gets (``iskra -w`` is
     rarely launched from it), so without this its version lookups never get a graph. Detached
     because the write takes seconds and must neither delay the update nor die with it. A spawn that
     fails gives the slot back, so the next update retries instead of waiting out the interval.

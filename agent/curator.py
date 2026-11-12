@@ -144,7 +144,7 @@ def get_archive_after_days() -> int:
 
 
 def get_consolidate() -> bool:
-    """LLM consolidation pass — OFF by default (prune only, no aux-model fork); ``hermes curator run --consolidate`` overrides per invocation."""
+    """LLM consolidation pass — OFF by default (prune only, no aux-model fork); ``iskra curator run --consolidate`` overrides per invocation."""
     return bool(_load_config().get("consolidate", DEFAULT_CONSOLIDATE))
 
 
@@ -160,7 +160,7 @@ def _parse_iso(ts: Optional[str]) -> Optional[datetime]:
 def should_run_now(now: Optional[datetime] = None) -> bool:
     """Gates: curator.enabled, not paused, ``last_run_at`` present AND older than interval_hours. First observation seeds
     ``last_run_at`` to now and defers one interval, so a fresh install/update never mutates the library on its first tick.
-    ``hermes curator run`` bypasses this; the idle check is the caller's."""
+    ``iskra curator run`` bypasses this; the idle check is the caller's."""
     if not is_enabled() or is_paused():
         return False
     state = load_state()
@@ -169,7 +169,7 @@ def should_run_now(now: Optional[datetime] = None) -> bool:
     if last is None:
         try:
             state["last_run_at"] = now.isoformat()
-            state["last_run_summary"] = "deferred first run — curator seeded, will run after one interval; use `hermes curator run --dry-run` to preview now"
+            state["last_run_summary"] = "deferred first run — curator seeded, will run after one interval; use `iskra curator run --dry-run` to preview now"
             save_state(state)
         except Exception as e:  # pragma: no cover — best-effort persistence
             logger.debug("Failed to seed curator last_run_at: %s", e)
@@ -281,7 +281,7 @@ CURATOR_DRY_RUN_BANNER = (
     "produce on a live run — but describe the actions you WOULD take, "
     "not actions you took. A downstream reviewer will read the report "
     "and decide whether to approve a live run with "
-    "`hermes curator run` (no flag).\n"
+    "`iskra curator run` (no flag).\n"
     "\n"
     "If you accidentally take a mutating action, say so explicitly in "
     "the summary so the reviewer can revert it.\n"
@@ -385,7 +385,7 @@ CURATOR_REVIEW_PROMPT = (
     "then `skill_manage action=delete` on the source. Never a terminal move "
     "— a shell mv/cp writes the same bytes with no ledger entry, so the "
     "archive that follows snapshots an already-stripped package and "
-    "`hermes curator rollback` restores a hollow skill (issue #96962).\n\n"
+    "`iskra curator rollback` restores a hollow skill (issue #96962).\n\n"
     "Package integrity — not optional:\n"
     "Before demoting or archiving a skill, inspect it as a COMPLETE "
     "directory package, not just SKILL.md. A skill root may include "
@@ -704,7 +704,7 @@ def _write_file(path: Path, label: str, render: Any) -> bool:
 
 def _notify_post_curator_run(run_dir: Optional[Path], dry_run: bool) -> None:
     """``post_curator_run`` for a finished pass whose run.json and REPORT.md both exist; fired after the
-    pass's state is saved, so a slow plugin load never delays what ``hermes curator status`` reports."""
+    pass's state is saved, so a slow plugin load never delays what ``iskra curator status`` reports."""
     if run_dir is None or not ((run_dir / "run.json").is_file() and (run_dir / "REPORT.md").is_file()):
         return
     from hermes_cli.lifecycle import invoke_hook  # observers + plugins; each callback isolated there
@@ -789,10 +789,10 @@ _REPORT_SECTIONS = (
     ("consolidated", "Consolidated into umbrella skills",
      "_These skills were **absorbed into another skill** during this run — their content still lives, just under a different name. "
      "The original directory was moved to `~/.hermes/skills/.archive/` for safety and can be restored via "
-     "`hermes curator restore <name>` if the consolidation was wrong._\n", _consolidated_lines, 50, "see `run.json`"),
+     "`iskra curator restore <name>` if the consolidation was wrong._\n", _consolidated_lines, 50, "see `run.json`"),
     ("pruned", "Pruned — archived for staleness",
      "_These skills were archived without being merged into an umbrella (e.g. stale, unused, or judged irrelevant). "
-     "Directories live under `~/.hermes/skills/.archive/`. Restore any via `hermes curator restore <name>`._\n",
+     "Directories live under `~/.hermes/skills/.archive/`. Restore any via `iskra curator restore <name>`._\n",
      _pruned_lines, 50, "see `run.json`"),
     ("added", "New skills this run", "_Usually these are new class-level umbrellas created via `skill_manage action=create`._\n",
      lambda n: [f"- `{n}`"], None, ""),
@@ -837,7 +837,7 @@ def _render_report_markdown(p: dict[str, Any]) -> str:
         lines += ["## LLM final summary\n", final, ""]
     elif not error and (p.get("llm_summary") or ""):
         lines += ["## LLM summary\n", p.get("llm_summary"), ""]
-    lines += ["## Recovery\n", "- Restore an archived skill: `hermes curator restore <name>`",
+    lines += ["## Recovery\n", "- Restore an archived skill: `iskra curator restore <name>`",
               "- All archives live under `~/.hermes/skills/.archive/` and are recoverable by `mv`",
               "- See `run.json` in this directory for the full machine-readable record.", ""]
     return "\n".join(lines)
@@ -966,7 +966,7 @@ def run_curator_review(
 
     # Persist before the LLM pass so a crash mid-review still records the run.
     # Dry-run does NOT bump last_run_at/run_count (a preview must not push the
-    # next real pass out) but still records a summary for `hermes curator status`.
+    # next real pass out) but still records a summary for `iskra curator status`.
     prefix = "dry-run auto: " if dry_run else "auto: "
     state = {**load_state(), "last_run_summary": f"{prefix}{auto_summary}"}
     if not dry_run:
@@ -985,7 +985,7 @@ def run_curator_review(
             llm_meta = _llm_meta("skipped (consolidation off)")
         elapsed = (datetime.now(UTC) - start).total_seconds()
         state2 = {**load_state(), "last_run_duration_seconds": elapsed, "last_run_summary": final_summary}
-        # Per-run report, best-effort; path recorded for `hermes curator status`.
+        # Per-run report, best-effort; path recorded for `iskra curator status`.
         after_report = _safe_curated_report()
         report_path = None  # this pass's own report only: state2 still carries the previous pass's path
         try:

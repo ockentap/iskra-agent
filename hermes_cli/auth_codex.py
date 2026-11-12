@@ -33,7 +33,7 @@ if TYPE_CHECKING:  # annotation-only; the runtime import would be a cycle
 logger = logging.getLogger("hermes_cli.auth")
 
 # ``{relogin}`` is filled at raise time with the profile-aware sign-in command: a bare
-# ``hermes auth`` from a named profile re-signs the ROOT store (93889b770da, #114012).
+# ``iskra auth`` from a named profile re-signs the ROOT store (93889b770da, #114012).
 _MISSING_ACCESS_TOKEN_MSG = "Codex auth is missing access_token. Run `{relogin}` to re-authenticate."
 _MISSING_REFRESH_TOKEN_MSG = "Codex auth is missing refresh_token. Run `{relogin}` to re-authenticate."
 _NO_CREDENTIALS_MSG = "No Codex credentials stored. Run `{relogin}` to authenticate."
@@ -136,8 +136,8 @@ def _sync_codex_pool_entries(
     previous_singleton_tokens: Optional[dict[str, str]] = None) -> None:
     """Mirror a fresh Codex re-auth into the credential_pool OAuth entries.
 
-    ``device_code`` (the singleton-seeded entry from ``hermes setup`` / the model picker) is always
-    synced. ``manual:device_code`` (``hermes auth add openai-codex``) is synced only when its
+    ``device_code`` (the singleton-seeded entry from ``iskra setup`` / the model picker) is always
+    synced. ``manual:device_code`` (``iskra auth add openai-codex``) is synced only when its
     access_token equals the PREVIOUS singleton token — a legacy alias of the singleton; an entry
     with its own token material is an independent account and must be left alone. ``manual:api_key``
     and any other source are independent credentials and are never overwritten by a re-auth.

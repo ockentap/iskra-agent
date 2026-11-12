@@ -34,7 +34,7 @@ MAX_TERMINAL_EXECUTIONS = 1000
 HANDOFF_ADOPTION_GRACE_SECONDS = 30.0
 # Floor for the live-owner stale-claim bound (#115692); see _live_owner_stale_after_seconds.
 LIVE_OWNER_STALE_CLAIM_FLOOR_SECONDS = 7200.0
-# ``cancelled``: an operator stopped the run (``hermes cron cancel``, removing the job mid-run).
+# ``cancelled``: an operator stopped the run (``iskra cron cancel``, removing the job mid-run).
 # ``missed``: never started — one row books every occurrence the scheduler skipped past.
 _TERMINAL_STATES = ("completed", "failed", "unknown", "cancelled", "missed")
 _STATUS_CHECK = "('claimed','running','completed','failed','unknown','cancelled','missed')"

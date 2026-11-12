@@ -1,7 +1,7 @@
 """Kanban tools — structured tool-call surface for worker + orchestrator agents.
 
 Registered only under the dispatcher (``HERMES_KANBAN_TASK`` set) or when the profile
-enables the ``kanban`` toolset. Tools rather than ``hermes kanban`` shell-outs: they run
+enables the ``kanban`` toolset. Tools rather than ``iskra kanban`` shell-outs: they run
 in the agent's process (reach ``kanban.db`` from a container/SSH terminal backend, no
 shlex quoting of JSON metadata, structured-JSON failures). Humans use CLI/dashboard.
 """
@@ -766,7 +766,7 @@ def _handle_complete(args: dict, **kw) -> str:
             # worker is executing: refusing here is what keeps that worker's run open.
             return tool_error(
                 f"kanban_complete refused: {claim_err}. Nothing changed. Wait for the worker "
-                f"to finish, or an operator can run `hermes kanban complete --force {tid}`.")
+                f"to finish, or an operator can run `iskra kanban complete --force {tid}`.")
         except kb.HallucinatedCardsError as hall_err:
             # The gate runs before the write txn, so the task was NOT mutated;
             # say so explicitly or the model treats the error as terminal and
@@ -961,11 +961,11 @@ def _handle_comment(args: dict, **kw) -> str:
     body = _redact(_require_text(args, "body"))
     # Author comes from the worker's runtime identity (``_persisted_identity``), never
     # caller args: comments are injected into future workers' system prompts, so an
-    # args["author"] override could forge a directive from ``hermes-system``.
+    # args["author"] override could forge a directive from ``iskra-system``.
     # Cross-task commenting stays unrestricted — it is the handoff channel between tasks.
     # Comments are injected into the next worker's system prompt by ``build_worker_context`` as
     # ``**{author}** (timestamp): {body}`` — accepting an ``args["author"]`` override let a worker forge a
-    # comment from an authoritative-looking name like ``hermes-system`` and poison the future-worker context
+    # comment from an authoritative-looking name like ``iskra-system`` and poison the future-worker context
     # with what reads as a system directive. See #19713.
     author = _persisted_identity()
     with _board(args.get("board")) as (kb, conn):

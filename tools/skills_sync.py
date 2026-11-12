@@ -67,7 +67,7 @@ def _manifest_file() -> Path:
     return _live(MANIFEST_FILE, _MANIFEST_FILE_AT_IMPORT, lambda: _skills_dir() / ".bundled_manifest")
 
 
-# Written by `hermes profile create --no-skills` / installer `--no-skills`: sync seeds only
+# Written by `iskra profile create --no-skills` / installer `--no-skills`: sync seeds only
 # essential skills. Mirrors hermes_cli.profiles.NO_BUNDLED_SKILLS_MARKER (no CLI import here).
 NO_BUNDLED_SKILLS_MARKER = ".no-bundled-skills"
 
@@ -247,7 +247,7 @@ def _recover_renamed_skill(st: "_SyncState", skill_name: str, dest: Path) -> Opt
             st.say(
                 f"  ⚠ {skill_name}: upstream moved this skill to {_rel_skills_posix(dest)}, but your "
                 f"modified copy at {rel} was kept — it will not receive updates. "
-                f"Run `hermes skills reset {skill_name} --restore` to move to the new location.")
+                f"Run `iskra skills reset {skill_name} --restore` to move to the new location.")
             continue
         try:
             _move_dir(candidate, dest)
@@ -317,7 +317,7 @@ def _install_new_skill(st: _SyncState, skill_name: str, skill_src: Path, dest: P
             else:
                 st.say(
                     f"  ⚠ {skill_name}: bundled version shipped but you already have a local skill "
-                    f"by this name — yours was kept. Run `hermes skills reset {skill_name}` to "
+                    f"by this name — yours was kept. Run `iskra skills reset {skill_name}` to "
                     f"replace it with the bundled version.")
         else:
             _copy_dir(skill_src, dest)
@@ -396,7 +396,7 @@ def _seed_category_descriptions(bundled_dir: Path, only_dirs: Optional[set[Path]
 def sync_skills(quiet: bool = False) -> dict:
     """Sync bundled skills into ~/.hermes/skills/ using the manifest; returns the per-category
     result dict. Opted-out profiles seed ONLY ESSENTIAL_SKILLS (the system prompt always
-    points at ``hermes-agent``)."""
+    points at ``iskra-agent``)."""
     essential_only = (_hermes_home() / NO_BUNDLED_SKILLS_MARKER).exists()
     if essential_only and not quiet:
         print("  (profile opted out of bundled skills via .no-bundled-skills — seeding essential skills only)")

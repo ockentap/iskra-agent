@@ -303,7 +303,7 @@ def _(rid, params: dict) -> dict:
     source's bot tokens/allowlists — default strips them so two profiles never hold one bot), ``no_skills``, ``soul``,
     ``model`` + ``provider``, ``no_alias``, ``share_auth`` / ``mirror_credentials`` (both default true, the
     bot page's defaults: a bare ``create_profile()`` seeds a comment-only .env = NO provider headless).
-    ``hermes profile create`` also sends ``clone_config`` (``--clone``: copy the caller's profile),
+    ``iskra profile create`` also sends ``clone_config`` (``--clone``: copy the caller's profile),
     ``sync_imports`` and ``report`` (add the receipt it prints, read here).
 
     On ``/api/ws`` it runs in the connection's profile (``ws_legacy_fallback.dispatch_legacy`` binds the
@@ -469,7 +469,7 @@ def _(rid, params: dict) -> dict:
 
 
 def _describe_toolsets(cfg):
-    """``(toolsets, pinned_set)`` as the `hermes tools` checklist presents them (the raw registry
+    """``(toolsets, pinned_set)`` as the `iskra tools` checklist presents them (the raw registry
     leaks platform composites and reports everything enabled without a pin)."""
     from hermes_cli.tools_config import (
         _coerce_platform_toolsets_value, _get_effective_configurable_toolsets, _get_platform_tools,
@@ -606,7 +606,7 @@ def _clean_names(values) -> set:
 
 
 def _save_toolset_pin(cfg, enabled, save_config) -> None:
-    """Pin ``platform_toolsets.cli``: the key ``_load_enabled_toolsets`` reads and ``hermes tools`` writes.
+    """Pin ``platform_toolsets.cli``: the key ``_load_enabled_toolsets`` reads and ``iskra tools`` writes.
     An empty selection clears the pin so the platform default applies again."""
     from hermes_cli.tools_config import _save_platform_tools
 

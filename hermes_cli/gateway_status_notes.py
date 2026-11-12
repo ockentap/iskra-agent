@@ -1,4 +1,4 @@
-"""Notes `hermes gateway status` prints beside the running/not-running verdict."""
+"""Notes `iskra gateway status` prints beside the running/not-running verdict."""
 from __future__ import annotations
 
 from hermes_cli.config import get_hermes_home

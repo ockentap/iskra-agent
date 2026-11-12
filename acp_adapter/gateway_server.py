@@ -45,7 +45,7 @@ def _slash_command(text):
 
 def _bypass_route():
     """--safe-mode / --ignore-user-config read no profile default route, so the session freezes the
-    launch's explicit one (``hermes -m <model> --provider <name> --safe-mode acp``). Both, refused at
+    launch's explicit one (``iskra -m <model> --provider <name> --safe-mode acp``). Both, refused at
     session/new: a model alone is accepted by the owner, then its first turn cannot build the agent."""
     model = (os.environ.get("HERMES_MODEL") or os.environ.get("HERMES_INFERENCE_MODEL") or "").strip()
     if not model:
@@ -275,7 +275,7 @@ class GatewayACPAgent(GatewayReplyMixin, acp.Agent):
                 or "acp-editor-policy-v1" not in descriptor.get("capabilities", [])):
             raise GatewayClientError("acp_policy_unavailable")
         from hermes_cli.gateway_chat import env_launch_flags
-        # `hermes acp --yolo` / `--safe-mode` / ... reach this process as their env equivalents; the
+        # `iskra acp --yolo` / `--safe-mode` / ... reach this process as their env equivalents; the
         # owner does not inherit them, so they freeze into this session's policy or not at all.
         flags = env_launch_flags()
         if flags.get("safe_mode") or flags.get("ignore_user_config"):

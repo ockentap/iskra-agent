@@ -312,7 +312,7 @@ def _session_ticket(home: Path, endpoint, *, purpose="interactive", scope=None, 
 
 # A restart's after-turn wait admits clients so a human can answer a parked prompt (#139041). A machine
 # poller held in it (a Kanban worker reading its card's receipt) keeps the turn the wait is waiting
-# on alive, so the restart, and ``hermes update`` behind it, is held until its cap.
+# on alive, so the restart, and ``iskra update`` behind it, is held until its cap.
 _REFUSE_RESTART_WAIT: contextvars.ContextVar[bool] = contextvars.ContextVar("refuse_restart_wait", default=False)
 
 

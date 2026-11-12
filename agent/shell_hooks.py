@@ -254,7 +254,7 @@ def accept_for_launch(cfg: Optional[dict[str, Any]]) -> None:
     """A launch's ``--accept-hooks`` on the gateway: record every configured hook in the allowlist,
     and keep the consent in memory when that write fails, so it still registers
     the hook at the next ``sync_from_config`` (main registered it in memory). Only an unsaved approval
-    is held, so a later ``hermes hooks revoke`` of a saved one takes effect."""
+    is held, so a later ``iskra hooks revoke`` of a saved one takes effect."""
     specs = record_consent_from_config(cfg, accept_hooks=True)
     if not specs:
         return
@@ -265,7 +265,7 @@ def accept_for_launch(cfg: Optional[dict[str, Any]]) -> None:
 
 
 def accept_for_process() -> None:
-    """This process's own ``--accept-hooks`` (``hermes gateway run --accept-hooks``): an opt-in in
+    """This process's own ``--accept-hooks`` (``iskra gateway run --accept-hooks``): an opt-in in
     force for its lifetime, as ``HERMES_ACCEPT_HOOKS`` would be, without exporting that variable to
     every tool subprocess."""
     global _process_accept
@@ -331,7 +331,7 @@ def _consented(spec: ShellHookSpec, accept: bool, allowed: set[tuple[str, str]],
 
 
 def iter_configured_hooks(cfg: Optional[dict[str, Any]]) -> list[ShellHookSpec]:
-    """Parse config hooks without registering (``hermes hooks list`` / doctor)."""
+    """Parse config hooks without registering (``iskra hooks list`` / doctor)."""
     return _parse_hooks_block(cfg.get("hooks")) if isinstance(cfg, dict) else []
 
 
@@ -581,7 +581,7 @@ def _evaluate_result(
       block instead of silently contributing nothing.
 
     Shared by the live callback path (:func:`_make_callback`) and the CLI
-    test helper (:func:`run_once`) so ``hermes hooks test`` reflects
+    test helper (:func:`run_once`) so ``iskra hooks test`` reflects
     production behaviour exactly.
     """
     blocking_event = spec.event in _BLOCKING_EVENTS
@@ -828,7 +828,7 @@ def _resolve_effective_accept(cfg: dict[str, Any], accept_hooks_arg: bool) -> bo
     return cfg_val if isinstance(cfg_val, bool) else isinstance(cfg_val, str) and cfg_val.strip().lower() in _TRUTHY
 
 
-# --- Introspection (used by `hermes hooks` CLI) ---
+# --- Introspection (used by `iskra hooks` CLI) ---
 
 def allowlist_entry_for(event: str, command: str) -> Optional[dict[str, Any]]:
     """Return the allowlist record for this pair, if any."""
@@ -857,7 +857,7 @@ def script_is_executable(command: str) -> bool:
 
 
 def run_once(spec: ShellHookSpec, kwargs: dict[str, Any]) -> dict[str, Any]:
-    """Fire one hook with a synthetic payload (``hermes hooks test`` / doctor) through the production path."""
+    """Fire one hook with a synthetic payload (``iskra hooks test`` / doctor) through the production path."""
     result = _spawn(spec, _serialize_payload(spec.event, kwargs))
     result["parsed"] = _evaluate_result(spec, result)
     return result

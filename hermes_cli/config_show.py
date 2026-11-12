@@ -1,4 +1,4 @@
-"""``hermes config`` / ``hermes config show``: the read-only configuration summary.
+"""``iskra config`` / ``iskra config show``: the read-only configuration summary.
 
 Split out of ``hermes_cli.config``; config names are read through the module at call time
 (``_cfg.<name>``) so ``hermes_cli.config.<name>`` patch seams hold.

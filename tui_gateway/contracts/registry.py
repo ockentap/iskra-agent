@@ -59,12 +59,12 @@ class NamespaceContract:
 
 
 METHODS: dict[str, MethodContract] = {}
-# ``hermes-gateway-v1`` verbs only ``gateway/session_controls.py::AuthorityConnection`` serves
+# ``iskra-gateway-v1`` verbs only ``gateway/session_controls.py::AuthorityConnection`` serves
 # (``contracts/canonical.py``), plus explicit overrides where a shared name has a different wire.
 CANONICAL_METHODS: dict[str, MethodContract] = {}
 SERVER_REQUESTS: dict[str, ServerRequestContract] = {}
 EVENTS: dict[str, EventContract] = {}
-# Dynamic ``hermes-gateway-v1`` namespaces the session authority serves after its own verbs.
+# Dynamic ``iskra-gateway-v1`` namespaces the session authority serves after its own verbs.
 CANONICAL_NAMESPACES: dict[str, NamespaceContract] = {}
 
 
@@ -146,7 +146,7 @@ def validate_params(contract: MethodContract | ServerRequestContract, params: di
             if err.get("type") == "extra_forbidden":
                 loc = ".".join(str(p) for p in err.get("loc", ())) or "params"
                 return None, (f"invalid params for {contract.name}: {loc}: {err.get('msg')} — the client and "
-                              "the Hermes backend are out of sync (different versions); run `hermes update` "
+                              "the Hermes backend are out of sync (different versions); run `iskra update` "
                               "and restart both")
     return params, None
 

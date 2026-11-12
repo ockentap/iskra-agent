@@ -61,7 +61,7 @@ def check_runtime(project_root: Path) -> str | None:
         return None
     steward = sealed_steward(Path(project_root))
     remedy = (f"this {steward}-managed install must rebuild the artifact to fix"
-              if steward else "run `hermes pm install`")
+              if steward else "run `iskra pm install`")
     return f"install out of sync ({'; '.join(problems)}) — {remedy}"
 
 
@@ -133,7 +133,7 @@ def sync(project_root: Path | None = None, *, check: bool = False) -> dict:
 def collect_superseded_generations(project_root: Path) -> None:
     """Collect what a publish just superseded, as the Docker boot already does.
 
-    Without this only a manual `hermes pm gc` reclaimed old environments. Safe
+    Without this only a manual `iskra pm gc` reclaimed old environments. Safe
     right after a sync: the collectors skip leased, selected and day-young
     generations and yield to any in-flight install instead of waiting.
     """
@@ -188,7 +188,7 @@ def arm_completion(project_root: Path) -> Path:
 #: failing re-runs on every launch ("every launch burns ~4 minutes"), so after
 #: this many consecutive failures the tail waits out a backoff window before
 #: trying again, and past the cap it stops self-starting entirely and leaves
-#: the marker for an explicit ``hermes update`` instead. The counter is the
+#: the marker for an explicit ``iskra update`` instead. The counter is the
 #: tail's own attempt record beside the pending marker: same lifetime, same
 #: install scope, cleared by the same success path.
 COMPLETION_RETRY_BACKOFF_ATTEMPTS = 2
@@ -355,7 +355,7 @@ def _tree_matches_completed_stamp(root: Path) -> bool:
     stale venv only needs re-provisioning and a marker armed BEFORE that stamp is a
     leftover from a previous home/install, never a rebuild of the same SHA (fresh
     Windows installs and pristine HERMES_HOMEs hit exactly this: #123314). A marker
-    armed after the stamp is newer debt (a same-commit ``hermes update`` that failed
+    armed after the stamp is newer debt (a same-commit ``iskra update`` that failed
     or was killed) and is still owed. Boot-time adoption also stamps HEAD but builds
     nothing, so its stamp (``adoptedAt``) is not evidence; neither is a dirty tree.
     """
@@ -373,7 +373,7 @@ def _tree_matches_completed_stamp(root: Path) -> bool:
     return info.commit == commit and not info.dirty
 
 
-# `hermes update` flags that report and exit without changing anything (subcommands/update.py).
+# `iskra update` flags that report and exit without changing anything (subcommands/update.py).
 _REPORT_ONLY_UPDATE_FLAGS = frozenset({"--check", "--plan", "--list-venv-holders"})
 
 
@@ -382,17 +382,17 @@ def _may_retry_completion(root: Path, command: list[str], *, current: bool) -> b
     import sys
 
     if not current and command[:1] == ["update"] and not _REPORT_ONLY_UPDATE_FLAGS & set(command):
-        # `hermes update` is the remedy every backed-off launch names: it always tries the repair.
+        # `iskra update` is the remedy every backed-off launch names: it always tries the repair.
         # Its report-only forms change nothing, so they stay inside the backoff like any launch.
         return True
     may_retry, attempts, backoff = completion_retry_state(root)
     if not may_retry and attempts >= COMPLETION_RETRY_MAX_ATTEMPTS:
         # The tail has failed often enough that every relaunch re-running it
         # does more harm than good (#122206: "every launch burns ~4 minutes").
-        # Leave the marker for an explicit `hermes update`; say so once.
+        # Leave the marker for an explicit `iskra update`; say so once.
         print(
             f"hermes: a source update could not be finished automatically "
-            f"({attempts} attempts); run `hermes update` from a shell to finish it",
+            f"({attempts} attempts); run `iskra update` from a shell to finish it",
             file=sys.stderr, flush=True,
         )
     elif not may_retry and not current:
@@ -400,7 +400,7 @@ def _may_retry_completion(root: Path, command: list[str], *, current: bool) -> b
         # tracks the wait); stale dependencies are worth one line in front of the user.
         print(
             f"hermes: running with the previous dependencies after {attempts} failed syncs; "
-            f"next automatic retry in {max(1, backoff // 60)} min, or run `hermes update` to finish it",
+            f"next automatic retry in {max(1, backoff // 60)} min, or run `iskra update` to finish it",
             file=sys.stderr, flush=True,
         )
     return may_retry
@@ -420,7 +420,7 @@ def _relaunch_target(root: Path, python: Path, *, same: bool) -> Path | None:
 
     if same and getattr(sys, "_hermes_relaunched", False) and not pm.venv_is_current(project_root=root):
         print("hermes: relaunching did not leave this install current; running with the "
-              "dependencies it has — run `hermes update` to finish it", file=sys.stderr, flush=True)
+              "dependencies it has — run `iskra update` to finish it", file=sys.stderr, flush=True)
         return None
     return python
 
@@ -433,7 +433,7 @@ def prepare_launch(project_root: Path, argv: list[str]) -> Path | None:
     so a tail that failed is retried on the next launch WITHOUT rebuilding
     dependencies that are already current. Old updaters need not write a
     marker (and cannot accidentally clear this obligation).
-    A supervised child leaves that tail to ``hermes update`` when its dependencies
+    A supervised child leaves that tail to ``iskra update`` when its dependencies
     are current: its manager restarts it on every start, so a sticky marker would
     re-run the tail (and its environment builds) on each boot until the disk fills.
     Return the store interpreter when this process must restart cleanly.
@@ -518,7 +518,7 @@ def prepare_launch(project_root: Path, argv: list[str]) -> Path | None:
             lock.release()
     python = resolve_store_python(root)
     if python is None:
-        raise RuntimeError("source update has no managed Python; run `hermes pm install`")
+        raise RuntimeError("source update has no managed Python; run `iskra pm install`")
     # Lexical identity, never resolve(): PM spells the store path through
     # HERMES_HOME (which may carry '..') while sys.executable arrives
     # normalized, so a raw compare re-execs every child forever (#122513). A
@@ -531,7 +531,7 @@ def prepare_launch(project_root: Path, argv: list[str]) -> Path | None:
     if owed_to_cli:
         # Left owed, not dropped: say so (once, in the process that boots) where an
         # operator of the unit will read it.
-        print("hermes: a source update is unfinished; run `hermes update` from a shell to finish it",
+        print("hermes: a source update is unfinished; run `iskra update` from a shell to finish it",
               file=sys.stderr, flush=True)
     return None
 
@@ -566,7 +566,7 @@ def _prepare_borrowed_launch(root: Path, owner: Path, *, current: bool) -> Path 
             raise RuntimeError("dependency sync left this install out of date")
     python = resolve_store_python(root)
     if python is None:
-        raise RuntimeError("source update has no managed Python; run `hermes pm install`")
+        raise RuntimeError("source update has no managed Python; run `iskra pm install`")
     same = os.path.normcase(os.path.abspath(python)) == os.path.normcase(os.path.abspath(sys.executable))
     return python if not current or not same else None
 
@@ -640,7 +640,7 @@ def _finish_source_update(root: Path, *, current: bool, pending: Path) -> None:
     if code != 0:
         _record_completion_attempt(root, failed=True)
         raise RuntimeError(
-            "source update completion failed; run `hermes update` to finish it"
+            "source update completion failed; run `iskra update` to finish it"
         )
     clear_completion(root)
 
@@ -669,7 +669,7 @@ def _sync_source_dependencies(root: Path, *, arm: bool, borrowed_from: Path | No
     # Main-era installs have no PM ledger; carry what their venv held.
     # Established PM installs retain their recorded extras and plugin union instead.
     extras = first_generation_selection(root)
-    # Same order as `hermes update`: an interrupted update or a hand-run
+    # Same order as `iskra update`: an interrupted update or a hand-run
     # `git pull` leaves this tree's lockfile ahead of the installed tools.
     ensure_tools_for_sync()
     pm.sync_venv(extras, explicit=True, project_root=root, evict_incompatible_plugins=True)

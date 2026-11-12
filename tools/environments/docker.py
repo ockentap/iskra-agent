@@ -52,7 +52,7 @@ _ENV_VAR_NAME_RE = _SHELL_ENV_NAME_RE
 _ENVIRONMENT_LABEL_KEY = "hermes-environment"
 # Stamped at create time on per-workspace persistent containers (task key ``<base>:ws:<digest>``)
 # with the digest as its value. The orphan reaper reads it to spare a container the idle reaper
-# stopped on purpose; ``hermes-task-id`` cannot serve, it is truncated to 63 chars.
+# stopped on purpose; ``iskra-task-id`` cannot serve, it is truncated to 63 chars.
 _WORKSPACE_LABEL_KEY = "hermes-workspace"
 _WORKSPACE_TASK_RE = re.compile(r":ws:([0-9a-f]{16})$")
 
@@ -228,9 +228,9 @@ def reap_orphan_containers(
 
 def _is_idle_workspace_container(docker_exe: str, container_id: str) -> bool:
     """A persistent per-workspace container (task key ``<base>:ws:<digest>``, stamped with the
-    ``hermes-workspace=<digest>`` label at create time) that the idle reaper STOPPED on purpose
+    ``iskra-workspace=<digest>`` label at create time) that the idle reaper STOPPED on purpose
     (``DockerEnvironment.stop_idle``): it is that workspace's sandbox, restarted on next use, not an
-    orphan. Reads the dedicated label, never the 63-char-truncated ``hermes-task-id``, whose
+    orphan. Reads the dedicated label, never the 63-char-truncated ``iskra-task-id``, whose
     ``_ws_<digest>`` suffix a long profile name cuts. Unknown (inspect failed) reads as not one."""
     result = _docker_query(
         [docker_exe, "inspect", "--format", f'{{{{index .Config.Labels "{_WORKSPACE_LABEL_KEY}"}}}}', container_id],
@@ -508,7 +508,7 @@ def _ensure_docker_available() -> None:
             "or known install locations. Install Docker Desktop and ensure the CLI is available.",
             error="Docker executable not found in PATH or known install locations. "
                   "Install Docker and ensure the 'docker' command is available.",
-            hint="Install Docker (or fix PATH) and retry, or run `hermes setup terminal` to switch to Local.")
+            hint="Install Docker (or fix PATH) and retry, or run `iskra setup terminal` to switch to Local.")
     try:
         result = run_capture([docker_exe, "version"], timeout=5)
     except FileNotFoundError:
@@ -523,7 +523,7 @@ def _ensure_docker_available() -> None:
             docker_exe, exc_info=True,
             error="Docker daemon is not responding. Ensure Docker is running and try again.",
             hint="Start Docker (e.g. `systemctl start docker` or launch Docker Desktop), then retry — "
-                 "or run `hermes setup terminal` to switch to Local.")
+                 "or run `iskra setup terminal` to switch to Local.")
     except Exception:
         logger.error("Unexpected error while checking Docker availability.", exc_info=True)
         raise
@@ -533,7 +533,7 @@ def _ensure_docker_available() -> None:
             docker_exe, result.returncode, result.stderr.strip(),
             error="Docker command is available but 'docker version' failed. Check your Docker installation.",
             hint="Start Docker, or add your user to the docker group, then retry — "
-                 "or run `hermes setup terminal` to switch to Local.")
+                 "or run `iskra setup terminal` to switch to Local.")
 
 
 def _name_only_env_args(names) -> list[str]:
@@ -946,7 +946,7 @@ class DockerEnvironment(BaseEnvironment):
             if not self._image_pinned:
                 logger.warning(
                     "Existing container %s runs image %s; the default docker_image is now %s. Keeping "
-                    "the existing sandbox — approve the switch with `hermes config set "
+                    "the existing sandbox — approve the switch with `iskra config set "
                     "terminal.docker_image %s` (files in /root and /workspace carry over) or pin the "
                     "current image to stop this notice (task=%s, profile=%s).",
                     container_id[:12], actual_image, self._image, self._image, task_label, profile_name)
@@ -1246,7 +1246,7 @@ class DockerEnvironment(BaseEnvironment):
         egress posture and immutable environment, or ``None`` on miss or any failure.
         Explicit shared keys opt out of the environment filter. The egress posture is a label
         FILTER for every posture, "off" included: a container built with egress on must not be
-        reused after ``hermes egress disable`` (baked-in proxy env and CA mounts), and every
+        reused after ``iskra egress disable`` (baked-in proxy env and CA mounts), and every
         container this class creates carries the label. The ``{{.Label "key"}}`` template
         function is Docker-only — podman ps exits 125 on it — so the probe never uses it (#99213)."""
         filters = [

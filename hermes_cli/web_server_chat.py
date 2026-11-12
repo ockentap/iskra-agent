@@ -26,7 +26,7 @@ from hermes_cli.pty_session import PtySessionRegistry
 _log = logging.getLogger("hermes_cli.web_server")
 
 
-# /api/pty spawns ``hermes --tui`` behind a pseudo-terminal and forwards bytes +
+# /api/pty spawns ``iskra --tui`` behind a pseudo-terminal and forwards bytes +
 # resize escapes to xterm.js.  POSIX uses pty_bridge (fcntl/termios); native
 # Windows uses win_pty_bridge (pywinpty/ConPTY); same surface, no handler guards.
 try:
@@ -376,7 +376,7 @@ def _audit_ws_rejection(ws: WebSocket, reason: str) -> None:
 
 def _consume_ws_ticket(ws: WebSocket, reject, socket: Optional[str] = None, *,
                        auth_required: bool = False) -> Optional[tuple[Optional[str], str]]:
-    """A one-use ticket offered as the ``hermes-gateway-ticket.`` subprotocol or ``?ticket=``:
+    """A one-use ticket offered as the ``iskra-gateway-ticket.`` subprotocol or ``?ticket=``:
     ``(reason, credential)`` once judged, or None when the upgrade presents none. An accepted ticket
     stamps the server-minted identity onto the socket; the client never supplies it through RPC
     params. *socket* is the route's socket (``web_session_sockets.ticket_refusal``); a socket a
@@ -493,7 +493,7 @@ def _resolve_chat_argv(
     resume: Optional[str] = None, sidecar_url: Optional[str] = None, profile: Optional[str] = None,
     active_session_file: Optional[str] = None,
     workspace_cwd: Optional[str] = None) -> tuple[list[str], Optional[str], Optional[dict]]:
-    """Resolve the argv + cwd + env for the chat PTY (what ``hermes --tui`` runs).
+    """Resolve the argv + cwd + env for the chat PTY (what ``iskra --tui`` runs).
 
     Tests monkeypatch this with a tiny fake command.  Env contract: resume goes
     through ``HERMES_TUI_RESUME`` (``ui-tui`` does not parse argv), resolved to
@@ -501,7 +501,7 @@ def _resolve_chat_argv(
     in-memory gateway but is SKIPPED for profile-scoped chats (that gateway runs
     under the dashboard's own profile, so a scoped chat attaches to its profile's gateway);
     ``profile`` scopes the ENTIRE chat by pointing ``HERMES_HOME`` at the profile
-    dir, the same propagation ``hermes -p <name>`` performs. ``workspace_cwd``
+    dir, the same propagation ``iskra -p <name>`` performs. ``workspace_cwd``
     (an already-validated host directory, ``chat_workspaces.resolve_chat_cwd``)
     is the workspace the user picked for a FRESH chat: it becomes ``HERMES_CWD``
     (where a self-spawned gateway starts) and ``HERMES_TUI_CWD`` (what the TUI

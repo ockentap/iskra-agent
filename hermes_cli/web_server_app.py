@@ -43,7 +43,7 @@ async def standalone_lifespan(app: "FastAPI"):
     app.state.chat_argv_lock = asyncio.Lock()
 
     # Bring state.db schema current BEFORE the first session-list poll
-    # (#79531/#80037): a store left behind by `hermes update` otherwise 500s
+    # (#79531/#80037): a store left behind by `iskra update` otherwise 500s
     # every poll until its owner completes schema reconciliation.
     # Off-thread so a locked store never delays the socket (Desktop
     # ready-probe times out at 10s, GH-73083). NOT a daemon, and joined at
@@ -64,7 +64,7 @@ async def standalone_lifespan(app: "FastAPI"):
     _warm_gateway_module()
 
     # Snapshot the checkout revision so lazy-import paths (model picker) can
-    # refuse with "restart required" after `hermes update` replaced the code
+    # refuse with "restart required" after `iskra update` replaced the code
     # (#86207); the update flow does not reliably restart the dashboard.
     from gateway.code_skew import record_boot_fingerprint
 
@@ -100,7 +100,7 @@ async def standalone_lifespan(app: "FastAPI"):
     hosted_room_start_thread.start()
 
     # Desktop-spawned backends fire cron jobs themselves, since the app has no
-    # gateway running the scheduler. Server `hermes dashboard` is unaffected —
+    # gateway running the scheduler. Server `iskra dashboard` is unaffected —
     # it relies on its own gateway.
     from hermes_cli.process_identity import is_desktop_owned_backend
     cron_stop: threading.Event | None = None

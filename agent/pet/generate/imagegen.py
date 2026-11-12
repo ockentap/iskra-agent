@@ -119,13 +119,13 @@ def resolve_provider(*, require_references: bool = True, prefer: str | None = No
     if _available(NOUS_MANAGED_PROVIDER) is not None:
         raise GenerationError(
             "The selected Nous image model needs the Krea gateway, but that backend is "
-            "unavailable. Check Nous Subscription under `hermes tools` → Image Generation."
+            "unavailable. Check Nous Subscription under `iskra tools` → Image Generation."
         )
     if not require_references and active is not None and active.is_available():
         return SpriteProvider(name=getattr(active, "name", "unknown"), provider=active, supports_references=False)
     raise GenerationError(
         "Pet generation needs an image backend that supports reference images. "
-        "Open `hermes tools` → Image Generation and configure Nous Portal, "
+        "Open `iskra tools` → Image Generation and configure Nous Portal, "
         "OpenRouter, or OpenAI (gpt-image-2) with an API key."
     )
 

@@ -348,7 +348,7 @@ class PluginManager(PluginLoaderMixin, PluginDispatchMixin, PluginLedgerMixin):
         self._persistent_carryover: list[PluginRegistration] = []
         # Deferred platforms whose client tools registered at discovery (see
         # _register_deferred_platform_tools): imported package (don't re-execute on materialize)
-        # and contributed tool names (so `hermes plugins list` still attributes them).
+        # and contributed tool names (so `iskra plugins list` still attributes them).
         self._predeclared_modules: dict[str, types.ModuleType] = {}
         self._predeclared_tools: dict[str, list[str]] = {}
 
@@ -1354,7 +1354,7 @@ def get_plugin_auxiliary_tasks() -> list[dict[str, Any]]:
 
 
 def get_plugin_toolsets() -> list[tuple]:
-    """Plugin toolsets as ``(key, label, description)`` tuples for the ``hermes tools`` TUI."""
+    """Plugin toolsets as ``(key, label, description)`` tuples for the ``iskra tools`` TUI."""
     manager = get_plugin_manager()
     if not manager._plugin_tool_names:
         return []

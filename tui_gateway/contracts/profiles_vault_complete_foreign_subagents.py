@@ -204,7 +204,7 @@ class ProfilesCreateParams(ProfileParams):
     provider: str | None = None
     share_auth: bool | str | None = None
     mirror_credentials: bool | str | None = None
-    # ``hermes profile create`` through the gateway: ``--clone`` (copy the caller's profile),
+    # ``iskra profile create`` through the gateway: ``--clone`` (copy the caller's profile),
     # ``--sync-imports``, and ``report`` (return the receipt the CLI prints).
     clone_config: bool | str | None = None
     sync_imports: bool | str | None = None
@@ -229,7 +229,7 @@ class ProfilesCreateResult(Result):
     model_set: bool = False
     mirrored: ProfileMirrored
     warnings: list[str] = []  # best-effort steps that did not fully apply (create still succeeded)
-    # With ``report``: what ``hermes profile create`` prints. One definition, shared with the CLI that reads it.
+    # With ``report``: what ``iskra profile create`` prints. One definition, shared with the CLI that reads it.
     receipt: ProfileCreateReceipt | None = None
 
 

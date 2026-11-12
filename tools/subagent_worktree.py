@@ -2,7 +2,7 @@
 
 Git-only (outside a repo children share the parent's cwd); local terminal backend only (on
 docker/ssh/modal the host worktree is invisible in the sandbox, so isolation is skipped). One
-worktree per child under ``<repo>/.worktrees/subagent-<id>``, branch ``hermes-subagent/<id>``.
+worktree per child under ``<repo>/.worktrees/subagent-<id>``, branch ``iskra-subagent/<id>``.
 On finish: zero commits AND clean (both probes ok) -> removed; work left behind -> archived to
 ``refs/hermes/archive/<tree>`` then removed (``worktrees.archive_dirty``, branch kept so the parent
 can merge it); a failed probe or archive -> kept + flagged.
@@ -240,7 +240,7 @@ def _archive_finished_worktree(info: dict[str, str], payload: dict[str, Any]) ->
     if removed:
         payload["note"] = (f"Worktree archived to {ref} and removed; branch {info.get('branch')} kept. "
                            f"Restore the full tree (including uncommitted edits) with "
-                           f"`hermes worktree restore {ref.rsplit('/', 1)[-1]}`.")
+                           f"`iskra worktree restore {ref.rsplit('/', 1)[-1]}`.")
     else:
         payload["note"] = (f"Worktree archived to {ref} but kept at {path} ({why}); "
                            f"branch {info.get('branch')} kept.")

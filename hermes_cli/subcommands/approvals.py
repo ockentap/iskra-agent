@@ -1,4 +1,4 @@
-"""``hermes approvals`` subcommand parser."""
+"""``iskra approvals`` subcommand parser."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ def build_approvals_parser(subparsers, *, cmd_approvals: Callable) -> None:
     approvals_parser = subparsers.add_parser(
         "approvals", help="Approval-prompt tools (mine history into allowlist proposals)",
         description="Tools for the dangerous-command approval system. "
-            "`hermes approvals suggest` mines past approval decisions from "
+            "`iskra approvals suggest` mines past approval decisions from "
             "the session database and proposes command_allowlist entries so "
             "repeatedly-approved commands stop prompting.")
     approvals_subparsers = approvals_parser.add_subparsers(

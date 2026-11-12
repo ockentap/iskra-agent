@@ -110,7 +110,7 @@ def gui_toolset_label(label: str) -> str:
 # toolsets (catalog / bundled plugin) that stay opt-in once installed.
 _DEFAULT_OFF_TOOLSETS = {"spotify", "discord", "discord_admin", "video", "video_gen", "x_search", "a2a", "kanban"}
 
-# Config-only capabilities: provider setup in `hermes tools` (TOOL_CATEGORIES) but not model toolsets — zero
+# Config-only capabilities: provider setup in `iskra tools` (TOOL_CATEGORIES) but not model toolsets — zero
 # schemas, own switch (``stt.enabled``), never in ``platform_toolsets`` or the per-platform checklist.
 _CONFIG_ONLY_TOOLSETS = {"stt"}
 
@@ -183,7 +183,7 @@ def _get_plugin_toolset_keys() -> set:
 
 
 def _checklist_toolset_keys(platform: str) -> set[str]:
-    """Toolset keys the ``hermes tools`` checklist offers for ``platform`` (mirrors ``_prompt_toolset_checklist``);
+    """Toolset keys the ``iskra tools`` checklist offers for ``platform`` (mirrors ``_prompt_toolset_checklist``);
     read-time-resolved toolsets (recovered composites, MCP names) are NOT here."""
     return {
         ts_key for ts_key, _, _ in _get_effective_configurable_toolsets()
@@ -191,7 +191,7 @@ def _checklist_toolset_keys(platform: str) -> set[str]:
 
 
 def _platform_default_toolset(platform: str) -> str:
-    """Composite toolset a platform falls back to (plugin platforms derive ``hermes-<platform>``)."""
+    """Composite toolset a platform falls back to (plugin platforms derive ``iskra-<platform>``)."""
     return PLATFORMS[platform]["default_toolset"] if platform in PLATFORMS else f"hermes-{platform}"
 
 
@@ -423,7 +423,7 @@ def enabled_mcp_server_names(config: dict) -> set[str]:
 
 
 #: Toolsets young enough that absence from a saved ``platform_toolsets`` list means "never offered", not
-#: "declined": saving ``hermes tools`` freezes a platform's composite into an explicit list nothing adds to, so
+#: "declined": saving ``iskra tools`` freezes a platform's composite into an explicit list nothing adds to, so
 #: a later toolset stays off forever for picker users while ``[hermes-cli]`` users inherit it.
 #: MUST ship in the same release as the toolset and be emptied in the next: once a released build has put the
 #: toolset on a checklist, an unchecking user's config is byte-identical to one saved before it existed and this
@@ -490,7 +490,7 @@ def _explicit_toolsets(
     toolset_names: list[str], explicit_known_keys: set[str], config: dict, platform: str,
     explicitly_configured: bool) -> set[str]:
     """Enabled set when the saved list names configurable/plugin keys directly (subset inference over
-    ``hermes-cli`` would re-enable disabled toolsets). A mixed list (``[hermes-cli, discord]``) still expands the
+    ``iskra-cli`` would re-enable disabled toolsets). A mixed list (``[hermes-cli, discord]``) still expands the
     composite; _DEFAULT_OFF_TOOLSETS applies to that implicit expansion only."""
     from toolsets import resolve_toolset, TOOLSETS
 
@@ -537,7 +537,7 @@ def _context_engine_active(config: dict) -> bool:
 def _coerce_platform_toolsets_value(value, platform: str):
     """Read a list-literal string saved for ``platform_toolsets.<platform>`` as the list it encodes.
 
-    The parser is shared with ``hermes doctor`` and ``hermes plugins`` (``toolset_validation``
+    The parser is shared with ``iskra doctor`` and ``iskra plugins`` (``toolset_validation``
     ``parse_platform_toolsets_value``) so every surface agrees on the user's selection (#115866).
     Any other non-list value is warned about once (naming the expected shape) and left as-is, so
     the default fallback below is loud rather than silent.
@@ -552,7 +552,7 @@ def _coerce_platform_toolsets_value(value, platform: str):
         logger.warning(
             "platform_toolsets.%s is %r, expected a YAML list of toolset names "
             "(e.g. [terminal, file, web]) - falling back to the platform default. "
-            "Run `hermes tools` to reconfigure.", platform, value)
+            "Run `iskra tools` to reconfigure.", platform, value)
     return value
 
 
@@ -573,7 +573,7 @@ def _get_platform_tools(config: dict, platform: str, *, include_default_mcp_serv
     """Resolve which individual toolset names are enabled for a platform."""
     platform_toolsets = config.get("platform_toolsets") or {}
     toolset_names = _coerce_platform_toolsets_value(platform_toolsets.get(platform), platform)
-    # An explicitly saved list (even a composite like ``hermes-discord``) is an opt-in to the platform's
+    # An explicitly saved list (even a composite like ``iskra-discord``) is an opt-in to the platform's
     # native default-off toolsets — see _default_off_toolsets.
     # Track whether the user explicitly saved a toolset list for this platform (vs. falling back to the
     # platform default). See #35527.
@@ -635,7 +635,7 @@ def _get_platform_tools(config: dict, platform: str, *, include_default_mcp_serv
         enabled_toolsets.add("kanban")
 
     # agent.disabled_toolsets is a global suppression list (#86661) and runs LAST so it overrides everything
-    # above. It may arrive as a JSON-array string ("['memory']") from `hermes config set` or a JSON-mode editor.
+    # above. It may arrive as a JSON-array string ("['memory']") from `iskra config set` or a JSON-mode editor.
     disabled_toolsets = (config.get("agent") or {}).get("disabled_toolsets")
     if disabled_toolsets:
         from agent.skill_utils import parse_config_string_list
@@ -652,7 +652,7 @@ def _prune_toolsets_stripped_by_disabled(enabled_toolsets: set[str], disabled_na
 
     The agent subtracts ``agent.disabled_toolsets`` at TOOL granularity (``model_tools._select_tool_names``),
     so disabling a composite like ``debugging`` removes the terminal/web/file tools even though those names
-    never appear in the list. A name-only subtraction here left inspection surfaces (``hermes tools
+    never appear in the list. A name-only subtraction here left inspection surfaces (``iskra tools
     --summary``, banner, ``/tools``) showing toolsets as enabled that no session could call (#97015).
     Passthrough entries (MCP server names) and toolsets with no static tools (``context_engine``) are kept.
     """
@@ -683,7 +683,7 @@ def toolsets_partially_stripped(config: dict, enabled_toolsets: set[str]) -> dic
     that ``agent.disabled_toolsets`` cuts down without removing (``web`` minus ``web_search`` via ``search``,
     #134593). ``_prune_toolsets_stripped_by_disabled`` keeps such a toolset "enabled" because some of its
     tools survive, so inspection surfaces need this to say which ones did not. The hint offers
-    ``hermes tools enable`` only when that save clears every entry (``_save_platform_tools`` coverage)."""
+    ``iskra tools enable`` only when that save clears every entry (``_save_platform_tools`` coverage)."""
     from agent.skill_utils import parse_config_string_list
     from model_tools import _apply_toolset_selection
     from toolsets import resolve_toolset, validate_toolset
@@ -701,7 +701,7 @@ def toolsets_partially_stripped(config: dict, enabled_toolsets: set[str]) -> dic
         if by:
             entries = sorted(by)
             clears = all(_disabled_entry_tools(e) <= tools for e in entries)
-            hint = (f"run `hermes tools enable {name}` to restore" if clears
+            hint = (f"run `iskra tools enable {name}` to restore" if clears
                     else f"remove {', '.join(entries)} from agent.disabled_toolsets to restore")
             report[name] = (sorted(set().union(*by.values())), entries, hint)
     return report
@@ -755,9 +755,9 @@ def _merge_mcp_servers(
 
 
 def _warn_all_invalid_platform_toolsets(platform: str, explicit: list, config: dict) -> None:
-    """Warn once when an explicit platform list has only invalid names (``hermes`` for ``hermes-cli`` → no
+    """Warn once when an explicit platform list has only invalid names (``iskra`` for ``iskra-cli`` → no
     native tools), at session tool resolution rather than only in update/doctor. Names are judged the way
-    ``hermes config check`` judges them, and a known platform's own ``hermes-<platform>`` bundle always
+    ``iskra config check`` judges them, and a known platform's own ``iskra-<platform>`` bundle always
     counts (``is_known_platform_bundle``): a plugin platform has no sessions to leave toolless until its
     plugin loads, and once it loads the registry resolves the bundle.
     The own-bundle and registered-toolset checks run first because this is reached on every schema build
@@ -776,7 +776,7 @@ def _warn_all_invalid_platform_toolsets(platform: str, explicit: list, config: d
         _warned_invalid_platform_toolsets.add(platform)
         logger.warning(
             "platform '%s' has no valid toolsets configured (unknown "
-            "name(s): %s) - tools will be unavailable. Run `hermes tools` "
+            "name(s): %s) - tools will be unavailable. Run `iskra tools` "
             "to reconfigure. See issue #38798.",
             platform, ", ".join(named))
 
@@ -1036,7 +1036,7 @@ def _platform_menu_label(config: dict, pkey: str) -> str:
 
 
 def _print_tools_summary(config: dict, enabled_platforms: list[str]) -> None:
-    """``hermes tools --summary``: enabled toolsets per platform, non-interactive."""
+    """``iskra tools --summary``: enabled toolsets per platform, non-interactive."""
     total = len(_get_effective_configurable_toolsets())
     print(color("☤ Tool Summary", Colors.CYAN, Colors.BOLD))
     print()
@@ -1135,7 +1135,7 @@ def _configure_platforms(config: dict, platform_keys: list[str], *, all_platform
 
 
 def tools_command(args=None, first_install: bool = False, config: dict | None = None):
-    """Entry point for `hermes tools` / `hermes setup tools`. ``first_install`` skips the menu (checklist + key
+    """Entry point for `iskra tools` / `iskra setup tools`. ``first_install`` skips the menu (checklist + key
     prompts); a wizard-passed ``config`` receives platform_toolsets so its final save_config() keeps them."""
     if config is None:
         config = load_config()

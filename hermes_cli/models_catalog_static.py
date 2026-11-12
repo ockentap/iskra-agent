@@ -87,7 +87,7 @@ VERCEL_AI_GATEWAY_MODELS: list[tuple[str, str]] = [("moonshotai/kimi-k2.6", "rec
 
 def _codex_curated_models() -> list[str]:
     """openai-codex curated list from codex_models.py (DEFAULT_CODEX_MODELS + forward-compat
-    synthesis) so the gateway /model picker and the CLI ``hermes model`` flow share one source."""
+    synthesis) so the gateway /model picker and the CLI ``iskra model`` flow share one source."""
     from hermes_cli.codex_models import DEFAULT_CODEX_MODELS, _finalize_codex_models
     return _finalize_codex_models(list(DEFAULT_CODEX_MODELS))
 
@@ -362,7 +362,7 @@ _PROVIDER_MODELS: dict[str, list[str]] = _CuratedCatalog({
 # Canonical provider list — single source of truth for provider identity. Every code path that
 # lists, displays, or iterates providers (hermes model, /model, list_authenticated_providers)
 # derives from it. slug = internal ID (config.yaml, --provider); label = short display name;
-# tui_desc = longer description for the `hermes model` picker.
+# tui_desc = longer description for the `iskra model` picker.
 # ---------------------------------------------------------------------------
 
 class ProviderEntry(NamedTuple):
@@ -438,7 +438,7 @@ def sync_plugin_provider_catalog() -> int:
     Runs at import and again from ``providers._sync_auth_registry`` whenever a profile is registered
     after this module was imported. The import-time pass alone observes a *partial* registry: a
     plugin whose own imports pull ``hermes_cli.models`` in mid-``_discover_providers()``, or a
-    profile registered later at runtime, would otherwise never reach the picker, ``hermes model``,
+    profile registered later at runtime, would otherwise never reach the picker, ``iskra model``,
     ``/model`` or the Desktop ``model.options`` list until restart — the catalog twin of the auth
     registry window (#102123). Idempotent by slug; built-in rows are never rewritten. A row lands
     after its ``picker_after`` slug when that row exists, else at the end.
@@ -496,7 +496,7 @@ def listed_canonical_providers() -> list[ProviderEntry]:
 
 # ---------------------------------------------------------------------------
 # Provider groups — DISPLAY ONLY. Vendors with several slugs (global API, China API, OAuth plan,
-# ...) fold under one top-level row in the INTERACTIVE PICKERS (``hermes model``, setup wizard,
+# ...) fold under one top-level row in the INTERACTIVE PICKERS (``iskra model``, setup wizard,
 # Telegram ``/model``). They do NOT change CANONICAL_PROVIDERS, slug identity, ``--provider``,
 # ``/model <provider:model>`` or any typed path — every member slug stays individually addressable.
 # ``group_providers()`` is the single fold used by all three surfaces.
@@ -663,7 +663,7 @@ PREFERRED_SILENT_DEFAULT_MODEL = "z-ai/glm-5.3"
 # best-first, so [0] is the priciest flagship; a profile that sets a provider with no model would
 # otherwise silently bill the most expensive model (863 Opus requests before one user noticed).
 # Network-free (cache-only) on purpose — this is the hot resolution path. The *interactive* default
-# (GUI onboarding / ``hermes model``) uses the tier-aware ``get_recommended_default_model`` in
+# (GUI onboarding / ``iskra model``) uses the tier-aware ``get_recommended_default_model`` in
 # hermes_cli/web_server.py + ``partition_nous_models_by_tier``, which may hit the Portal.
 _SILENT_DEFAULT_PROVIDERS: frozenset[str] = frozenset({"nous", "openrouter"})
 

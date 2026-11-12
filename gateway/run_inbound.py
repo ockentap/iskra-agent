@@ -280,7 +280,7 @@ class GatewayInboundMixin(GatewayInboundHooksMixin, GatewayInboundTranscriptionM
     def _hm_estop_gate(
         self, event: MessageEvent, source: SessionSource, is_internal: bool
     ) -> Optional[str]:
-        """Global emergency-stop (`hermes pause`) notice when this turn must be blocked, else None.
+        """Global emergency-stop (`iskra pause`) notice when this turn must be blocked, else None.
         Placed after auth so unauthorized senders can't probe pause state. A synthetic heartbeat that
         slipped past the poller's pause check gets "" (blocked, nothing sent): nobody typed it, and
         settle_heartbeat_attempt leaves its tick due for after resume."""

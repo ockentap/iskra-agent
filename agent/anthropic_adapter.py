@@ -579,7 +579,7 @@ _OAUTH_SYSTEM_REPLACEMENTS = (
     ("Hermes Agent", "Claude Code"), ("Hermes agent", "Claude Code"), ("Nous Research", "Anthropic"),
 )
 # The slug is rewritten only as a standalone prose word. Joined to a host, path, repo, mailbox
-# or quoted as an identifier (``hermes-agent.nousresearch.com``, ``~/.hermes/hermes-agent/venv``,
+# or quoted as an identifier (``iskra-agent.nousresearch.com``, ``~/.hermes/hermes-agent/venv``,
 # ``NousResearch/hermes-agent``, ``skill_view(name='hermes-agent')``) it is an address the model
 # dereferences, and the rewritten form does not exist (#48860). The OPENING quote marks an
 # identifier; a sentence-final ``.`` or a possessive ``'s`` is prose.

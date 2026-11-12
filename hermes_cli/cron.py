@@ -48,7 +48,7 @@ def _builtin_gateway_liveness() -> Optional[bool]:
 
     A gateway launched from this home proves itself by process liveness. Any other scheduler that
     ticks this home — the host multiplexer for a served profile, or the in-process ticker inside
-    ``hermes serve`` / the Desktop backend (#121881) — proves itself only by the fresh heartbeat it
+    ``iskra serve`` / the Desktop backend (#121881) — proves itself only by the fresh heartbeat it
     writes into this home's store. External providers use their own machinery and are exempt.
     """
     try:
@@ -275,14 +275,14 @@ def _short_reason(text: Any, limit: int = 120) -> str:
 
 
 def _delivery_fix_hint(job: dict[str, Any]) -> str:
-    return (f"Check the target with `hermes cron status` or change it with "
-            f"`hermes cron edit {job.get('id', '<id>')} --deliver <target>`.")
+    return (f"Check the target with `iskra cron status` or change it with "
+            f"`iskra cron edit {job.get('id', '<id>')} --deliver <target>`.")
 
 
 def _missed_fire_issue(job: dict[str, Any], fire_err: dict[str, Any]) -> str:
     return (f"missed scheduled fire at {fire_err.get('at', '?')}: {_short_reason(fire_err['detail'])}. "
-            "The messaging gateway was unreachable. Run `hermes gateway restart`, then "
-            f"`hermes cron run {job.get('id', '<id>')}` to run it now.")
+            "The messaging gateway was unreachable. Run `iskra gateway restart`, then "
+            f"`iskra cron run {job.get('id', '<id>')}` to run it now.")
 
 
 def _job_warnings(job: dict[str, Any]) -> list[str]:
@@ -337,7 +337,7 @@ def cron_tick():
         # For the one-shot CLI surface, report cleanly instead of dumping a traceback; the gateway ticker
         # loop handles its own retry. See #87644.
         print(color(f"✗ Cron tick failed: {exc}", Colors.RED))
-        print("  Check `hermes cron status` and the gateway log for details.")
+        print("  Check `iskra cron status` and the gateway log for details.")
         return 1
     return 0
 
@@ -447,7 +447,7 @@ def _probe_then_list_jobs(*, include_disabled: bool, brief: bool = False):
 def _print_store_unwritable(report: dict, *, brief: bool = False) -> None:
     if brief:  # `cron list`: one line
         print(color(f"⚠ Cron store {report['store']} is NOT writable ({report['error']}) — scheduled jobs "
-                    f"are being skipped; {report['fix']}. See `hermes cron status`.", Colors.RED))
+                    f"are being skipped; {report['fix']}. See `iskra cron status`.", Colors.RED))
         return
     print(color("⚠ Cron store is NOT writable — scheduled jobs are being skipped", Colors.RED))
     print(color(f"  {report['store']}: {report['error']} (last successful write {report['since']})", Colors.RED))
@@ -479,14 +479,14 @@ def _print_ticker_health(pids: list, restart_command: str = "hermes gateway rest
         # Ticker never started (non-cron profile, gateway just started, or a config issue).
         _warn("⚠ Gateway is running but the cron ticker has not reported a heartbeat.")
         print("  Cron jobs will NOT fire until the ticker writes its first heartbeat.\n"
-              "  If the gateway just started, wait ~60s and re-run `hermes cron status`.\n"
+              "  If the gateway just started, wait ~60s and re-run `iskra cron status`.\n"
               f"  If heartbeat never appears, restart: {restart_command}")
     elif not _ticker_age_is_fresh(hb_age):  # ticker thread is gone
         _warn("⚠ Gateway is running but the cron ticker looks STALLED — "
               f"no heartbeat for {int(hb_age)}s (expected every ~60s).")
         print(f"  Cron jobs may NOT be firing. Restart: {restart_command}")
     elif (skew := stale_code_yield_labels(last_error)) is not None:
-        # `hermes update` moved the checkout under a running gateway: its ticker yields every
+        # `iskra update` moved the checkout under a running gateway: its ticker yields every
         # tick (heartbeat stays fresh, nothing dispatches) until the process is restarted (#117275).
         _warn("⚠ Gateway is running STALE code — its cron ticker yields every tick and "
               "fires NOTHING.")
@@ -567,7 +567,7 @@ def cron_status():
             if not gateway_alive_via_lock:
                 served_by_multiplexer = named_profile_served_by_running_multiplexer()
             if not gateway_alive_via_lock and not served_by_multiplexer:
-                # `hermes serve` / the Desktop backend ticks every local profile in-process: no
+                # `iskra serve` / the Desktop backend ticks every local profile in-process: no
                 # gateway argv, lock or host record — only the heartbeat it writes here (#121881).
                 with contextlib.suppress(Exception):
                     from cron.jobs import get_ticker_heartbeat_age, ticker_heartbeat_writer_alive
@@ -575,7 +575,7 @@ def cron_status():
                                          and ticker_heartbeat_writer_alive())
         if host is not None:
             print(f"  Scheduler host: {host.describe()}")
-            # `hermes gateway restart` exits 78 for a served NAMED profile
+            # `iskra gateway restart` exits 78 for a served NAMED profile
             # (_guard_named_profile_under_multiplexer): name the profile that LAUNCHED the host
             # process. On a standalone fleet that is this profile itself, not default (#120871).
             owner = None
@@ -772,7 +772,7 @@ def cron_doctor() -> int:
         for issue in issues:
             print(f"    - {issue}")
     print()
-    print(color("Review the findings above, then run `hermes cron doctor` again.", Colors.DIM))
+    print(color("Review the findings above, then run `iskra cron doctor` again.", Colors.DIM))
     return 1
 
 
@@ -952,7 +952,7 @@ def cron_resume(args) -> int:
 
 
 def cron_notepad(args) -> int:
-    """Handle ``hermes cron notepad <job_id> [get|set|delete|list]`` (per-job durable KV).
+    """Handle ``iskra cron notepad <job_id> [get|set|delete|list]`` (per-job durable KV).
 
     A running cron agent updates its own notepad via its terminal tool; the scheduler injects
     non-empty notepads into the job prompt on each run.
