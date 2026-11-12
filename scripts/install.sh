@@ -20,14 +20,14 @@ set -u
 # hygiene can't break the locked sync the way it used to before pm owned it.
 export UV_NO_CONFIG=1
 
-REPO_URL="${HERMES_REPO_URL:-https://github.com/NousResearch/hermes-agent.git}"
+REPO_URL="${HERMES_REPO_URL:-https://github.com/ockentap/iskra-agent.git}"
 BRANCH="main"
 INSTALL_COMMIT=""
 # The update channel to install: stable (the latest published release, the default for the
 # official repository's main line) or main (every commit). An explicit choice is persisted.
 CHANNEL="${HERMES_INSTALL_CHANNEL:-}"
 INSTALL_DIR="${HERMES_INSTALL_DIR:-}"
-HERMES_HOME="${HERMES_HOME:-$HOME/.hermes}"
+HERMES_HOME="${HERMES_HOME:-$HOME/.iskra}"
 STAGE=""
 WANT_MANIFEST=false
 JSON=false
@@ -94,7 +94,7 @@ case "$CHANNEL" in
     *) printf -- '--channel must be stable or main, not %s\n' "$CHANNEL" >&2; exit 2 ;;
 esac
 
-INSTALL_DIR="${INSTALL_DIR:-$HERMES_HOME/hermes-agent}"
+INSTALL_DIR="${INSTALL_DIR:-$HERMES_HOME/iskra-agent}"
 export HERMES_HOME
 
 INSTALL_LOG="$HERMES_HOME/logs/install.log"

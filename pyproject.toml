@@ -3,9 +3,9 @@
 
 
 [project]
-name = "hermes-agent"
+name = "iskra-agent"
 version = "0.0.0"
-description = "The self-improving AI agent — creates skills from experience, improves them during use, and runs anywhere"
+description = "Iskra — a self-improving AI agent that creates skills from experience, improves them during use, and runs anywhere"
 readme = "README.md"
 # 3.14 is the newest python we know we have wheels for.
 # we *only* support 3.14, BUT we need to allow old hermes installs on <3.14
@@ -466,20 +466,20 @@ azure-identity = ["azure-identity==1.26.0"]
 termux = [
   # Baseline Android / Termux path for reliable fresh installs.
   "python-telegram-bot[webhooks]==22.8",
-  "hermes-agent[cron]",
-  "hermes-agent[mcp]",
-  "hermes-agent[acp]",
+  "iskra-agent[cron]",
+  "iskra-agent[mcp]",
+  "iskra-agent[acp]",
 ]
 termux-all = [
   # Best-effort "install all" profile for Termux. Same policy as [all]:
   # only includes extras that are not prepared on demand by PM.
   # Backends like telegram/slack/dingtalk/feishu lazy-install at
   # first use, so they're no longer eager-installed here.
-  "hermes-agent[termux]",
-  "hermes-agent[google]",
-  "hermes-agent[sms]",
-  "hermes-agent[web]",
-  "hermes-agent[pty]",
+  "iskra-agent[termux]",
+  "iskra-agent[google]",
+  "iskra-agent[sms]",
+  "iskra-agent[web]",
+  "iskra-agent[pty]",
 ]
 dingtalk = [
   "dingtalk-stream==0.24.3",
@@ -543,15 +543,15 @@ all = [
   # [all], `uv sync --locked` on Windows tried to build it from sdist
   # and failed on `make`. Lazy-install routes that build to first use,
   # where the user is expected to have a toolchain available.
-  "hermes-agent[cron]",
-  "hermes-agent[pty]",
-  "hermes-agent[mcp]",
-  "hermes-agent[uvloop]",
-  "hermes-agent[sms]",
-  "hermes-agent[acp]",
-  "hermes-agent[google]",
-  "hermes-agent[web]",
-  "hermes-agent[youtube]",
+  "iskra-agent[cron]",
+  "iskra-agent[pty]",
+  "iskra-agent[mcp]",
+  "iskra-agent[uvloop]",
+  "iskra-agent[sms]",
+  "iskra-agent[acp]",
+  "iskra-agent[google]",
+  "iskra-agent[web]",
+  "iskra-agent[youtube]",
 ]
 
 [dependency-groups]
@@ -584,9 +584,9 @@ requires = ["setuptools==84.1.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
-hermes = "hermes_cli.main:main"
-hermes-agent = "agent.legacy_cli:main"
-hermes-acp = "acp_adapter.entry:main"
+iskra = "hermes_cli.main:main"
+iskra-agent = "agent.legacy_cli:main"
+iskra-acp = "acp_adapter.entry:main"
 
 [tool.hermes]
 # Extras that only an explicit selection installs (setup, sync_venv). Bundles

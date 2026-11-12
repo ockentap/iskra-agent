@@ -60,8 +60,8 @@ def _platform_default_hermes_home(environ: Mapping[str, str], user_home: Callabl
     if sys.platform == "win32":
         local_appdata = environ.get("LOCALAPPDATA", "").strip()
         base = Path(local_appdata) if local_appdata else user_home() / "AppData" / "Local"
-        return base / ("hermes" + suffix)
-    return user_home() / (".hermes" + suffix)
+        return base / ("iskra" + suffix)
+    return user_home() / (".iskra" + suffix)
 
 
 def _get_platform_default_hermes_home() -> Path:
@@ -155,7 +155,7 @@ def sudo_invoker_default_home() -> Path | None:
     import pwd
 
     try:
-        return Path(pwd.getpwnam(sudo_user).pw_dir) / ".hermes"
+        return Path(pwd.getpwnam(sudo_user).pw_dir) / ".iskra"
     except KeyError:  # SUDO_USER not in passwd (chroot/container)
         return None
 
