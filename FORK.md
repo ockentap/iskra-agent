@@ -20,7 +20,9 @@ fork can still merge upstream and can still load existing Hermes skills and plug
 | Version banner | `hermes_cli/banner.py`, `agent/legacy_cli.py`, `hermes_cli/status.py` |
 | Data directory | default `~/.iskra` (was `~/.hermes`), `hermes_constants.py` |
 | Gateway header | WhatsApp default reply prefix → `☤ *Iskra*` |
-| Updater | `OFFICIAL_REPOSITORY` / `OFFICIAL_REPO_URL(S)` → `ockentap/iskra-agent` |
+| Copy | Backticked and bare `hermes <cmd>` hints → `iskra`, across code, root modules and tests (~3,900) |
+| Locales | `locales/*.yaml`: product name → Iskra, `~/.hermes` → `~/.iskra`, 33 files / ~6,200 strings |
+| Updater | `OFFICIAL_REPOSITORY` / `OFFICIAL_REPO_URL(S)` → `ockentap/iskra-agent`; no-release 404 stays quiet |
 | Installer | `scripts/install.sh`: repo URL and install dir defaults |
 
 `_UPSTREAM_ADD_CMD` is intentionally left pointing at `NousResearch/hermes-agent`:
