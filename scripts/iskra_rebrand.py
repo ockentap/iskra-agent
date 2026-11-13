@@ -157,6 +157,17 @@ LITERAL_RULES: list[Rule] = [
          'INSTALL_DIR="${INSTALL_DIR:-$HERMES_HOME/iskra-agent}"',
          name="installer: install dir"),
 
+    # --- container layer -------------------------------------------------
+    # The image still names its UNIX user `hermes`; only the *binary* it
+    # drops to changes, because the fork installs `iskra` entry points.
+    Rule("docker/main-wrapper.sh", '    drop hermes\nfi', '    drop iskra\nfi',
+         name="docker: default command"),
+    Rule("docker/main-wrapper.sh", 'drop hermes "$@"', 'drop iskra "$@"',
+         name="docker: passthrough command"),
+    Rule("docker/hermes-exec-shim.sh", "REAL=/opt/hermes/.venv/bin/hermes",
+         "REAL=/opt/hermes/.venv/bin/iskra",
+         name="docker: exec shim binary"),
+
     # --- tests -----------------------------------------------------------
     Rule("tests/test_hermes_constants.py", '"""When HERMES_HOME is not set, returns ~/.hermes."""',
          '"""When HERMES_HOME is not set, returns ~/.iskra."""',
