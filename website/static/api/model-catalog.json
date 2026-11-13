@@ -3,7 +3,7 @@
   "updated_at": "2026-11-09T21:03:18Z",
   "metadata": {
     "source": "hermes-agent repo",
-    "docs": "https://hermes-agent.nousresearch.com/docs/reference/model-catalog"
+    "docs": "https://ockentap.github.io/iskra-agent/docs/reference/model-catalog"
   },
   "providers": {
     "openrouter": {

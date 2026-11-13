@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import styles from "./styles.module.css";
 import CatalogFeatured from "../../components/CatalogFeatured";
 import { isOfficialSkillSource, pickFeatured } from "../../../../apps/shared/src/catalog-featured";
@@ -543,12 +544,11 @@ function StatCard({ value, label, color }: { value: number; label: string; color
 
 const PAGE_SIZE = 60;
 
-// Routes Docusaurus serves the static API JSON from. `baseUrl` is `/docs/`,
-// `static/api/` ends up at `/docs/api/`. Hardcoding here is fine because the
-// same `baseUrl` is enforced repo-wide; if it ever changes, this is the only
-// place that needs to follow.
-const SKILLS_URL = "/docs/api/skills.json";
-const META_URL = "/docs/api/skills-meta.json";
+// Static API JSON lives under `static/api/`, served at `<baseUrl>/api/`.
+// Resolve through useBaseUrl inside the component so it follows the site's
+// baseUrl (Iskra serves the site at /iskra-agent/).
+const SKILLS_PATH = "/api/skills.json";
+const META_PATH = "/api/skills-meta.json";
 // Idle timeout for the catalog fetch — abort only when the transfer has
 // produced no bytes for this long, so slow-but-alive downloads survive.
 const CATALOG_STALL_TIMEOUT_MS = 45_000;
@@ -585,6 +585,9 @@ export default function SkillsDashboard() {
   const pickerMode =
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("embed") === "picker";
+
+  const SKILLS_URL = useBaseUrl(SKILLS_PATH);
+  const META_URL = useBaseUrl(META_PATH);
 
   const pickSkill = useCallback(
     (skill: Skill) => {

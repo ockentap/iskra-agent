@@ -1,6 +1,6 @@
 name: Docs Search Monitor
 
-# Live check that search works on hermes-agent.nousresearch.com/docs. Search
+# Live check that search works on ockentap.github.io/iskra-agent/docs. Search
 # broke in production twice in one month with every build green (a deleted
 # Algolia search key, then Vercel access controls), because nothing ever
 # exercised the deployed site.

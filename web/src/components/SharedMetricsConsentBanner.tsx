@@ -5,7 +5,7 @@ import { useProfileScope } from "@/contexts/useProfileScope";
 import { useI18n } from "@/i18n";
 
 const DOCS_URL =
-  "https://hermes-agent.nousresearch.com/docs/developer-guide/relay-shared-metrics";
+  "https://ockentap.github.io/iskra-agent/docs/developer-guide/relay-shared-metrics";
 const STORAGE_KEY = "sharedMetricsOfferDismissed";
 
 /**

@@ -1,7 +1,7 @@
 # Hermes CLI Reference
 
 Live sources when anything looks stale: `hermes --help`, `hermes <command> --help`,
-https://hermes-agent.nousresearch.com/docs/reference/cli-commands
+https://ockentap.github.io/iskra-agent/docs/reference/cli-commands
 
 ### Global Flags
 
@@ -79,7 +79,7 @@ hermes gateway run|install|start|stop|restart|status|setup
 ```
 
 20+ platforms: Telegram, Discord, Slack, WhatsApp (Baileys + Business Cloud API), iMessage (Photon — `hermes photon setup`), Signal, Email, SMS, Matrix, Mattermost, Teams, LINE, SimpleX, ntfy, Google Chat, Home Assistant, DingTalk, Feishu, WeCom, Weixin, API Server, Webhooks. Open WebUI connects via the API Server adapter. Most adapters ship under `plugins/platforms/`.
-Docs: https://hermes-agent.nousresearch.com/docs/user-guide/messaging/
+Docs: https://ockentap.github.io/iskra-agent/docs/user-guide/messaging/
 
 ### Sessions
 
@@ -142,10 +142,10 @@ Plugin- and provider-supplied subcommands (e.g. `hermes photon setup`) only appe
 
 | Looking for... | Location |
 |---|---|
-| Config options | `hermes config edit` · [Configuration docs](https://hermes-agent.nousresearch.com/docs/user-guide/configuration) |
-| Tools / toolsets | `hermes tools list` · [Tools reference](https://hermes-agent.nousresearch.com/docs/reference/tools-reference) |
-| Skills catalog | `hermes skills browse` · [Skills catalog](https://hermes-agent.nousresearch.com/docs/reference/skills-catalog) |
-| Provider setup | `hermes model` · [Providers guide](https://hermes-agent.nousresearch.com/docs/integrations/providers) |
-| Env variables | `hermes config env-path` · [Env vars reference](https://hermes-agent.nousresearch.com/docs/reference/environment-variables) |
+| Config options | `hermes config edit` · [Configuration docs](https://ockentap.github.io/iskra-agent/docs/user-guide/configuration) |
+| Tools / toolsets | `hermes tools list` · [Tools reference](https://ockentap.github.io/iskra-agent/docs/reference/tools-reference) |
+| Skills catalog | `hermes skills browse` · [Skills catalog](https://ockentap.github.io/iskra-agent/docs/reference/skills-catalog) |
+| Provider setup | `hermes model` · [Providers guide](https://ockentap.github.io/iskra-agent/docs/integrations/providers) |
+| Env variables | `hermes config env-path` · [Env vars reference](https://ockentap.github.io/iskra-agent/docs/reference/environment-variables) |
 | Gateway logs | `~/.hermes/logs/gateway.log` (or `hermes logs`) |
 | Sessions | `hermes sessions browse` (reads state.db) |

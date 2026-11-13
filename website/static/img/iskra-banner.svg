@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="bSpark" cx="50%" cy="42%" r="68%">
+      <stop offset="0%" stop-color="#FFF0C2"/>
+      <stop offset="30%" stop-color="#FFD166"/>
+      <stop offset="68%" stop-color="#FF9E2C"/>
+      <stop offset="100%" stop-color="#FF6B1A"/>
+    </radialGradient>
+    <radialGradient id="bGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF6B1A" stop-opacity="0.28"/>
+      <stop offset="55%" stop-color="#FF6B1A" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#FF6B1A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bRule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FF9E2C" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FF9E2C" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="bDots" width="34" height="34" patternUnits="userSpaceOnUse">
+      <circle cx="1.2" cy="1.2" r="1.2" fill="#FF9E2C" fill-opacity="0.05"/>
+    </pattern>
+    <filter id="bSoft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0B0908"/>
+  <rect width="1200" height="630" fill="url(#bDots)"/>
+  <ellipse cx="230" cy="300" rx="420" ry="360" fill="url(#bGlow)"/>
+
+  <!-- spark emblem -->
+  <g transform="translate(88,158) scale(4.55)">
+    <path d="M32 2 Q36.5 27.5 62 32 Q36.5 36.5 32 62 Q27.5 36.5 2 32 Q27.5 27.5 32 2 Z"
+          fill="#FF6B1A" opacity="0.55" filter="url(#bSoft)"/>
+    <path d="M32 2 Q36.5 27.5 62 32 Q36.5 36.5 32 62 Q27.5 36.5 2 32 Q27.5 27.5 32 2 Z"
+          fill="url(#bSpark)"/>
+    <circle cx="32" cy="32" r="4.6" fill="#FFF7E6"/>
+  </g>
+  <!-- flying ember -->
+  <circle cx="392" cy="196" r="7" fill="#FFD166"/>
+  <circle cx="416" cy="168" r="3.4" fill="#FF9E2C" opacity="0.8"/>
+
+  <!-- wordmark -->
+  <text x="470" y="322" font-family="'Space Grotesk', sans-serif" font-size="158" font-weight="700"
+        letter-spacing="2" fill="#F0E9DE">iskra</text>
+  <rect x="474" y="352" width="330" height="4" rx="2" fill="url(#bRule)"/>
+  <text x="474" y="416" font-family="'Space Grotesk', sans-serif" font-size="34" font-weight="400"
+        fill="#A79B8A">The self-improving AI agent</text>
+  <text x="474" y="560" font-family="'Space Grotesk', sans-serif" font-size="25" font-weight="400"
+        fill="#6F6355">ockentap.github.io/iskra-agent</text>
+</svg>

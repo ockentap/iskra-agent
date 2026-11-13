@@ -2,7 +2,7 @@
 # At submission time this file is added to the NousResearch/hermes-agent
 # repository as `plugin-catalog/calendar-agenda.yaml` via pull request.
 # Schema: plugin-catalog/README.md in NousResearch/hermes-agent
-# (mirrored at https://hermes-agent.nousresearch.com/docs/developer-guide/plugins/catalog-submission)
+# (mirrored at https://ockentap.github.io/iskra-agent/docs/developer-guide/plugins/catalog-submission)
 #
 # Attribution: author/maintainer is the owner himself, GitHub `sanpeita`;
 # the plugin is published as `sanpeita/hermes-calendar-agenda`.

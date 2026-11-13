@@ -4,18 +4,18 @@ import type * as Preset from '@docusaurus/preset-classic';
 import relativeDocLinks from './src/remark/relativeDocLinks';
 
 const config: Config = {
-  title: 'Hermes Agent',
+  title: 'Iskra',
   tagline: 'The self-improving AI agent',
   favicon: 'img/favicon.ico',
 
-  url: 'https://hermes-agent.nousresearch.com',
-  baseUrl: '/docs/',
+  // GitHub Pages project site: https://ockentap.github.io/iskra-agent/
+  url: 'https://ockentap.github.io',
+  baseUrl: '/iskra-agent/',
 
-  organizationName: 'NousResearch',
-  projectName: 'hermes-agent',
+  organizationName: 'ockentap',
+  projectName: 'iskra-agent',
 
   onBrokenLinks: 'warn',
-
   markdown: {
     mermaid: true,
     hooks: {
@@ -25,52 +25,48 @@ const config: Config = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'zh-Hans'],
-    localeConfigs: {
-      en: {
-        label: 'English',
-      },
-      'zh-Hans': {
-        label: '简体中文',
-        htmlLang: 'zh-Hans',
+    locales: ['en'],
+  },
+
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {rel: 'apple-touch-icon', href: '/iskra-agent/img/apple-touch-icon.png'},
+    },
+    {tagName: 'meta', attributes: {name: 'theme-color', content: '#0B0908'}},
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'description',
+        content:
+          'Iskra — the self-improving AI agent. A spark of a fork of Hermes Agent: a built-in learning loop that creates skills from experience and remembers across sessions.',
       },
     },
-  },
+  ],
 
   themes: [
     '@docusaurus/theme-mermaid',
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        hashed: true,
+        language: ['en'],
+        indexDocs: true,
+        indexBlog: false,
+        indexPages: false,
+        docsRouteBasePath: '/docs',
+      },
+    ],
   ],
-
   plugins: [
-    // Static /plugins/<name> and /plugins/by/<author> pages generated from the catalog JSON.
-    './plugins/plugin-catalog-pages',
     [
       '@docusaurus/plugin-client-redirects',
       {
-        // Static-host redirects for renamed doc pages (GitHub Pages can't
-        // do server-side redirects). Paths are relative to baseUrl (/docs/).
         redirects: [
-          {
-            // Renamed in #44470 (Automation Blueprints terminology rebrand)
-            from: '/guides/automation-templates',
-            to: '/guides/automation-blueprints',
-          },
-          {
-            // Moved when the Plugins subcategory was created under
-            // Developer Guide > Extending (docs restructure, July 2026)
-            from: '/guides/build-a-hermes-plugin',
-            to: '/developer-guide/plugins',
-          },
-          {
-            // Users guess these short paths from abbreviated links and hit
-            // raw 404s (consumer-onboarding audit finding #1, Aug 2026).
-            from: '/quickstart',
-            to: '/getting-started/quickstart',
-          },
-          {
-            from: '/installation',
-            to: '/getting-started/installation',
-          },
+          {from: '/docs/guides/automation-templates', to: '/docs/guides/automation-blueprints'},
+          {from: '/docs/guides/build-a-hermes-plugin', to: '/docs/developer-guide/plugins'},
+          {from: '/docs/quickstart', to: '/docs/getting-started/quickstart'},
+          {from: '/docs/installation', to: '/docs/getting-started/installation'},
         ],
       },
     ],
@@ -81,11 +77,9 @@ const config: Config = {
       'classic',
       {
         docs: {
-          routeBasePath: '/',  // Docs at the root of /docs/
+          routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/NousResearch/hermes-agent/edit/main/website/',
-          // Relative `.md` links (readable on GitHub, #114428) must also resolve
-          // across the zh-Hans fallback boundary; see src/remark/relativeDocLinks.js.
+          editUrl: 'https://github.com/ockentap/iskra-agent/edit/iskra-rebrand/website/',
           beforeDefaultRemarkPlugins: [[relativeDocLinks, {siteDir: __dirname}]],
         },
         blog: false,
@@ -97,24 +91,11 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/hermes-agent-banner.png',
-    // Algolia DocSearch (replaces @easyops-cn/docusaurus-search-local).
-    // The local plugin shipped a ~16 MB client-side lunr index that every
-    // visitor downloaded and hydrated before their first result; DocSearch
-    // answers from Algolia's servers with no client index at all. These are
-    // public search-only credentials — safe to commit (the admin key is not
-    // in the repo). Index is populated by the Algolia Crawler configured at
-    // crawler.algolia.com; contextualSearch scopes results to the active
-    // locale via the docusaurus_tag/lang facets the crawler records carry.
-    algolia: {
-      appId: '2JLBVEYZN5',
-      apiKey: '9629ec26628d1a126535fd5ef408990d',
-      indexName: 'hermes docs',
-      contextualSearch: true,
-    },
+    image: 'img/iskra-banner.png',
     colorMode: {
       defaultMode: 'dark',
-      respectPrefersColorScheme: true,
+      respectPrefersColorScheme: false,
+      disableSwitch: true,
     },
     docs: {
       sidebar: {
@@ -123,53 +104,13 @@ const config: Config = {
       },
     },
     navbar: {
-      title: 'Hermes Agent',
-      logo: {
-        alt: 'Hermes Agent',
-        src: 'img/logo.png',
-        srcDark: 'img/logo-dark.png',
-      },
+      title: 'Iskra',
+      logo: {alt: 'Iskra', src: 'img/logo.svg'},
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'docs',
-          position: 'left',
-          label: 'Docs',
-        },
-        {
-          to: '/skills',
-          label: 'Skills',
-          position: 'left',
-        },
-        {
-          to: '/plugins',
-          label: 'Plugins',
-          position: 'left',
-        },
-        {
-          href: 'https://hermes-agent.nousresearch.com/',
-          label: 'Download',
-          position: 'left',
-        },
-        {
-          type: 'localeDropdown',
-          position: 'right',
-        },
-        {
-          href: 'https://hermes-agent.nousresearch.com',
-          label: 'Home',
-          position: 'right',
-        },
-        {
-          href: 'https://github.com/NousResearch/hermes-agent',
-          label: 'GitHub',
-          position: 'right',
-        },
-        {
-          href: 'https://discord.gg/NousResearch',
-          label: 'Discord',
-          position: 'right',
-        },
+        {type: 'docSidebar', sidebarId: 'docs', position: 'left', label: 'Docs'},
+        {to: '/skills', label: 'Skills', position: 'left'},
+        {to: '/docs/getting-started/installation', label: 'Install', position: 'left'},
+        {href: 'https://github.com/ockentap/iskra-agent', label: 'GitHub', position: 'right'},
       ],
     },
     footer: {
@@ -178,30 +119,29 @@ const config: Config = {
         {
           title: 'Docs',
           items: [
-            { label: 'Getting Started', to: '/getting-started/quickstart' },
-            { label: 'User Guide', to: '/user-guide/cli' },
-            { label: 'Developer Guide', to: '/developer-guide/architecture' },
-            { label: 'Reference', to: '/reference/cli-commands' },
+            {label: 'Getting Started', to: '/docs/getting-started/quickstart'},
+            {label: 'User Guide', to: '/docs/user-guide/cli'},
+            {label: 'Developer Guide', to: '/docs/developer-guide/architecture'},
+            {label: 'Reference', to: '/docs/reference/cli-commands'},
           ],
         },
         {
-          title: 'Community',
+          title: 'Project',
           items: [
-            { label: 'Discord', href: 'https://discord.gg/NousResearch' },
-            { label: 'GitHub Issues', href: 'https://github.com/NousResearch/hermes-agent/issues' },
-            { label: 'Skills Hub', href: 'https://agentskills.io' },
+            {label: 'GitHub', href: 'https://github.com/ockentap/iskra-agent'},
+            {label: 'Issues', href: 'https://github.com/ockentap/iskra-agent/issues'},
+            {label: 'Skills Hub', href: 'https://agentskills.io'},
           ],
         },
         {
           title: 'More',
           items: [
-            { label: 'Desktop Download', href: 'https://hermes-agent.nousresearch.com/' },
-            { label: 'GitHub', href: 'https://github.com/NousResearch/hermes-agent' },
-            { label: 'Nous Research', href: 'https://nousresearch.com' },
+            {label: 'Install', to: '/docs/getting-started/installation'},
+            {label: 'Upstream Hermes', href: 'https://github.com/NousResearch/hermes-agent'},
           ],
         },
       ],
-      copyright: `Built by <a href="https://nousresearch.com">Nous Research</a> · MIT License · ${new Date().getFullYear()}`,
+      copyright: `Iskra — a fork of <a href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a> by Nous Research · MIT License · ${new Date().getFullYear()}`,
     },
     prism: {
       theme: prismThemes.github,

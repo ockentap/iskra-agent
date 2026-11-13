@@ -7,7 +7,6 @@ const sidebars: SidebarsConfig = {
     // sidebar, with the navbar a "Back to main menu" tap away, so without these links the hubs are
     // undiscoverable on a phone.
     {type: 'link', label: 'Browse Skills', href: '/skills'},
-    {type: 'link', label: 'Browse Plugins', href: '/plugins'},
     {
       type: 'category',
       label: 'Getting Started',

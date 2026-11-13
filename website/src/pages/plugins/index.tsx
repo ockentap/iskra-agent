@@ -31,10 +31,11 @@ import CatalogFeatured from "../../components/CatalogFeatured";
 import { groupCatalogPlugins, sortCatalogPlugins } from "../../../../apps/shared/src/catalog-browse";
 import { pickFeatured } from "../../../../apps/shared/src/catalog-featured";
 
-// Routes Docusaurus serves the static API JSON from. `baseUrl` is `/docs/`,
-// `static/api/` ends up at `/docs/api/` — same pattern as the Skills Hub.
-const PLUGINS_URL = "/docs/api/plugins.json";
-const META_URL = "/docs/api/plugins-meta.json";
+// Static API JSON lives under `static/api/`, served at `<baseUrl>/api/`.
+// Resolve through useBaseUrl inside the component so it follows the site's
+// baseUrl (Iskra serves the site at /iskra-agent/).
+const PLUGINS_PATH = "/api/plugins.json";
+const META_PATH = "/api/plugins-meta.json";
 /** Mirrors the `max-width: 600px` blocks in styles.module.css. */
 const MOBILE_PANEL_QUERY = "(max-width: 600px)";
 
@@ -407,6 +408,9 @@ export default function PluginCatalogPage() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const filterPanelRef = useRef<HTMLDivElement>(null);
+
+  const PLUGINS_URL = useBaseUrl(PLUGINS_PATH);
+  const META_URL = useBaseUrl(META_PATH);
 
   useEffect(() => {
     let cancelled = false;

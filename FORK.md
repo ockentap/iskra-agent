@@ -24,6 +24,8 @@ fork can still merge upstream and can still load existing Hermes skills and plug
 | Locales | `locales/*.yaml`: product name → Iskra, `~/.hermes` → `~/.iskra`, 33 files / ~6,200 strings |
 | Updater | `OFFICIAL_REPOSITORY` / `OFFICIAL_REPO_URL(S)` → `ockentap/iskra-agent`; no-release 404 stays quiet |
 | Installer | `scripts/install.sh`: repo URL and install dir defaults |
+| Docs links | every `hermes-agent.nousresearch.com` URL → `ockentap.github.io/iskra-agent` |
+| Website | Docusaurus rebrand + spark art + animated landing, published to GitHub Pages |
 
 `_UPSTREAM_ADD_CMD` is intentionally left pointing at `NousResearch/hermes-agent`:
 `origin` is the fork, `upstream` stays the original project for merges.
@@ -38,10 +40,27 @@ fork can still merge upstream and can still load existing Hermes skills and plug
   one during migration.
 - `HERMES_*` environment variables are unchanged.
 
+## Website / GitHub Pages
+
+The docs site is rebranded and published to GitHub Pages at
+**https://ockentap.github.io/iskra-agent/** (project Pages, source = GitHub Actions,
+deployed by `.github/workflows/pages.yml` on pushes to `iskra-rebrand`).
+
+- `website/docusaurus.config.ts`: title/tagline → Iskra, `url`/`baseUrl` →
+  `ockentap.github.io/iskra-agent/`, org/project → `ockentap/iskra-agent`, docs under
+  `/docs/`, English-only, local search (`@easyops-cn/docusaurus-search-local`) in place
+  of the Hermes Algolia index.
+- New spark brand art in `website/static/img/` (logo, favicon, OG banner, apple icon)
+  and an animated landing page at `website/src/pages/index.tsx`.
+- Installers are hosted on Pages: `/install.sh` and `/install.ps1`.
+- Every `hermes-agent.nousresearch.com` documentation link across the repo now points
+  at the Iskra site (docs, installers, model catalog, llms.txt).
+
 ## Not done yet (deliberately out of scope for the base pass)
 
-- `website/` Docusaurus site (title, domain, org) and the 242 files that link to
-  `hermes-agent.nousresearch.com`.
+- The community **plugin catalog** pages (`website/plugins/plugin-catalog-pages`,
+  ~2,100 upstream plugins → ~3,700 static pages) are disabled: they OOM the build and
+  are upstream, not Iskra, content. The Skills hub (Iskra's bundled skills) is kept.
 - `ui-tui` npm package name (`hermes-tui`), `apps/desktop` bundle identifiers,
   Windows/macOS code signing.
 - 56 GitHub Actions workflows — most need Nous infrastructure, release channels,
