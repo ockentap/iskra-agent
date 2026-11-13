@@ -351,7 +351,7 @@ export default function Home(): React.ReactElement {
                 Not a copilot tethered to an IDE, not a wrapper around one API. An autonomous agent
                 that gets more capable the longer it runs — a small spark that catches, spreads, and
                 keeps burning. It lives on a $5 VPS or a GPU cluster, and you talk to it from Telegram
-                while it works on a machine you never SSH into.
+                while it works away on its own.
               </p>
             </Reveal>
             <div className={styles.loop}>
