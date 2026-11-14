@@ -1,6 +1,6 @@
 """Per-request ``model_options`` decoding, lifted from ``platforms/api_server.py``.
 
-Keeps the api_server facade under its frozen line cap (root AGENTS.md god-file
+Keeps the api_server facade under its frozen line cap (root AGENTS.md monolith file
 guidance: move code into a topical sibling). ``api_server.py`` re-exports
 ``_request_service_tier`` and ``_request_reasoning_config`` so existing importers
 are unaffected; the helpers those two read stay in the facade and are imported

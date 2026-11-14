@@ -36,7 +36,7 @@ call, and when in doubt a PR stays open). Long form with examples:
 
 **Wanted:** real bug fixes (repro on `main`, the exact line, the whole class incl. sibling paths);
 reach at the edges (adapters, providers, models, UI features) wired into the existing setup UX;
-god-file → module refactors; extending before duplicating (3+ PRs in one category → an ABC +
+monolith file → module refactors; extending before duplicating (3+ PRs in one category → an ABC +
 orchestrator); behaviour-contract tests; E2E with real imports against a temp `HERMES_HOME` for
 resolution, config, security and I/O changes; salvage by cherry-pick so authorship survives.
 
@@ -93,7 +93,7 @@ all profile-aware via `get_hermes_home()`.
 
 ### Facade + siblings layout
 
-Every former god file is a **facade** (public entry points + the names other packages import) plus
+Every former monolith file is a **facade** (public entry points + the names other packages import) plus
 **siblings** `<stem>_<topic>.py`, each owning one topic (the tree above, `gateway/run.py`,
 `tools/mcp_tool.py`, `hermes_cli/kanban.py`, `hermes_cli/web_server.py`).
 

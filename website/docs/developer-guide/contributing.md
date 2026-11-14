@@ -36,7 +36,7 @@ edges, conservative at the waist.
   dashboard features land routinely, including large ones — as long as they integrate with
   the existing setup/config UX (`hermes tools`, `hermes setup`, auto-install) rather than
   bolting on a raw env var.
-- **Refactor god-files into clean modules.** Huge mechanical `+N/-N` extraction PRs are
+- **Refactor monolith files into clean modules.** Huge mechanical `+N/-N` extraction PRs are
   wanted work. "Every line traces to the request" applies to *feature* PRs; a declared
   refactor's request IS the extraction.
 - **Keep the core narrow.** Prefer, in order: extend existing code → CLI command + skill →

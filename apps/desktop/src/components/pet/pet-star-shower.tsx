@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 
 /**
  * Canvas hatch celebration layered over a freshly revealed pet: a one-shot
- * sunburst of rotating god-rays, a fast radial star burst (confetti physics —
+ * sunburst of rotating light-rays, a fast radial star burst (confetti physics —
  * velocity + decay + gravity + spin), and a light trickle of rising twinkle
  * motes. Additive (`lighter`) so the sparkles bloom. No glow-halo flash.
  *
@@ -159,7 +159,7 @@ export function PetStarShower() {
       ctx.clearRect(0, 0, w, h)
       ctx.globalCompositeOperation = 'lighter'
 
-      // Sunburst god-rays — one-shot bloom + slow spin.
+      // Sunburst light-rays — one-shot bloom + slow spin.
       if (raysAlive) {
         rays.life += dt
         rays.rot += dt * 0.6

@@ -95,7 +95,7 @@ _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
         "branding": _HERMES_BRANDING,
         "tool_prefix": "┊"},
     "ares": {
-        "name": "ares", "description": "War-god theme — crimson and bronze",
+        "name": "ares", "description": "Warrior theme — crimson and bronze",
         "colors": {
             "banner_border": "#A93333", "banner_title": "#C7A96B", "banner_accent": "#DD4A3A",
             "banner_dim": "#905151", "banner_text": "#F1E6CF", "ui_accent": "#DD4A3A",
@@ -136,7 +136,7 @@ _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
 [#C7A96B]⠀⠀⠀⠀⠈⠻⣿⣷⣦⣤⣀⣀⣤⣤⣶⣿⠿⠋⠀⠀⠀⠀[/]
 [#C7A96B]⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⠿⠿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀[/]
 [#DD4A3A]⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⚔⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀[/]
-[dim #6B1717]⠀⠀⠀⠀⠀⠀⠀⠀war god online⠀⠀⠀⠀⠀⠀⠀⠀[/]""",
+[dim #6B1717]⠀⠀⠀⠀⠀⠀⠀⠀warrior online⠀⠀⠀⠀⠀⠀⠀⠀[/]""",
     },
     "mono": {
         "name": "mono", "description": "Monochrome — clean grayscale",
@@ -207,7 +207,7 @@ _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
             "shell_dollar": "#8B4513", "voice_status_bg": "#F5F0E8"},
         "spinner": {}, "branding": _HERMES_BRANDING, "tool_prefix": "┊"},
     "poseidon": {
-        "name": "poseidon", "description": "Ocean-god theme — deep blue and seafoam",
+        "name": "poseidon", "description": "Ocean theme — deep blue and seafoam",
         "colors": {
             "banner_border": "#2A6FB9", "banner_title": "#A9DFFF", "banner_accent": "#5DB8F5",
             "banner_dim": "#44638F", "banner_text": "#EAF7FF", "ui_accent": "#5DB8F5",

@@ -60,7 +60,7 @@ from a PM-prepared checkout, rather than injecting benchmark packages into Herme
 ## Reading the results honestly
 
 - `bench.py` measures the **naive** cost (read the whole defining file). It is the number that drops
-  ~3× when god files are split, and the one that decides whether a file fits a context window at all.
+  ~3× when monolith files are split, and the one that decides whether a file fits a context window at all.
 - `lookup_sim.py` measures the **skilled** cost. It barely moves with a file split, because grep + a
   200-line window already dodges file size. What moves it is (a) the definition itself getting shorter
   and (b) token *density* of the surrounding code. Stripping comments makes each line denser, so a fixed

@@ -733,7 +733,7 @@ class CLIAgentSetupMixin:
             # Reference for atexit memory-provider shutdown: ``_run_cleanup`` in cli.py
             # reads ``cli._active_agent_ref``, so this MUST write the ``cli`` module's
             # global — a ``global`` statement here would bind this module's namespace.
-            # When this code lived in cli.py a bare ``global _active_agent_ref`` worked; after the god-file
+            # When this code lived in cli.py a bare ``global _active_agent_ref`` worked; after the monolith file
             # extraction into this mixin a ``global`` here would bind *this module's* namespace, leaving
             # ``cli._active_agent_ref`` None forever — so memory shutdown never ran on /exit (#49287).
             import cli as _cli

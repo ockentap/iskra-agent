@@ -77,7 +77,7 @@ class TestHandleUpdateCommand:
 
             # Actually, simplest: just patch the specific file attr.
             # The _handle_update_command handler lives in gateway/slash_commands.py
-            # (extracted from run.py in the god-file decomposition); it resolves
+            # (extracted from run.py in the monolith file decomposition); it resolves
             # project_root via Path(__file__).parent.parent, so fake that file.
             fake_file = str(fake_root / "gateway" / "slash_commands.py")
             (fake_root / "gateway").mkdir(parents=True)

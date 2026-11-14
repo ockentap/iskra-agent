@@ -159,5 +159,5 @@ export function hiddenWindowsChildOptions(options = {}, isWindows = process.plat
   return { ...options, windowsHide: true }
 }
 ```
-If the logic lives inline in a god-file and extraction feels disruptive, that is the signal to
+If the logic lives inline in a monolith file and extraction feels disruptive, that is the signal to
 extract, not to regex around it.

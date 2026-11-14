@@ -579,7 +579,7 @@ The detailed state contract lives in the scoped
   `$atom.get()`.
 - Subscribe to derived coarse facts instead of high-frequency source atoms when
   the component does not render the full value.
-- Colocated action modules over god hooks. A hook owns one narrow job.
+- Colocated action modules over monolith hooks. A hook owns one narrow job.
 - Keep persistence beside the atom that owns it. Route roots stay thin.
 - Prefer `interface` for public props; extend React primitives
   (`React.ComponentProps<'button'>`, `Omit<…>`).

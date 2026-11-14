@@ -37,7 +37,7 @@
  *      session could list files via `hermes:api` and still 401 on Download.
  *
  * All six are trivial once named; the value is the test that pins the
- * contract so the god-file call sites can't drift back to the buggy shape.
+ * contract so the monolith file call sites can't drift back to the buggy shape.
  */
 
 /**
