@@ -190,6 +190,22 @@ LITERAL_RULES: list[Rule] = [
          name="tests: legacy cli version"),
     Rule("tests/agent/test_legacy_cli.py", '"hermes-agent"', '"iskra-agent"', count=0,
          name="tests: legacy cli script name"),
+
+    # --- distribution / display surface (base-pass deferred items) ------
+    Rule("flake.nix",
+         'description = "Hermes Agent - AI agent framework by Nous Research";',
+         'description = "Iskra - a self-improving AI agent framework";',
+         name="flake: description"),
+    Rule("docker-compose.yml", "image: hermes-agent", "image: iskra-agent", count=0,
+         name="compose: image name"),
+    Rule("docker-compose.yml", "container_name: hermes", "container_name: iskra", count=0,
+         name="compose: container names"),
+    Rule("ui-tui/package.json", '"name": "hermes-tui"', '"name": "iskra-tui"',
+         name="ui-tui: package name"),
+    Rule("package.json", "--filter hermes-tui", "--filter iskra-tui", count=0,
+         name="root: pnpm tui filters"),
+    Rule("ui-tui/src/i18n/en/chatBits.ts", "hermes-tui", "iskra-tui", count=0,
+         name="ui-tui: error prefix"),
 ]
 
 REGEX_RULES: list[RegexRule] = [

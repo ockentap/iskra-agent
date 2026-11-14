@@ -29,8 +29,8 @@
 services:
   gateway:
     build: .
-    image: hermes-agent
-    container_name: hermes
+    image: iskra-agent
+    container_name: iskra
     restart: unless-stopped
     network_mode: host
     volumes:
@@ -61,8 +61,8 @@ services:
     command: ["gateway", "run"]
 
   dashboard:
-    image: hermes-agent
-    container_name: hermes-dashboard
+    image: iskra-agent
+    container_name: iskra-dashboard
     restart: unless-stopped
     network_mode: host
     depends_on:

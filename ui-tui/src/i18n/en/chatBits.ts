@@ -91,14 +91,14 @@ export const chatBitsEn = {
       more: (count: number) => `…and ${count} more`
     },
     entry: {
-      noTty: 'hermes-tui: no TTY',
+      noTty: 'iskra-tui: no TTY',
       // {0} = memory level ('high' | 'critical'), {1} = formatted heap size, {2} = dump path.
       memoryDump: (level: string, heap: string, path: string) =>
-        `hermes-tui: ${level} memory (${heap}) — auto heap dump → ${path}`,
+        `iskra-tui: ${level} memory (${heap}) — auto heap dump → ${path}`,
       dumpFailed: '(failed)',
-      exitingOom: 'hermes-tui: exiting to avoid OOM; restart to recover',
+      exitingOom: 'iskra-tui: exiting to avoid OOM; restart to recover',
       heapClimbing: (heap: string) =>
-        `hermes-tui: heap climbing fast (${heap}) — a large tool output or long session may be straining memory`
+        `iskra-tui: heap climbing fast (${heap}) — a large tool output or long session may be straining memory`
     }
   }
 }
