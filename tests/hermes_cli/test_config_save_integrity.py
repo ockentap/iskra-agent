@@ -70,19 +70,19 @@ def _fresh_process(home, text, *, keep_last_known_good=False):
 
 def _save_loaded():
     cfg = load_config()
-    cfg["display"]["skin"] = "ares"
+    cfg["display"]["skin"] = "warrior"
     save_config(cfg)
 
 
 def _save_raw():  # the shape every migration step and ``write_platform_config_field(raw=True)`` use
     cfg = read_raw_config()
-    cfg.setdefault("display", {})["skin"] = "ares"
+    cfg.setdefault("display", {})["skin"] = "warrior"
     save_config(cfg)
 
 
 def _tui_config_set():
     from tui_gateway import server
-    reply = server._methods["config.set"](1, {"key": "skin", "value": "ares"})
+    reply = server._methods["config.set"](1, {"key": "skin", "value": "warrior"})
     if "error" in reply:
         raise RuntimeError(reply["error"]["message"])
 
@@ -91,7 +91,7 @@ def _dashboard_put():
     from starlette.testclient import TestClient
     from hermes_cli.web_server import _SESSION_HEADER_NAME, _SESSION_TOKEN, app
     client = TestClient(app, raise_server_exceptions=False)
-    r = client.put("/api/config", json={"config": {"display": {"skin": "ares"}}},
+    r = client.put("/api/config", json={"config": {"display": {"skin": "warrior"}}},
                    headers={_SESSION_HEADER_NAME: _SESSION_TOKEN})
     if r.status_code != 200:
         raise RuntimeError(r.text)
@@ -122,7 +122,7 @@ def test_no_single_transient_read_error_reaches_the_file(write, last_known_good,
 
     assert run(0) == "ok"
     good_after, reads = path.read_bytes(), faults.count
-    assert b"skin: ares" in good_after and reads >= 1
+    assert b"skin: warrior" in good_after and reads >= 1
     for k in range(1, reads + 1):
         if run(k) == "refused":
             assert path.read_text(encoding="utf-8") == before, f"read {k}/{reads} failed, file changed"
@@ -186,7 +186,7 @@ def test_unreadable_config_serves_one_cached_fallback_until_it_reads(home, monke
 def test_save_refusal_for_bad_yaml_asks_for_an_edit_not_a_retry(home):
     _fresh_process(home, "model: [unclosed\n")
     cfg = load_config()
-    cfg["display"]["skin"] = "ares"
+    cfg["display"]["skin"] = "warrior"
     with pytest.raises(RuntimeError, match="has a formatting error") as refusal:
         save_config(cfg)
     assert "iskra config edit" in str(refusal.value) and "Try again" not in str(refusal.value)

@@ -27,10 +27,10 @@ def reset_skin_state():
 class TestSkinManagement:
     def test_set_active_skin(self):
         from hermes_cli.skin_engine import set_active_skin, get_active_skin, get_active_skin_name
-        skin = set_active_skin("ares")
-        assert skin.name == "ares"
-        assert get_active_skin_name() == "ares"
-        assert get_active_skin().name == "ares"
+        skin = set_active_skin("warrior")
+        assert skin.name == "warrior"
+        assert get_active_skin_name() == "warrior"
+        assert get_active_skin().name == "warrior"
 
 
 
@@ -168,7 +168,7 @@ class TestDisplayIntegration:
     def test_tool_message_uses_skin_prefix(self):
         from hermes_cli.skin_engine import set_active_skin
         from agent.display import get_cute_tool_message
-        set_active_skin("ares")
+        set_active_skin("warrior")
         msg = get_cute_tool_message("terminal", {"command": "ls"}, 0.5)
         assert msg.startswith("╎")
         assert "┊" not in msg
@@ -180,7 +180,7 @@ class TestCliBrandingHelpers:
 
     def test_prompt_toolkit_style_overrides_cover_tui_classes(self):
         from hermes_cli.skin_engine import set_active_skin, get_prompt_toolkit_style_overrides
-        set_active_skin("ares")
+        set_active_skin("warrior")
         overrides = get_prompt_toolkit_style_overrides()
         required = {
             "input-area",
@@ -231,7 +231,7 @@ class TestCliBrandingHelpers:
             get_prompt_toolkit_style_overrides,
         )
 
-        set_active_skin("ares")
+        set_active_skin("warrior")
         skin = get_active_skin()
         overrides = get_prompt_toolkit_style_overrides()
         assert overrides["prompt"] == skin.get_color("prompt")

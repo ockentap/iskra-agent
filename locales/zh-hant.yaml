@@ -3591,7 +3591,7 @@ tips:
   t016: "/model 讓你在工作階段中途切換模型 — 試試 /model sonnet 或 /model gpt-5。"
   t017: "/model --global 會永久變更你的預設模型。"
   t018: "/personality pirate 可設定有趣的人格 — 內建 14 種選項，從 kawaii 到 shakespeare。"
-  t019: "/skin 可變更 CLI 主題 — 試試 ares、mono、slate、poseidon 或 charizard。"
+  t019: "/skin 可變更 CLI 主題 — 試試 warrior、mono、slate、ocean 或 charizard。"
   t020: "/statusbar 會切換一個常駐狀態列，顯示模型、tokens、上下文佔用率 %、費用與持續時間。"
   t021: "/tools disable browser 會在目前的工作階段暫時移除瀏覽器工具。"
   t022: "/browser connect 會透過 CDP 將瀏覽器工具連接到你正在執行的 Chromium 系列瀏覽器。"

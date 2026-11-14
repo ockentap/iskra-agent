@@ -3591,7 +3591,7 @@ tips:
   t016: "/model でセッション中にモデルを切り替えられます。/model sonnet や /model gpt-5 を試してみてください。"
   t017: "/model --global はデフォルトのモデルを恒久的に変更します。"
   t018: "/personality pirate で楽しいパーソナリティを設定できます。kawaii から shakespeare まで 14 種類の組み込みオプションがあります。"
-  t019: "/skin は CLI のテーマを変更します。ares、mono、slate、poseidon、charizard を試してみてください。"
+  t019: "/skin は CLI のテーマを変更します。warrior、mono、slate、ocean、charizard を試してみてください。"
   t020: "/statusbar はモデル、トークン、コンテキスト使用率 %、コスト、経過時間を表示する常設バーのオン/オフを切り替えます。"
   t021: "/tools disable browser は現在のセッションの間だけ、ブラウザツールを一時的に外します。"
   t022: "/browser connect は CDP 経由で、起動中の Chromium 系ブラウザにブラウザツールを接続します。"

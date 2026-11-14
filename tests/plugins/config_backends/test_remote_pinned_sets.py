@@ -35,14 +35,14 @@ def test_set_equal_to_inherited_value_is_stored_and_survives_an_upper_change(pla
     from hermes_cli.config import set_config_value
     from hermes_cli.config_backend import read_config_doc
 
-    plane.upper = {"display": {"skin": "ares"}}
+    plane.upper = {"display": {"skin": "warrior"}}
 
-    set_config_value("display.skin", "ares")
+    set_config_value("display.skin", "warrior")
 
-    assert plane.profile("default")["values"] == {"display": {"skin": "ares"}}
+    assert plane.profile("default")["values"] == {"display": {"skin": "warrior"}}
     plane.upper = {"display": {"skin": "slate"}}
     remote_pkg._reset_for_tests()
-    assert read_config_doc(plane.home / "config.yaml")["display"]["skin"] == "ares"
+    assert read_config_doc(plane.home / "config.yaml")["display"]["skin"] == "warrior"
 
 
 def test_rotated_idp_client_secret_fetches_a_new_token(plane, monkeypatch):

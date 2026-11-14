@@ -120,7 +120,7 @@ describe('settings helpers', () => {
     // The autosave patch carries the local key, so PUT /api/config's deep merge replaces it.
     expect(diffConfig(config, next)).toEqual({ display: { platforms: { cli: { show_reasoning: true } } } })
     // Other fields are untouched.
-    expect(setConfigField({}, 'display.skin', 'ares')).toEqual({ display: { skin: 'ares' } })
+    expect(setConfigField({}, 'display.skin', 'warrior')).toEqual({ display: { skin: 'warrior' } })
   })
 
   it('Reasoning Blocks reads a quoted local value as the gateway does', () => {

@@ -7,7 +7,7 @@ import { useTheme } from './context'
 // stays Nous because it is also the stock config value, which Desktop reads as
 // "the Desktop default" everywhere else (boot, backend sync, setTheme).
 const ALIASES: Record<string, string> = {
-  ares: 'ember',
+  warrior: 'ember',
   default: 'nous',
   gold: 'classic',
   hermes: 'classic',

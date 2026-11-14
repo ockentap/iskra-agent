@@ -3591,7 +3591,7 @@ tips:
   t016: "/model oturum ortasında model değiştirmenizi sağlar — /model sonnet veya /model gpt-5 deneyin."
   t017: "/model --global varsayılan modelinizi kalıcı olarak değiştirir."
   t018: "/personality pirate eğlenceli bir kişilik ayarlar — kawaii'den shakespeare'e 14 yerleşik seçenek."
-  t019: "/skin CLI temasını değiştirir — ares, mono, slate, poseidon veya charizard deneyin."
+  t019: "/skin CLI temasını değiştirir — warrior, mono, slate, ocean veya charizard deneyin."
   t020: "/statusbar model, token, bağlam doluluk yüzdesi, maliyet ve süreyi gösteren kalıcı bir çubuğu açar/kapatır."
   t021: "/tools disable browser tarayıcı araçlarını mevcut oturum için geçici olarak kaldırır."
   t022: "/browser connect tarayıcı araçlarını CDP üzerinden çalışan Chromium tabanlı tarayıcınıza bağlar."

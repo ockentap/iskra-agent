@@ -136,7 +136,7 @@ class TestLightModeRemap:
 class TestSkinConfigHook:
     """Exercise the installed color hook, including self-painted badge colors."""
 
-    @pytest.mark.parametrize("skin_name", ["default", "sisyphus"])
+    @pytest.mark.parametrize("skin_name", ["default", "endure"])
     def test_badge_preserves_its_paired_colors_in_light_mode(
         self, cli_mod, monkeypatch, skin_name
     ):

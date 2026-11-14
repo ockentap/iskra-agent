@@ -721,7 +721,7 @@ def rpc(tmp_path_factory):
 # (rpc key, candidate values, config path it owns, value transform to the persisted form)
 _RPC_CASES = [
     ("display.in_app_tips", ["false", "true"], ("display", "in_app_tips"), {"false": False, "true": True}),
-    ("skin", ["mono", "ares", "slate"], ("display", "skin"), None),
+    ("skin", ["mono", "warrior", "slate"], ("display", "skin"), None),
     ("approvals.mode", ["off", "smart", "manual"], ("approvals", "mode"), None),
     ("theme", ["dark", "light", "auto"], ("display", "tui_theme"), None),
     ("busy", ["steer", "queue", "interrupt"], ("display", "busy_input_mode"), None),
@@ -784,7 +784,7 @@ def test_p2_dashboard_get_put_roundtrip_and_partial_put(seed, web_app, home, mon
 def test_p2_dashboard_partial_put_adds_no_phantom_section(web_app, home, monkeypatch):
     case = gen_case(606, null_leaves=False, exclude_top={"agent", "display"})
     cfg = _install(case, monkeypatch)
-    r = _client(web_app).put("/api/config", json={"config": {"display": {"skin": "ares"}}})
+    r = _client(web_app).put("/api/config", json={"config": {"display": {"skin": "warrior"}}})
     assert r.status_code == 200, r.text
     got = yaml.safe_load(_read(cfg))
     assert set(got) == set(case.tree) | {"display"}, (
@@ -915,7 +915,7 @@ def test_p3_a_transient_error_on_any_single_read_never_clobbers(op_name, web_app
         monkeypatch.setenv(k, v)
     cfg = _cfg_path()
     version = 35 if op_name == "migrate" else None
-    ctx = {"new": "ares", "client": _client(web_app)}
+    ctx = {"new": "warrior", "client": _client(web_app)}
     # A normal install has loaded its config before: prime the last-known-good backup.
     _write_file(cfg, case.text)
     _reset_config_caches()
@@ -956,7 +956,7 @@ def test_p3_unreadable_or_partial_file_is_never_rewritten(op_name, fault, web_ap
         pytest.skip("root reads mode-000 files")
     case = gen_case(710, null_leaves=False, exclude_top={"display"})
     cfg = _cfg_path()
-    ctx = {"new": "ares", "client": _client(web_app)}
+    ctx = {"new": "warrior", "client": _client(web_app)}
     for k, v in case.env.items():
         monkeypatch.setenv(k, v)
     text = case.text if fault == "unreadable" else _PERSISTENT_FAULTS[fault](case.text)
@@ -1234,8 +1234,8 @@ def test_p6_null_section_survives_every_surface(section, web_app, home, monkeypa
 
     writers = {
         "cli_set": (lambda: C.set_config_value("terminal.timeout", "4242"), ("terminal", "timeout")),
-        "tui_rpc": (lambda: server._methods["config.set"](1, {"key": "skin", "value": "ares"}), ("display", "skin")),
-        "dashboard_put": (lambda: _client(web_app).put("/api/config", json={"config": {"display": {"skin": "ares"}}}),
+        "tui_rpc": (lambda: server._methods["config.set"](1, {"key": "skin", "value": "warrior"}), ("display", "skin")),
+        "dashboard_put": (lambda: _client(web_app).put("/api/config", json={"config": {"display": {"skin": "warrior"}}}),
                           ("display", "skin")),
     }
     for name, (fn, target) in writers.items():

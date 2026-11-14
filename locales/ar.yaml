@@ -3591,7 +3591,7 @@ tips:
   t016: "/model يتيح لك تبديل النماذج أثناء الجلسة — جرّب /model sonnet أو /model gpt-5."
   t017: "/model --global يغيّر نموذجك الافتراضي بشكل دائم."
   t018: "/personality pirate يضبط شخصية مرحة — 14 خيارًا مضمّنًا من kawaii إلى shakespeare."
-  t019: "/skin يغيّر سمة واجهة سطر الأوامر — جرّب ares أو mono أو slate أو poseidon أو charizard."
+  t019: "/skin يغيّر سمة واجهة سطر الأوامر — جرّب warrior أو mono أو slate أو ocean أو charizard."
   t020: "/statusbar يبدّل شريطًا دائمًا يعرض النموذج والرموز ونسبة امتلاء السياق والتكلفة والمدة."
   t021: "/tools disable browser يزيل أدوات المتصفح مؤقتًا من الجلسة الحالية."
   t022: "/browser connect يربط أدوات المتصفح بمتصفح Chromium العامل لديك عبر CDP."

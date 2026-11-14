@@ -94,8 +94,8 @@ _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
         "spinner": {},  # empty = hardcoded defaults in display.py
         "branding": _HERMES_BRANDING,
         "tool_prefix": "┊"},
-    "ares": {
-        "name": "ares", "description": "Warrior theme — crimson and bronze",
+    "warrior": {
+        "name": "warrior", "description": "Warrior theme — crimson and bronze",
         "colors": {
             "banner_border": "#A93333", "banner_title": "#C7A96B", "banner_accent": "#DD4A3A",
             "banner_dim": "#905151", "banner_text": "#F1E6CF", "ui_accent": "#DD4A3A",
@@ -115,7 +115,7 @@ _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
                 "forging", "marching", "sizing the field", "holding the line",
                 "hammering plans", "tempering steel", "plotting impact", "raising the shield"],
             "wings": _wings("⚔", "▲", ("╸", "╺"), "⛨")},
-        "branding": _branding("Ares", "⚔", "Farewell, warrior! ⚔"),
+        "branding": _branding("Warrior", "⚔", "Farewell, warrior! ⚔"),
         "tool_prefix": "╎",
         "banner_logo": """[bold #A3261F] █████╗ ██████╗ ███████╗███████╗       █████╗  ██████╗ ███████╗███╗   ██╗████████╗[/]
 [bold #B73122]██╔══██╗██╔══██╗██╔════╝██╔════╝      ██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝[/]
@@ -206,8 +206,8 @@ _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
             "completion_menu_meta_current_bg": "#DFCFB0", "selection_bg": "#E8DAD0",
             "shell_dollar": "#8B4513", "voice_status_bg": "#F5F0E8"},
         "spinner": {}, "branding": _HERMES_BRANDING, "tool_prefix": "┊"},
-    "poseidon": {
-        "name": "poseidon", "description": "Ocean theme — deep blue and seafoam",
+    "ocean": {
+        "name": "ocean", "description": "Ocean theme — deep blue and seafoam",
         "colors": {
             "banner_border": "#2A6FB9", "banner_title": "#A9DFFF", "banner_accent": "#5DB8F5",
             "banner_dim": "#44638F", "banner_text": "#EAF7FF", "ui_accent": "#5DB8F5",
@@ -225,10 +225,10 @@ _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
             "thinking_faces": ["(Ψ)", "(∿)", "(≈)", "(⌁)", "(◌)"],
             "thinking_verbs": [
                 "charting currents", "sounding the depth", "reading foam lines",
-                "steering the trident", "tracking undertow", "plotting sea lanes",
+                "steering the helm", "tracking undertow", "plotting sea lanes",
                 "calling the swell", "measuring pressure"],
             "wings": _wings("≈", "Ψ", "∿", "◌")},
-        "branding": _branding("Poseidon", "Ψ", "Fair winds! Ψ"),
+        "branding": _branding("Ocean", "Ψ", "Fair winds! Ψ"),
         "tool_prefix": "│",
         "banner_logo": """[bold #B8E8FF]██████╗  ██████╗ ███████╗███████╗██╗██████╗  ██████╗ ███╗   ██╗       █████╗  ██████╗ ███████╗███╗   ██╗████████╗[/]
 [bold #97D6FF]██╔══██╗██╔═══██╗██╔════╝██╔════╝██║██╔══██╗██╔═══██╗████╗  ██║      ██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝[/]
@@ -250,8 +250,8 @@ _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
 [#A9DFFF]⠀⠀⠀⠀⠀⠀≈≈≈≈≈≈≈≈≈≈≈≈≈⠀⠀⠀⠀⠀⠀[/]
 [dim #153C73]⠀⠀⠀⠀⠀⠀⠀deep waters hold⠀⠀⠀⠀⠀⠀⠀[/]""",
     },
-    "sisyphus": {
-        "name": "sisyphus", "description": "Sisyphean theme — austere grayscale with persistence",
+    "endure": {
+        "name": "endure", "description": "Persistent theme — austere grayscale with persistence",
         "colors": {
             "banner_border": "#B7B7B7", "banner_title": "#F5F5F5", "banner_accent": "#E7E7E7",
             "banner_dim": "#5C5C5C", "banner_text": "#D3D3D3", "ui_accent": "#E7E7E7",
@@ -272,7 +272,7 @@ _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
                 "counting the ascent", "testing leverage", "setting the shoulder",
                 "pushing uphill", "enduring the loop"],
             "wings": _wings("◉", "◬", "◌", "⬤")},
-        "branding": _branding("Sisyphus", "◉", "The boulder waits. ◉"),
+        "branding": _branding("Endure", "◉", "The boulder waits. ◉"),
         "tool_prefix": "│",
         "banner_logo": """[bold #F5F5F5]███████╗██╗███████╗██╗   ██╗██████╗ ██╗  ██╗██╗   ██╗███████╗       █████╗  ██████╗ ███████╗███╗   ██╗████████╗[/]
 [bold #E7E7E7]██╔════╝██║██╔════╝╚██╗ ██╔╝██╔══██╗██║  ██║██║   ██║██╔════╝      ██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝[/]

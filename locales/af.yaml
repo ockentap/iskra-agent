@@ -3591,7 +3591,7 @@ tips:
   t016: "/model laat jou modelle middel in 'n sessie verander — probeer /model sonnet of /model gpt-5."
   t017: "/model --global verander jou verstekmodel permanent."
   t018: "/personality pirate stel 'n prettige persoonlikheid in — 14 ingeboude opsies van kawaii tot shakespeare."
-  t019: "/skin verander die CLI-tema — probeer ares, mono, slate, poseidon of charizard."
+  t019: "/skin verander die CLI-tema — probeer warrior, mono, slate, ocean of charizard."
   t020: "/statusbar skakel 'n permanente balk aan of af wat model, tokens, konteksvulling %, koste en duur wys."
   t021: "/tools disable browser verwyder blaaiergereedskap tydelik vir die huidige sessie."
   t022: "/browser connect koppel blaaiergereedskap via CDP aan jou lopende Chromium-familie-blaaier."

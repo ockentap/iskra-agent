@@ -18,7 +18,7 @@ function harness(rewindRefusal?: Error) {
   // T9/T10 owner verbs, one answer per method (kept out of the request ladder below).
   const ownerVerb = (method: string, params: any): unknown => {
     const answers: Record<string, () => unknown> = {
-      'config.get:full': () => ({ config: { display: { skin: 'ares', streaming: true }, voice: { record_key: 'ctrl+b' } } }),
+      'config.get:full': () => ({ config: { display: { skin: 'warrior', streaming: true }, voice: { record_key: 'ctrl+b' } } }),
       'config.get:voice': () => ({ value: voiceMode }),
       'process.stop': () => ({ killed: 0 }),
       'reload.mcp': () =>
@@ -461,7 +461,7 @@ it('/config pages the owner\'s presentation config (config.get full), never slas
   const [text, title] = page.mock.calls[0]!
   expect(title).toBe('Config')
   expect(text).toContain('display:')
-  expect(text).toContain('  skin: ares')
+  expect(text).toContain('  skin: warrior')
   expect(text).toContain('  record_key: ctrl+b')
 })
 

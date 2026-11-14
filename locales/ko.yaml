@@ -3591,7 +3591,7 @@ tips:
   t016: "/model로 세션 중에 모델을 바꿀 수 있어요 — /model sonnet이나 /model gpt-5를 시도해 보세요."
   t017: "/model --global은 기본 모델을 영구적으로 변경해요."
   t018: "/personality pirate는 재미있는 성격을 설정해요 — kawaii부터 shakespeare까지 14가지 내장 옵션이 있어요."
-  t019: "/skin은 CLI 테마를 바꿔요 — ares, mono, slate, poseidon, charizard를 시도해 보세요."
+  t019: "/skin은 CLI 테마를 바꿔요 — warrior, mono, slate, ocean, charizard를 시도해 보세요."
   t020: "/statusbar는 모델, 토큰, 컨텍스트 사용률 %, 비용, 경과 시간을 보여주는 고정 표시줄을 전환해요."
   t021: "/tools disable browser는 현재 세션에서 브라우저 도구를 일시적으로 제거해요."
   t022: "/browser connect는 CDP를 통해 실행 중인 Chromium 계열 브라우저에 브라우저 도구를 연결해요."

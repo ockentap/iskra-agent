@@ -3591,7 +3591,7 @@ tips:
   t016: "Ligeann /model duit samhlacha a athrú i lár seisiúin — bain triail as /model sonnet nó /model gpt-5."
   t017: "Athraíonn /model --global do shamhail réamhshocraithe go buan."
   t018: "Socraíonn /personality pirate pearsantacht spraíúil — 14 rogha ionsuite ó kawaii go shakespeare."
-  t019: "Athraíonn /skin téama an CLI — bain triail as ares, mono, slate, poseidon, nó charizard."
+  t019: "Athraíonn /skin téama an CLI — bain triail as warrior, mono, slate, ocean, nó charizard."
   t020: "Scoránaíonn /statusbar barra buan a thaispeánann an tsamhail, comharthaí, % líonta an chomhthéacs, costas, agus fad."
   t021: "Baineann /tools disable browser uirlisí brabhsálaí go sealadach don seisiún reatha."
   t022: "Ceanglaíonn /browser connect uirlisí brabhsálaí le do bhrabhsálaí de chlann Chromium atá ag rith, trí CDP."

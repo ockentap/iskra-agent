@@ -89,7 +89,7 @@ def test_cloud_agent_first_remote_read_completes_cold(tmp_path, expired, layout)
     if layout:
         _install_probe_provider(home, layout)
     with StubPlane() as plane:
-        plane.upper = {"display": {"skin": "ares"}}
+        plane.upper = {"display": {"skin": "warrior"}}
         (home / "auth.json").write_text(json.dumps(_auth_json(plane, expired=expired)))
         env = {k: v for k, v in os.environ.items() if k in {"PATH", "LANG", "TZ", "TMPDIR", "PYTHONHASHSEED"}}
         env.update(HOME=str(tmp_path), HERMES_HOME=str(home), PYTHONPATH=str(REPO), PYTHONDONTWRITEBYTECODE="1",
@@ -97,10 +97,10 @@ def test_cloud_agent_first_remote_read_completes_cold(tmp_path, expired, layout)
                    HERMES_CONFIG_INSTANCE_ID=INSTANCE, PROBE_PROVIDER="1" if layout else "")
         assert not any(k.startswith("GATEWAY_RELAY_IDP_") for k in env)  # Cloud: the Nous credential
 
-        assert _value(_run([sys.executable, "-c", STAGE2_SNIPPET], env)) == "ares"
+        assert _value(_run([sys.executable, "-c", STAGE2_SNIPPET], env)) == "warrior"
         cli = _run([sys.executable, "-m", "hermes_cli.main", "config", "get", "display.skin"], env)
         assert cli.returncode == 0, cli.stderr[-3000:]
-        assert cli.stdout.strip().splitlines()[-1] == "ares"
+        assert cli.stdout.strip().splitlines()[-1] == "warrior"
 
         gets = [r for r in plane.requests if r["method"] == "GET"]
         assert len(gets) >= 2 and {r["auth"] for r in gets} == {f"Bearer {NOUS_TOKEN}"}
@@ -174,11 +174,11 @@ def test_cold_auth_import_on_another_thread_never_waits_for_the_fetch(tmp_path):
     home = tmp_path / "home"
     home.mkdir()
     with StubPlane() as plane:
-        plane.upper = {"display": {"skin": "ares"}}
+        plane.upper = {"display": {"skin": "warrior"}}
         env = {k: v for k, v in os.environ.items() if k in {"PATH", "LANG", "TZ", "TMPDIR", "PYTHONHASHSEED"}}
         env.update(remote_env(plane), HOME=str(tmp_path), HERMES_HOME=str(home), PYTHONPATH=str(REPO),
                    PYTHONDONTWRITEBYTECODE="1")
-        assert _value(_run([sys.executable, "-c", CONCURRENT_AUTH_IMPORT], env)) == "ares"
+        assert _value(_run([sys.executable, "-c", CONCURRENT_AUTH_IMPORT], env)) == "warrior"
 
 
 

@@ -33,7 +33,7 @@ def _skins(peer):
 
 
 def _write_skin(home, name):
-    # Atomic replace, like the real config writers: skin names share lengths (ares/mono), and an
+    # Atomic replace, like the real config writers: skin names share lengths (ocean/slate), and an
     # in-place same-size rewrite inside one coarse kernel timestamp tick keeps (mtime, size, ino,
     # ctime), so the server's raw-config cache would serve the previous skin.
     tmp = home / "config.yaml.tmp"
@@ -47,7 +47,7 @@ def homes(tmp_path, monkeypatch):
     default, work = tmp_path / "default", tmp_path / "default" / "profiles" / "work"
     work.mkdir(parents=True)
     _write_skin(default, "default")
-    _write_skin(work, "ares")
+    _write_skin(work, "ocean")
     monkeypatch.setattr(server, "_hermes_home", default)
     monkeypatch.setattr(server, "_last_skin_sig", None, raising=False)
     monkeypatch.setattr(server, "_skin_sig_by_home", {}, raising=False)
@@ -84,15 +84,15 @@ def test_profile_skin_switch_repaints_only_that_profiles_tui(homes):
     server._note_skin_broadcast()
     server._broadcast_skin_if_changed()  # seeds the work home's baseline without a repaint
 
-    _write_skin(work, "mono")
+    _write_skin(work, "slate")
     server._broadcast_skin_if_changed()
-    assert _skins(work_peer) == ["mono"]
+    assert _skins(work_peer) == ["slate"]
     assert _skins(default_peer) == []
 
     _write_skin(default, "slate")
     server._broadcast_skin_if_changed()
     assert _skins(default_peer) == ["slate"]
-    assert _skins(work_peer) == ["mono"]
+    assert _skins(work_peer) == ["slate"]
 
 
 def test_owner_skin_rpc_baseline_is_per_profile(homes):
@@ -102,8 +102,8 @@ def test_owner_skin_rpc_baseline_is_per_profile(homes):
     server.register_live_transport(peer)
     server._note_skin_broadcast()
     _under(work, server._note_skin_broadcast)
-    _write_skin(work, "mono")
-    _under(work, server._note_skin_broadcast)  # the owner broadcast mono itself
+    _write_skin(work, "slate")
+    _under(work, server._note_skin_broadcast)  # the owner broadcast slate itself
 
     server._broadcast_skin_if_changed()
 

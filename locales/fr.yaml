@@ -3913,7 +3913,7 @@ tips:
   t016: "/model permet de changer de modèle en cours de session — essayez /model sonnet ou /model gpt-5."
   t017: "/model --global change votre modèle par défaut de façon permanente."
   t018: "/personality pirate donne une personnalité amusante — 14 options intégrées, de kawaii à shakespeare."
-  t019: "/skin change le thème de la CLI — essayez ares, mono, slate, poseidon ou charizard."
+  t019: "/skin change le thème de la CLI — essayez warrior, mono, slate, ocean ou charizard."
   t020: "/statusbar affiche ou masque une barre persistante indiquant le modèle, les tokens, le % de contexte utilisé, le coût et la durée."
   t021: "/tools disable browser retire temporairement les outils navigateur pour la session en cours."
   t022: "/browser connect rattache les outils navigateur à votre navigateur de la famille Chromium déjà ouvert via CDP."

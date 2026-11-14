@@ -362,7 +362,7 @@ def test_raw_config_editor_maps_an_expected_refusal(tmp_path, monkeypatch):
 
     monkeypatch.setattr(config_mod, "save_config", lost_race)
     r = TestClient(app, raise_server_exceptions=False).put(
-        "/api/config/raw", json={"yaml_text": "display:\n  skin: ares\n"},
+        "/api/config/raw", json={"yaml_text": "display:\n  skin: warrior\n"},
         headers={_SESSION_HEADER_NAME: _SESSION_TOKEN})
     assert r.status_code == 409, (r.status_code, r.text)
     assert "changed underneath" in r.json()["detail"]

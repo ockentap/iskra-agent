@@ -36,7 +36,7 @@ class TestCliSkinPromptIntegration:
         cli = _make_cli_stub()
         cli._secret_state = {"response_queue": object()}
 
-        set_active_skin("ares")
+        set_active_skin("warrior")
         frags = cli._get_tui_prompt_fragments()
         assert frags[0][0] == "class:sudo-prompt"
         assert get_active_skin().get_branding("prompt_symbol").strip() in frags[0][1]
@@ -59,7 +59,7 @@ class TestCliSkinPromptIntegration:
     def test_build_tui_style_dict_uses_skin_overrides(self):
         cli = _make_cli_stub()
 
-        set_active_skin("ares")
+        set_active_skin("warrior")
         skin = get_active_skin()
         style_dict = cli._build_tui_style_dict()
 
@@ -74,7 +74,7 @@ class TestCliSkinPromptIntegration:
     def test_apply_tui_skin_style_updates_running_app(self):
         cli = _make_cli_stub()
 
-        set_active_skin("ares")
+        set_active_skin("warrior")
         assert cli._apply_tui_skin_style() is True
         assert cli._app.style is not None
 
@@ -82,9 +82,9 @@ class TestCliSkinPromptIntegration:
         cli = _make_cli_stub()
 
         with patch("cli.save_config_value", return_value=True):
-            cli._handle_skin_command("/skin ares")
+            cli._handle_skin_command("/skin warrior")
 
-        assert get_active_skin().name == "ares"
+        assert get_active_skin().name == "warrior"
         assert cli._app.style is not None
 
 
@@ -92,7 +92,7 @@ class TestCompactBannerSkinIntegration:
 
 
     def test_poseidon_compact_banner_uses_skin_colors(self):
-        set_active_skin("poseidon")
+        set_active_skin("ocean")
         skin = get_active_skin()
 
         with patch("cli.shutil.get_terminal_size", return_value=SimpleNamespace(columns=90)), \

@@ -60,8 +60,8 @@ def test_same_thread_reentry_raises_while_other_threads_wait(plane, monkeypatch)
 
     monkeypatch.setattr(backend_mod.client, "plane_token", token)
     monkeypatch.setattr(backend_mod.client, "request", request)
-    plane.upper = {"display": {"skin": "ares"}}
-    assert backend.read_user_doc(home)["display"]["skin"] == "ares"
+    plane.upper = {"display": {"skin": "warrior"}}
+    assert backend.read_user_doc(home)["display"]["skin"] == "warrior"
     assert len(errors) == 2 and all("re-entered" in msg and secs < 1.0 for msg, secs in errors)
     waiter.join(5)
     assert not waiter.is_alive() and other["state"] is backend._state(home)
@@ -132,11 +132,11 @@ def test_boot_retry_warning_through_the_real_redacting_formatter(plane, monkeypa
     handler = Handler(level=logging.WARNING)
     handler.setFormatter(RedactingFormatter("%(message)s"))
     backend_mod.logger.addHandler(handler)
-    plane.upper = {"display": {"skin": "ares"}}
+    plane.upper = {"display": {"skin": "warrior"}}
     plane.fail_status = 503
     token = set_hermes_home_override(plane.home)
     try:
-        assert backend.read_user_doc(plane.home)["display"]["skin"] == "ares"  # booted after one retry
+        assert backend.read_user_doc(plane.home)["display"]["skin"] == "warrior"  # booted after one retry
     finally:
         reset_hermes_home_override(token)
         backend_mod.logger.removeHandler(handler)

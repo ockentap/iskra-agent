@@ -298,7 +298,7 @@ describe('GatewayClient websocket attach mode', () => {
       const request = socket.sent.map(text => JSON.parse(text) as { id: number; method: string })
         .find(frame => frame.method === 'runtime.describe')!
 
-      const skin = { name: 'ares', colors: { banner_title: '#C7A96B' }, branding: { prompt_symbol: '⚔' } }
+      const skin = { name: 'warrior', colors: { banner_title: '#C7A96B' }, branding: { prompt_symbol: '⚔' } }
       socket.message(JSON.stringify({ jsonrpc: '2.0', id: request.id, result: {
         session_create: { sources: ['tui'], parameters: ['source', 'request_id'] }, skin } }))
       await vi.advanceTimersByTimeAsync(0)

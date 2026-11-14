@@ -3608,7 +3608,7 @@ tips:
   t016: "A /model paranccsal munkamenet közben válthatsz modellt — próbáld ki: /model sonnet vagy /model gpt-5."
   t017: "A /model --global véglegesen módosítja az alapértelmezett modelledet."
   t018: "A /personality pirate vicces személyiséget állít be — 14 beépített lehetőség a kawaii-tól a shakespeare-ig."
-  t019: "A /skin megváltoztatja a CLI témáját — próbáld ki: ares, mono, slate, poseidon vagy charizard."
+  t019: "A /skin megváltoztatja a CLI témáját — próbáld ki: warrior, mono, slate, ocean vagy charizard."
   t020: "A /statusbar állandó sávot kapcsol be, amely a modellt, a tokeneket, a kontextus telítettségét (%), a költséget és az időtartamot mutatja."
   t021: "A /tools disable browser ideiglenesen eltávolítja a böngészőeszközöket a jelenlegi munkamenetből."
   t022: "A /browser connect CDP-n keresztül csatolja a böngészőeszközöket a futó Chromium-alapú böngésződhöz."
