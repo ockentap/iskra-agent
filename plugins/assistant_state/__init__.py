@@ -13,6 +13,7 @@ import json
 import time
 import uuid
 from pathlib import Path
+from typing import Optional
 
 ENTRY_MAX_CHARS = 140          # per-entry character limit (Lav: don't overdo it)
 SECTION_MAX_CHARS = 2200       # total bounded prompt section
@@ -175,11 +176,52 @@ EXTRACT_INSTRUCTIONS = (
     '{"goals": [..], "todos": [..], "reminders": [{"text": .., "due": ..}]}. '
     "goal = a lasting objective the user wants to achieve. "
     "todo = a concrete task the user committed to do, not yet done. "
-    "reminder = a time-bound thing the user wants to be reminded of; set due (ISO date or natural language) if stated, else empty. "
+    "reminder = a time-bound thing the user wants to be reminded of. "
+    "For a reminder, set due to an ISO local timestamp (YYYY-MM-DDTHH:MM:SS) computed from the CURRENT DATETIME "
+    "provided below (e.g. 'tomorrow at 13:00' -> tomorrow's date T13:00:00). If no specific time is stated, "
+    "pick a sensible default (09:00) on the stated day. If there is no time/day at all, leave due empty. "
+    "Write reminder text as the thing to remember (e.g. \"your doctor's appointment at 13:00\"). "
     "Only include items the user actually committed to. IGNORE ephemeral step-by-step task tracking, "
     "questions, hypotheticals, and anything already completed. Each text <= 140 chars. "
     "Use empty arrays when there is nothing durable. No prose, no markdown."
 )
+
+
+def _schedule_reminder_cron(entry: dict) -> Optional[str]:
+    """Turn a due reminder into a one-off, zero-token cron job that messages the user.
+
+    Returns the cron job id, or None if it could not be scheduled. no_agent=True means the
+    script's stdout is delivered verbatim (no LLM spend). Delivery targets the chat/thread the
+    reminder was created in (captured from session env, same as the cronjob tool)."""
+    due = (entry.get("due") or "").strip()
+    if not due or entry.get("cron_id"):
+        return None
+    try:
+        import shlex
+        from cron.jobs import create_job, parse_schedule
+        parse_schedule(due)  # validate before creating; raises on unparseable
+        try:
+            from tools.cronjob_job_args import _origin_from_env
+            origin = _origin_from_env(due)
+        except Exception:
+            origin = None
+        message = "\u23f0 Don't forget: " + entry.get("text", "")
+        # cron 'script' must be a file under <home>/scripts/, not a command line.
+        from hermes_constants import get_hermes_home
+        scripts_dir = Path(get_hermes_home()) / "scripts"
+        scripts_dir.mkdir(parents=True, exist_ok=True)
+        fname = f"assistant_reminder_{entry.get('id', uuid.uuid4().hex[:6])}.sh"
+        spath = scripts_dir / fname
+        spath.write_text("#!/bin/sh\nprintf '%s\\n' " + shlex.quote(message) + "\n")
+        spath.chmod(0o755)
+        job = create_job(
+            prompt=None, schedule=due, name=("Reminder: " + entry.get("text", ""))[:50],
+            no_agent=True, script=fname,
+            deliver="origin" if origin else "local", origin=origin,
+        )
+        return job.get("id")
+    except Exception:
+        return None
 
 
 def _merge_extracted(parsed) -> int:
@@ -202,6 +244,10 @@ def _merge_extracted(parsed) -> int:
             entry = {"id": uuid.uuid4().hex[:6], "text": text, "status": "active", "updated": now}
             if due:
                 entry["due"] = str(due)[:60]
+            if kind == "reminder" and due:
+                cron_id = _schedule_reminder_cron(entry)
+                if cron_id:
+                    entry["cron_id"] = cron_id
             d[bucket].append(entry)
             existing.add(_norm(text))
             added += 1
@@ -214,7 +260,13 @@ def _post_llm_hook(session_id=None, user_message=None, assistant_response=None, 
     try:
         if _ctx is None or not _has_signal(user_message or ""):
             return
-        excerpt = f"USER: {user_message}\nASSISTANT: {str(assistant_response)[:1500]}"
+        try:
+            import hermes_time
+            now_iso = hermes_time.now().strftime("%Y-%m-%dT%H:%M:%S (%A)")
+        except Exception:
+            now_iso = time.strftime("%Y-%m-%dT%H:%M:%S (%A)")
+        excerpt = (f"CURRENT DATETIME: {now_iso}\nUSER: {user_message}\n"
+                   f"ASSISTANT: {str(assistant_response)[:1500]}")
         result = _ctx.llm.complete_structured(
             instructions=EXTRACT_INSTRUCTIONS,
             input=[{"type": "text", "text": excerpt}],
