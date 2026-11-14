@@ -1,0 +1,5 @@
+name: assistant-state
+version: "0.1.0"
+description: "Curated, character-limited goals/todos/reminders list injected into the system prompt, with an assistant_state tool the agent calls autonomously to keep it updated during a session (no user prompting). Prototype for the Iskra proactive-assistant loop."
+author: "Iskra"
+provides_hooks: ["post_llm_call"]
